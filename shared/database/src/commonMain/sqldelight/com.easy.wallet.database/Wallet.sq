@@ -1,0 +1,6 @@
+import kotlinx.datetime.LocalDateTime;
+
+CREATE TABLE hdWalletEntity(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    createAt INTEGER AS LocalDateTime NOT NULL
+);

@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">E-Wallet</string>
+
+    <string name="text_confirm">Confirm</string>
+    <string name="text_done">Done</string>
+    <string name="text_cancel">Cancel</string>
+    <string name="text_delete">Delete</string>
+    <string name="text_delete_actions">Delete Actions</string>
+    <string name="detail_create_at">Created at %1$s</string>
+</resources>

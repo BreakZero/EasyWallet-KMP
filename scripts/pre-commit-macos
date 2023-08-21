@@ -1,0 +1,11 @@
+#!/bin/bash
+
+echo "kotlin lint checking..."
+
+#./gradlew ktlintCheck --no-configuration-cache --stacktrace
+
+status=$?
+
+# return 1 exit code if running checks fails
+[ $status -ne 0 ] && exit 1
+exit 0
