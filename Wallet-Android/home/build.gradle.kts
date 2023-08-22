@@ -5,5 +5,5 @@ plugins {
 }
 
 android {
-    namespace = "com.easy.wallet.onboard"
+    namespace = "com.easy.wallet.home"
 }
