@@ -8,6 +8,8 @@ import com.easy.wallet.discover.DiscoverScreen
 import com.easy.wallet.home.navigation.homeNavigationRoute
 import com.easy.wallet.home.navigation.homeScreen
 import com.easy.wallet.marketplace.MarketplaceScreen
+import com.easy.wallet.onboard.create.navigation.createGraph
+import com.easy.wallet.onboard.create.navigation.toCreateWallet
 import com.easy.wallet.ui.WalletAppState
 
 @Composable
@@ -23,7 +25,11 @@ fun WalletNavHost(
         navController = navController,
         startDestination = startDestination
     ) {
-        homeScreen()
+        homeScreen(
+            onCreateWallet = navController::toCreateWallet,
+            onRestoreWallet = {}
+        )
+        createGraph()
         composable(TopLevelDestination.MARKETPLACE.name) {
             MarketplaceScreen()
         }

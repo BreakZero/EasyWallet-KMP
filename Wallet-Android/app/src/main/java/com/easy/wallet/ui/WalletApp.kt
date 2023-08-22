@@ -36,7 +36,7 @@ import androidx.navigation.NavDestination.Companion.hierarchy
 import com.easy.wallet.navigation.TopLevelDestination
 import com.easy.wallet.navigation.WalletNavHost
 
-@OptIn(ExperimentalComposeUiApi::class, ExperimentalLayoutApi::class)
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun WalletApp(
     windowSizeClass: WindowSizeClass,
@@ -56,7 +56,7 @@ fun WalletApp(
                     currentDestination = appState.currentDestination
                 )
             }
-        },
+        }
     ) { padding ->
         Row(
             modifier = Modifier

@@ -12,8 +12,11 @@ fun NavController.navigateToHome(navOptions: NavOptions? = null) {
     this.navigate(homeNavigationRoute, navOptions)
 }
 
-fun NavGraphBuilder.homeScreen() {
+fun NavGraphBuilder.homeScreen(
+    onCreateWallet: () -> Unit,
+    onRestoreWallet: () -> Unit
+) {
     composable(route = homeNavigationRoute) {
-        HomeRoute()
+        HomeRoute(onCreateWallet = onCreateWallet, onRestoreWallet = onRestoreWallet)
     }
 }

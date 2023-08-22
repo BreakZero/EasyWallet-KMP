@@ -55,6 +55,7 @@ dependencies {
 
     implementation(project(":Wallet-Android:design-system"))
     implementation(project(":Wallet-Android:home"))
+    implementation(project(":Wallet-Android:onboard"))
     implementation(project(":Wallet-Android:marketplace"))
     implementation(project(":Wallet-Android:discover"))
 }

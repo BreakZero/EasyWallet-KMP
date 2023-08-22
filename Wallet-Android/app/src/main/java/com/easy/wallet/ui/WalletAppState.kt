@@ -12,6 +12,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
+import com.easy.wallet.home.navigation.homeNavigationRoute
 import com.easy.wallet.home.navigation.navigateToHome
 import com.easy.wallet.navigation.TopLevelDestination
 import kotlinx.coroutines.CoroutineScope
@@ -39,13 +40,14 @@ fun rememberAppState(
 class WalletAppState(
     val navController: NavHostController,
     val coroutineScope: CoroutineScope,
-    val windowSizeClass: WindowSizeClass
+    private val windowSizeClass: WindowSizeClass
 ) {
     val shouldShowBottomBar: Boolean
-        get() = windowSizeClass.widthSizeClass == WindowWidthSizeClass.Compact
+        @Composable get() = (windowSizeClass.widthSizeClass == WindowWidthSizeClass.Compact) &&
+                (currentTopLevelDestination != null && currentTopLevelDestination in topLevelDestinations)
 
     val shouldShowNavRail: Boolean
-        get() = !shouldShowBottomBar
+        get() = windowSizeClass.widthSizeClass != WindowWidthSizeClass.Compact
 
     val topLevelDestinations: List<TopLevelDestination> = TopLevelDestination.values().asList()
     val currentDestination: NavDestination?
@@ -54,6 +56,9 @@ class WalletAppState(
 
     val currentTopLevelDestination: TopLevelDestination?
         @Composable get() = when (currentDestination?.route) {
+            homeNavigationRoute -> TopLevelDestination.HOME
+            TopLevelDestination.DISCOVER.name -> TopLevelDestination.DISCOVER
+            TopLevelDestination.MARKETPLACE.name -> TopLevelDestination.MARKETPLACE
             else -> null
         }
 

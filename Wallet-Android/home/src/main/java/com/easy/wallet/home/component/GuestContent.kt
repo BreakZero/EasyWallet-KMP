@@ -25,12 +25,12 @@ internal fun GuestContent(
         Column(modifier = Modifier.fillMaxWidth()) {
             Button(
                 modifier = Modifier.fillMaxWidth(),
-                onClick = { onEvent(HomeEvent.CreateWalletEvent) }) {
+                onClick = { onEvent(HomeEvent.ShowCreateWalletSheet) }) {
                 Text(text = stringResource(id = R.string.onboard_create_wallet))
             }
             OutlinedButton(
                 modifier = Modifier.fillMaxWidth(),
-                onClick = { onEvent(HomeEvent.ImportWalletEvent) }) {
+                onClick = { onEvent(HomeEvent.ShowRestoreWalletSheet) }) {
                 Text(text = stringResource(id = R.string.onboard_import_wallet))
             }
         }
