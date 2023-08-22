@@ -1,4 +1,4 @@
-package com.easy.wallet.ui.theme
+package com.easy.wallet.design.ui
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

@@ -1,4 +1,4 @@
-package com.easy.wallet.design
+package com.easy.wallet.onboard
 
 import org.junit.Test
 

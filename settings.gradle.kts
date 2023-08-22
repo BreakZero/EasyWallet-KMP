@@ -16,9 +16,10 @@ dependencyResolutionManagement {
 
 rootProject.name = "E-Wallet"
 include(":Wallet-Android:app")
+include(":Wallet-Android:design-system")
+include(":Wallet-Android:onboard")
 
 include(":shared:core")
-include(":Wallet-Android:design-system")
 include(":shared:database")
 include(":shared:domain")
 include(":shared:model")
