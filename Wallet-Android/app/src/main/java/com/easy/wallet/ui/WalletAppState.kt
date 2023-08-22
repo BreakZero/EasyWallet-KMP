@@ -12,6 +12,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
+import com.easy.wallet.home.navigation.navigateToHome
 import com.easy.wallet.navigation.TopLevelDestination
 import kotlinx.coroutines.CoroutineScope
 
@@ -65,9 +66,18 @@ class WalletAppState(
             restoreState = true
         }
 
-        navController.navigate(
-            topLevelDestination.name,
-            navOptions = topLevelNavOptions
-        )
+
+        when (topLevelDestination) {
+            TopLevelDestination.HOME -> navController.navigateToHome(topLevelNavOptions)
+
+            TopLevelDestination.MARKETPLACE -> navController.navigate(
+                TopLevelDestination.MARKETPLACE.name,
+                navOptions = topLevelNavOptions
+            )
+            TopLevelDestination.DISCOVER -> navController.navigate(
+                TopLevelDestination.DISCOVER.name,
+                navOptions = topLevelNavOptions
+            )
+        }
     }
 }

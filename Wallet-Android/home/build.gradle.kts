@@ -7,3 +7,7 @@ plugins {
 android {
     namespace = "com.easy.wallet.home"
 }
+
+dependencies {
+    implementation(project(":Wallet-Android:design-system"))
+}

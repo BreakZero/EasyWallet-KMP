@@ -5,7 +5,8 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.easy.wallet.discover.DiscoverScreen
-import com.easy.wallet.home.HomeScreen
+import com.easy.wallet.home.navigation.homeNavigationRoute
+import com.easy.wallet.home.navigation.homeScreen
 import com.easy.wallet.marketplace.MarketplaceScreen
 import com.easy.wallet.ui.WalletAppState
 
@@ -14,7 +15,7 @@ fun WalletNavHost(
     appState: WalletAppState,
     onShowSnackbar: suspend (String, String?) -> Boolean,
     modifier: Modifier = Modifier,
-    startDestination: String = TopLevelDestination.HOME.name,
+    startDestination: String = homeNavigationRoute,
 ) {
     val navController = appState.navController
     NavHost(
@@ -22,9 +23,7 @@ fun WalletNavHost(
         navController = navController,
         startDestination = startDestination
     ) {
-        composable(TopLevelDestination.HOME.name) {
-            HomeScreen()
-        }
+        homeScreen()
         composable(TopLevelDestination.MARKETPLACE.name) {
             MarketplaceScreen()
         }
