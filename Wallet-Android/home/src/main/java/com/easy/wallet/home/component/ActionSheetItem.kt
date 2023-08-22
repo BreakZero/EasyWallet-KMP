@@ -4,29 +4,33 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Wallet
+import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
+import com.easy.wallet.design.UiText
+import com.easy.wallet.home.R
 
 internal enum class ActionSheetMenu(
-    val title: String,
-    val desc: String,
+    val title: UiText,
+    val desc: UiText,
     val trailingIcon: ImageVector
 ) {
     CREATE_BY_SEED(
-        title = "Seed phrase",
-        desc = "Create a wallet by generating seed phrase",
+        title = UiText.StringResource(resId = R.string.onboard_seed_phrase_title),
+        desc = UiText.StringResource(resId = R.string.onboard_seed_phrase_create_desc),
         trailingIcon = Icons.Default.Wallet
     ),
     IMPORT_BY_SEED(
-        title = "Seed phrase",
-        desc = "12,18,24-word seed phrases are supported",
+        title = UiText.StringResource(resId = R.string.onboard_seed_phrase_title),
+        desc = UiText.StringResource(resId = R.string.onboard_seed_phrase_import_desc),
         trailingIcon = Icons.Default.Wallet
     )
 }
@@ -37,19 +41,25 @@ internal fun ActionSheetItem(
     menu: ActionSheetMenu,
     onClick: () -> Unit
 ) {
-    Row(
+    Card(
         modifier = modifier
+            .padding(horizontal = 16.dp)
             .clickable {
                 onClick()
             }
-            .padding(horizontal = 12.dp, vertical = 16.dp)
     ) {
-        Column(
-            modifier = Modifier.weight(1.0f)
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 12.dp, vertical = 16.dp)
         ) {
-            Text(text = menu.title, style = MaterialTheme.typography.titleMedium)
-            Text(text = menu.desc, style = MaterialTheme.typography.bodyMedium)
+            Column(
+                modifier = Modifier.weight(1.0f)
+            ) {
+                Text(text = menu.title.asString(), style = MaterialTheme.typography.titleMedium)
+                Text(text = menu.desc.asString(), style = MaterialTheme.typography.bodyMedium)
+            }
+            Image(imageVector = menu.trailingIcon, contentDescription = menu.title.asString())
         }
-        Image(imageVector = menu.trailingIcon, contentDescription = menu.title)
     }
 }

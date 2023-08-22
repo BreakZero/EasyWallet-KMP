@@ -8,8 +8,10 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import com.easy.wallet.design.component.ThemePreviews
 import com.easy.wallet.home.HomeEvent
+import com.easy.wallet.home.R
 
 @Composable
 internal fun GuestContent(
@@ -24,12 +26,12 @@ internal fun GuestContent(
             Button(
                 modifier = Modifier.fillMaxWidth(),
                 onClick = { onEvent(HomeEvent.CreateWalletEvent) }) {
-                Text(text = "Create wallet")
+                Text(text = stringResource(id = R.string.onboard_create_wallet))
             }
             OutlinedButton(
                 modifier = Modifier.fillMaxWidth(),
                 onClick = { onEvent(HomeEvent.ImportWalletEvent) }) {
-                Text(text = "I already have one")
+                Text(text = stringResource(id = R.string.onboard_import_wallet))
             }
         }
     }

@@ -52,6 +52,7 @@ dependencies {
     implementation(project(":shared:core"))
     implementation(project(":shared:data"))
     implementation(project(":shared:model"))
+
     implementation(project(":Wallet-Android:design-system"))
     implementation(project(":Wallet-Android:home"))
     implementation(project(":Wallet-Android:marketplace"))

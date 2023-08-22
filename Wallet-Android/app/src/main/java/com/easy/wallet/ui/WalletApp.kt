@@ -78,7 +78,6 @@ fun WalletApp(
                     else -> Unit
                 }
                 WalletNavHost(
-                    modifier = Modifier.padding(padding),
                     appState = appState,
                     onShowSnackbar = { message, action ->
                         snackbarHostState.showSnackbar(
