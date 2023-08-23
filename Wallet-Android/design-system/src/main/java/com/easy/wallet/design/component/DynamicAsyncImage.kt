@@ -12,7 +12,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalInspectionMode
@@ -54,10 +53,10 @@ fun DynamicAsyncImage(
             )
         }
         Image(
-            contentScale = ContentScale.Crop,
+            contentScale = ContentScale.FillBounds,
             painter = if (isError.not() && !isLocalInspection) imageLoader else placeholder,
             contentDescription = contentDescription,
-            colorFilter = ColorFilter.tint(iconTint)
+//            colorFilter = ColorFilter.tint(iconTint)
         )
     }
 }

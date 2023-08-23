@@ -7,3 +7,7 @@ plugins {
 android {
     namespace = "com.easy.wallet.marketplace"
 }
+
+dependencies {
+    implementation(project(":shared:data"))
+}

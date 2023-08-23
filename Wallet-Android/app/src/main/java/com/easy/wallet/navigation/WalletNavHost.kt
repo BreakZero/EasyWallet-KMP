@@ -7,7 +7,7 @@ import androidx.navigation.compose.composable
 import com.easy.wallet.discover.DiscoverScreen
 import com.easy.wallet.home.navigation.homeNavigationRoute
 import com.easy.wallet.home.navigation.homeScreen
-import com.easy.wallet.marketplace.MarketplaceScreen
+import com.easy.wallet.marketplace.MarketplaceRoute
 import com.easy.wallet.onboard.create.navigation.createGraph
 import com.easy.wallet.onboard.create.navigation.toCreateWallet
 import com.easy.wallet.ui.WalletAppState
@@ -31,7 +31,7 @@ fun WalletNavHost(
         )
         createGraph()
         composable(TopLevelDestination.MARKETPLACE.name) {
-            MarketplaceScreen()
+            MarketplaceRoute()
         }
         composable(TopLevelDestination.DISCOVER.name) {
             DiscoverScreen()

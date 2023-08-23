@@ -15,6 +15,7 @@ coil = "2.4.0"
 navigation = "2.7.0"
 koin = "3.4.1"
 coroutine = "1.7.3"
+ktor = "2.3.3"
 
 # Version for test
 junit = "4.13.2"
@@ -67,6 +68,14 @@ koin-test = { group = "io.insert-koin", name = "koin-test", version.ref = "koin"
 koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = "koin" }
 koin-compose = { group = "io.insert-koin", name = "koin-androidx-compose", version.ref = "koin" }
 
+ktor-client-core = { group = "io.ktor", name = "ktor-client-core", version.ref = "ktor"}
+ktor-client-okhttp = { group = "io.ktor", name = "ktor-client-okhttp", version.ref = "ktor"}
+ktor-client-darwin = { group = "io.ktor", name = "ktor-client-darwin", version.ref = "ktor"}
+ktor-client-logging = { group = "io.ktor", name = "ktor-client-logging", version.ref = "ktor"}
+ktor-client-content-negotiation = { group = "io.ktor", name = "ktor-client-content-negotiation", version.ref = "ktor"}
+ktor-serialization-kotlinx-json = { group = "io.ktor", name = "ktor-serialization-kotlinx-json", version.ref = "ktor"}
+
+
 # Dependencies of testing
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test-ext-junit" }
@@ -76,12 +85,12 @@ espresso-core = { group = "androidx.test.espresso", name = "espresso-core", vers
 android-tools-build = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }
 kotlin-gradle-plugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "org-jetbrains-kotlin-android" }
 androidx-annotation-jvm = { group = "androidx.annotation", name = "annotation-jvm", version = "1.6.0" }
-material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
 android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
 android-test = { id = "com.android.test", version.ref = "androidGradlePlugin" }
 org-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "org-jetbrains-kotlin-android180" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "org-jetbrains-kotlin-android" }
 
 [bundles]

@@ -37,6 +37,7 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
                 }
             }
             dependencies {
+                add("implementation", project(":Wallet-Android:design-system"))
                 add("implementation", libs.findLibrary("coil.kt").get())
                 add("implementation", libs.findLibrary("coil.kt.compose").get())
 
