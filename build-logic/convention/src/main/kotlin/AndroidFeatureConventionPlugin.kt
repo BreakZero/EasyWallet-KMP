@@ -15,10 +15,12 @@
  */
 
 import com.android.build.gradle.LibraryExtension
+import com.easy.configs.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.gradle.kotlin.dsl.configure
+import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.getByType
 
 class AndroidFeatureConventionPlugin : Plugin<Project> {
@@ -34,28 +36,39 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
                     // testInstrumentationRunner = "com.easy.defi.app.core.testing.EasyTestRunner"
                 }
             }
+            dependencies {
+                add("implementation", libs.findLibrary("coil.kt").get())
+                add("implementation", libs.findLibrary("coil.kt.compose").get())
 
-//      dependencies {
-//        add("implementation", project(":core:model"))
-//        add("implementation", project(":core:ui"))
-//        add("implementation", project(":core:designsystem"))
-//        add("implementation", project(":core:data"))
-//        add("implementation", project(":core:domain"))
-//        add("implementation", project(":core:common"))
-//
-//        add("testImplementation", project(":core:testing"))
-//        add("androidTestImplementation", project(":core:testing"))
-//
-//        add("implementation", libs.findLibrary("coil.kt").get())
-//        add("implementation", libs.findLibrary("coil.kt.compose").get())
-//        add("implementation", libs.findLibrary("androidx-compose-paging").get())
-//
-//        add("implementation", libs.findLibrary("androidx.hilt.navigation.compose").get())
-//        add("implementation", libs.findLibrary("androidx.lifecycle.runtimeCompose").get())
-//        add("implementation", libs.findLibrary("androidx.lifecycle.viewModelCompose").get())
-//
-//        add("implementation", libs.findLibrary("kotlinx.coroutines.android").get())
-//      }
+                add("implementation", libs.findLibrary("androidx.lifecycle.runtime.compose").get())
+                add("implementation", libs.findLibrary("androidx.compose.viewmodel").get())
+
+                add("implementation", libs.findLibrary("kotlinx.coroutines.android").get())
+                val bom = libs.findLibrary("androidx-compose-bom").get()
+                add("implementation", platform(bom))
+                add("implementation", libs.findLibrary("androidx.compose.material3").get())
+                add("implementation", libs.findLibrary("androidx.compose.ui").get())
+                add("implementation", libs.findLibrary("androidx.compose.ui.tooling.preview").get())
+                add("implementation", libs.findLibrary("androidx.compose.foundation").get())
+                add("implementation", libs.findLibrary("androidx.compose.material.icons.core").get())
+                add("implementation", libs.findLibrary("androidx.compose.material.icons.extended").get())
+
+
+                add("implementation", libs.findLibrary("androidx.lifecycle.runtime.compose").get())
+                add("implementation", libs.findLibrary("androidx.core.splashscreen").get())
+
+                add("implementation", libs.findLibrary("koin.core").get())
+                add("implementation", libs.findLibrary("koin.android").get())
+                add("implementation", libs.findLibrary("koin.compose").get())
+
+                add("debugImplementation", libs.findLibrary("androidx.compose.ui.tooling").get())
+
+                add("testImplementation", libs.findLibrary("junit").get())
+                add("androidTestImplementation", libs.findLibrary("androidx.test.ext.junit").get())
+                add("androidTestImplementation", libs.findLibrary("espresso.core").get())
+                add("androidTestImplementation", platform(bom))
+                add("androidTestImplementation", libs.findLibrary("ui.test.junit4").get())
+            }
         }
     }
 }
