@@ -3,12 +3,20 @@ plugins {
 }
 
 kotlin {
+    cocoapods {
+        dependencies {
+            pod("TrustWalletCore", moduleName = "WalletCore")
+        }
+        podfile = project.file("../../Wallet-iOS/Podfile")
+    }
     sourceSets {
         getByName("commonMain") {
             dependencies {
                 implementation(project(":shared:model"))
                 implementation(project(":shared:core"))
                 implementation(project(":shared:data"))
+
+                api("com.trustwallet:wallet-core-kotlin:3.2.13")
             }
         }
     }

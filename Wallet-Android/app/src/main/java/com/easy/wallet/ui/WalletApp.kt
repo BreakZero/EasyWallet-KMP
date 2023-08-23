@@ -24,7 +24,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.draw.drawWithContent
@@ -109,11 +108,11 @@ private fun WalletBottomBar(
                 onClick = { onNavigateToDestination(destination) },
                 icon = {
                     Icon(
-                        imageVector = destination.unselectedIcon,
-                        contentDescription = null,
+                        imageVector = if (selected) destination.selectedIcon else destination.unselectedIcon,
+                        contentDescription = null
                     )
                 },
-                label = { Text(destination.title) },
+                label = { Text(destination.title.asString()) },
                 modifier = Modifier,
             )
         }

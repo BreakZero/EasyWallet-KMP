@@ -7,4 +7,8 @@
     <string name="text_delete">Delete</string>
     <string name="text_delete_actions">Delete Actions</string>
     <string name="detail_create_at">Created at %1$s</string>
+
+    <string name="tab_home">Home</string>
+    <string name="tab_marketplace">Marketplace</string>
+    <string name="tab_discover">Discover</string>
 </resources>
