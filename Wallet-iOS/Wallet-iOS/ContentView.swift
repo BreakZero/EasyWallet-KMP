@@ -1,14 +1,33 @@
 import SwiftUI
 
 struct ContentView: View {
-
-	var body: some View {
-		Text("E-Wallet")
-	}
+    
+    var body: some View {
+        TabView {
+            HomeScreen().tabItem {
+                Label(
+                    title: { Text("Home") },
+                    icon: { Image("home") }
+                )
+            }
+            MarketplaceScreen().tabItem {
+                Label(
+                    title: { Text("Marketplace") },
+                    icon: { Image("store") }
+                )
+            }
+            DiscoverScreen().tabItem {
+                Label(
+                    title: { Text("Discover") },
+                    icon: { Image("travel_explore") }
+                )
+            }
+        }
+    }
 }
 
 struct ContentView_Previews: PreviewProvider {
-	static var previews: some View {
-		ContentView()
-	}
+    static var previews: some View {
+        ContentView()
+    }
 }

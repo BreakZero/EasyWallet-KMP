@@ -1,6 +1,10 @@
-package com.easy.wallet.onboard.create.password
+package com.easy.wallet.onboard.create
 
-data class CreatePasswordUiState(
+data class CreateWalletUiState(
+    val passwordUiState: PasswordUiState = PasswordUiState()
+)
+
+data class PasswordUiState(
     val password: String = "",
     val confirmPassword: String = "",
     val isShowPassword: Boolean = false,

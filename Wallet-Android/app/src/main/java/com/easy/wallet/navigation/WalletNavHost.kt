@@ -29,7 +29,7 @@ fun WalletNavHost(
             onCreateWallet = navController::toCreateWallet,
             onRestoreWallet = {}
         )
-        createGraph()
+        createGraph(navController)
         composable(TopLevelDestination.MARKETPLACE.name) {
             MarketplaceRoute()
         }

@@ -40,7 +40,11 @@ class OpenseaApi {
         chain: String,
         limit: Int
     ): NftListDto {
-        val nfts: NftListDto = client.get("chain/$chain/account/$account/nfts?limit=$limit").body()
-        return nfts
+        return try {
+            val nfts: NftListDto = client.get("chain/$chain/account/$account/nfts?limit=$limit").body()
+            nfts
+        } catch (e: Exception) {
+            NftListDto(emptyList())
+        }
     }
 }
