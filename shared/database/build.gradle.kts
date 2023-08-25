@@ -14,6 +14,7 @@ kotlin {
                 api(libs.sqldelight.coroutines)
                 implementation(project(":shared:core"))
                 implementation(project(":shared:model"))
+                implementation(project(":shared:datastore"))
             }
         }
         getByName("androidMain") {

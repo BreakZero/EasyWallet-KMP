@@ -6,7 +6,8 @@ import co.touchlab.sqliter.DatabaseConfiguration
 import com.easy.wallet.database.WalletDatabase
 
 actual class DatabaseDriverFactory {
-    actual fun createDriver(): SqlDriver {
+
+    actual fun createDriver(password: String): SqlDriver {
         val schema = WalletDatabase.Schema
         return NativeSqliteDriver(schema, name = "e_wallet.db",
             onConfiguration = {
@@ -14,7 +15,7 @@ actual class DatabaseDriverFactory {
                     create = {},
                     name = "",
                     version = schema.version.toInt(),
-                    encryptionConfig = DatabaseConfiguration.Encryption(key = "multi")
+                    encryptionConfig = DatabaseConfiguration.Encryption(key = password)
                 )
             })
     }
