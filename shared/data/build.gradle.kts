@@ -11,6 +11,9 @@ kotlin {
                 implementation(project(":shared:model"))
                 implementation(project(":shared:database"))
                 implementation(project(":shared:datastore"))
+
+                implementation(libs.kotlinx.datetime)
+
                 implementation(libs.ktor.client.core)
                 implementation(libs.ktor.client.logging)
                 implementation(libs.ktor.client.content.negotiation)

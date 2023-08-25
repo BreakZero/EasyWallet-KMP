@@ -1,5 +1,6 @@
 package com.easy.wallet.data.di
 
+import com.easy.wallet.data.multiwallet.MultiWalletRepository
 import com.easy.wallet.data.nft.opensea.OpenseaApi
 import com.easy.wallet.data.nft.opensea.OpenseaNftRepository
 import com.easy.wallet.database.di.databaseModule
@@ -18,5 +19,8 @@ val dataModule = module {
     }
     single {
         UserPasswordStorage()
+    }
+    single {
+        MultiWalletRepository(get(), get())
     }
 }

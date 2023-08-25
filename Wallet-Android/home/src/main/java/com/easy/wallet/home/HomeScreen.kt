@@ -12,7 +12,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.easy.wallet.home.component.GuestContent
 import com.easy.wallet.home.component.UserHomeContent
 import com.easy.wallet.home.component.WalletActionSheet
-import kotlinx.coroutines.flow.collect
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -45,7 +44,7 @@ internal fun HomeScreen(
     uiState: HomeUiState,
     onEvent: (HomeEvent) -> Unit
 ) {
-    if (uiState.isUserExists) {
+    if (uiState.hasSetup) {
         UserHomeContent(modifier = modifier)
     } else {
         GuestContent(modifier = modifier, onEvent = onEvent)

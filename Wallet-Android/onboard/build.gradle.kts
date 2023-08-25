@@ -7,3 +7,9 @@ plugins {
 android {
     namespace = "com.easy.wallet.onboard"
 }
+
+dependencies {
+    implementation(project(":shared:data"))
+    implementation(project(":shared:datastore"))
+    implementation(project(":shared:model"))
+}

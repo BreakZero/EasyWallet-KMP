@@ -1,6 +1,18 @@
+import kotlin.Boolean;
 import kotlinx.datetime.LocalDateTime;
 
 CREATE TABLE hdWalletEntity(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
+    mnemonic TEXT NOT NULL,
+    passphrase TEXT NOT NULL DEFAULT '',
+    isActivated INTEGER AS Boolean DEFAULT 0,
     createAt INTEGER AS LocalDateTime NOT NULL
 );
+
+insertWallet:
+INSERT INTO hdWalletEntity(mnemonic, passphrase, isActivated, createAt)
+VALUES (?,?,?,?);
+
+forActivatedOne:
+SELECT * FROM hdWalletEntity
+WHERE isActivated == 1;

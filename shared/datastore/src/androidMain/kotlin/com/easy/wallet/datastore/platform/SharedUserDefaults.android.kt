@@ -3,7 +3,9 @@ package com.easy.wallet.datastore.platform
 import android.content.Context
 
 internal actual class SharedUserDefaults(private val context: Context) {
-    private val sharedPreferences = context.getSharedPreferences("", Context.MODE_PRIVATE)
+    private val sharedPreferences =
+        context.getSharedPreferences("user_defaults", Context.MODE_PRIVATE)
+
     actual fun getString(key: String): String {
         return sharedPreferences.getString(key, "") ?: ""
     }
