@@ -7,7 +7,7 @@ import com.easy.wallet.database.WalletDatabase
 
 actual class DatabaseDriverFactory {
 
-    actual fun createDriver(password: String): SqlDriver {
+    actual fun createDriver(passphrase: String): SqlDriver {
         val schema = WalletDatabase.Schema
         return NativeSqliteDriver(schema, name = "e_wallet.db",
             onConfiguration = {
@@ -15,7 +15,7 @@ actual class DatabaseDriverFactory {
                     create = {},
                     name = "",
                     version = schema.version.toInt(),
-                    encryptionConfig = DatabaseConfiguration.Encryption(key = password)
+                    encryptionConfig = DatabaseConfiguration.Encryption(key = passphrase)
                 )
             })
     }

@@ -10,8 +10,8 @@ import net.sqlcipher.database.SupportFactory
 actual class DatabaseDriverFactory(
     private val context: Context
 ) {
-    actual fun createDriver(password: String): SqlDriver {
-        val supportFactory = SupportFactory(SQLiteDatabase.getBytes(password.toCharArray()))
+    actual fun createDriver(passphrase: String): SqlDriver {
+        val supportFactory = SupportFactory(SQLiteDatabase.getBytes(passphrase.toCharArray()))
         return AndroidSqliteDriver(WalletDatabase.Schema, context, name = "e_wallet.db", factory = supportFactory)
     }
 }

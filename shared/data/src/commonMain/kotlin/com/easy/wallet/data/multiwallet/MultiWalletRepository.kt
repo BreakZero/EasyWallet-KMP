@@ -22,7 +22,7 @@ class MultiWalletRepository(
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) {
     private val queries =
-        createQueryWrapper(factory.createDriver(userStorage.syncPassword())).walletQueries
+        createQueryWrapper(factory.createDriver("")).walletQueries
 
     suspend fun insertOne(
         mnemonic: String,
