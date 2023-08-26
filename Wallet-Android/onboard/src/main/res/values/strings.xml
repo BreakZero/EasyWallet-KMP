@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="create_wallet_create_password">Create Password</string>
+    <string name="create_wallet_create_password_desc">This password will unlock your Cryptooly wallet only on this service</string>
+    <string name="create_wallet_create_password_terms">I under stand that Cryptooly cannot recover this password for me. Learn more</string>
+</resources>
