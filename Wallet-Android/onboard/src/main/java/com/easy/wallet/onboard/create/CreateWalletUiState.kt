@@ -10,5 +10,13 @@ data class PasswordUiState(
     val isShowPassword: Boolean = false,
     val isTermsOfServiceAgreed: Boolean = false,
     val isTermsOfServiceOpen: Boolean = false,
-    val error: String? = null
-)
+    val passwordError: String? = null,
+    val confirmPasswordError: String? = null
+) {
+    fun isAvailable(): Boolean {
+        return isTermsOfServiceAgreed && password.isNotBlank() && confirmPassword.isNotBlank()
+    }
+    fun isMatch(): Boolean {
+        return password.isNotBlank() && confirmPassword.isNotBlank() && password == confirmPassword
+    }
+}
