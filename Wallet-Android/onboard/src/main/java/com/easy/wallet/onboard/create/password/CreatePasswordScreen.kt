@@ -18,9 +18,11 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -28,17 +30,31 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.easy.wallet.design.component.ThemePreviews
+import com.easy.wallet.design.ui.EWalletTheme
 import com.easy.wallet.onboard.R
 import com.easy.wallet.onboard.create.CreateWalletEvent
+import com.easy.wallet.onboard.create.CreateWalletUiEvent
 import com.easy.wallet.onboard.create.CreateWalletViewModel
 import com.easy.wallet.onboard.create.PasswordUiState
 import com.easy.wallet.onboard.create.component.TopBar
 
 @Composable
 internal fun CreatePasswordRoute(
-    viewModel: CreateWalletViewModel
+    viewModel: CreateWalletViewModel,
+    nextToSecure: () -> Unit,
+    onClose: () -> Unit
 ) {
     val uiState by viewModel.passwordUiState.collectAsStateWithLifecycle()
+    LaunchedEffect(key1 = viewModel) {
+        viewModel.uiEvent.collect {
+            when (it) {
+                is CreateWalletUiEvent.NextToSecure -> nextToSecure()
+                is CreateWalletUiEvent.Close -> onClose()
+                else -> Unit
+            }
+        }
+    }
     CreatePasswordScreen(uiState, viewModel::onEvent)
 }
 
@@ -60,6 +76,7 @@ internal fun CreatePasswordScreen(
             },
             navigationAction = {
                 // close and remove saved password if it exists
+                onEvent(CreateWalletEvent.Close)
             }
         )
         Spacer(modifier = Modifier.height(16.dp))
@@ -129,9 +146,22 @@ internal fun CreatePasswordScreen(
         Button(
             modifier = Modifier.fillMaxWidth(),
             enabled = uiState.isAvailable(),
-            onClick = { /*TODO*/ }
+            onClick = { onEvent(CreateWalletEvent.NextToSecure) }
         ) {
             Text(text = stringResource(id = R.string.create_wallet_create_password))
+        }
+    }
+}
+
+@Composable
+@ThemePreviews
+private fun CreatePassword_Preview() {
+    EWalletTheme {
+        Surface(modifier = Modifier.fillMaxSize()) {
+            CreatePasswordScreen(
+                uiState = PasswordUiState(),
+                onEvent = {}
+            )
         }
     }
 }

@@ -2,6 +2,7 @@ package com.easy.wallet.onboard.create
 
 
 sealed interface CreateWalletEvent {
+    data object Close: CreateWalletEvent
     // Create Start
     data class OnPasswordChanged(val password: String): CreateWalletEvent
     data class OnConfirmPasswordChanged(val confirm: String): CreateWalletEvent
@@ -9,10 +10,11 @@ sealed interface CreateWalletEvent {
 
     data object OnViewTermOfService: CreateWalletEvent
     data object HideTermOfService: CreateWalletEvent
-    data object OnNext: CreateWalletEvent
+    data object NextToSecure: CreateWalletEvent
     // Create Ended
 }
 
 sealed interface CreateWalletUiEvent {
-
+    data object Close: CreateWalletUiEvent
+    data object NextToSecure: CreateWalletUiEvent
 }

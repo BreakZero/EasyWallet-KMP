@@ -3,4 +3,7 @@
     <string name="create_wallet_create_password">Create Password</string>
     <string name="create_wallet_create_password_desc">This password will unlock your Cryptooly wallet only on this service</string>
     <string name="create_wallet_create_password_terms">I under stand that Cryptooly cannot recover this password for me. Learn more</string>
+
+    <string name="create_wallet_secure_your_wallet">Secure Your Wallet</string>
+    <string name="create_wallet_secure_desc">Don\'t risk losing your funds. protect your wallet by saving your seed phrase in a place you trust. It\'s the only way to recover your wallet if you get locked out of the app or get a new device.</string>
 </resources>
