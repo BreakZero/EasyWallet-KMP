@@ -8,11 +8,13 @@ import androidx.navigation.navigation
 import com.easy.wallet.onboard.create.CreateWalletViewModel
 import com.easy.wallet.onboard.create.password.CreatePasswordRoute
 import com.easy.wallet.onboard.create.secure.SecureRoute
+import com.easy.wallet.onboard.create.seed.SeedScreen
 import com.easy.wallet.onboard.sharedViewModel
 
 const val createWalletRoute = "_create_wallet_route"
 internal const val createPasswordRoute = "_create_password_route"
 internal const val secureRoute = "_secure_route"
+internal const val handleSeedRoute = "_handle_seed_route"
 
 fun NavController.toCreateWallet(navOptions: NavOptions? = null) {
     this.navigate(createWalletRoute, navOptions)
@@ -35,6 +37,10 @@ fun NavGraphBuilder.createGraph(navController: NavController) {
         composable(route = secureRoute) {
             val viewModel: CreateWalletViewModel = it.sharedViewModel(navController = navController)
             SecureRoute(viewModel = viewModel)
+        }
+
+        composable(route = handleSeedRoute) {
+            SeedScreen()
         }
     }
 }
