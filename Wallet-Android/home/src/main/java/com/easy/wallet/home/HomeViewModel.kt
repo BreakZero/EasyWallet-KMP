@@ -29,7 +29,9 @@ class HomeViewModel(
     )
     internal val homeUiState = _uiState.asStateFlow()
 
-    private val _hasSetup = MutableStateFlow(userStorage.syncPassword().isNotBlank())
+    private val _hasSetup = MutableStateFlow(userStorage.syncPassword().also {
+        println("====== $it")
+    }.isNotBlank())
     val hasSetup = _hasSetup.flatMapConcat {
         if (it) {
             multiWalletRepository.forActivatedOne()
