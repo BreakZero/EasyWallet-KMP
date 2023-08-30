@@ -20,7 +20,8 @@ internal fun HomeRoute(
     onCreateWallet: () -> Unit,
     onRestoreWallet: () -> Unit
 ) {
-    val homeUiState by viewModel.homeUiState.collectAsStateWithLifecycle()
+    val guestUiState by viewModel.guestUiState.collectAsStateWithLifecycle()
+    val walletUiState by viewModel.walletUiState.collectAsStateWithLifecycle()
     val hasSetup by viewModel.hasSetup.collectAsStateWithLifecycle()
     LaunchedEffect(key1 = viewModel) {
         viewModel.uiEvent.collect { uiEvent ->
@@ -34,7 +35,8 @@ internal fun HomeRoute(
         modifier = Modifier
             .fillMaxSize()
             .padding(horizontal = 16.dp),
-        uiState = homeUiState,
+        guestUiState = guestUiState,
+        walletUiState = walletUiState,
         hasSetup = hasSetup,
         onEvent = viewModel::handleUiEvent
     )
@@ -43,19 +45,14 @@ internal fun HomeRoute(
 @Composable
 internal fun HomeScreen(
     modifier: Modifier = Modifier,
-    uiState: HomeUiState,
+    guestUiState: GuestUiState,
+    walletUiState: WalletUiState,
     hasSetup: Boolean,
     onEvent: (HomeEvent) -> Unit
 ) {
     if (hasSetup) {
-        UserHomeContent(modifier = modifier)
+        UserHomeContent(modifier = modifier, walletUiState = walletUiState)
     } else {
-        GuestContent(modifier = modifier, onEvent = onEvent)
-    }
-    if (uiState.isActionSheetOpen) {
-        WalletActionSheet(
-            modifier = Modifier.fillMaxHeight(0.5f),
-            menus = uiState.actions, onEvent = onEvent
-        )
+        GuestContent(modifier = modifier, guestUiState = guestUiState, onEvent = onEvent)
     }
 }

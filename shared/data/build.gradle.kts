@@ -1,9 +1,15 @@
 plugins {
     id("easy.multiplatform.library")
     alias(libs.plugins.kotlin.serialization)
+    id("kotlinx-atomicfu")
 }
 
 kotlin {
+    cocoapods {
+        dependencies {
+            pod("TrustWalletCore", moduleName = "WalletCore")
+        }
+    }
     sourceSets {
         getByName("commonMain") {
             dependencies {
@@ -18,6 +24,8 @@ kotlin {
                 implementation(libs.ktor.client.logging)
                 implementation(libs.ktor.client.content.negotiation)
                 implementation(libs.ktor.serialization.kotlinx.json)
+
+                api("com.trustwallet:wallet-core-kotlin:3.2.13")
             }
         }
         getByName("iosMain") {

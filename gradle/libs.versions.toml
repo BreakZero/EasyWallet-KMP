@@ -3,6 +3,7 @@ activity-compose = "1.7.2"
 androidGradlePlugin = "8.1.0"
 androidx-core-core-splashscreen = "1.0.1"
 androidx-lifecycle-runtime-compose = "2.6.1"
+atomicfuGradlePlugin = "0.22.0"
 lifecycle-runtime-ktx = "2.6.1"
 desugar_jdk_libs = "2.0.3"
 org-jetbrains-kotlin-android = "1.9.0"
@@ -75,6 +76,7 @@ ktor-client-logging = { group = "io.ktor", name = "ktor-client-logging", version
 ktor-client-content-negotiation = { group = "io.ktor", name = "ktor-client-content-negotiation", version.ref = "ktor"}
 ktor-serialization-kotlinx-json = { group = "io.ktor", name = "ktor-serialization-kotlinx-json", version.ref = "ktor"}
 
+kotlinx-atomicfu = { module = "org.jetbrains.kotlinx:atomicfu-gradle-plugin", version.ref = "atomicfuGradlePlugin" }
 
 # Dependencies of testing
 junit = { group = "junit", name = "junit", version.ref = "junit" }
