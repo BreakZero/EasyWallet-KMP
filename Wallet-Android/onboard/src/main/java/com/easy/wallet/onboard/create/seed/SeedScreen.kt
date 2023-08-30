@@ -1,6 +1,7 @@
 package com.easy.wallet.onboard.create.seed
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -18,14 +19,17 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.RemoveRedEye
+import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
@@ -33,23 +37,50 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.easy.wallet.design.component.ThemePreviews
 import com.easy.wallet.design.ui.EWalletTheme
 import com.easy.wallet.onboard.R
+import com.easy.wallet.onboard.create.CreateWalletEvent
+import com.easy.wallet.onboard.create.CreateWalletUiEvent
+import com.easy.wallet.onboard.create.CreateWalletViewModel
+import com.easy.wallet.onboard.create.SeedUiState
 import com.easy.wallet.onboard.create.component.TopBar
 
 @Composable
-internal fun SeedRoute() {
-
+internal fun SeedRoute(
+    viewModel: CreateWalletViewModel,
+    onCreateSuccess: () -> Unit
+) {
+    LaunchedEffect(key1 = viewModel) {
+        viewModel.uiEvent.collect {
+            when (it) {
+                is CreateWalletUiEvent.OnCreateSuccess -> onCreateSuccess()
+                else -> Unit
+            }
+        }
+    }
+    val seedUiState: SeedUiState by viewModel.seedUiState.collectAsStateWithLifecycle()
+    SeedScreen(
+        seedUiState = seedUiState,
+        onEvent = viewModel::onEvent
+    )
 }
 
 @Composable
-internal fun SeedScreen() {
+internal fun SeedScreen(
+    seedUiState: SeedUiState,
+    onEvent: (CreateWalletEvent) -> Unit
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(horizontal = 16.dp)
+            .padding(bottom = 16.dp)
     ) {
+        var hideSeedWords by remember {
+            mutableStateOf(true)
+        }
         TopBar(step = 3, totalStep = 3, navigationIcon = {
             Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "")
         }) {
@@ -57,18 +88,12 @@ internal fun SeedScreen() {
         }
         Spacer(modifier = Modifier.height(16.dp))
         Text(
-            text = stringResource(id = R.string.create_wallet_secure_your_wallet),
+            text = stringResource(id = R.string.create_wallet_secure_write_down_seed),
             style = MaterialTheme.typography.headlineLarge
         )
         Spacer(modifier = Modifier.height(48.dp))
-        Text(text = stringResource(id = R.string.create_wallet_secure_desc))
-        Spacer(modifier = Modifier.height(12.dp))
-
-        val words by remember {
-            mutableStateOf((1..12).map {
-                "word-$it"
-            })
-        }
+        Text(text = stringResource(id = R.string.create_wallet_secure_write_down_seed_desc))
+        Spacer(modifier = Modifier.height(24.dp))
 
         Box(
             modifier = Modifier
@@ -79,15 +104,17 @@ internal fun SeedScreen() {
             contentAlignment = Alignment.Center
         ) {
             LazyVerticalGrid(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .blur(6.dp),
+                modifier = Modifier.fillMaxWidth()
+                    .let {
+                        if (hideSeedWords) return@let it.blur(6.dp)
+                        it
+                    },
                 horizontalArrangement = Arrangement.spacedBy(16.dp),
                 verticalArrangement = Arrangement.spacedBy(12.dp),
                 columns = GridCells.Fixed(3),
                 contentPadding = PaddingValues(12.dp)
             ) {
-                items(words, key = {
+                items(seedUiState.words, key = {
                     it
                 }) {
                     Text(
@@ -101,13 +128,29 @@ internal fun SeedScreen() {
                     )
                 }
             }
-            Column(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Icon(imageVector = Icons.Default.RemoveRedEye, contentDescription = null)
-                Text(text = "Tap to reveal your seed phrase")
+            if (hideSeedWords) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable {
+                            hideSeedWords = false
+                        },
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Icon(imageVector = Icons.Default.RemoveRedEye, contentDescription = null)
+                    Text(text = "Tap to reveal your seed phrase")
+                }
             }
+        }
+        Spacer(modifier = Modifier.weight(1.0f))
+        Button(
+            modifier = Modifier.fillMaxWidth(),
+            enabled = !hideSeedWords,
+            onClick = {
+                onEvent(CreateWalletEvent.OnCreateWallet)
+            }
+        ) {
+            Text(text = "Continue")
         }
     }
 }
@@ -117,7 +160,14 @@ internal fun SeedScreen() {
 private fun SeedScreen_Preview() {
     EWalletTheme {
         Surface(modifier = Modifier.fillMaxSize()) {
-            SeedScreen()
+            SeedScreen(
+                SeedUiState(
+                    words = (1..12).map {
+                        "word-$it"
+                    }
+                ),
+                onEvent = {}
+            )
         }
     }
 }

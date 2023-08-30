@@ -15,6 +15,7 @@ kotlin {
                 implementation(project(":shared:model"))
                 implementation(project(":shared:core"))
                 implementation(project(":shared:data"))
+                implementation(libs.coroutine.core)
 
                 api("com.trustwallet:wallet-core-kotlin:3.2.13")
             }

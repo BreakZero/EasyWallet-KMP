@@ -4,7 +4,7 @@ import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToOneOrNull
 import com.easy.wallet.database.createQueryWrapper
 import com.easy.wallet.database.platform.DatabaseDriverFactory
-import com.easy.wallet.datastore.UserPasswordStorage
+import com.easy.wallet.datastore.DatabaseKeyStorage
 import com.easy.wallet.model.Wallet
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -15,14 +15,14 @@ import kotlinx.coroutines.withContext
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
-
 class MultiWalletRepository(
     factory: DatabaseDriverFactory,
-    userStorage: UserPasswordStorage,
+    databaseKeyStorage: DatabaseKeyStorage,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) {
-    private val queries =
-        createQueryWrapper(factory.createDriver("")).walletQueries
+    private val queries by lazy {
+        createQueryWrapper(factory.createDriver(databaseKeyStorage.databaseKey())).walletQueries
+    }
 
     suspend fun insertOne(
         mnemonic: String,

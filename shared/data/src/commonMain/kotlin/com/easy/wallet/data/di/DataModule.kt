@@ -4,6 +4,7 @@ import com.easy.wallet.data.multiwallet.MultiWalletRepository
 import com.easy.wallet.data.nft.opensea.OpenseaApi
 import com.easy.wallet.data.nft.opensea.OpenseaNftRepository
 import com.easy.wallet.database.di.databaseModule
+import com.easy.wallet.datastore.DatabaseKeyStorage
 import com.easy.wallet.datastore.UserPasswordStorage
 import com.easy.wallet.datastore.di.userDefaultModule
 import org.koin.dsl.module
@@ -19,6 +20,9 @@ val dataModule = module {
     }
     single {
         UserPasswordStorage()
+    }
+    single {
+        DatabaseKeyStorage()
     }
     single {
         MultiWalletRepository(get(), get())

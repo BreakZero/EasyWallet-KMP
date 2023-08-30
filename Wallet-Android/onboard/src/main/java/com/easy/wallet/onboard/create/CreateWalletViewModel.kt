@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.easy.wallet.data.multiwallet.MultiWalletRepository
 import com.easy.wallet.datastore.UserPasswordStorage
+import com.easy.wallet.domain.hdwallet.CreateWalletUseCase
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -14,11 +15,18 @@ import kotlinx.coroutines.launch
 
 class CreateWalletViewModel(
     private val userStorage: UserPasswordStorage,
-    private val multiWalletRepository: MultiWalletRepository
+    private val createWalletUseCase: CreateWalletUseCase
 ) : ViewModel() {
 
     private val _passwordUiState = MutableStateFlow(PasswordUiState())
     val passwordUiState = _passwordUiState.asStateFlow()
+
+    private val _seedUiState = MutableStateFlow(SeedUiState(
+        (1..12).map {
+            "word-$it"
+        }
+    ))
+    val seedUiState = _seedUiState.asStateFlow()
 
     private val _uiEventChannel = Channel<CreateWalletUiEvent>()
     val uiEvent = _uiEventChannel.receiveAsFlow()
@@ -49,6 +57,13 @@ class CreateWalletViewModel(
             }
             is CreateWalletEvent.NextToSecure -> dispatchUiEvent(CreateWalletUiEvent.NextToSecure)
             is CreateWalletEvent.Close -> dispatchUiEvent(CreateWalletUiEvent.Close)
+            is CreateWalletEvent.NextToCheckSeed -> dispatchUiEvent(CreateWalletUiEvent.NextToCheckSeed)
+            is CreateWalletEvent.OnCreateWallet -> {
+                viewModelScope.launch {
+                    createWalletUseCase("")
+                    _uiEventChannel.send(CreateWalletUiEvent.OnCreateSuccess)
+                }
+            }
             else -> Unit
         }
     }

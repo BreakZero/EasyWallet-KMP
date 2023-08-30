@@ -51,6 +51,7 @@ fun keyStoreProperties(): Properties {
 dependencies {
     implementation(project(":shared:core"))
     implementation(project(":shared:data"))
+    implementation(project(":shared:datastore"))
     implementation(project(":shared:model"))
 
     implementation(project(":Wallet-Android:design-system"))

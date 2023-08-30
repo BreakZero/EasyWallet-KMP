@@ -13,9 +13,11 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -23,18 +25,31 @@ import androidx.compose.ui.unit.dp
 import com.easy.wallet.design.component.ThemePreviews
 import com.easy.wallet.design.ui.EWalletTheme
 import com.easy.wallet.onboard.R
+import com.easy.wallet.onboard.create.CreateWalletEvent
+import com.easy.wallet.onboard.create.CreateWalletUiEvent
 import com.easy.wallet.onboard.create.CreateWalletViewModel
 import com.easy.wallet.onboard.create.component.TopBar
 
 @Composable
 internal fun SecureRoute(
-    viewModel: CreateWalletViewModel
+    viewModel: CreateWalletViewModel,
+    nextToCheckSeed: () -> Unit
 ) {
-    SecureScreen()
+    LaunchedEffect(key1 = viewModel) {
+        viewModel.uiEvent.collect {
+            when (it) {
+                is CreateWalletUiEvent.NextToCheckSeed -> nextToCheckSeed()
+                else -> Unit
+            }
+        }
+    }
+    SecureScreen(onEvent = viewModel::onEvent)
 }
 
 @Composable
-internal fun SecureScreen() {
+internal fun SecureScreen(
+    onEvent: (CreateWalletEvent) -> Unit
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -66,15 +81,16 @@ internal fun SecureScreen() {
         Spacer(modifier = Modifier.height(48.dp))
         Text(text = stringResource(id = R.string.create_wallet_secure_desc))
         Spacer(modifier = Modifier.weight(1.0f))
-        Button(
+        OutlinedButton(
             modifier = Modifier.fillMaxWidth(),
-            onClick = { /*TODO*/ }) {
+            onClick = { /*TODO*/ }
+        ) {
             Text(text = "Remind Me Later")
         }
         Spacer(modifier = Modifier.height(12.dp))
         Button(
             modifier = Modifier.fillMaxWidth(),
-            onClick = { /*TODO*/ }
+            onClick = { onEvent(CreateWalletEvent.NextToCheckSeed) }
         ) {
             Text(text = "Start")
         }
@@ -86,7 +102,7 @@ internal fun SecureScreen() {
 private fun SecurePreview() {
     EWalletTheme {
         Surface(modifier = Modifier.fillMaxSize()) {
-            SecureScreen()
+            SecureScreen {}
         }
     }
 }

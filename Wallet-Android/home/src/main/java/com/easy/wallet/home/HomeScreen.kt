@@ -21,9 +21,10 @@ internal fun HomeRoute(
     onRestoreWallet: () -> Unit
 ) {
     val homeUiState by viewModel.homeUiState.collectAsStateWithLifecycle()
+    val hasSetup by viewModel.hasSetup.collectAsStateWithLifecycle()
     LaunchedEffect(key1 = viewModel) {
         viewModel.uiEvent.collect { uiEvent ->
-            when(uiEvent) {
+            when (uiEvent) {
                 HomeUiEvent.OnCreateWallet -> onCreateWallet()
                 HomeUiEvent.OnRestoreWallet -> onRestoreWallet()
             }
@@ -34,6 +35,7 @@ internal fun HomeRoute(
             .fillMaxSize()
             .padding(horizontal = 16.dp),
         uiState = homeUiState,
+        hasSetup = hasSetup,
         onEvent = viewModel::handleUiEvent
     )
 }
@@ -42,9 +44,10 @@ internal fun HomeRoute(
 internal fun HomeScreen(
     modifier: Modifier = Modifier,
     uiState: HomeUiState,
+    hasSetup: Boolean,
     onEvent: (HomeEvent) -> Unit
 ) {
-    if (uiState.hasSetup) {
+    if (hasSetup) {
         UserHomeContent(modifier = modifier)
     } else {
         GuestContent(modifier = modifier, onEvent = onEvent)

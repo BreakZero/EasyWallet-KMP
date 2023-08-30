@@ -1,9 +1,5 @@
 package com.easy.wallet.onboard.create
 
-data class CreateWalletUiState(
-    val passwordUiState: PasswordUiState = PasswordUiState()
-)
-
 data class PasswordUiState(
     val password: String = "",
     val confirmPassword: String = "",
@@ -20,3 +16,7 @@ data class PasswordUiState(
         return password.isNotBlank() && confirmPassword.isNotBlank() && password == confirmPassword
     }
 }
+
+data class SeedUiState(
+    val words: List<String>
+)

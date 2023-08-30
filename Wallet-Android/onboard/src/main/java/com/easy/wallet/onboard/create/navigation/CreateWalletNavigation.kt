@@ -4,17 +4,19 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
+import androidx.navigation.navOptions
 import androidx.navigation.navigation
 import com.easy.wallet.onboard.create.CreateWalletViewModel
 import com.easy.wallet.onboard.create.password.CreatePasswordRoute
 import com.easy.wallet.onboard.create.secure.SecureRoute
+import com.easy.wallet.onboard.create.seed.SeedRoute
 import com.easy.wallet.onboard.create.seed.SeedScreen
 import com.easy.wallet.onboard.sharedViewModel
 
 const val createWalletRoute = "_create_wallet_route"
 internal const val createPasswordRoute = "_create_password_route"
 internal const val secureRoute = "_secure_route"
-internal const val handleSeedRoute = "_handle_seed_route"
+internal const val checkSeedRoute = "_handle_seed_route"
 
 fun NavController.toCreateWallet(navOptions: NavOptions? = null) {
     this.navigate(createWalletRoute, navOptions)
@@ -22,6 +24,9 @@ fun NavController.toCreateWallet(navOptions: NavOptions? = null) {
 
 internal fun NavController.toSecure(navOptions: NavOptions? = null) {
     this.navigate(secureRoute, navOptions)
+}
+internal fun NavController.toCheckSeed(navOptions: NavOptions? = null) {
+    this.navigate(checkSeedRoute, navOptions)
 }
 
 fun NavGraphBuilder.createGraph(navController: NavController) {
@@ -36,11 +41,14 @@ fun NavGraphBuilder.createGraph(navController: NavController) {
         }
         composable(route = secureRoute) {
             val viewModel: CreateWalletViewModel = it.sharedViewModel(navController = navController)
-            SecureRoute(viewModel = viewModel)
+            SecureRoute(viewModel = viewModel, nextToCheckSeed = navController::toCheckSeed)
         }
 
-        composable(route = handleSeedRoute) {
-            SeedScreen()
+        composable(route = checkSeedRoute) {
+            val viewModel: CreateWalletViewModel = it.sharedViewModel(navController = navController)
+            SeedRoute(viewModel, onCreateSuccess = {
+                navController.popBackStack(createWalletRoute, true)
+            })
         }
     }
 }
