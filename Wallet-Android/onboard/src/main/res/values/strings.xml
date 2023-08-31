@@ -9,4 +9,9 @@
 
     <string name="create_wallet_secure_write_down_seed">Write Down Your Seed Phrase</string>
     <string name="create_wallet_secure_write_down_seed_desc">This is your seed phrase. Write it down on a paper and keep it in a safe place. You\'ll be asked to re-enter this phrase (in order) on the next step.</string>
+    <string name="restore_wallet_import_from_seed">Import From Seed</string>
+    <string name="restore_wallet_import">Import</string>
+    <string name="restore_wallet_new_password">New password</string>
+    <string name="restore_wallet_confirm_password">Confirm password</string>
+    <string name="restore_wallet_seed_phrase">Seed phrase</string>
 </resources>

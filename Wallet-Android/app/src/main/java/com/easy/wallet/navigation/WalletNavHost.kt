@@ -10,6 +10,8 @@ import com.easy.wallet.home.navigation.homeScreen
 import com.easy.wallet.marketplace.MarketplaceRoute
 import com.easy.wallet.onboard.create.navigation.createGraph
 import com.easy.wallet.onboard.create.navigation.toCreateWallet
+import com.easy.wallet.onboard.restore.navigation.importWalletScreen
+import com.easy.wallet.onboard.restore.navigation.toImportWallet
 import com.easy.wallet.ui.WalletAppState
 
 @Composable
@@ -27,9 +29,10 @@ fun WalletNavHost(
     ) {
         homeScreen(
             onCreateWallet = navController::toCreateWallet,
-            onRestoreWallet = {}
+            onRestoreWallet = navController::toImportWallet
         )
         createGraph(navController)
+        importWalletScreen()
         composable(TopLevelDestination.MARKETPLACE.name) {
             MarketplaceRoute()
         }
