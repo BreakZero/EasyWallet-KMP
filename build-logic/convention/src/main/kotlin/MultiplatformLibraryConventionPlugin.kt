@@ -75,14 +75,15 @@ class MultiplatformLibraryConventionPlugin : Plugin<Project> {
                 }
 
                 (this as ExtensionAware).extensions.configure<CocoapodsExtension> {
+                    val isDataModule = project.name == "data"
                     summary = "Wallet cocoapod submodule"
                     homepage = "dejinlu.com"
                     authors = "Dougie"
                     version = "1.0"
                     ios.deploymentTarget = "16.0"
                     framework {
-                        baseName = project.name
-                        isStatic = project.name == "data"
+                        baseName = if (isDataModule) "shared" else project.name
+                        isStatic = isDataModule
                         if (!isStatic) {
                             embedBitcode(BitcodeEmbeddingMode.BITCODE)
                         }

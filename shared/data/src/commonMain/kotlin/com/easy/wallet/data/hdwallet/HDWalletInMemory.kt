@@ -11,7 +11,6 @@ class HDWalletInMemory : SynchronizedObject() {
         mnemonic: String,
         passphrase: String = ""
     ) {
-        println("====== $mnemonic")
         synchronized(this) {
             hdWallet = HDWallet(mnemonic, passphrase)
         }

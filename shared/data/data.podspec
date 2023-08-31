@@ -6,14 +6,14 @@ Pod::Spec.new do |spec|
     spec.authors                  = 'Dougie'
     spec.license                  = ''
     spec.summary                  = 'Wallet cocoapod submodule'
-    spec.vendored_frameworks      = 'build/cocoapods/framework/data.framework'
+    spec.vendored_frameworks      = 'build/cocoapods/framework/shared.framework'
     spec.libraries                = 'c++'
     spec.ios.deployment_target = '16.0'
     spec.dependency 'TrustWalletCore'
                 
     spec.pod_target_xcconfig = {
         'KOTLIN_PROJECT_PATH' => ':shared:data',
-        'PRODUCT_MODULE_NAME' => 'data',
+        'PRODUCT_MODULE_NAME' => 'shared',
     }
                 
     spec.script_phases = [
