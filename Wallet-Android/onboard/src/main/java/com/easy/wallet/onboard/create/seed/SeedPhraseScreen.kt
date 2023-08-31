@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -37,18 +36,16 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.easy.wallet.design.component.ThemePreviews
 import com.easy.wallet.design.ui.EWalletTheme
 import com.easy.wallet.onboard.R
 import com.easy.wallet.onboard.create.CreateWalletEvent
 import com.easy.wallet.onboard.create.CreateWalletUiEvent
 import com.easy.wallet.onboard.create.CreateWalletViewModel
-import com.easy.wallet.onboard.create.SeedUiState
 import com.easy.wallet.onboard.create.component.TopBar
 
 @Composable
-internal fun SeedRoute(
+internal fun SeedPhraseRoute(
     viewModel: CreateWalletViewModel,
     onCreateSuccess: () -> Unit
 ) {
@@ -60,16 +57,15 @@ internal fun SeedRoute(
             }
         }
     }
-    val seedUiState: SeedUiState by viewModel.seedUiState.collectAsStateWithLifecycle()
-    SeedScreen(
-        seedUiState = seedUiState,
+    SeedPhraseScreen(
+        seedPhrase = viewModel.seedPhrase,
         onEvent = viewModel::onEvent
     )
 }
 
 @Composable
-internal fun SeedScreen(
-    seedUiState: SeedUiState,
+internal fun SeedPhraseScreen(
+    seedPhrase: List<String>,
     onEvent: (CreateWalletEvent) -> Unit
 ) {
     Column(
@@ -114,16 +110,14 @@ internal fun SeedScreen(
                 columns = GridCells.Fixed(3),
                 contentPadding = PaddingValues(12.dp)
             ) {
-                items(seedUiState.words, key = {
-                    it
-                }) {
+                items(seedPhrase.size, key = { it }) { index ->
                     Text(
                         modifier = Modifier
                             .fillMaxWidth()
                             .clip(RoundedCornerShape(6.dp))
                             .background(MaterialTheme.colorScheme.background)
                             .padding(vertical = 8.dp),
-                        text = it,
+                        text = seedPhrase[index],
                         textAlign = TextAlign.Center
                     )
                 }
@@ -160,12 +154,10 @@ internal fun SeedScreen(
 private fun SeedScreen_Preview() {
     EWalletTheme {
         Surface(modifier = Modifier.fillMaxSize()) {
-            SeedScreen(
-                SeedUiState(
-                    words = (1..12).map {
-                        "word-$it"
-                    }
-                ),
+            SeedPhraseScreen(
+                (1..12).map {
+                    "word-$it"
+                },
                 onEvent = {}
             )
         }

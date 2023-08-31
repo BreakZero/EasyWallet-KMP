@@ -15,6 +15,7 @@ import kotlinx.coroutines.withContext
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
+
 class MultiWalletRepository(
     factory: DatabaseDriverFactory,
     databaseKeyStorage: DatabaseKeyStorage,
@@ -26,13 +27,22 @@ class MultiWalletRepository(
 
     suspend fun insertOne(
         mnemonic: String,
-        passphrase: String
+        passphrase: String,
+        onCompleted: () -> Unit = {}
     ) = withContext(dispatcher) {
-        queries.insertWallet(
-            mnemonic = mnemonic, passphrase = passphrase,
-            isActivated = true,
-            createAt = Clock.System.now().toLocalDateTime(TimeZone.UTC)
-        )
+        queries.transaction {
+            afterCommit(onCompleted)
+
+            val currentlyOne = queries.forActivatedOne().executeAsOneOrNull()
+            currentlyOne?.let {
+                queries.inActivateById(it.id)
+            }
+            queries.insertWallet(
+                mnemonic = mnemonic, passphrase = passphrase,
+                isActivated = true,
+                createAt = Clock.System.now().toLocalDateTime(TimeZone.UTC)
+            )
+        }
     }
 
     fun forActivatedOne(): Flow<Wallet?> {

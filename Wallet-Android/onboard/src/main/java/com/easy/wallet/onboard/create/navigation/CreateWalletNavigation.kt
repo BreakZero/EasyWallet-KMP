@@ -4,13 +4,11 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
-import androidx.navigation.navOptions
 import androidx.navigation.navigation
 import com.easy.wallet.onboard.create.CreateWalletViewModel
 import com.easy.wallet.onboard.create.password.CreatePasswordRoute
 import com.easy.wallet.onboard.create.secure.SecureRoute
-import com.easy.wallet.onboard.create.seed.SeedRoute
-import com.easy.wallet.onboard.create.seed.SeedScreen
+import com.easy.wallet.onboard.create.seed.SeedPhraseRoute
 import com.easy.wallet.onboard.sharedViewModel
 
 const val createWalletRoute = "_create_wallet_route"
@@ -46,7 +44,7 @@ fun NavGraphBuilder.createGraph(navController: NavController) {
 
         composable(route = checkSeedRoute) {
             val viewModel: CreateWalletViewModel = it.sharedViewModel(navController = navController)
-            SeedRoute(viewModel, onCreateSuccess = {
+            SeedPhraseRoute(viewModel, onCreateSuccess = {
                 navController.popBackStack(createWalletRoute, true)
             })
         }

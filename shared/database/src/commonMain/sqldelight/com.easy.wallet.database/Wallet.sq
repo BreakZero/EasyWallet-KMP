@@ -16,3 +16,8 @@ VALUES (?,?,?,?);
 forActivatedOne:
 SELECT * FROM hdWalletEntity
 WHERE isActivated == 1;
+
+inActivateById:
+UPDATE hdWalletEntity
+SET isActivated = 0
+WHERE id = ?;
