@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.easy.wallet.discover.DiscoverScreen
+import com.easy.wallet.discover.navigation.discoverScreen
 import com.easy.wallet.home.navigation.homeNavigationRoute
 import com.easy.wallet.home.navigation.homeScreen
 import com.easy.wallet.marketplace.MarketplaceRoute
@@ -36,8 +36,6 @@ fun WalletNavHost(
         composable(TopLevelDestination.MARKETPLACE.name) {
             MarketplaceRoute()
         }
-        composable(TopLevelDestination.DISCOVER.name) {
-            DiscoverScreen()
-        }
+        discoverScreen()
     }
 }

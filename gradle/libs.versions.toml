@@ -24,8 +24,7 @@ androidx-test-ext-junit = "1.1.5"
 espresso-core = "3.5.1"
 junit4 = "4.13.2"
 jacoco = "0.8.10"
-org-jetbrains-kotlin-android180 = "1.8.0"
-material = "1.8.0"
+paging = "3.2.0"
 
 [libraries]
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activity-compose" }
@@ -35,6 +34,9 @@ core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx
 appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 coroutine-core = {group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "coroutine"}
 kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutine" }
+
+androidx-paging = { group = "androidx.paging", name = "paging-runtime", version.ref = "paging" }
+androidx-paging-compose = { group = "androidx.paging", name = "paging-compose", version.ref = "paging" }
 
 # datetime
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version = "0.4.0" }
@@ -92,7 +94,6 @@ androidx-annotation-jvm = { group = "androidx.annotation", name = "annotation-jv
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
 android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
 android-test = { id = "com.android.test", version.ref = "androidGradlePlugin" }
-org-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "org-jetbrains-kotlin-android180" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "org-jetbrains-kotlin-android" }
 
 [bundles]

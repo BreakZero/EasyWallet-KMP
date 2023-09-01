@@ -12,6 +12,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
+import com.easy.wallet.discover.navigation.discoverTabRoute
+import com.easy.wallet.discover.navigation.navigateToDiscover
 import com.easy.wallet.home.navigation.homeNavigationRoute
 import com.easy.wallet.home.navigation.navigateToHome
 import com.easy.wallet.navigation.TopLevelDestination
@@ -57,7 +59,7 @@ class WalletAppState(
     val currentTopLevelDestination: TopLevelDestination?
         @Composable get() = when (currentDestination?.route) {
             homeNavigationRoute -> TopLevelDestination.HOME
-            TopLevelDestination.DISCOVER.name -> TopLevelDestination.DISCOVER
+            discoverTabRoute -> TopLevelDestination.DISCOVER
             TopLevelDestination.MARKETPLACE.name -> TopLevelDestination.MARKETPLACE
             else -> null
         }
@@ -79,10 +81,8 @@ class WalletAppState(
                 TopLevelDestination.MARKETPLACE.name,
                 navOptions = topLevelNavOptions
             )
-            TopLevelDestination.DISCOVER -> navController.navigate(
-                TopLevelDestination.DISCOVER.name,
-                navOptions = topLevelNavOptions
-            )
+
+            TopLevelDestination.DISCOVER -> navController.navigateToDiscover(topLevelNavOptions)
         }
     }
 }

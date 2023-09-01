@@ -2,6 +2,7 @@ package com.easy.wallet.marketplace
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.easy.wallet.data.news.NewsRepository
 import com.easy.wallet.data.nft.model.OpenSeaNftDto
 import com.easy.wallet.data.nft.opensea.OpenseaNftRepository
 import kotlinx.coroutines.flow.MutableStateFlow

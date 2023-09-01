@@ -1,14 +1,16 @@
 package com.easy.wallet.home.component
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -33,33 +35,40 @@ internal fun GuestContent(
     Column(
         modifier = modifier
     ) {
-        Box(
-            modifier = Modifier
-                .fillMaxHeight(0.6f)
-                .fillMaxWidth(),
-            contentAlignment = Alignment.Center
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.ic_setup_wallet),
-                contentDescription = null
-            )
-        }
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .fillMaxHeight(),
-            verticalArrangement = Arrangement.Center
+                .weight(1f)
+                .padding(top = 100.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Button(
+            Image(
+                modifier = Modifier.wrapContentSize(),
+                painter = painterResource(id = R.drawable.ic_setup_wallet),
+                contentDescription = null
+            )
+            Spacer(modifier = Modifier.height(48.dp))
+            Text(
                 modifier = Modifier.fillMaxWidth(),
-                onClick = { onEvent(HomeEvent.ShowCreateWalletSheet) }) {
-                Text(text = stringResource(id = R.string.onboard_create_wallet))
-            }
-            OutlinedButton(
+                style = MaterialTheme.typography.headlineMedium,
+                text = "Wallet Setup"
+            )
+            Text(
                 modifier = Modifier.fillMaxWidth(),
-                onClick = { onEvent(HomeEvent.ShowRestoreWalletSheet) }) {
-                Text(text = stringResource(id = R.string.onboard_import_wallet))
-            }
+                style = MaterialTheme.typography.bodyLarge,
+                text = "Import an existing wallet \n or create a new one"
+            )
+        }
+
+        Button(
+            modifier = Modifier.fillMaxWidth(),
+            onClick = { onEvent(HomeEvent.ShowCreateWalletSheet) }) {
+            Text(text = stringResource(id = R.string.onboard_create_wallet))
+        }
+        OutlinedButton(
+            modifier = Modifier.fillMaxWidth(),
+            onClick = { onEvent(HomeEvent.ShowRestoreWalletSheet) }) {
+            Text(text = stringResource(id = R.string.onboard_import_wallet))
         }
     }
     if (guestUiState.isActionSheetOpen) {

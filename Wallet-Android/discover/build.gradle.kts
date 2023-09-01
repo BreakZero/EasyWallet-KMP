@@ -8,3 +8,12 @@ plugins {
 android {
     namespace = "com.easy.wallet.discover"
 }
+
+dependencies {
+    implementation(project(":shared:core"))
+    implementation(project(":shared:data"))
+    implementation(project(":shared:model"))
+
+    implementation(libs.androidx.paging)
+    implementation(libs.androidx.paging.compose)
+}

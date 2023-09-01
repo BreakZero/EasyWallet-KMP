@@ -2,7 +2,7 @@ package com.easy.wallet.data.nft.opensea
 
 import com.easy.wallet.data.nft.model.NftListDto
 
-class OpenseaNftRepository(
+class OpenseaNftRepository internal constructor(
     private val openseaApi: OpenseaApi
 ) {
     suspend fun retrieveNFTsByAccount(
