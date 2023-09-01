@@ -14,7 +14,7 @@ package com.easy.wallet.model.news
  * "file": "binances-asiapacific-head-departs-amidst-market-share-decline-and-regulatory-pressures",
  * "permalink": "https://blockchair.com/news/binances-asiapacific-head-departs-amidst-market-share-decline-and-regulatory-pressures--0063723b0b"
  */
-data class New(
+data class News(
     val title: String,
     val source: String,
     val language: String,

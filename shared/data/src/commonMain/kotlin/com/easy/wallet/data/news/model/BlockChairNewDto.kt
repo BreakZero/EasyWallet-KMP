@@ -18,8 +18,8 @@ internal data class BlockChairNewDto(
     val link: String,
 //    @SerialName("link_amp")
 //    val linkAmp: Boolean,
-    @SerialName("link_iframable")
-    val linkIframable: Boolean,
+//    @SerialName("link_iframable")
+//    val linkIframable: Boolean?,
     @SerialName("permalink")
     val permalink: String,
     @SerialName("source")

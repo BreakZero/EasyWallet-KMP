@@ -6,6 +6,7 @@ import com.easy.wallet.di.appModule
 import com.easy.wallet.discover.di.discoverModule
 import com.easy.wallet.home.di.homeModule
 import com.easy.wallet.marketplace.di.marketModule
+import com.easy.wallet.news.di.newsModule
 import com.easy.wallet.onboard.di.onboardModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
@@ -21,6 +22,7 @@ class WalletApplication: Application() {
             androidContext(applicationContext)
             modules(appModule)
             modules(homeModule)
+            modules(newsModule)
             modules(discoverModule)
             modules(onboardModule)
             modules(dataModule)

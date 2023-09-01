@@ -25,6 +25,8 @@ espresso-core = "3.5.1"
 junit4 = "4.13.2"
 jacoco = "0.8.10"
 paging = "3.2.0"
+kotlin = "1.9.0"
+material = "1.9.0"
 
 [libraries]
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activity-compose" }
@@ -89,11 +91,13 @@ espresso-core = { group = "androidx.test.espresso", name = "espresso-core", vers
 android-tools-build = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }
 kotlin-gradle-plugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "org-jetbrains-kotlin-android" }
 androidx-annotation-jvm = { group = "androidx.annotation", name = "annotation-jvm", version = "1.6.0" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
 android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
 android-test = { id = "com.android.test", version.ref = "androidGradlePlugin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "org-jetbrains-kotlin-android" }
+kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 
 [bundles]

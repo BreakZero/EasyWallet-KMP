@@ -1,19 +1,19 @@
-package com.easy.wallet.discover
+package com.easy.wallet.news
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.easy.wallet.data.news.NewsRepository
-import com.easy.wallet.model.news.New
+import com.easy.wallet.model.news.News
 
+private const val LIMIT = 20
 class NewsPagingSource(
     private val newsRepository: NewsRepository
-) : PagingSource<Int, New>() {
-    private val LIMIT = 20
-    override fun getRefreshKey(state: PagingState<Int, New>): Int? {
+) : PagingSource<Int, News>() {
+    override fun getRefreshKey(state: PagingState<Int, News>): Int? {
         return state.anchorPosition
     }
 
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, New> {
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, News> {
         return try {
             val currentOffset = params.key ?: 0
             val news = newsRepository.loadNews(LIMIT, currentOffset)

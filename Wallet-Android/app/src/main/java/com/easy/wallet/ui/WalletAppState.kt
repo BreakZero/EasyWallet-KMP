@@ -13,10 +13,14 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
 import com.easy.wallet.discover.navigation.discoverTabRoute
-import com.easy.wallet.discover.navigation.navigateToDiscover
-import com.easy.wallet.home.navigation.homeNavigationRoute
-import com.easy.wallet.home.navigation.navigateToHome
+import com.easy.wallet.discover.navigation.selectedDiscoverTab
+import com.easy.wallet.home.navigation.homeTabRoute
+import com.easy.wallet.home.navigation.selectedHomeTab
+import com.easy.wallet.marketplace.navigation.marketplaceTabRoute
+import com.easy.wallet.marketplace.navigation.selectedMarketplaceTab
 import com.easy.wallet.navigation.TopLevelDestination
+import com.easy.wallet.news.navigation.newsTabRoute
+import com.easy.wallet.news.navigation.selectedNewsTab
 import kotlinx.coroutines.CoroutineScope
 
 @Composable
@@ -58,9 +62,10 @@ class WalletAppState(
 
     val currentTopLevelDestination: TopLevelDestination?
         @Composable get() = when (currentDestination?.route) {
-            homeNavigationRoute -> TopLevelDestination.HOME
+            homeTabRoute -> TopLevelDestination.HOME
+            newsTabRoute -> TopLevelDestination.NEWS
             discoverTabRoute -> TopLevelDestination.DISCOVER
-            TopLevelDestination.MARKETPLACE.name -> TopLevelDestination.MARKETPLACE
+            marketplaceTabRoute -> TopLevelDestination.MARKETPLACE
             else -> null
         }
 
@@ -75,14 +80,10 @@ class WalletAppState(
 
 
         when (topLevelDestination) {
-            TopLevelDestination.HOME -> navController.navigateToHome(topLevelNavOptions)
-
-            TopLevelDestination.MARKETPLACE -> navController.navigate(
-                TopLevelDestination.MARKETPLACE.name,
-                navOptions = topLevelNavOptions
-            )
-
-            TopLevelDestination.DISCOVER -> navController.navigateToDiscover(topLevelNavOptions)
+            TopLevelDestination.HOME -> navController.selectedHomeTab(topLevelNavOptions)
+            TopLevelDestination.NEWS -> navController.selectedNewsTab(topLevelNavOptions)
+            TopLevelDestination.MARKETPLACE -> navController.selectedMarketplaceTab(topLevelNavOptions)
+            TopLevelDestination.DISCOVER -> navController.selectedDiscoverTab(topLevelNavOptions)
         }
     }
 }

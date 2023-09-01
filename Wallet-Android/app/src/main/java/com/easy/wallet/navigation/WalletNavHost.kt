@@ -3,11 +3,11 @@ package com.easy.wallet.navigation
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import com.easy.wallet.discover.navigation.discoverScreen
-import com.easy.wallet.home.navigation.homeNavigationRoute
+import com.easy.wallet.discover.navigation.discoverTabScreen
 import com.easy.wallet.home.navigation.homeScreen
-import com.easy.wallet.marketplace.MarketplaceRoute
+import com.easy.wallet.home.navigation.homeTabRoute
+import com.easy.wallet.marketplace.navigation.marketplaceTabScreen
+import com.easy.wallet.news.navigation.newsTabScreen
 import com.easy.wallet.onboard.create.navigation.createGraph
 import com.easy.wallet.onboard.create.navigation.toCreateWallet
 import com.easy.wallet.onboard.restore.navigation.importWalletScreen
@@ -19,7 +19,7 @@ fun WalletNavHost(
     appState: WalletAppState,
     onShowSnackbar: suspend (String, String?) -> Boolean,
     modifier: Modifier = Modifier,
-    startDestination: String = homeNavigationRoute,
+    startDestination: String = homeTabRoute,
 ) {
     val navController = appState.navController
     NavHost(
@@ -33,9 +33,8 @@ fun WalletNavHost(
         )
         createGraph(navController)
         importWalletScreen()
-        composable(TopLevelDestination.MARKETPLACE.name) {
-            MarketplaceRoute()
-        }
-        discoverScreen()
+        newsTabScreen()
+        marketplaceTabScreen()
+        discoverTabScreen()
     }
 }

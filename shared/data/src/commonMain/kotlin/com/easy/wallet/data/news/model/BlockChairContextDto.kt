@@ -23,7 +23,7 @@ internal data class BlockChairContextDto(
     @SerialName("render_time")
     val renderTime: Double = 0.0,
     @SerialName("request_cost")
-    val requestCost: Int = 0,
+    val requestCost: Double = 0.0,
     @SerialName("rows")
     val rows: Int = 0,
     @SerialName("servers")
