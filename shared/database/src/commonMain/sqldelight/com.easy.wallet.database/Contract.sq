@@ -1,0 +1,14 @@
+import com.easy.wallet.database.TokenVals.Network;
+
+CREATE TABLE IF NOT EXISTS contract (
+    network TEXT AS Network NOT NULL,
+    address TEXT NOT NULL,
+    coin_id TEXT NOT NULL,
+    FOREIGN KEY (coin_id) REFERENCES token(coin_id),
+    PRIMARY KEY (coin_id, network)
+);
+
+forAddress:
+SELECT address FROM contract
+WHERE coin_id = ?
+AND network = ?;

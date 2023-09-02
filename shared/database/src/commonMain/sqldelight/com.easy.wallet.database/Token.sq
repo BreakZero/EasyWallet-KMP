@@ -1,0 +1,17 @@
+import com.easy.wallet.database.TokenVals.TokenType;
+import kotlin.Int;
+
+CREATE TABLE IF NOT EXISTS token(
+    coin_id TEXT NOT NULL PRIMARY KEY,
+    coin_name TEXT NOT NULL,
+    symbol TEXT NOT NULL,
+    decimals INTEGER AS Int,
+    type TEXT AS TokenType NOT NULL
+);
+
+findAll:
+SELECT * FROM token;
+
+upsert:
+INSERT OR REPLACE INTO token(coin_id, coin_name, symbol, decimals, type)
+VALUES (?,?,?,?,?);

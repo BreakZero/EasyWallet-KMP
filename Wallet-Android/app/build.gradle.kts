@@ -31,6 +31,11 @@ android {
             signingConfig = signingConfigs.getByName("release")
         }
     }
+    packaging {
+        resources {
+            excludes.add("META-INF/versions/9/previous-compilation-data.bin")
+        }
+    }
     defaultConfig {
         applicationId = "com.easy.wallet"
     }

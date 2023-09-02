@@ -9,14 +9,13 @@ actual class DatabaseDriverFactory {
 
     actual fun createDriver(passphrase: String): SqlDriver {
         val schema = WalletDatabase.Schema
+        val databaseConfiguration = DatabaseConfiguration(
+            create = {},
+            name = "e_wallet.db",
+            version = schema.version.toInt(),
+            encryptionConfig = DatabaseConfiguration.Encryption(key = passphrase)
+        )
         return NativeSqliteDriver(schema, name = "e_wallet.db",
-            onConfiguration = {
-                DatabaseConfiguration(
-                    create = {},
-                    name = "",
-                    version = schema.version.toInt(),
-                    encryptionConfig = DatabaseConfiguration.Encryption(key = passphrase)
-                )
-            })
+            onConfiguration = { databaseConfiguration })
     }
 }

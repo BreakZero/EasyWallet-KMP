@@ -21,9 +21,11 @@ class MultiWalletRepository(
     databaseKeyStorage: DatabaseKeyStorage,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) {
-    private val queries by lazy {
-        createQueryWrapper(factory.createDriver(databaseKeyStorage.databaseKey())).walletQueries
+    private val database by lazy {
+        createQueryWrapper(factory.createDriver(databaseKeyStorage.databaseKey()))
     }
+    private val queries = database.walletQueries
+    private val tokenQueries = database.tokenQueries
 
     suspend fun insertOne(
         mnemonic: String,

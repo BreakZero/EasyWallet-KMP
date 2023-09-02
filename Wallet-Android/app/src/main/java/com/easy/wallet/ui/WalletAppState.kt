@@ -48,17 +48,16 @@ class WalletAppState(
     val coroutineScope: CoroutineScope,
     private val windowSizeClass: WindowSizeClass
 ) {
-    val shouldShowBottomBar: Boolean
-        @Composable get() = (windowSizeClass.widthSizeClass == WindowWidthSizeClass.Compact) &&
-                (currentTopLevelDestination != null && currentTopLevelDestination in topLevelDestinations)
-
     val shouldShowNavRail: Boolean
         get() = windowSizeClass.widthSizeClass != WindowWidthSizeClass.Compact
 
-    val topLevelDestinations: List<TopLevelDestination> = TopLevelDestination.values().asList()
+    val shouldShowBottomBar: Boolean
+        @Composable get() = !shouldShowNavRail &&
+                (currentTopLevelDestination != null && currentTopLevelDestination in topLevelDestinations)
+
+    val topLevelDestinations: List<TopLevelDestination> = TopLevelDestination.entries
     val currentDestination: NavDestination?
-        @Composable get() = navController
-            .currentBackStackEntryAsState().value?.destination
+        @Composable get() = navController.currentBackStackEntryAsState().value?.destination
 
     val currentTopLevelDestination: TopLevelDestination?
         @Composable get() = when (currentDestination?.route) {
@@ -82,7 +81,10 @@ class WalletAppState(
         when (topLevelDestination) {
             TopLevelDestination.HOME -> navController.selectedHomeTab(topLevelNavOptions)
             TopLevelDestination.NEWS -> navController.selectedNewsTab(topLevelNavOptions)
-            TopLevelDestination.MARKETPLACE -> navController.selectedMarketplaceTab(topLevelNavOptions)
+            TopLevelDestination.MARKETPLACE -> navController.selectedMarketplaceTab(
+                topLevelNavOptions
+            )
+
             TopLevelDestination.DISCOVER -> navController.selectedDiscoverTab(topLevelNavOptions)
         }
     }

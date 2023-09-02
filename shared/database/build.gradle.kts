@@ -26,6 +26,7 @@ kotlin {
         getByName("iosMain") {
             dependencies {
                 implementation(libs.sqldelight.native)
+//                implementation("co.touchlab:sqliter-driver:1.2.3")
             }
         }
     }
@@ -39,6 +40,8 @@ sqldelight {
     databases {
         create("WalletDatabase") {
             packageName.set("com.easy.wallet.database")
+            verifyMigrations.set(false)
+            deriveSchemaFromMigrations.set(true)
         }
     }
     linkSqlite.set(true)

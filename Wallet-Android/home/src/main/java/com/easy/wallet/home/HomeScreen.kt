@@ -1,6 +1,5 @@
 package com.easy.wallet.home
 
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
@@ -11,7 +10,6 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.easy.wallet.home.component.GuestContent
 import com.easy.wallet.home.component.UserHomeContent
-import com.easy.wallet.home.component.WalletActionSheet
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
