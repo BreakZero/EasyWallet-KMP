@@ -5,9 +5,6 @@ plugins {
 }
 
 kotlin {
-    cocoapods {
-        pod("SQLCipher", "~> 4.0")
-    }
     sourceSets {
         getByName("commonMain") {
             dependencies {

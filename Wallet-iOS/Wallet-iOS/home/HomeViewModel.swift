@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import shared
 
 extension HomeScreen {
     @MainActor final class HomeViewModel: ObservableObject {

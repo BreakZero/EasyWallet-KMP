@@ -82,7 +82,7 @@ class MultiplatformLibraryConventionPlugin : Plugin<Project> {
                     version = "1.0"
                     ios.deploymentTarget = "16.0"
                     framework {
-                        baseName = if (isDataModule) "shared" else project.name
+                        baseName = project.name
                         isStatic = isDataModule
                         if (!isStatic) {
                             embedBitcode(BitcodeEmbeddingMode.BITCODE)

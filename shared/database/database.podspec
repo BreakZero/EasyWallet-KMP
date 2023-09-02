@@ -9,7 +9,7 @@ Pod::Spec.new do |spec|
     spec.vendored_frameworks      = 'build/cocoapods/framework/database.framework'
     spec.libraries                = 'c++'
     spec.ios.deployment_target = '16.0'
-    spec.dependency 'SQLCipher', '~> 4.0'
+                
                 
     spec.pod_target_xcconfig = {
         'KOTLIN_PROJECT_PATH' => ':shared:database',
