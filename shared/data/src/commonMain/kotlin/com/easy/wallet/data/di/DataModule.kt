@@ -91,6 +91,8 @@ val dataModule = module {
     singleOf(::NewsRepository)
 
     singleOf(::TokenRemoteDatasource)
-    singleOf(::TokenLocalDatasource)
+    single {
+        TokenLocalDatasource(get())
+    }
     singleOf(::TokenRepository)
 }
