@@ -4,6 +4,6 @@ import com.easy.wallet.database.platform.DatabaseDriverFactory
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
-actual fun databaseModule() = module {
+internal actual fun factoryModule() = module {
     singleOf(::DatabaseDriverFactory)
 }

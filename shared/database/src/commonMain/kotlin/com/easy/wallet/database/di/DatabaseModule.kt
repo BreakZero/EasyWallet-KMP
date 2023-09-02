@@ -1,7 +1,14 @@
 package com.easy.wallet.database.di
 
+import com.easy.wallet.database.SharedDatabase
 import org.koin.core.module.Module
-import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
-expect fun databaseModule(): Module
+internal expect fun factoryModule(): Module
+
+val databaseModule = module {
+    includes(factoryModule())
+    single {
+        SharedDatabase(get(), get())
+    }
+}

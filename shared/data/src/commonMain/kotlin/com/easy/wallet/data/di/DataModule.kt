@@ -7,6 +7,9 @@ import com.easy.wallet.data.news.NewsRepository
 import com.easy.wallet.data.nft.opensea.OpenseaApi
 import com.easy.wallet.data.nft.opensea.OpenseaNftRepository
 import com.easy.wallet.data.platform.httpClient
+import com.easy.wallet.data.token.TokenLocalDatasource
+import com.easy.wallet.data.token.TokenRemoteDatasource
+import com.easy.wallet.data.token.TokenRepository
 import com.easy.wallet.database.di.databaseModule
 import com.easy.wallet.datastore.DatabaseKeyStorage
 import com.easy.wallet.datastore.UserPasswordStorage
@@ -29,13 +32,13 @@ private const val BLOCK_CHAIR = "blockchair"
 
 val dataModule = module {
     includes(userDefaultModule())
-    includes(databaseModule())
+    includes(databaseModule)
 
     singleOf(::UserPasswordStorage)
     singleOf(::DatabaseKeyStorage)
     singleOf(::HDWalletInMemory)
     single {
-        MultiWalletRepository(get(), get())
+        MultiWalletRepository(get())
     }
 
     single(qualifier = named(name = BLOCK_CHAIR)) {
@@ -87,4 +90,7 @@ val dataModule = module {
     singleOf(::OpenseaNftRepository)
     singleOf(::NewsRepository)
 
+    singleOf(::TokenRemoteDatasource)
+    singleOf(::TokenLocalDatasource)
+    singleOf(::TokenRepository)
 }

@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.easy.wallet.data.hdwallet.HDWalletInMemory
 import com.easy.wallet.data.multiwallet.MultiWalletRepository
+import com.easy.wallet.data.token.TokenRepository
 import com.easy.wallet.home.component.ActionSheetMenu
 import com.trustwallet.core.CoinType
 import kotlinx.coroutines.channels.Channel
@@ -18,8 +19,10 @@ import kotlinx.coroutines.launch
 
 class HomeViewModel(
     multiWalletRepository: MultiWalletRepository,
+    private val tokenRepository: TokenRepository,
     private val hdWalletInMemory: HDWalletInMemory
 ) : ViewModel() {
+
     private val _guestUiState = MutableStateFlow(
         GuestUiState()
     )
