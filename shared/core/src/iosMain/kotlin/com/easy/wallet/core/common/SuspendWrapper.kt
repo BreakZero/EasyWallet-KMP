@@ -7,6 +7,7 @@ import kotlinx.coroutines.async
 import kotlin.experimental.ExperimentalObjCName
 
 @OptIn(ExperimentalObjCName::class)
+@ObjCName(swiftName = "SuspendWrapper")
 class SuspendWrapper<out T> internal constructor(
     private val scope: CoroutineScope,
     private val block: suspend () -> T & Any

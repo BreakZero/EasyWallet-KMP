@@ -16,9 +16,7 @@ internal class TokenLocalDatasource(
 ) {
     private val tokenQueries = sharedDatabase.database.tokenQueries
     suspend fun loadTokens() = withContext(Dispatchers.IO) {
-        tokenQueries.findAll().executeAsList().forEach {
-            println("===== lalalal $it")
-        }
+        tokenQueries.findAll().executeAsList()
     }
 
     fun tokenStream(): Flow<List<Token>> {

@@ -34,12 +34,12 @@ class HomeViewModel(
     internal val hasSetup = multiWalletRepository.forActivatedOne().map {
         it?.let {
             hdWalletInMemory.loadToMemory(it.mnemonic, it.passphrase)
-            val address = kotlin.runCatching {
-                hdWalletInMemory.hdWallet().getAddressForCoin(CoinType.Ethereum)
-            }.getOrElse { "" }
-            _walletUiState.update {
-                it.copy(address = address)
-            }
+//            val address = kotlin.runCatching {
+//                hdWalletInMemory.hdWallet().getAddressForCoin(CoinType.Ethereum)
+//            }.getOrElse { "" }
+//            _walletUiState.update {
+//                it.copy(address = address)
+//            }
             true
         } ?: false
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(3000), true)

@@ -15,7 +15,6 @@ actual class DatabaseDriverFactory {
             version = schema.version.toInt(),
             encryptionConfig = DatabaseConfiguration.Encryption(key = passphrase)
         )
-        return NativeSqliteDriver(schema, name = "e_wallet.db",
-            onConfiguration = { databaseConfiguration })
+        return NativeSqliteDriver(schema, name = "e_wallet.db")
     }
 }

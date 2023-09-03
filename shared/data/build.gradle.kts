@@ -10,11 +10,14 @@ kotlin {
             pod("TrustWalletCore", moduleName = "WalletCore")
             pod("SQLCipher", "~> 4.0")
         }
+        framework {
+            export(project(":shared:core"))
+        }
     }
     sourceSets {
         getByName("commonMain") {
             dependencies {
-                implementation(project(":shared:core"))
+                api(project(":shared:core"))
                 implementation(project(":shared:model"))
                 implementation(project(":shared:database"))
                 implementation(project(":shared:datastore"))
