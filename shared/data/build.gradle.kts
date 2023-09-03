@@ -26,7 +26,7 @@ kotlin {
                 implementation(libs.ktor.client.content.negotiation)
                 implementation(libs.ktor.serialization.kotlinx.json)
 
-                implementation("com.trustwallet:wallet-core-kotlin:3.2.17")
+                api("com.trustwallet:wallet-core-kotlin:3.2.18")
             }
         }
         getByName("iosMain") {

@@ -29,7 +29,7 @@ EXTERNAL SOURCES:
     :path: "../shared/data"
 
 SPEC CHECKSUMS:
-  data: 47298aad03c87ae959ae4fa4c0c2ee634d8ebf7a
+  data: 7f67cc4772ce9092dad2030866f71217dae7bc4d
   SQLCipher: 905b145f65f349f26da9e60a19901ad24adcd381
   SwiftProtobuf: afced68785854575756db965e9da52bbf3dc45e7
   TrustWalletCore: fabbb38652ab559ee25c864af8836e6481a7e22b
