@@ -37,9 +37,9 @@ android {
 sqldelight {
     databases {
         create("WalletDatabase") {
+            version = 1
             packageName.set("com.easy.wallet.database")
-            verifyMigrations.set(false)
-            deriveSchemaFromMigrations.set(true)
+            schemaOutputDirectory.set(file("src/commonMain/sqldelight/databases"))
         }
     }
     linkSqlite.set(true)

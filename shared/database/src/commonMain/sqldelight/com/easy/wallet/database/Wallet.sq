@@ -1,7 +1,7 @@
 import kotlin.Boolean;
 import kotlinx.datetime.LocalDateTime;
 
-CREATE TABLE hdWalletEntity(
+CREATE TABLE IF NOT EXISTS hdWalletEntity(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     mnemonic TEXT NOT NULL,
     passphrase TEXT NOT NULL DEFAULT '',

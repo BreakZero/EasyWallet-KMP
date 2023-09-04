@@ -16,7 +16,6 @@ class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mainViewModel.initial()
         setContent {
             EWalletTheme {
                 WalletApp(windowSizeClass = calculateWindowSizeClass(activity = this))

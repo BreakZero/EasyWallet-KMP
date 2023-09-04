@@ -17,6 +17,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -27,15 +28,24 @@ import com.easy.wallet.onboard.R
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-internal fun RestoreWalletRoute() {
+internal fun RestoreWalletRoute(
+    onImportSuccess: () -> Unit
+) {
     val viewModel = koinViewModel<RestoreWalletViewModel>()
+    LaunchedEffect(key1 = viewModel) {
+        viewModel.eventChannel.collect {
+            onImportSuccess()
+        }
+    }
     val uiState by viewModel.restoreWalletUiState.collectAsStateWithLifecycle()
-    RestoreWalletScreen(uiState, viewModel::onEvent)
+    val seedPhraseForm = viewModel.seedPhraseForm
+    RestoreWalletScreen(seedPhraseForm, uiState, viewModel::onEvent)
 }
 
 @Composable
 internal fun RestoreWalletScreen(
-    restoreWalletUiState: RestoreWalletUiState,
+    seedPhraseForm: SeedPhraseForm,
+    uiState: RestoreWalletUiState,
     onEvent: (RestoreWalletEvent) -> Unit
 ) {
     Column(
@@ -60,18 +70,19 @@ internal fun RestoreWalletScreen(
                 label = { Text(text = stringResource(R.string.restore_wallet_seed_phrase)) },
                 modifier = Modifier.fillMaxWidth(),
                 keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Text),
-                value = restoreWalletUiState.seed,
+                value = seedPhraseForm.seedPhrase,
+                isError = !uiState.seedPhraseError.isNullOrBlank(),
                 onValueChange = {
                     onEvent(RestoreWalletEvent.SeedChanged(it))
                 }
             )
             TextField(
-                value = restoreWalletUiState.password,
+                value = seedPhraseForm.password,
                 label = {
                     Text(text = stringResource(R.string.restore_wallet_new_password))
                 },
                 keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Password),
-                isError = false,
+                isError = !uiState.passwordError.isNullOrBlank(),
                 onValueChange = {
                     onEvent(RestoreWalletEvent.PasswordChanged(it))
                 },
@@ -81,11 +92,11 @@ internal fun RestoreWalletScreen(
                 modifier = Modifier.fillMaxWidth()
             )
             TextField(
-                value = restoreWalletUiState.confirmPassword,
+                value = seedPhraseForm.confirmPassword,
                 label = {
                     Text(text = stringResource(R.string.restore_wallet_confirm_password))
                 },
-                isError = false,
+                isError = !uiState.confirmPasswordError.isNullOrBlank(),
                 onValueChange = {
                     onEvent(RestoreWalletEvent.ConfirmPasswordChanged(it))
                 },

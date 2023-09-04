@@ -5,7 +5,7 @@ import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
 
 
-internal actual class SharedUserDefaults(private val context: Context) {
+internal actual class SharedUserDefaults(context: Context) {
     companion object {
         private const val FILENAME = "user_default_prefs"
     }

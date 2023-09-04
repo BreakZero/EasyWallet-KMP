@@ -6,9 +6,4 @@ import java.util.UUID
 
 class MainViewModel(
     private val databaseKeyStorage: DatabaseKeyStorage
-) : ViewModel() {
-
-    fun initial() {
-        databaseKeyStorage.init(UUID.randomUUID().toString())
-    }
-}
+) : ViewModel()

@@ -32,7 +32,7 @@ fun WalletNavHost(
             onRestoreWallet = navController::toImportWallet
         )
         createGraph(navController)
-        importWalletScreen()
+        importWalletScreen(navController)
         newsTabScreen()
         marketplaceTabScreen()
         discoverTabScreen()

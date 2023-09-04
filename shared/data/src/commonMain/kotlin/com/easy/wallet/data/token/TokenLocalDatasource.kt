@@ -8,14 +8,14 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
-import migrations.Token
+import com.easy.wallet.database.Token
 
 internal class TokenLocalDatasource(
     sharedDatabase: SharedDatabase,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) {
     private val tokenQueries = sharedDatabase.database.tokenQueries
-    suspend fun loadTokens() = withContext(Dispatchers.IO) {
+    suspend fun loadTokens() = withContext(dispatcher) {
         tokenQueries.findAll().executeAsList()
     }
 

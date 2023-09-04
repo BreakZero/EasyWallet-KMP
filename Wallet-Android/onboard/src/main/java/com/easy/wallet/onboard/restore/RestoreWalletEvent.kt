@@ -7,3 +7,7 @@ sealed interface RestoreWalletEvent {
 
     data object OnImport : RestoreWalletEvent
 }
+
+sealed interface RestoreWalletUiEvent {
+    data object ImportSuccess : RestoreWalletUiEvent
+}

@@ -16,13 +16,14 @@ extension HomeScreen {
         init() {
             let task = Task {
                 let result = try await suspend(TokenWrapper().loadTokens())
+                print("pre count: \(result.count)")
                 let tokens: [DatabaseToken] = result as! [DatabaseToken]
                 print(tokens.count)
                 tokens.forEach {token in
                     print(token.coin_name)
                 }
             }
-            task.cancel()
+//            task.cancel()
         }
     }
 }
