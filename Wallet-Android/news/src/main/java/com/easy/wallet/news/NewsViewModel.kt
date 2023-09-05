@@ -27,7 +27,6 @@ class NewsViewModel(
     val newsUiState = _newsUiState.asStateFlow()
 
     init {
-        println("===== init")
         viewModelScope.launch {
             pageFlow.distinctUntilChanged()
                 .cachedIn(viewModelScope)

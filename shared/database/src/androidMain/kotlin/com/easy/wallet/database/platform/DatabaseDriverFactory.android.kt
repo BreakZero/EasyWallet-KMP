@@ -14,7 +14,6 @@ actual class DatabaseDriverFactory(
     actual fun createDriver(passphraseCheck: (String) -> String): SqlDriver {
         val uuid = UUID.randomUUID().toString()
         val key = passphraseCheck(uuid).ifBlank { uuid }
-        println("==== actual key: $key")
         val supportFactory = SupportFactory(SQLiteDatabase.getBytes(key.toCharArray()))
         return AndroidSqliteDriver(Schema, context, name = "e_wallet.db", factory = supportFactory)
     }
