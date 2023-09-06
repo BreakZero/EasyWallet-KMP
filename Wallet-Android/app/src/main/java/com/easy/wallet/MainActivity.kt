@@ -5,7 +5,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
-import androidx.core.view.WindowCompat
 import com.easy.wallet.design.ui.EWalletTheme
 import com.easy.wallet.ui.WalletApp
 import org.koin.androidx.viewmodel.ext.android.viewModel

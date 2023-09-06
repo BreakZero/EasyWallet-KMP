@@ -5,7 +5,7 @@ Pod::Spec.new do |spec|
     spec.source                   = { :http=> ''}
     spec.authors                  = 'Dougie'
     spec.license                  = ''
-    spec.summary                  = 'Wallet cocoapod submodule'
+    spec.summary                  = 'cocoapod submodule'
     spec.vendored_frameworks      = 'build/cocoapods/framework/model.framework'
     spec.libraries                = 'c++'
     spec.ios.deployment_target = '16.0'

@@ -10,7 +10,7 @@ kotlin {
         }
         getByName("commonMain") {
             dependencies {
-                implementation(libs.coroutine.core)
+                implementation(libs.kotlinx.coroutines.core)
                 implementation(project(":shared:core"))
                 implementation(project(":shared:model"))
             }
