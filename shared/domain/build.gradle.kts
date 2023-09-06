@@ -9,7 +9,7 @@ kotlin {
                 implementation(project(":shared:model"))
                 implementation(project(":shared:core"))
                 implementation(project(":shared:data"))
-                implementation(libs.coroutine.core)
+                implementation(libs.kotlinx.coroutines.core)
             }
         }
     }

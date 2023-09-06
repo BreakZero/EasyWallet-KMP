@@ -1,5 +1,5 @@
 pluginManagement {
-//    includeBuild("build-logic")
+    includeBuild("build-logic")
     repositories {
         google()
         gradlePluginPortal()
@@ -20,6 +20,11 @@ dependencyResolutionManagement {
             }
         }
     }
+//    versionCatalogs {
+//        create("libs") {
+//            from(files("./build-logic/libs.versions.toml"))
+//        }
+//    }
 }
 
 fun tokenProperty(): java.util.Properties {

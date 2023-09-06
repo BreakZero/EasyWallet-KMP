@@ -39,6 +39,9 @@ android {
     defaultConfig {
         applicationId = "com.easy.wallet"
     }
+    compileOptions {
+        isCoreLibraryDesugaringEnabled = true
+    }
 }
 
 fun keyStoreProperties(): Properties {
@@ -54,6 +57,9 @@ fun keyStoreProperties(): Properties {
 }
 
 dependencies {
+    coreLibraryDesugaring(libs.desugar.jdk.libs)
+    implementation(libs.androidx.core.splashscreen)
+    implementation(libs.androidx.compose.material3.window.size)
     implementation(project(":shared:core"))
     implementation(project(":shared:data"))
     implementation(project(":shared:datastore"))

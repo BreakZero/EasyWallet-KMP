@@ -7,7 +7,7 @@ kotlin {
         getByName("commonMain") {
             dependencies {
                 implementation(libs.kotlinx.datetime)
-                implementation(libs.coroutine.core)
+                implementation(libs.kotlinx.coroutines.core)
             }
         }
     }
@@ -17,5 +17,5 @@ android {
     namespace = "com.easy.wallet.core"
 }
 dependencies {
-    implementation(libs.androidx.annotation.jvm)
+
 }
