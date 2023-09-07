@@ -1,12 +1,6 @@
 PODS:
   - data (1.0):
-    - SQLCipher (~> 4.0)
     - TrustWalletCore
-  - SQLCipher (4.5.4):
-    - SQLCipher/standard (= 4.5.4)
-  - SQLCipher/common (4.5.4)
-  - SQLCipher/standard (4.5.4):
-    - SQLCipher/common
   - SwiftProtobuf (1.21.0)
   - TrustWalletCore (3.1.18):
     - TrustWalletCore/Core (= 3.1.18)
@@ -20,7 +14,6 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
-    - SQLCipher
     - SwiftProtobuf
     - TrustWalletCore
 
@@ -29,8 +22,7 @@ EXTERNAL SOURCES:
     :path: "../shared/data"
 
 SPEC CHECKSUMS:
-  data: 7f67cc4772ce9092dad2030866f71217dae7bc4d
-  SQLCipher: 905b145f65f349f26da9e60a19901ad24adcd381
+  data: b77e900b9555fd0263f85c48ce62bb6e288e1acd
   SwiftProtobuf: afced68785854575756db965e9da52bbf3dc45e7
   TrustWalletCore: fabbb38652ab559ee25c864af8836e6481a7e22b
 

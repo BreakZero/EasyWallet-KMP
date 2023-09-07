@@ -8,7 +8,6 @@ kotlin {
     cocoapods {
         dependencies {
             pod("TrustWalletCore", moduleName = "WalletCore")
-            pod("SQLCipher", "~> 4.0")
         }
         framework {
             export(project(":shared:core"))

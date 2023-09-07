@@ -24,9 +24,7 @@ class HomeViewModel(
 ) : ViewModel() {
     init {
         viewModelScope.launch {
-            tokenRepository.loadTokens().forEach {
-                println("===== $it")
-            }
+            tokenRepository.loadTokens()
         }
     }
 
