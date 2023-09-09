@@ -2,11 +2,11 @@ package com.easy.wallet.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.easy.wallet.core.result.Result
 import com.easy.wallet.data.hdwallet.HDWalletInMemory
 import com.easy.wallet.data.multiwallet.MultiWalletRepository
 import com.easy.wallet.data.token.TokenRepository
 import com.easy.wallet.home.component.ActionSheetMenu
-import com.trustwallet.core.CoinType
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -33,21 +33,16 @@ class HomeViewModel(
     )
     internal val guestUiState = _guestUiState.asStateFlow()
 
-    private val _walletUiState = MutableStateFlow(WalletUiState(""))
-    internal val walletUiState = _walletUiState.asStateFlow()
+    internal val walletUiState = tokenRepository.tokenStream().map {
+        WalletUiState(it)
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(3_000), WalletUiState())
 
     internal val hasSetup = multiWalletRepository.forActivatedOne().map {
         it?.let {
             hdWalletInMemory.loadToMemory(it.mnemonic, it.passphrase)
-            val address = kotlin.runCatching {
-                hdWalletInMemory.hdWallet().getAddressForCoin(CoinType.Ethereum)
-            }.getOrElse { "" }
-            _walletUiState.update {
-                it.copy(address = address)
-            }
-            true
-        } ?: false
-    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(3000), true)
+            Result.Success(true)
+        } ?: Result.Success(false)
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(3000), Result.Loading)
 
     private val _uiEventChannel = Channel<HomeUiEvent>()
     internal val uiEvent = _uiEventChannel.receiveAsFlow()

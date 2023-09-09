@@ -16,7 +16,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            EWalletTheme {
+            EWalletTheme(dynamicColor = false) {
                 WalletApp(windowSizeClass = calculateWindowSizeClass(activity = this))
             }
         }

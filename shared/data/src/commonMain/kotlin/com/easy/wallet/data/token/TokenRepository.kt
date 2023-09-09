@@ -1,6 +1,6 @@
 package com.easy.wallet.data.token
 
-import com.easy.wallet.database.Token
+import com.easy.wallet.model.token.Token
 import kotlinx.coroutines.flow.Flow
 
 class TokenRepository internal constructor(
