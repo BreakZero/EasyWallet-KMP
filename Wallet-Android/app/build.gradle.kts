@@ -3,9 +3,8 @@ import java.io.InputStreamReader
 import java.util.Properties
 
 plugins {
-    id("easy.android.application")
-    id("easy.android.application.compose")
-    id("easy.android.application.jacoco")
+    alias(easy.plugins.android.application.compose)
+    alias(easy.plugins.android.application.jacoco)
     id("jacoco")
 }
 
