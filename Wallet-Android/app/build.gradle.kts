@@ -3,9 +3,8 @@ import java.io.InputStreamReader
 import java.util.Properties
 
 plugins {
-    id("easy.android.application")
-    id("easy.android.application.compose")
-    id("easy.android.application.jacoco")
+    alias(easy.plugins.android.application.compose)
+    alias(easy.plugins.android.application.jacoco)
     id("jacoco")
 }
 
@@ -60,6 +59,12 @@ dependencies {
     coreLibraryDesugaring(libs.desugar.jdk.libs)
     implementation(libs.androidx.core.splashscreen)
     implementation(libs.androidx.compose.material3.window.size)
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.compose.viewmodel)
+    implementation(libs.androidx.compose.lifecycle.runtime)
+    implementation(libs.androidx.compose.navigation)
+    implementation(libs.bundles.koin.android.bundle)
+
     implementation(project(":shared:core"))
     implementation(project(":shared:data"))
     implementation(project(":shared:datastore"))

@@ -1,7 +1,5 @@
 plugins {
-    id("easy.android.library")
-    id("easy.android.library.compose")
-    id("easy.android.library.jacoco")
+    alias(easy.plugins.android.feature.koin)
 }
 
 android {

@@ -20,11 +20,11 @@ dependencyResolutionManagement {
             }
         }
     }
-//    versionCatalogs {
-//        create("libs") {
-//            from(files("./build-logic/libs.versions.toml"))
-//        }
-//    }
+    versionCatalogs {
+        create("easy") {
+            from(files("./build-logic/building.versions.toml"))
+        }
+    }
 }
 
 fun tokenProperty(): java.util.Properties {
@@ -42,18 +42,18 @@ fun tokenProperty(): java.util.Properties {
 }
 
 rootProject.name = "E-Wallet"
-include(":Wallet-Android:app")
-include(":Wallet-Android:design-system")
-include(":Wallet-Android:discover")
-include(":Wallet-Android:home")
-include(":Wallet-Android:marketplace")
-
 include(":shared:core")
 include(":shared:database")
 include(":shared:domain")
 include(":shared:model")
 include(":shared:data")
-include(":Wallet-Android:onboard")
 include(":shared:datastore")
+
+include(":Wallet-Android:app")
+include(":Wallet-Android:onboard")
+include(":Wallet-Android:design-system")
+include(":Wallet-Android:discover")
+include(":Wallet-Android:home")
+include(":Wallet-Android:marketplace")
 include(":Wallet-Android:news")
 include(":Wallet-Android:settings")
