@@ -3,9 +3,9 @@ package com.easy.wallet.database
 import app.cash.sqldelight.db.QueryResult
 import app.cash.sqldelight.db.SqlDriver
 import app.cash.sqldelight.db.SqlSchema
+import com.easy.wallet.database.adapters.ChainNetworkAdapter
 import com.easy.wallet.database.adapters.DateTimeAdapter
 import com.easy.wallet.database.adapters.DecimalsAdapter
-import com.easy.wallet.database.adapters.NetworkAdapter
 import com.easy.wallet.database.adapters.TokenTypeAdapter
 import com.easy.wallet.database.platform.DatabaseDriverFactory
 import com.easy.wallet.datastore.DatabaseKeyStorage
@@ -13,56 +13,43 @@ import com.easy.wallet.datastore.DatabaseKeyStorage
 object Schema : SqlSchema<QueryResult.Value<Unit>> by WalletDatabase.Schema {
     override fun create(driver: SqlDriver): QueryResult.Value<Unit> {
         WalletDatabase.Schema.create(driver)
-        driver.execute(
-            null,
-            "INSERT INTO contract(network, address, coin_id) VALUES (\"Ethereum\",\"0x6b175474e89094c44da98b954eedeac495271d0f\", \"dai-erc20\")",
-            0
-        )
-        driver.execute(
-            null,
-            "INSERT INTO contract(network, address, coin_id) VALUES (\"Ethereum\",\"0xc00e94Cb662C3520282E6f5717214004A7f26888\", \"comp-erc20\")",
-            0
-        )
-        driver.execute(
-            null,
-            "INSERT INTO contract(network, address, coin_id) VALUES (\"Ethereum\",\"0x1f9840a85d5af5bf1d1762f925bdaddc4201f984\", \"uni-erc20\")",
-            0
-        )
-        driver.execute(
-            null,
-            "INSERT INTO contract(network, address, coin_id) VALUES (\"Ethereum\",\"0xa0b73e1ff0b80914ab6fe0444e65848c4c34450b\", \"cro-erc20\")",
-            0
-        )
-        driver.execute(
-            null, """
-            |INSERT INTO token(coin_id, coin_name, symbol, decimals, type)
-            |VALUES ("eth-main","Ethereum","ETH",18, "TOKEN")
-            """.trimMargin(), 0
-        )
-        driver.execute(
-            null, """
-            |INSERT INTO token(coin_id, coin_name, symbol, decimals, type)
-            |VALUES ("comp-erc20","Compound","COMP",18, "ERC20")
-            """.trimMargin(), 0
-        )
-        driver.execute(
-            null, """
-            |INSERT INTO token(coin_id, coin_name, symbol, decimals, type)
-            |VALUES ("uni-erc20","Uniswap","UNI",18, "ERC20")
-            """.trimMargin(), 0
-        )
-        driver.execute(
-            null, """
-            |INSERT INTO token(coin_id, coin_name, symbol, decimals, type)
-            |VALUES ("dai-erc20","Dai Stablecoin","DAI",18, "ERC20")
-            """.trimMargin(), 0
-        )
-        driver.execute(
-            null, """
-            |INSERT INTO token(coin_id, coin_name, symbol, decimals, type)
-            |VALUES ("cro-erc20","Cronos","CRO",8, "ERC20")
-            """.trimMargin(), 0
-        )
+        driver.execute(null, """
+            |INSERT OR REPLACE INTO BlockChain(
+            |name, website, explorer, symbol, type, decimals, logo_uri, status
+            |)
+            |VALUES ("Ethereum", "https://ethereum.org/", "https://etherscan.io/", "ETH",
+            |"COIN", 18, "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/info/logo.png", 1)
+            """.trimMargin(), 0)
+        driver.execute(null, """
+            |INSERT OR REPLACE INTO Token(
+            |id, name, symbol, decimals, address, logo_uri, status, type, blockchain_name
+            |)
+            |VALUES ("c60_t0xc00e94Cb662C3520282E6f5717214004A7f26888", "Compound", "COMP", 18, "0xc00e94Cb662C3520282E6f5717214004A7f26888", "https://assets-cdn.trustwallet.com/blockchains/ethereum/assets/0xc00e94Cb662C3520282E6f5717214004A7f26888/logo.png", 1, "ERC20", "Ethereum")
+            """.trimMargin(), 0)
+        driver.execute(null, """
+            |INSERT OR REPLACE INTO Token(
+            |id, name, symbol, decimals, address, logo_uri, status, type, blockchain_name
+            |)
+            |VALUES ("c60_t0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984", "Uniswap", "UNI", 18, "0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984", "https://assets-cdn.trustwallet.com/blockchains/ethereum/assets/0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984/logo.png", 1, "ERC20", "Ethereum")
+            """.trimMargin(), 0)
+        driver.execute(null, """
+            |INSERT OR REPLACE INTO Token(
+            |id, name, symbol, decimals, address, logo_uri, status, type, blockchain_name
+            |)
+            |VALUES ("c60_t0xdAC17F958D2ee523a2206206994597C13D831ec7", "Tether", "USDT", 18, "0xdAC17F958D2ee523a2206206994597C13D831ec7", "https://assets-cdn.trustwallet.com/blockchains/ethereum/assets/0xdAC17F958D2ee523a2206206994597C13D831ec7/logo.png", 1, "ERC20", "Ethereum")
+            """.trimMargin(), 0)
+        driver.execute(null, """
+            |INSERT OR REPLACE INTO Token(
+            |id, name, symbol, decimals, address, logo_uri, status, type, blockchain_name
+            |)
+            |VALUES ("c60_t0x6B175474E89094C44Da98b954EedeAC495271d0F", "Dai", "DAI", 18, "0x6B175474E89094C44Da98b954EedeAC495271d0F", "https://assets-cdn.trustwallet.com/blockchains/ethereum/assets/0x6B175474E89094C44Da98b954EedeAC495271d0F/logo.png", 1, "ERC20", "Ethereum")
+            """.trimMargin(), 0)
+        driver.execute(null, """
+            |INSERT OR REPLACE INTO Token(
+            |id, name, symbol, decimals, address, logo_uri, status, type, blockchain_name
+            |)
+            |VALUES ("c60_t0x6B3595068778DD592e39A122f4f5a5cF09C90fE2", "SUSHI", "SushiSwap", 18, "0x6B3595068778DD592e39A122f4f5a5cF09C90fE2", "https://assets-cdn.trustwallet.com/blockchains/ethereum/assets/0x6B3595068778DD592e39A122f4f5a5cF09C90fE2/logo.png", 1, "ERC20", "Ethereum")
+            """.trimMargin(), 0)
         return QueryResult.Unit
     }
 }
@@ -80,11 +67,14 @@ class SharedDatabase(
         return WalletDatabase(
             driver = this,
             hdWalletEntityAdapter = HdWalletEntity.Adapter(createAtAdapter = DateTimeAdapter()),
-            tokenAdapter = Token.Adapter(
+            BlockChainAdapter = BlockChain.Adapter(
+                typeAdapter = TokenTypeAdapter(),
+                decimalsAdapter = DecimalsAdapter()
+            ),
+            TokenAdapter = Token.Adapter(
                 decimalsAdapter = DecimalsAdapter(),
                 typeAdapter = TokenTypeAdapter()
-            ),
-            contractAdapter = Contract.Adapter(networkAdapter = NetworkAdapter())
+            )
         )
     }
 }

@@ -102,8 +102,12 @@ internal fun UserHomeContent(
                 Text(text = "Receive")
             }
         }
-        LazyColumn(modifier = Modifier.fillMaxSize()) {
-            items(walletUiState.tokens, key = { it.coinId }) {
+        Spacer(modifier = Modifier.height(12.dp))
+        LazyColumn(
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            items(walletUiState.tokens, key = { it.id }) {
                 TokenItemView(token = it)
             }
         }
