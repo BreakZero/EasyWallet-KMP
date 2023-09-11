@@ -1,17 +1,24 @@
-import com.easy.wallet.database.TokenVals.TokenType;
+import com.easy.wallet.model.enums.CoinVals.CoinType;
+import kotlin.Boolean;
 import kotlin.Int;
 
-CREATE TABLE IF NOT EXISTS token(
-    coin_id TEXT NOT NULL PRIMARY KEY,
-    coin_name TEXT NOT NULL,
+CREATE TABLE IF NOT EXISTS Token(
+    id TEXT NOT NULL,
+    name TEXT NOT NULL,
     symbol TEXT NOT NULL,
-    decimals INTEGER AS Int,
-    type TEXT AS TokenType NOT NULL
+    decimals INTEGER AS Int NOT NULL,
+    address TEXT NOT NULL,
+    logo_uri TEXT NOT NULL,
+    status INTEGER AS Boolean NOT NULL,
+    type TEXT AS CoinType NOT NULL,
+    blockchain_name TEXT NOT NULL,
+    FOREIGN KEY (blockchain_name) REFERENCES BlockChain(name) ON DELETE CASCADE,
+    PRIMARY KEY (id, blockchain_name)
 );
 
 findAll:
-SELECT * FROM token;
+SELECT * FROM Token;
 
-upsert:
-INSERT OR REPLACE INTO token(coin_id, coin_name, symbol, decimals, type)
-VALUES (?,?,?,?,?);
+insert:
+INSERT OR REPLACE INTO Token(id, name, symbol, decimals, address, logo_uri, status, type, blockchain_name)
+VALUES (?,?,?,?,?,?,?,?,?);

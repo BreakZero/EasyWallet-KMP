@@ -6,9 +6,5 @@ internal sealed interface HomeEvent {
     data object CloseActionSheet: HomeEvent
     data object OnCreateWallet: HomeEvent
     data object OnRestoreWallet: HomeEvent
-}
-
-internal sealed interface HomeUiEvent {
-    data object OnCreateWallet: HomeUiEvent
-    data object OnRestoreWallet: HomeUiEvent
+    data object ClickSettings: HomeEvent
 }

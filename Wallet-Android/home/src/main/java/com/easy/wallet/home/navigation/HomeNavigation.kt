@@ -14,9 +14,14 @@ fun NavController.selectedHomeTab(navOptions: NavOptions? = null) {
 
 fun NavGraphBuilder.homeScreen(
     onCreateWallet: () -> Unit,
-    onRestoreWallet: () -> Unit
+    onRestoreWallet: () -> Unit,
+    navigateToSettings: () -> Unit
 ) {
     composable(route = homeTabRoute) {
-        HomeRoute(onCreateWallet = onCreateWallet, onRestoreWallet = onRestoreWallet)
+        HomeRoute(
+            onCreateWallet = onCreateWallet,
+            onRestoreWallet = onRestoreWallet,
+            navigateToSettings = navigateToSettings
+        )
     }
 }

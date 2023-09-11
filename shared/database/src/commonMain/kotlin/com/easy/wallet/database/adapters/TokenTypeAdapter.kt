@@ -1,13 +1,13 @@
 package com.easy.wallet.database.adapters
 
 import app.cash.sqldelight.ColumnAdapter
-import com.easy.wallet.database.TokenVals
+import com.easy.wallet.model.enums.CoinVals
 
-class TokenTypeAdapter() : ColumnAdapter<TokenVals.TokenType, String> {
-    override fun encode(value: TokenVals.TokenType): String {
+class TokenTypeAdapter() : ColumnAdapter<CoinVals.CoinType, String> {
+    override fun encode(value: CoinVals.CoinType): String {
         return value.name
     }
-    override fun decode(databaseValue: String): TokenVals.TokenType {
-        return TokenVals.TokenType.valueOf(databaseValue)
+    override fun decode(databaseValue: String): CoinVals.CoinType {
+        return CoinVals.CoinType.valueOf(databaseValue)
     }
 }

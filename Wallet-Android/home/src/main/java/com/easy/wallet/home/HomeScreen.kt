@@ -20,16 +20,19 @@ import org.koin.androidx.compose.koinViewModel
 internal fun HomeRoute(
     viewModel: HomeViewModel = koinViewModel(),
     onCreateWallet: () -> Unit,
-    onRestoreWallet: () -> Unit
+    onRestoreWallet: () -> Unit,
+    navigateToSettings: () -> Unit
 ) {
     val guestUiState by viewModel.guestUiState.collectAsStateWithLifecycle()
     val walletUiState by viewModel.walletUiState.collectAsStateWithLifecycle()
     val hasSetup by viewModel.hasSetup.collectAsStateWithLifecycle()
     LaunchedEffect(key1 = viewModel) {
-        viewModel.uiEvent.collect { uiEvent ->
-            when (uiEvent) {
-                HomeUiEvent.OnCreateWallet -> onCreateWallet()
-                HomeUiEvent.OnRestoreWallet -> onRestoreWallet()
+        viewModel.eventFlow.collect { event ->
+            when (event) {
+                HomeEvent.OnCreateWallet -> onCreateWallet()
+                HomeEvent.OnRestoreWallet -> onRestoreWallet()
+                HomeEvent.ClickSettings -> navigateToSettings()
+                else -> Unit
             }
         }
     }
@@ -40,7 +43,7 @@ internal fun HomeRoute(
         guestUiState = guestUiState,
         walletUiState = walletUiState,
         hasSetup = hasSetup,
-        onEvent = viewModel::handleUiEvent
+        onEvent = viewModel::handleEvent
     )
 }
 
@@ -61,7 +64,11 @@ internal fun HomeScreen(
 
         is Result.Success -> {
             if (hasSetup.data) {
-                UserHomeContent(modifier = modifier, walletUiState = walletUiState)
+                UserHomeContent(
+                    modifier = modifier,
+                    walletUiState = walletUiState,
+                    onEvent = onEvent
+                )
             } else {
                 GuestContent(modifier = modifier, guestUiState = guestUiState, onEvent = onEvent)
             }

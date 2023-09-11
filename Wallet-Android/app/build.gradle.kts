@@ -76,4 +76,5 @@ dependencies {
     implementation(project(":Wallet-Android:onboard"))
     implementation(project(":Wallet-Android:marketplace"))
     implementation(project(":Wallet-Android:discover"))
+    implementation(project(":Wallet-Android:settings"))
 }

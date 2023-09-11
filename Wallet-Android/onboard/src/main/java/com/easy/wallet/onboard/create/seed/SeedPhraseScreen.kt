@@ -40,7 +40,6 @@ import com.easy.wallet.design.component.ThemePreviews
 import com.easy.wallet.design.ui.EWalletTheme
 import com.easy.wallet.onboard.R
 import com.easy.wallet.onboard.create.CreateWalletEvent
-import com.easy.wallet.onboard.create.CreateWalletUiEvent
 import com.easy.wallet.onboard.create.CreateWalletViewModel
 import com.easy.wallet.onboard.create.component.TopBar
 
@@ -50,16 +49,16 @@ internal fun SeedPhraseRoute(
     onCreateSuccess: () -> Unit
 ) {
     LaunchedEffect(key1 = viewModel) {
-        viewModel.uiEvent.collect {
+        viewModel.eventFlow.collect {
             when (it) {
-                is CreateWalletUiEvent.OnCreateSuccess -> onCreateSuccess()
+                is CreateWalletEvent.OnCreateWallet -> onCreateSuccess()
                 else -> Unit
             }
         }
     }
     SeedPhraseScreen(
         seedPhrase = viewModel.seedPhrase,
-        onEvent = viewModel::onEvent
+        onEvent = viewModel::handleEvent
     )
 }
 

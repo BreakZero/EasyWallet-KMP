@@ -1,3 +1,4 @@
+@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     alias(easy.plugins.android.feature.koin)
     alias(easy.plugins.android.library.jacoco)

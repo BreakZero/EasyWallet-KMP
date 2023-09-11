@@ -32,12 +32,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.easy.wallet.design.component.ThemePreviews
 import com.easy.wallet.design.ui.EWalletTheme
+import com.easy.wallet.home.HomeEvent
 import com.easy.wallet.home.WalletUiState
 
 @Composable
 internal fun UserHomeContent(
     modifier: Modifier = Modifier,
-    walletUiState: WalletUiState
+    walletUiState: WalletUiState,
+    onEvent: (HomeEvent) -> Unit
 ) {
     Column(
         modifier = modifier
@@ -53,7 +55,9 @@ internal fun UserHomeContent(
                 modifier = Modifier.padding(vertical = 12.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                IconButton(onClick = { /*TODO*/ }) {
+                IconButton(onClick = {
+                    onEvent(HomeEvent.ClickSettings)
+                }) {
                     Icon(
                         modifier = Modifier
                             .size(48.dp)
@@ -102,8 +106,12 @@ internal fun UserHomeContent(
                 Text(text = "Receive")
             }
         }
-        LazyColumn(modifier = Modifier.fillMaxSize()) {
-            items(walletUiState.tokens, key = { it.coinId }) {
+        Spacer(modifier = Modifier.height(12.dp))
+        LazyColumn(
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            items(walletUiState.tokens, key = { it.id }) {
                 TokenItemView(token = it)
             }
         }
@@ -119,7 +127,7 @@ private fun UserHome_Preview() {
             modifier = Modifier
                 .fillMaxSize()
         ) {
-            UserHomeContent(walletUiState = WalletUiState())
+            UserHomeContent(walletUiState = WalletUiState()) {}
         }
     }
 }

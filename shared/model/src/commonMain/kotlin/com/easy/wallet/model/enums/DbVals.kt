@@ -1,19 +1,19 @@
-package com.easy.wallet.database
+package com.easy.wallet.model.enums
 
-interface TokenVals {
-    enum class TokenType {
-        TOKEN,
+interface CoinVals {
+    enum class CoinType {
+        COIN,
         ERC20
     }
 
-    enum class Network(
+    enum class ChainNetwork(
         val label: String
     ) {
         ETH_MAIN("Ethereum"),
         POLYGON_MAIN("polygon");
 
         companion object {
-            fun from(label: String): Network {
+            fun from(label: String): ChainNetwork {
                 return when (label) {
                     "Ethereum" -> ETH_MAIN
                     "polygon" -> POLYGON_MAIN

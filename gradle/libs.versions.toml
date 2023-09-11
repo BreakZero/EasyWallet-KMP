@@ -27,6 +27,7 @@ sqldelight = "2.0.0"
 coil = "2.4.0"
 koin = "3.4.1"
 ktor = "2.3.3"
+material = "1.9.0"
 
 
 [libraries]
@@ -86,6 +87,7 @@ ktor-serialization-kotlinx-json = { group = "io.ktor", name = "ktor-serializatio
 
 # helper
 desugar_jdk_libs = { module = "com.android.tools:desugar_jdk_libs", version = "2.0.3" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "android-gradle-plugin" }
