@@ -1,6 +1,5 @@
 package com.easy.wallet.onboard.create
 
-
 sealed interface CreateWalletEvent {
     data object Close : CreateWalletEvent
 
@@ -16,11 +15,4 @@ sealed interface CreateWalletEvent {
 
     data object NextToCheckSeed : CreateWalletEvent
     data object OnCreateWallet: CreateWalletEvent
-}
-
-sealed interface CreateWalletUiEvent {
-    data object Close : CreateWalletUiEvent
-    data object NextToSecure : CreateWalletUiEvent
-    data object NextToCheckSeed: CreateWalletUiEvent
-    data object OnCreateSuccess: CreateWalletUiEvent
 }

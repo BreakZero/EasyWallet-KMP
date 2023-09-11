@@ -33,13 +33,13 @@ internal fun RestoreWalletRoute(
 ) {
     val viewModel = koinViewModel<RestoreWalletViewModel>()
     LaunchedEffect(key1 = viewModel) {
-        viewModel.eventChannel.collect {
+        viewModel.eventFlow.collect {
             onImportSuccess()
         }
     }
     val uiState by viewModel.restoreWalletUiState.collectAsStateWithLifecycle()
     val seedPhraseForm = viewModel.seedPhraseForm
-    RestoreWalletScreen(seedPhraseForm, uiState, viewModel::onEvent)
+    RestoreWalletScreen(seedPhraseForm, uiState, viewModel::handleEvent)
 }
 
 @Composable

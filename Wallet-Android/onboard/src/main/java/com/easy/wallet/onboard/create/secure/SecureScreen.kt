@@ -26,7 +26,6 @@ import com.easy.wallet.design.component.ThemePreviews
 import com.easy.wallet.design.ui.EWalletTheme
 import com.easy.wallet.onboard.R
 import com.easy.wallet.onboard.create.CreateWalletEvent
-import com.easy.wallet.onboard.create.CreateWalletUiEvent
 import com.easy.wallet.onboard.create.CreateWalletViewModel
 import com.easy.wallet.onboard.create.component.TopBar
 
@@ -36,14 +35,14 @@ internal fun SecureRoute(
     nextToCheckSeed: () -> Unit
 ) {
     LaunchedEffect(key1 = viewModel) {
-        viewModel.uiEvent.collect {
+        viewModel.eventFlow.collect {
             when (it) {
-                is CreateWalletUiEvent.NextToCheckSeed -> nextToCheckSeed()
+                is CreateWalletEvent.NextToCheckSeed -> nextToCheckSeed()
                 else -> Unit
             }
         }
     }
-    SecureScreen(onEvent = viewModel::onEvent)
+    SecureScreen(onEvent = viewModel::handleEvent)
 }
 
 @Composable

@@ -10,6 +10,7 @@ android {
 
 dependencies {
     implementation(project(":Wallet-Android:design-system"))
+    implementation(project(":Wallet-Android:core"))
     implementation(project(":shared:core"))
     implementation(project(":shared:data"))
     implementation(project(":shared:model"))

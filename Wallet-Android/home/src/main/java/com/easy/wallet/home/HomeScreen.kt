@@ -26,10 +26,11 @@ internal fun HomeRoute(
     val walletUiState by viewModel.walletUiState.collectAsStateWithLifecycle()
     val hasSetup by viewModel.hasSetup.collectAsStateWithLifecycle()
     LaunchedEffect(key1 = viewModel) {
-        viewModel.uiEvent.collect { uiEvent ->
-            when (uiEvent) {
-                HomeUiEvent.OnCreateWallet -> onCreateWallet()
-                HomeUiEvent.OnRestoreWallet -> onRestoreWallet()
+        viewModel.eventFlow.collect { event ->
+            when (event) {
+                HomeEvent.OnCreateWallet -> onCreateWallet()
+                HomeEvent.OnRestoreWallet -> onRestoreWallet()
+                else -> Unit
             }
         }
     }
@@ -40,7 +41,7 @@ internal fun HomeRoute(
         guestUiState = guestUiState,
         walletUiState = walletUiState,
         hasSetup = hasSetup,
-        onEvent = viewModel::handleUiEvent
+        onEvent = viewModel::handleEvent
     )
 }
 

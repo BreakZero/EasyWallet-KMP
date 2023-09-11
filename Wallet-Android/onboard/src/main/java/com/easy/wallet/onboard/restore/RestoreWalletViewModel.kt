@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.easy.wallet.android.core.BaseViewModel
 import com.easy.wallet.data.multiwallet.MultiWalletRepository
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,25 +14,16 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class RestoreWalletViewModel(
+internal class RestoreWalletViewModel(
     private val multiWalletRepository: MultiWalletRepository
-) : ViewModel() {
+) : BaseViewModel<RestoreWalletEvent>() {
     private val _restoreWalletUiState = MutableStateFlow(RestoreWalletUiState())
     internal val restoreWalletUiState = _restoreWalletUiState.asStateFlow()
 
     internal var seedPhraseForm: SeedPhraseForm by mutableStateOf(SeedPhraseForm())
         private set
 
-    private val _eventChannel = Channel<RestoreWalletUiEvent>()
-    val eventChannel = _eventChannel.receiveAsFlow()
-
-    private fun dispatchUiEvent(uiEvent: RestoreWalletUiEvent) {
-        viewModelScope.launch {
-            _eventChannel.send(uiEvent)
-        }
-    }
-
-    fun onEvent(event: RestoreWalletEvent) {
+    override fun handleEvent(event: RestoreWalletEvent) {
         when (event) {
             is RestoreWalletEvent.SeedChanged -> {
                 seedPhraseForm = seedPhraseForm.copy(seedPhrase = event.seed)
@@ -59,7 +51,7 @@ class RestoreWalletViewModel(
                             mnemonic = seedPhraseForm.seedPhrase,
                             passphrase = ""
                         ) {
-                            dispatchUiEvent(RestoreWalletUiEvent.ImportSuccess)
+                            dispatchEvent(event)
                         }
                     }
                 } else {

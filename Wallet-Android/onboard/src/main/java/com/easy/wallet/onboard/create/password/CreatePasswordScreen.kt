@@ -34,7 +34,6 @@ import com.easy.wallet.design.component.ThemePreviews
 import com.easy.wallet.design.ui.EWalletTheme
 import com.easy.wallet.onboard.R
 import com.easy.wallet.onboard.create.CreateWalletEvent
-import com.easy.wallet.onboard.create.CreateWalletUiEvent
 import com.easy.wallet.onboard.create.CreateWalletViewModel
 import com.easy.wallet.onboard.create.PasswordUiState
 import com.easy.wallet.onboard.create.component.TopBar
@@ -47,15 +46,15 @@ internal fun CreatePasswordRoute(
 ) {
     val uiState by viewModel.passwordUiState.collectAsStateWithLifecycle()
     LaunchedEffect(key1 = viewModel) {
-        viewModel.uiEvent.collect {
+        viewModel.eventFlow.collect {
             when (it) {
-                is CreateWalletUiEvent.NextToSecure -> nextToSecure()
-                is CreateWalletUiEvent.Close -> onClose()
+                is CreateWalletEvent.NextToSecure -> nextToSecure()
+                is CreateWalletEvent.Close -> onClose()
                 else -> Unit
             }
         }
     }
-    CreatePasswordScreen(uiState, viewModel::onEvent)
+    CreatePasswordScreen(uiState, viewModel::handleEvent)
 }
 
 @Composable

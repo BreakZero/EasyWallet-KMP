@@ -6,7 +6,7 @@ import com.easy.wallet.data.news.NewsRepository
 import com.easy.wallet.model.news.News
 
 private const val LIMIT = 20
-class NewsPagingSource(
+internal class NewsPagingSource(
     private val newsRepository: NewsRepository
 ) : PagingSource<Int, News>() {
     override fun getRefreshKey(state: PagingState<Int, News>): Int? {

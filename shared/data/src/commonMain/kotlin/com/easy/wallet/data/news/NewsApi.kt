@@ -11,7 +11,7 @@ internal class NewsApi(
     private val client: HttpClient
 ) {
     suspend fun loadNews(limit: Int, offset: Int): List<BlockChairNewDto> {
-        val resp = client.get("news") {
+        val resp = client.get("news?q=language(en)") {
             parameter("limit", limit)
             parameter("offset", offset)
         }.body<BlockChairBaseResponse<List<BlockChairNewDto>>>()
