@@ -12,6 +12,8 @@ import com.easy.wallet.onboard.create.navigation.createGraph
 import com.easy.wallet.onboard.create.navigation.toCreateWallet
 import com.easy.wallet.onboard.restore.navigation.importWalletScreen
 import com.easy.wallet.onboard.restore.navigation.toImportWallet
+import com.easy.wallet.settings.settingsScreen
+import com.easy.wallet.settings.toSettings
 import com.easy.wallet.ui.WalletAppState
 
 @Composable
@@ -29,12 +31,14 @@ fun WalletNavHost(
     ) {
         homeScreen(
             onCreateWallet = navController::toCreateWallet,
-            onRestoreWallet = navController::toImportWallet
+            onRestoreWallet = navController::toImportWallet,
+            navigateToSettings = navController::toSettings
         )
         createGraph(navController)
         importWalletScreen(navController)
         newsTabScreen()
         marketplaceTabScreen()
         discoverTabScreen()
+        settingsScreen()
     }
 }

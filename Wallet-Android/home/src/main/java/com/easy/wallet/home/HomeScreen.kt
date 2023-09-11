@@ -20,7 +20,8 @@ import org.koin.androidx.compose.koinViewModel
 internal fun HomeRoute(
     viewModel: HomeViewModel = koinViewModel(),
     onCreateWallet: () -> Unit,
-    onRestoreWallet: () -> Unit
+    onRestoreWallet: () -> Unit,
+    navigateToSettings: () -> Unit
 ) {
     val guestUiState by viewModel.guestUiState.collectAsStateWithLifecycle()
     val walletUiState by viewModel.walletUiState.collectAsStateWithLifecycle()
@@ -30,6 +31,7 @@ internal fun HomeRoute(
             when (event) {
                 HomeEvent.OnCreateWallet -> onCreateWallet()
                 HomeEvent.OnRestoreWallet -> onRestoreWallet()
+                HomeEvent.ClickSettings -> navigateToSettings()
                 else -> Unit
             }
         }
@@ -62,7 +64,11 @@ internal fun HomeScreen(
 
         is Result.Success -> {
             if (hasSetup.data) {
-                UserHomeContent(modifier = modifier, walletUiState = walletUiState)
+                UserHomeContent(
+                    modifier = modifier,
+                    walletUiState = walletUiState,
+                    onEvent = onEvent
+                )
             } else {
                 GuestContent(modifier = modifier, guestUiState = guestUiState, onEvent = onEvent)
             }

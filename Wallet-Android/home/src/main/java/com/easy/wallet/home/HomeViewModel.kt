@@ -81,6 +81,7 @@ internal class HomeViewModel(
                 }
                 dispatchEvent(event)
             }
+            HomeEvent.ClickSettings -> dispatchEvent(event)
         }
     }
 }
