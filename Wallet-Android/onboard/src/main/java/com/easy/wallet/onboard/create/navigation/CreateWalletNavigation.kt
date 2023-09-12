@@ -34,7 +34,7 @@ fun NavGraphBuilder.createGraph(navController: NavController) {
             CreatePasswordRoute(
                 viewModel = viewModel,
                 nextToSecure = navController::toSecure,
-                onClose = navController::popBackStack
+                onClose = navController::popBackStack,
             )
         }
         composable(route = secureRoute) {

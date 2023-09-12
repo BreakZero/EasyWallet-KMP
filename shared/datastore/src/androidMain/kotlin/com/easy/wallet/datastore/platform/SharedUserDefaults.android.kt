@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
 
-
 internal actual class SharedUserDefaults(context: Context) {
     companion object {
         private const val FILENAME = "user_default_prefs"
@@ -16,7 +15,7 @@ internal actual class SharedUserDefaults(context: Context) {
         masterKeyAlias,
         context,
         EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
-        EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+        EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM,
     )
 
     actual fun getString(key: String): String {

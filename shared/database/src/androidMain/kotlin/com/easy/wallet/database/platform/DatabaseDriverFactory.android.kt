@@ -16,11 +16,16 @@ actual class DatabaseDriverFactory(
         val uuid = UUID.randomUUID().toString()
         val key = passphraseCheck(uuid).ifBlank { uuid }
         val supportFactory = SupportFactory(SQLiteDatabase.getBytes(key.toCharArray()))
-        return AndroidSqliteDriver(Schema, context, name = "e_wallet.db", factory = supportFactory,
+        return AndroidSqliteDriver(
+            Schema,
+            context,
+            name = "e_wallet.db",
+            factory = supportFactory,
             callback = object : AndroidSqliteDriver.Callback(Schema) {
                 override fun onOpen(db: SupportSQLiteDatabase) {
                     db.setForeignKeyConstraintsEnabled(true)
                 }
-            })
+            },
+        )
     }
 }

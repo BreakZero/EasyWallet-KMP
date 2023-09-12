@@ -30,20 +30,20 @@ internal fun SettingsItem(
 ) {
     Card(
         modifier = modifier,
-        onClick = { /*TODO*/ }
+        onClick = { /*TODO*/ },
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 8.dp, horizontal = 12.dp),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             Column(
-                modifier = Modifier.weight(1.0f)
+                modifier = Modifier.weight(1.0f),
             ) {
                 Text(
                     text = title,
-                    style = MaterialTheme.typography.titleLarge
+                    style = MaterialTheme.typography.titleLarge,
                 )
                 Text(text = subtitle)
             }
@@ -60,7 +60,7 @@ private fun SettingsItem_Preview() {
         Surface {
             SettingsItem(
                 title = "General",
-                subtitle = "Currency conversion, primary currency, language and so on"
+                subtitle = "Currency conversion, primary currency, language and so on",
             )
         }
     }

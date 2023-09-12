@@ -14,7 +14,7 @@ class CommonHelper {
         val data = bytes.usePinned {
             NSData.create(
                 bytes = it.addressOf(0),
-                length = bytes.size.toULong()
+                length = bytes.size.toULong(),
             )
         }
         return UIImage(data)

@@ -39,7 +39,7 @@ private const val NUM_OF_LINES = 12
 @Composable
 fun LoadingWheel(
     contentDesc: String,
-    modifier: Modifier = Modifier,
+    modifier: Modifier = Modifier
 ) {
     val infiniteTransition = rememberInfiniteTransition(label = "wheel transition")
 
@@ -55,7 +55,7 @@ fun LoadingWheel(
                         durationMillis = 100,
                         easing = FastOutSlowInEasing,
                         delayMillis = 40 * index,
-                    )
+                    ),
                 )
             }
         }
@@ -118,7 +118,7 @@ fun LoadingWheel(
 @Composable
 fun OverlayLoadingWheel(
     contentDesc: String,
-    modifier: Modifier = Modifier,
+    modifier: Modifier = Modifier
 ) {
     Surface(
         shape = RoundedCornerShape(60.dp),
@@ -128,11 +128,10 @@ fun OverlayLoadingWheel(
             .size(60.dp),
     ) {
         LoadingWheel(
-            contentDesc = contentDesc
+            contentDesc = contentDesc,
         )
     }
 }
-
 
 @ThemePreviews
 @Composable

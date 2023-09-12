@@ -1,4 +1,3 @@
 package com.easy.wallet.data.token
 
-internal class TokenRemoteDatasource {
-}
+internal class TokenRemoteDatasource

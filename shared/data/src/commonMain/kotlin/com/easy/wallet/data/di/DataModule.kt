@@ -48,11 +48,13 @@ val dataModule = module {
                 header("accept", "application/json")
             }
             install(ContentNegotiation) {
-                json(Json {
-                    prettyPrint = true
-                    isLenient = true
-                    ignoreUnknownKeys = true
-                })
+                json(
+                    Json {
+                        prettyPrint = true
+                        isLenient = true
+                        ignoreUnknownKeys = true
+                    },
+                )
             }
             install(Logging) {
                 logger = Logger.SIMPLE
@@ -69,11 +71,13 @@ val dataModule = module {
                 header("X-API-KEY", "")
             }
             install(ContentNegotiation) {
-                json(Json {
-                    prettyPrint = true
-                    isLenient = true
-                    ignoreUnknownKeys = true
-                })
+                json(
+                    Json {
+                        prettyPrint = true
+                        isLenient = true
+                        ignoreUnknownKeys = true
+                    },
+                )
             }
             install(Logging) {
                 logger = Logger.SIMPLE

@@ -33,9 +33,10 @@ class MultiWalletRepository(
                 queries.inActivateById(it.id)
             }
             queries.insertWallet(
-                mnemonic = mnemonic, passphrase = passphrase,
+                mnemonic = mnemonic,
+                passphrase = passphrase,
                 isActivated = true,
-                createAt = Clock.System.now().toLocalDateTime(TimeZone.UTC)
+                createAt = Clock.System.now().toLocalDateTime(TimeZone.UTC),
             )
         }
     }
@@ -47,7 +48,7 @@ class MultiWalletRepository(
                     mnemonic = it.mnemonic,
                     passphrase = it.passphrase,
                     isActivated = it.isActivated ?: false,
-                    createAt = it.createAt
+                    createAt = it.createAt,
                 )
             }
         }

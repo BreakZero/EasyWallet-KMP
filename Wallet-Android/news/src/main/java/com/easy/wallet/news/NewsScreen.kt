@@ -36,7 +36,7 @@ internal fun NewsRoute(
     }
     NewsScreen(
         newsPaging = news,
-        onEvent = viewModel::handleEvent
+        onEvent = viewModel::handleEvent,
     )
 }
 
@@ -49,7 +49,7 @@ internal fun NewsScreen(
         LazyColumn(
             modifier = Modifier.fillMaxSize(),
             contentPadding = PaddingValues(16.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
+            verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
             items(newsPaging.itemCount) { index ->
                 NewItemView(news = newsPaging[index]!!, itemClick = {
@@ -62,7 +62,7 @@ internal fun NewsScreen(
                         item {
                             Box(
                                 modifier = Modifier.fillParentMaxSize(),
-                                contentAlignment = Alignment.Center
+                                contentAlignment = Alignment.Center,
                             ) {
                                 LoadingWheel(contentDesc = "")
                             }
@@ -73,7 +73,7 @@ internal fun NewsScreen(
                         item {
                             Box(
                                 modifier = Modifier.fillParentMaxSize(),
-                                contentAlignment = Alignment.Center
+                                contentAlignment = Alignment.Center,
                             ) {
                                 Button(onClick = { refresh() }) {
                                     Text(text = "tap to refresh...")
@@ -86,7 +86,7 @@ internal fun NewsScreen(
                         item {
                             Box(
                                 modifier = Modifier.fillParentMaxWidth(),
-                                contentAlignment = Alignment.Center
+                                contentAlignment = Alignment.Center,
                             ) {
                                 LoadingWheel(contentDesc = "")
                             }
@@ -97,7 +97,7 @@ internal fun NewsScreen(
                         item {
                             Box(
                                 modifier = Modifier.fillParentMaxWidth(),
-                                contentAlignment = Alignment.Center
+                                contentAlignment = Alignment.Center,
                             ) {
                                 Button(onClick = ::retry) {
                                     Text(text = "load more failed...")

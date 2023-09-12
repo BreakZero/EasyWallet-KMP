@@ -18,7 +18,7 @@ internal fun DiscoverRoute() {
 fun DiscoverScreen() {
     Box(
         modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.Center,
     ) {
         Text(text = "Discover")
     }

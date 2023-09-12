@@ -21,7 +21,6 @@ internal fun validateSeedPhrase(
     var result = ValidationResult()
     if (uiState.seedPhrase.isBlank()) {
         result = result.copy(seedPhraseError = "The seed phrase can't be empty.")
-
     } else if (!Mnemonic.isValid(uiState.seedPhrase)) {
         result = result.copy(seedPhraseError = "The seed phrase is incorrect.")
     }
@@ -44,4 +43,3 @@ internal data class ValidationResult(
     val confirmPasswordError: String? = null,
     val matchError: String? = null
 )
-

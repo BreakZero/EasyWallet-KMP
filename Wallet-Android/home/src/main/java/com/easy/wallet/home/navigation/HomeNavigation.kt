@@ -21,7 +21,7 @@ fun NavGraphBuilder.homeScreen(
         HomeRoute(
             onCreateWallet = onCreateWallet,
             onRestoreWallet = onRestoreWallet,
-            navigateToSettings = navigateToSettings
+            navigateToSettings = navigateToSettings,
         )
     }
 }

@@ -11,3 +11,7 @@ plugins {
     alias(libs.plugins.kotlin.android) apply false
     alias(libs.plugins.kotlin.multiplatform) apply false
 }
+
+subprojects {
+    apply(from = "${rootProject.rootDir}/ktlint.gradle.kts")
+}

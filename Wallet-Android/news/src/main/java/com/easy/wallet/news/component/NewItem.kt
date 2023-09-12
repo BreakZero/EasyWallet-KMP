@@ -24,29 +24,29 @@ internal fun NewItemView(
         modifier = modifier,
         onClick = {
             itemClick(news)
-        }
+        },
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 12.dp, vertical = 16.dp)
+                .padding(horizontal = 12.dp, vertical = 16.dp),
         ) {
             Text(
                 modifier = Modifier.fillMaxWidth(),
                 text = news.title,
-                style = MaterialTheme.typography.titleMedium
+                style = MaterialTheme.typography.titleMedium,
             )
             Text(
                 modifier = Modifier.fillMaxWidth(),
                 text = news.description,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
-                style = MaterialTheme.typography.bodyLarge
+                style = MaterialTheme.typography.bodyLarge,
             )
             Text(
                 text = news.source,
                 modifier = Modifier.fillMaxWidth(),
-                style = MaterialTheme.typography.bodySmall
+                style = MaterialTheme.typography.bodySmall,
             )
         }
     }

@@ -36,12 +36,12 @@ fun DynamicAsyncImage(
         onState = { state ->
             isLoading = state is AsyncImagePainter.State.Loading
             isError = state is AsyncImagePainter.State.Error
-        }
+        },
     )
     val isLocalInspection = LocalInspectionMode.current
     Box(
         modifier = modifier,
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.Center,
     ) {
         if (isLoading && !isLocalInspection) {
             // Display a progress bar while loading
@@ -49,7 +49,7 @@ fun DynamicAsyncImage(
                 modifier = Modifier
                     .align(Alignment.Center)
                     .size(80.dp),
-                color = MaterialTheme.colorScheme.tertiary
+                color = MaterialTheme.colorScheme.tertiary,
             )
         }
         Image(

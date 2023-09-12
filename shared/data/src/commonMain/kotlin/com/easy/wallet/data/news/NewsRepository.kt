@@ -18,5 +18,4 @@ class NewsRepository internal constructor(
     suspend fun loadNews(limit: Int, offset: Int): List<News> {
         return newsApi.loadNews(limit, offset).map(BlockChairNewDto::externalModel)
     }
-
 }

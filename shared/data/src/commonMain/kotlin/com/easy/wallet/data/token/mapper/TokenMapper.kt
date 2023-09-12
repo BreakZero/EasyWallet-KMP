@@ -12,7 +12,7 @@ internal fun BlockChain.toExternalToken(): Token {
         decimals = decimals ?: 0,
         type = type,
         address = "",
-        logoURI = logo_uri
+        logoURI = logo_uri,
     )
 }
 
@@ -24,6 +24,6 @@ internal fun LocalToken.toExternalToken(): Token {
         decimals = decimals,
         type = type,
         logoURI = logo_uri,
-        address = address
+        address = address,
     )
 }

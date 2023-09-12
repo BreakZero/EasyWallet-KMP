@@ -7,7 +7,7 @@ import org.koin.core.component.inject
 import kotlin.experimental.ExperimentalObjCName
 
 @OptIn(ExperimentalObjCName::class)
-class TokenWrapper: KoinComponent {
+class TokenWrapper : KoinComponent {
     private val tokenRepository: TokenRepository by inject()
 
     @ObjCName("loadTokens")

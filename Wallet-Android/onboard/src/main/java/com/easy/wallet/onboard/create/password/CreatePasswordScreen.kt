@@ -65,7 +65,7 @@ internal fun CreatePasswordScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp)
+            .padding(16.dp),
     ) {
         TopBar(
             step = 1,
@@ -76,18 +76,18 @@ internal fun CreatePasswordScreen(
             navigationAction = {
                 // close and remove saved password if it exists
                 onEvent(CreateWalletEvent.Close)
-            }
+            },
         )
         Spacer(modifier = Modifier.height(16.dp))
         Text(
             text = stringResource(id = R.string.create_wallet_create_password),
-            style = MaterialTheme.typography.headlineLarge
+            style = MaterialTheme.typography.headlineLarge,
         )
         Text(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 8.dp),
-            text = stringResource(id = R.string.create_wallet_create_password_desc)
+            text = stringResource(id = R.string.create_wallet_create_password_desc),
         )
         TextField(
             value = uiState.password,
@@ -102,7 +102,7 @@ internal fun CreatePasswordScreen(
             trailingIcon = {
                 Icon(imageVector = Icons.Default.RemoveRedEye, contentDescription = null)
             },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
         )
         Spacer(modifier = Modifier.height(8.dp))
         TextField(
@@ -119,24 +119,24 @@ internal fun CreatePasswordScreen(
                 if (uiState.isMatch()) {
                     Icon(
                         imageVector = Icons.Default.Check,
-                        contentDescription = null
+                        contentDescription = null,
                     )
                 }
             },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
         )
         Spacer(modifier = Modifier.height(8.dp))
         Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(IntrinsicSize.Min),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             Checkbox(
                 checked = uiState.isTermsOfServiceAgreed,
                 onCheckedChange = {
                     onEvent(CreateWalletEvent.OnCheckedTermOfServiceChanged(it))
-                }
+                },
             )
             Spacer(modifier = Modifier.width(12.dp))
             Text(text = stringResource(R.string.create_wallet_create_password_terms))
@@ -145,7 +145,7 @@ internal fun CreatePasswordScreen(
         Button(
             modifier = Modifier.fillMaxWidth(),
             enabled = uiState.isAvailable(),
-            onClick = { onEvent(CreateWalletEvent.NextToSecure) }
+            onClick = { onEvent(CreateWalletEvent.NextToSecure) },
         ) {
             Text(text = stringResource(id = R.string.create_wallet_create_password))
         }
@@ -159,7 +159,7 @@ private fun CreatePassword_Preview() {
         Surface(modifier = Modifier.fillMaxSize()) {
             CreatePasswordScreen(
                 uiState = PasswordUiState(),
-                onEvent = {}
+                onEvent = {},
             )
         }
     }

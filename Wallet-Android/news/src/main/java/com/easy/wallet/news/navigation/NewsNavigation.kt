@@ -21,14 +21,14 @@ fun NavGraphBuilder.newsGraph(navController: NavController) {
     composable(route = newsTabRoute) {
         NewsRoute {
             val encodedUrl = Uri.encode(it)
-            navController.navigate("${newsDetailRoute}/$encodedUrl")
+            navController.navigate("$newsDetailRoute/$encodedUrl")
         }
     }
     composable(
-        route = "${newsDetailRoute}/{url}",
+        route = "$newsDetailRoute/{url}",
         arguments = listOf(
             navArgument("url") { type = NavType.StringType },
-        )
+        ),
     ) { backStackEntry ->
         val url = backStackEntry.arguments?.getString("url").orEmpty()
         NewsDetailScreen(url = Uri.decode(url), popBack = navController::popBackStack)

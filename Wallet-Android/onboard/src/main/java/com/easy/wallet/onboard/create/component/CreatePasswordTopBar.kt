@@ -24,7 +24,7 @@ internal fun TopBar(
         modifier = Modifier
             .fillMaxWidth()
             .height(IntrinsicSize.Min),
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         IconButton(onClick = navigationAction) {
             navigationIcon()
@@ -33,7 +33,7 @@ internal fun TopBar(
             progress = step.toFloat().div(totalStep),
             modifier = Modifier
                 .weight(1.0f)
-                .padding(horizontal = 6.dp)
+                .padding(horizontal = 6.dp),
         )
         Text(text = "$step/$totalStep")
     }

@@ -43,7 +43,7 @@ internal fun HomeRoute(
         guestUiState = guestUiState,
         walletUiState = walletUiState,
         hasSetup = hasSetup,
-        onEvent = viewModel::handleEvent
+        onEvent = viewModel::handleEvent,
     )
 }
 
@@ -67,7 +67,7 @@ internal fun HomeScreen(
                 UserHomeContent(
                     modifier = modifier,
                     walletUiState = walletUiState,
-                    onEvent = onEvent
+                    onEvent = onEvent,
                 )
             } else {
                 GuestContent(modifier = modifier, guestUiState = guestUiState, onEvent = onEvent)
@@ -76,5 +76,4 @@ internal fun HomeScreen(
 
         else -> Unit
     }
-
 }

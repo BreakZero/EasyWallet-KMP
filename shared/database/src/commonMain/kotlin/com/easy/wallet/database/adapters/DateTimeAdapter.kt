@@ -12,5 +12,4 @@ class DateTimeAdapter() : ColumnAdapter<LocalDateTime, Long> {
     override fun encode(value: LocalDateTime): Long {
         return DateTimeDecoder.encodeToLong(value)
     }
-
 }

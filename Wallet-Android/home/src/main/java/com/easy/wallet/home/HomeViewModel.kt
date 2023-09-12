@@ -27,7 +27,7 @@ internal class HomeViewModel(
     }
 
     private val _guestUiState = MutableStateFlow(
-        GuestUiState()
+        GuestUiState(),
     )
     internal val guestUiState = _guestUiState.asStateFlow()
 
@@ -48,7 +48,7 @@ internal class HomeViewModel(
                 _guestUiState.update {
                     it.copy(
                         isActionSheetOpen = true,
-                        actions = listOf(ActionSheetMenu.CREATE_BY_SEED)
+                        actions = listOf(ActionSheetMenu.CREATE_BY_SEED),
                     )
                 }
             }
@@ -57,7 +57,7 @@ internal class HomeViewModel(
                 _guestUiState.update {
                     it.copy(
                         isActionSheetOpen = true,
-                        actions = listOf(ActionSheetMenu.RESTORE_BY_SEED)
+                        actions = listOf(ActionSheetMenu.RESTORE_BY_SEED),
                     )
                 }
             }

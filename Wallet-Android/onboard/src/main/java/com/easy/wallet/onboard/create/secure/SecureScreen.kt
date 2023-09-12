@@ -52,7 +52,7 @@ internal fun SecureScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp)
+            .padding(16.dp),
     ) {
         TopBar(
             step = 2,
@@ -62,12 +62,12 @@ internal fun SecureScreen(
             },
             navigationAction = {
                 // close and remove saved password if it exists
-            }
+            },
         )
         Spacer(modifier = Modifier.height(16.dp))
         Text(
             text = stringResource(id = R.string.create_wallet_secure_your_wallet),
-            style = MaterialTheme.typography.headlineLarge
+            style = MaterialTheme.typography.headlineLarge,
         )
         Spacer(modifier = Modifier.height(48.dp))
         Image(
@@ -75,21 +75,21 @@ internal fun SecureScreen(
                 .fillMaxWidth()
                 .aspectRatio(ratio = 265.0F / 191.0F),
             painter = painterResource(id = R.drawable.ic_secure),
-            contentDescription = null
+            contentDescription = null,
         )
         Spacer(modifier = Modifier.height(48.dp))
         Text(text = stringResource(id = R.string.create_wallet_secure_desc))
         Spacer(modifier = Modifier.weight(1.0f))
         OutlinedButton(
             modifier = Modifier.fillMaxWidth(),
-            onClick = { /*TODO*/ }
+            onClick = { /*TODO*/ },
         ) {
             Text(text = "Remind Me Later")
         }
         Spacer(modifier = Modifier.height(12.dp))
         Button(
             modifier = Modifier.fillMaxWidth(),
-            onClick = { onEvent(CreateWalletEvent.NextToCheckSeed) }
+            onClick = { onEvent(CreateWalletEvent.NextToCheckSeed) },
         ) {
             Text(text = "Start")
         }

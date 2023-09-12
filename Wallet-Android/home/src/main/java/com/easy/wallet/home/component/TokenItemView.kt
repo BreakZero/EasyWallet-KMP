@@ -24,22 +24,23 @@ internal fun TokenItemView(
 ) {
     Card(
         modifier = modifier,
-        onClick = { /*TODO*/ }
+        onClick = { /*TODO*/ },
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(
                     horizontal = 12.dp,
-                    vertical = 8.dp
+                    vertical = 8.dp,
                 ),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             DynamicAsyncImage(
                 modifier = Modifier
                     .size(48.dp)
                     .clip(CircleShape),
-                imageUrl = token.logoURI, contentDescription = token.name
+                imageUrl = token.logoURI,
+                contentDescription = token.name,
             )
             Text(modifier = Modifier.padding(start = 12.dp), text = token.name)
         }

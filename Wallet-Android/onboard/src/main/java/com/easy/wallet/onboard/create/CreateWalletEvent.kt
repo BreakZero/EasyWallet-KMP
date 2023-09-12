@@ -14,5 +14,5 @@ sealed interface CreateWalletEvent {
     // Create Ended
 
     data object NextToCheckSeed : CreateWalletEvent
-    data object OnCreateWallet: CreateWalletEvent
+    data object OnCreateWallet : CreateWalletEvent
 }

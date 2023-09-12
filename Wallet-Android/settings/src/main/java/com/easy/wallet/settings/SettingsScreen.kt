@@ -57,36 +57,36 @@ internal fun SettingsScreen(
                         Icon(imageVector = Icons.Default.ArrowBackIos, contentDescription = "")
                     }
                 },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent)
+                colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent),
             )
-        }
+        },
     ) {
         Column(
             modifier = Modifier
                 .padding(it)
                 .padding(horizontal = 12.dp)
                 .padding(top = 12.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
+            verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
             SettingsItem(
                 title = "General",
-                subtitle = "Currency conversion, primary currency, language and so on"
+                subtitle = "Currency conversion, primary currency, language and so on",
             )
             SettingsItem(
                 title = "General",
-                subtitle = "Currency conversion, primary currency, language and so on"
+                subtitle = "Currency conversion, primary currency, language and so on",
             )
             SettingsItem(
                 title = "General",
-                subtitle = "Currency conversion, primary currency, language and so on"
+                subtitle = "Currency conversion, primary currency, language and so on",
             )
             SettingsItem(
                 title = "General",
-                subtitle = "Currency conversion, primary currency, language and so on"
+                subtitle = "Currency conversion, primary currency, language and so on",
             )
             SettingsItem(
                 title = "General",
-                subtitle = "Currency conversion, primary currency, language and so on"
+                subtitle = "Currency conversion, primary currency, language and so on",
             )
         }
     }

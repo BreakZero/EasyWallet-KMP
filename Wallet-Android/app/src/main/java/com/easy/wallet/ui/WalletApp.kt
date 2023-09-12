@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -53,10 +52,10 @@ fun WalletApp(
                 WalletBottomBar(
                     destinations = appState.topLevelDestinations,
                     onNavigateToDestination = appState::navigateToTopLevelDestination,
-                    currentDestination = appState.currentDestination
+                    currentDestination = appState.currentDestination,
                 )
             }
-        }
+        },
     ) { padding ->
         Row(
             modifier = Modifier
@@ -66,8 +65,8 @@ fun WalletApp(
                 .windowInsetsPadding(
                     WindowInsets.safeDrawing.only(
                         WindowInsetsSides.Horizontal,
-                    )
-                )
+                    ),
+                ),
         ) {
             if (appState.shouldShowNavRail) {
                 // nav rail
@@ -85,7 +84,7 @@ fun WalletApp(
                             actionLabel = action,
                             duration = SnackbarDuration.Short,
                         ) == SnackbarResult.ActionPerformed
-                    }
+                    },
                 )
             }
         }
@@ -97,7 +96,7 @@ private fun WalletBottomBar(
     destinations: List<TopLevelDestination>,
     onNavigateToDestination: (TopLevelDestination) -> Unit,
     currentDestination: NavDestination?,
-    modifier: Modifier = Modifier,
+    modifier: Modifier = Modifier
 ) {
     NavigationBar(
         modifier = modifier,
@@ -110,7 +109,7 @@ private fun WalletBottomBar(
                 icon = {
                     Icon(
                         imageVector = if (selected) destination.selectedIcon else destination.unselectedIcon,
-                        contentDescription = null
+                        contentDescription = null,
                     )
                 },
                 label = { Text(destination.title.asString()) },

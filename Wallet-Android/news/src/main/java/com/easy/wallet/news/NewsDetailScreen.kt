@@ -12,7 +12,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -39,7 +38,7 @@ internal fun NewsDetailScreen(
                         Icon(imageVector = Icons.Default.ArrowBackIos, contentDescription = "")
                     }
                 },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent)
+                colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent),
             )
         },
         modifier = Modifier.fillMaxSize(),
@@ -47,12 +46,12 @@ internal fun NewsDetailScreen(
         val webViewState = rememberWebViewState(url = url)
         val loadingState = webViewState.loadingState
         Column(
-            modifier = Modifier.padding(it)
+            modifier = Modifier.padding(it),
         ) {
             if (loadingState is LoadingState.Loading) {
                 LinearProgressIndicator(
                     progress = loadingState.progress,
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth(),
                 )
             }
             WebView(
@@ -68,7 +67,7 @@ internal fun NewsDetailScreen(
 //                        loadWithOverviewMode = true
                     }
                 },
-                state = webViewState
+                state = webViewState,
             )
         }
     }

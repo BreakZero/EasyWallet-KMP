@@ -23,14 +23,14 @@ internal fun WalletActionSheet(
     onEvent: (HomeEvent) -> Unit
 ) {
     val bottomSheetState = rememberModalBottomSheetState(
-        skipPartiallyExpanded = true
+        skipPartiallyExpanded = true,
     )
     ModalBottomSheet(
         modifier = modifier,
         sheetState = bottomSheetState,
         onDismissRequest = {
             onEvent(HomeEvent.CloseActionSheet)
-        }
+        },
     ) {
         LazyColumn(modifier = Modifier.fillMaxWidth()) {
             items(menus, key = { it.title.toString() }) { menu ->
@@ -42,14 +42,14 @@ internal fun WalletActionSheet(
                 }
             }
             // TODO remove when support more actions
-            item { 
+            item {
                 Spacer(modifier = Modifier.height(16.dp))
             }
             item {
                 Text(
                     modifier = Modifier.fillMaxWidth(),
                     textAlign = TextAlign.Center,
-                    text = "-- more is coming soon --"
+                    text = "-- more is coming soon --",
                 )
             }
         }

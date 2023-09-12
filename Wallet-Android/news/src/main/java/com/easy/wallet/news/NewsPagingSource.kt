@@ -20,7 +20,7 @@ internal class NewsPagingSource(
             LoadResult.Page(
                 data = news,
                 prevKey = if (currentOffset == 0) null else currentOffset - LIMIT,
-                nextKey = if (news.isEmpty()) null else currentOffset + LIMIT
+                nextKey = if (news.isEmpty()) null else currentOffset + LIMIT,
             )
         } catch (e: Exception) {
             LoadResult.Error(e)

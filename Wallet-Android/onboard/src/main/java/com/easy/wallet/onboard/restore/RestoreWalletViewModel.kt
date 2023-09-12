@@ -3,14 +3,11 @@ package com.easy.wallet.onboard.restore
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.easy.wallet.android.core.BaseViewModel
 import com.easy.wallet.data.multiwallet.MultiWalletRepository
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -43,13 +40,13 @@ internal class RestoreWalletViewModel(
                     result.seedPhraseError,
                     result.passwordError,
                     result.confirmPasswordError,
-                    result.matchError
+                    result.matchError,
                 )
                 if (errors.isEmpty()) {
                     viewModelScope.launch {
                         multiWalletRepository.insertOne(
                             mnemonic = seedPhraseForm.seedPhrase,
-                            passphrase = ""
+                            passphrase = "",
                         ) {
                             dispatchEvent(event)
                         }
@@ -60,7 +57,7 @@ internal class RestoreWalletViewModel(
                             seedPhraseError = result.seedPhraseError,
                             passwordError = result.passwordError,
                             confirmPasswordError = result.confirmPasswordError,
-                            matchError = result.matchError
+                            matchError = result.matchError,
                         )
                     }
                 }

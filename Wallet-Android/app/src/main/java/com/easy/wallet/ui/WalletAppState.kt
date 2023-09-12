@@ -32,12 +32,12 @@ fun rememberAppState(
     return remember(
         navController,
         coroutineScope,
-        windowSizeClass
+        windowSizeClass,
     ) {
         WalletAppState(
             navController,
             coroutineScope,
-            windowSizeClass
+            windowSizeClass,
         )
     }
 }
@@ -53,7 +53,7 @@ class WalletAppState(
 
     val shouldShowBottomBar: Boolean
         @Composable get() = !shouldShowNavRail &&
-                (currentTopLevelDestination != null && currentTopLevelDestination in topLevelDestinations)
+            (currentTopLevelDestination != null && currentTopLevelDestination in topLevelDestinations)
 
     val topLevelDestinations: List<TopLevelDestination> = TopLevelDestination.entries
     val currentDestination: NavDestination?
@@ -77,12 +77,11 @@ class WalletAppState(
             restoreState = true
         }
 
-
         when (topLevelDestination) {
             TopLevelDestination.HOME -> navController.selectedHomeTab(topLevelNavOptions)
             TopLevelDestination.NEWS -> navController.selectedNewsTab(topLevelNavOptions)
             TopLevelDestination.MARKETPLACE -> navController.selectedMarketplaceTab(
-                topLevelNavOptions
+                topLevelNavOptions,
             )
 
             TopLevelDestination.DISCOVER -> navController.selectedDiscoverTab(topLevelNavOptions)

@@ -33,48 +33,51 @@ internal fun GuestContent(
     onEvent: (HomeEvent) -> Unit
 ) {
     Column(
-        modifier = modifier
+        modifier = modifier,
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f)
                 .padding(top = 100.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Image(
                 modifier = Modifier.wrapContentSize(),
                 painter = painterResource(id = R.drawable.ic_setup_wallet),
-                contentDescription = null
+                contentDescription = null,
             )
             Spacer(modifier = Modifier.height(48.dp))
             Text(
                 modifier = Modifier.fillMaxWidth(),
                 style = MaterialTheme.typography.headlineMedium,
-                text = "Wallet Setup"
+                text = "Wallet Setup",
             )
             Text(
                 modifier = Modifier.fillMaxWidth(),
                 style = MaterialTheme.typography.bodyLarge,
-                text = "Import an existing wallet \n or create a new one"
+                text = "Import an existing wallet \n or create a new one",
             )
         }
 
         Button(
             modifier = Modifier.fillMaxWidth(),
-            onClick = { onEvent(HomeEvent.ShowCreateWalletSheet) }) {
+            onClick = { onEvent(HomeEvent.ShowCreateWalletSheet) },
+        ) {
             Text(text = stringResource(id = R.string.onboard_create_wallet))
         }
         OutlinedButton(
             modifier = Modifier.fillMaxWidth(),
-            onClick = { onEvent(HomeEvent.ShowRestoreWalletSheet) }) {
+            onClick = { onEvent(HomeEvent.ShowRestoreWalletSheet) },
+        ) {
             Text(text = stringResource(id = R.string.onboard_import_wallet))
         }
     }
     if (guestUiState.isActionSheetOpen) {
         WalletActionSheet(
             modifier = Modifier.fillMaxHeight(0.5f),
-            menus = guestUiState.actions, onEvent = onEvent
+            menus = guestUiState.actions,
+            onEvent = onEvent,
         )
     }
 }
@@ -89,7 +92,7 @@ private fun GuestContent_Preview() {
                     .fillMaxSize()
                     .padding(horizontal = 16.dp),
                 guestUiState = GuestUiState(),
-                onEvent = {}
+                onEvent = {},
             )
         }
     }

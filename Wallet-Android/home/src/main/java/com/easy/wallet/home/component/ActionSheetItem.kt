@@ -34,12 +34,12 @@ internal enum class ActionSheetMenu(
     CREATE_BY_SEED(
         title = UiText.StringResource(resId = R.string.onboard_seed_phrase_title),
         desc = UiText.StringResource(resId = R.string.onboard_seed_phrase_create_desc),
-        trailingIcon = Icons.Default.Wallet
+        trailingIcon = Icons.Default.Wallet,
     ),
     RESTORE_BY_SEED(
         title = UiText.StringResource(resId = R.string.onboard_seed_phrase_title),
         desc = UiText.StringResource(resId = R.string.onboard_seed_phrase_import_desc),
-        trailingIcon = Icons.Default.Wallet
+        trailingIcon = Icons.Default.Wallet,
     )
 }
 
@@ -56,17 +56,17 @@ internal fun ActionSheetItem(
             .clip(CardDefaults.shape)
             .clickable {
                 onClick()
-            }
+            },
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(IntrinsicSize.Min)
                 .padding(horizontal = 12.dp, vertical = 16.dp),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             Column(
-                modifier = Modifier.weight(1.0f)
+                modifier = Modifier.weight(1.0f),
             ) {
                 Text(text = menu.title.asString(), style = MaterialTheme.typography.headlineMedium)
                 Text(text = menu.desc.asString(), style = MaterialTheme.typography.titleMedium)
@@ -75,7 +75,7 @@ internal fun ActionSheetItem(
             Image(
                 modifier = Modifier.size(48.dp),
                 imageVector = menu.trailingIcon,
-                contentDescription = menu.title.asString()
+                contentDescription = menu.title.asString(),
             )
         }
     }

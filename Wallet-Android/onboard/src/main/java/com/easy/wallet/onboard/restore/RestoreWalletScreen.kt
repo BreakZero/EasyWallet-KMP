@@ -52,18 +52,18 @@ internal fun RestoreWalletScreen(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp),
-        verticalArrangement = Arrangement.SpaceBetween
+        verticalArrangement = Arrangement.SpaceBetween,
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .wrapContentHeight()
                 .imePadding(),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
+            verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
             Text(
                 text = stringResource(R.string.restore_wallet_import_from_seed),
-                style = MaterialTheme.typography.headlineLarge
+                style = MaterialTheme.typography.headlineLarge,
             )
 
             TextField(
@@ -74,7 +74,7 @@ internal fun RestoreWalletScreen(
                 isError = !uiState.seedPhraseError.isNullOrBlank(),
                 onValueChange = {
                     onEvent(RestoreWalletEvent.SeedChanged(it))
-                }
+                },
             )
             TextField(
                 value = seedPhraseForm.password,
@@ -89,7 +89,7 @@ internal fun RestoreWalletScreen(
                 trailingIcon = {
                     Icon(imageVector = Icons.Default.RemoveRedEye, contentDescription = null)
                 },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
             )
             TextField(
                 value = seedPhraseForm.confirmPassword,
@@ -104,17 +104,17 @@ internal fun RestoreWalletScreen(
                 trailingIcon = {
                     Icon(
                         imageVector = Icons.Default.Check,
-                        contentDescription = null
+                        contentDescription = null,
                     )
                 },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
             )
         }
         Button(
             modifier = Modifier.fillMaxWidth(),
             onClick = {
                 onEvent(RestoreWalletEvent.OnImport)
-            }
+            },
         ) {
             Text(text = stringResource(R.string.restore_wallet_import))
         }

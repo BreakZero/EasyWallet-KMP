@@ -12,6 +12,6 @@ internal fun BlockChairNewDto.externalModel(): News {
         time = time,
         hash = hash,
         description = description,
-        tags = tags
+        tags = tags,
     )
 }

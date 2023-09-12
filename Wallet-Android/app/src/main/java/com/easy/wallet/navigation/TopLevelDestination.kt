@@ -23,21 +23,21 @@ enum class TopLevelDestination(
     HOME(
         title = UiText.StringResource(resId = R.string.tab_home),
         selectedIcon = Icons.TwoTone.Home,
-        unselectedIcon = Icons.Default.Home
+        unselectedIcon = Icons.Default.Home,
     ),
     NEWS(
         title = UiText.StringResource(resId = R.string.tab_news),
         selectedIcon = Icons.TwoTone.Newspaper,
-        unselectedIcon = Icons.Default.Newspaper
+        unselectedIcon = Icons.Default.Newspaper,
     ),
     MARKETPLACE(
         title = UiText.StringResource(resId = R.string.tab_marketplace),
         selectedIcon = Icons.TwoTone.Store,
-        unselectedIcon = Icons.Default.Store
+        unselectedIcon = Icons.Default.Store,
     ),
     DISCOVER(
         title = UiText.StringResource(resId = R.string.tab_discover),
         selectedIcon = Icons.TwoTone.TravelExplore,
-        unselectedIcon = Icons.Default.TravelExplore
+        unselectedIcon = Icons.Default.TravelExplore,
     )
 }

@@ -20,7 +20,7 @@ internal class NewsViewModel(
         config = PagingConfig(pageSize = Int.MAX_VALUE, prefetchDistance = 2),
         pagingSourceFactory = {
             NewsPagingSource(newsRepository)
-        }
+        },
     ).flow
 
     private val _newsUiState = MutableStateFlow<PagingData<News>>(PagingData.empty())

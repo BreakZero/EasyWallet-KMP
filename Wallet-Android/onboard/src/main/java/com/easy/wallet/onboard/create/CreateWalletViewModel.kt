@@ -57,7 +57,7 @@ class CreateWalletViewModel(
                         viewModelScope.launch {
                             userStorage.putPassword(
                                 dispatcher = Dispatchers.IO,
-                                _passwordUiState.value.password
+                                _passwordUiState.value.password,
                             )
                         }
                         dispatchEvent(event)

@@ -21,18 +21,18 @@ fun WalletNavHost(
     appState: WalletAppState,
     onShowSnackbar: suspend (String, String?) -> Boolean,
     modifier: Modifier = Modifier,
-    startDestination: String = homeTabRoute,
+    startDestination: String = homeTabRoute
 ) {
     val navController = appState.navController
     NavHost(
         modifier = modifier,
         navController = navController,
-        startDestination = startDestination
+        startDestination = startDestination,
     ) {
         homeScreen(
             onCreateWallet = navController::toCreateWallet,
             onRestoreWallet = navController::toImportWallet,
-            navigateToSettings = navController::toSettings
+            navigateToSettings = navController::toSettings,
         )
         createGraph(navController)
         importWalletScreen(navController)

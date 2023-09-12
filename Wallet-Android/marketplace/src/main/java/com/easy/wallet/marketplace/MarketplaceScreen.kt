@@ -15,11 +15,10 @@ internal fun MarketplaceRoute() {
 }
 
 @Composable
-internal fun MarketplaceScreen(
-) {
+internal fun MarketplaceScreen() {
     Box(
         modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.Center,
     ) {
         Text(text = "Marketplace")
     }

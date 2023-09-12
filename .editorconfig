@@ -1,0 +1,18 @@
+# https://editorconfig.org
+root = true
+
+[*]
+end_of_line = lf
+charset = utf-8
+trim_trailing_whitespace = true
+insert_final_newline = true
+
+[*.{kt,kts}]
+ktlint_code_style = ktlint_official
+indent_style = space
+indent_size = 4
+ij_kotlin_allow_trailing_comma = false
+ktlint_standard_final-newline = disabled
+ktlint_standard_no-wildcard-imports = disabled
+ktlint_standard_filename = disabled
+# ktlint_disabled_rules = filename, annotation, annotation-spacing, argument-list-wrapping, double-colon-spacing, enum-entry-name-case, multiline-if-else, no-empty-first-line-in-method-block, package-name, trailing-comma, spacing-around-angle-brackets, spacing-between-declarations-with-annotations, spacing-between-declarations-with-comments, unary-op-spacing, no-wildcard-imports

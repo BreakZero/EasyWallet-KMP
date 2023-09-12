@@ -58,7 +58,7 @@ internal fun SeedPhraseRoute(
     }
     SeedPhraseScreen(
         seedPhrase = viewModel.seedPhrase,
-        onEvent = viewModel::handleEvent
+        onEvent = viewModel::handleEvent,
     )
 }
 
@@ -71,7 +71,7 @@ internal fun SeedPhraseScreen(
         modifier = Modifier
             .fillMaxSize()
             .padding(horizontal = 16.dp)
-            .padding(bottom = 16.dp)
+            .padding(bottom = 16.dp),
     ) {
         var hideSeedWords by remember {
             mutableStateOf(true)
@@ -79,12 +79,11 @@ internal fun SeedPhraseScreen(
         TopBar(step = 3, totalStep = 3, navigationIcon = {
             Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "")
         }) {
-
         }
         Spacer(modifier = Modifier.height(16.dp))
         Text(
             text = stringResource(id = R.string.create_wallet_secure_write_down_seed),
-            style = MaterialTheme.typography.headlineLarge
+            style = MaterialTheme.typography.headlineLarge,
         )
         Spacer(modifier = Modifier.height(48.dp))
         Text(text = stringResource(id = R.string.create_wallet_secure_write_down_seed_desc))
@@ -96,7 +95,7 @@ internal fun SeedPhraseScreen(
                 .wrapContentHeight()
                 .clip(RoundedCornerShape(12.dp))
                 .background(MaterialTheme.colorScheme.onSurface.copy(alpha = 0.2f)),
-            contentAlignment = Alignment.Center
+            contentAlignment = Alignment.Center,
         ) {
             LazyVerticalGrid(
                 modifier = Modifier.fillMaxWidth()
@@ -107,7 +106,7 @@ internal fun SeedPhraseScreen(
                 horizontalArrangement = Arrangement.spacedBy(16.dp),
                 verticalArrangement = Arrangement.spacedBy(12.dp),
                 columns = GridCells.Fixed(3),
-                contentPadding = PaddingValues(12.dp)
+                contentPadding = PaddingValues(12.dp),
             ) {
                 items(seedPhrase.size, key = { it }) { index ->
                     Text(
@@ -117,7 +116,7 @@ internal fun SeedPhraseScreen(
                             .background(MaterialTheme.colorScheme.background)
                             .padding(vertical = 8.dp),
                         text = seedPhrase[index],
-                        textAlign = TextAlign.Center
+                        textAlign = TextAlign.Center,
                     )
                 }
             }
@@ -128,7 +127,7 @@ internal fun SeedPhraseScreen(
                         .clickable {
                             hideSeedWords = false
                         },
-                    horizontalAlignment = Alignment.CenterHorizontally
+                    horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
                     Icon(imageVector = Icons.Default.RemoveRedEye, contentDescription = null)
                     Text(text = "Tap to reveal your seed phrase")
@@ -141,7 +140,7 @@ internal fun SeedPhraseScreen(
             enabled = !hideSeedWords,
             onClick = {
                 onEvent(CreateWalletEvent.OnCreateWallet)
-            }
+            },
         ) {
             Text(text = "Continue")
         }
@@ -157,7 +156,7 @@ private fun SeedScreen_Preview() {
                 (1..12).map {
                     "word-$it"
                 },
-                onEvent = {}
+                onEvent = {},
             )
         }
     }
