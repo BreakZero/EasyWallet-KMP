@@ -10,6 +10,10 @@ plugins {
 }
 
 android {
+    defaultConfig {
+        versionCode = 1000000
+        versionName = "v1.0.0"
+    }
     namespace = "com.easy.wallet"
     val keyProperties = keyStoreProperties()
     signingConfigs {

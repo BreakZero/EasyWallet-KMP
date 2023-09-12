@@ -27,8 +27,10 @@ jobs:
           mkdir keystore
           cd . > keystore/keystore.properties
           cd . > keystore/keystore.jks
+          cd . > github_token.properties
           echo ${{ secrets.SIGNING_STORE_PROPERTIES }} | base64 --decode > keystore/keystore.properties
           echo ${{ secrets.SIGNING_KEY_STORE_BASE64 }} | base64 --decode > keystore/keystore.jks
+          echo ${{ secrets.MAVEN_TOKEN }} | base64 --decode > github_token.properties
 
       - name: Generate cache key
         run: ./scripts/checksum.sh . checksum.txt
@@ -49,10 +51,10 @@ jobs:
           java-version: "17"
 
       - name: Build Release apk
-        run: ./gradlew assembleRelease
+        run: ./gradlew Wallet-Android:app:assembleProdRelease
 
       - name: Build Release bundle
-        run: ./gradlew bundleRelease
+        run: ./gradlew Wallet-Android:app:bundleProdRelease
 
       - name: Create Github Release
         uses: softprops/action-gh-release@v1
@@ -60,6 +62,5 @@ jobs:
           generate_release_notes: true
           prerelease: true
           files: |
-            ./TODOList-Android/build/outputs/apk/prod/release/TODOList-Android-prod-release.apk
-            ./TODOList-Android/build/outputs/bundle/prodRelease/TODOList-Android-prod-release.aab
-            ./TODOList-Android/build/outputs/bundle/stagingRelease/TODOList-Android-staging-release.aab
+            Wallet-Android/app/build/outputs/apk/prod/release/app-prod-release.apk
+            Wallet-Android/app/build/outputs/bundle/prodRelease/app-prod-release.aab
