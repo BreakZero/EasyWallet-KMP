@@ -8,10 +8,11 @@ import com.easy.wallet.home.di.homeModule
 import com.easy.wallet.marketplace.di.marketModule
 import com.easy.wallet.news.di.newsModule
 import com.easy.wallet.onboard.di.onboardModule
+import com.easy.wallet.settings.di.settingsModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
-class WalletApplication: Application() {
+class WalletApplication : Application() {
     init {
         System.loadLibrary("TrustWalletCore")
     }
@@ -27,6 +28,7 @@ class WalletApplication: Application() {
             modules(onboardModule)
             modules(dataModule)
             modules(marketModule)
+            modules(settingsModule)
         }
     }
 }

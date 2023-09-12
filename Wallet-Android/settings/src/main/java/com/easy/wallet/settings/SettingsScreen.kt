@@ -16,21 +16,35 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.easy.wallet.design.component.ThemePreviews
 import com.easy.wallet.design.ui.EWalletTheme
 import com.easy.wallet.settings.component.SettingsItem
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
-internal fun SettingsRoute() {
-    SettingsScreen()
+internal fun SettingsRoute(
+    popBack: () -> Unit
+) {
+    val viewModel: SettingsViewModel = koinViewModel()
+    LaunchedEffect(key1 = viewModel) {
+        viewModel.eventFlow.collect {
+            when (it) {
+                SettingsEvent.PopBack -> popBack()
+            }
+        }
+    }
+    SettingsScreen(onEvent = viewModel::handleEvent)
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun SettingsScreen() {
+internal fun SettingsScreen(
+    onEvent: (SettingsEvent) -> Unit
+) {
     Scaffold(
         containerColor = Color.Transparent,
         contentColor = MaterialTheme.colorScheme.onBackground,
@@ -39,7 +53,7 @@ internal fun SettingsScreen() {
             TopAppBar(
                 title = { Text(text = "Settings") },
                 navigationIcon = {
-                    IconButton(onClick = { /*TODO*/ }) {
+                    IconButton(onClick = { onEvent(SettingsEvent.PopBack) }) {
                         Icon(imageVector = Icons.Default.ArrowBackIos, contentDescription = "")
                     }
                 },
@@ -83,7 +97,7 @@ internal fun SettingsScreen() {
 private fun Settings_Preview() {
     EWalletTheme {
         Surface(modifier = Modifier.fillMaxSize()) {
-            SettingsScreen()
+            SettingsScreen {}
         }
     }
 }

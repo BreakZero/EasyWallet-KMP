@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
 
 internal class NewsViewModel(
     newsRepository: NewsRepository
-): BaseViewModel<NewsEvent>() {
+) : BaseViewModel<NewsEvent>() {
     private val pageFlow = Pager(
         config = PagingConfig(pageSize = Int.MAX_VALUE, prefetchDistance = 2),
         pagingSourceFactory = {
@@ -27,7 +27,10 @@ internal class NewsViewModel(
     val newsUiState = _newsUiState.asStateFlow()
 
     override fun handleEvent(event: NewsEvent) {
-        TODO("Not yet implemented")
+        when (event) {
+            is NewsEvent.ClickItem -> dispatchEvent(event)
+            NewsEvent.CloseNews -> Unit
+        }
     }
 
     init {

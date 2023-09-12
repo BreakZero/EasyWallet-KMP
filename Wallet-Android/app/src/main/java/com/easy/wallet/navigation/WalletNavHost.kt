@@ -7,13 +7,13 @@ import com.easy.wallet.discover.navigation.discoverTabScreen
 import com.easy.wallet.home.navigation.homeScreen
 import com.easy.wallet.home.navigation.homeTabRoute
 import com.easy.wallet.marketplace.navigation.marketplaceTabScreen
-import com.easy.wallet.news.navigation.newsTabScreen
+import com.easy.wallet.news.navigation.newsGraph
 import com.easy.wallet.onboard.create.navigation.createGraph
 import com.easy.wallet.onboard.create.navigation.toCreateWallet
 import com.easy.wallet.onboard.restore.navigation.importWalletScreen
 import com.easy.wallet.onboard.restore.navigation.toImportWallet
-import com.easy.wallet.settings.settingsScreen
-import com.easy.wallet.settings.toSettings
+import com.easy.wallet.settings.navigation.settingsGraph
+import com.easy.wallet.settings.navigation.toSettings
 import com.easy.wallet.ui.WalletAppState
 
 @Composable
@@ -36,9 +36,9 @@ fun WalletNavHost(
         )
         createGraph(navController)
         importWalletScreen(navController)
-        newsTabScreen()
+        newsGraph(navController)
         marketplaceTabScreen()
         discoverTabScreen()
-        settingsScreen()
+        settingsGraph(popBack = navController::popBackStack)
     }
 }

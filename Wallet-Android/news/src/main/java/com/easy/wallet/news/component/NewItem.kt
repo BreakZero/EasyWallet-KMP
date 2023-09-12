@@ -17,11 +17,14 @@ import com.easy.wallet.model.news.News
 @Composable
 internal fun NewItemView(
     modifier: Modifier = Modifier,
-    news: News
+    news: News,
+    itemClick: (News) -> Unit
 ) {
     Card(
         modifier = modifier,
-        onClick = {}
+        onClick = {
+            itemClick(news)
+        }
     ) {
         Column(
             modifier = Modifier
