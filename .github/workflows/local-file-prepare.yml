@@ -9,14 +9,17 @@ jobs:
       - name: Check out
         uses: actions/checkout@v3
         with:
+          submodules: 'true'
           fetch-depth: 0
       - name: Decode & Store Keystore
         run: |
           mkdir keystore
           cd . > keystore/keystore.properties
           cd . > keystore/keystore.jks
+          cd . > github_token.properties
           echo ${{ secrets.SIGNING_STORE_PROPERTIES }} | base64 --decode > keystore/keystore.properties
           echo ${{ secrets.SIGNING_KEY_STORE_BASE64 }} | base64 --decode > keystore/keystore.jks
+          echo ${{ secrets.MAVEN_TOKEN }} | base64 --decode > github_token.properties
 
       - name: Generate cache key
         run: ./scripts/checksum.sh . checksum.txt

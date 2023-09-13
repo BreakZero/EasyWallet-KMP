@@ -80,10 +80,7 @@ class WalletAppState(
         when (topLevelDestination) {
             TopLevelDestination.HOME -> navController.selectedHomeTab(topLevelNavOptions)
             TopLevelDestination.NEWS -> navController.selectedNewsTab(topLevelNavOptions)
-            TopLevelDestination.MARKETPLACE -> navController.selectedMarketplaceTab(
-                topLevelNavOptions,
-            )
-
+            TopLevelDestination.MARKETPLACE -> navController.selectedMarketplaceTab(topLevelNavOptions)
             TopLevelDestination.DISCOVER -> navController.selectedDiscoverTab(topLevelNavOptions)
         }
     }
