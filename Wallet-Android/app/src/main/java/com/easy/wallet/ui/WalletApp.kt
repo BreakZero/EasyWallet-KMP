@@ -52,7 +52,7 @@ fun WalletApp(
                 WalletBottomBar(
                     destinations = appState.topLevelDestinations,
                     onNavigateToDestination = appState::navigateToTopLevelDestination,
-                    currentDestination = appState.currentDestination,
+                    currentDestination = appState.currentDestination
                 )
             }
         },

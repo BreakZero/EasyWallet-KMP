@@ -8,7 +8,7 @@ permissions:
   contents: write
 jobs:
   import-keystore:
-    uses: BreakZero/TODO-LIST-KMM/.github/workflows/local-file-prepare.yml@main
+    uses: ./.github/workflows/local-file-prepare.yml
 
   release_build:
     runs-on: macos-latest
