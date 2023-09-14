@@ -3,7 +3,7 @@ package com.easy.wallet.home
 import androidx.lifecycle.viewModelScope
 import com.easy.wallet.android.core.BaseViewModel
 import com.easy.wallet.core.result.Result
-import com.easy.wallet.data.hdwallet.HDWalletInMemory
+import com.easy.wallet.data.global.HDWalletInstant
 import com.easy.wallet.data.multiwallet.MultiWalletRepository
 import com.easy.wallet.data.token.TokenRepository
 import com.easy.wallet.home.component.ActionSheetMenu
@@ -18,7 +18,7 @@ import kotlinx.coroutines.launch
 internal class HomeViewModel(
     multiWalletRepository: MultiWalletRepository,
     private val tokenRepository: TokenRepository,
-    private val hdWalletInMemory: HDWalletInMemory
+    private val hdWalletInstant: HDWalletInstant
 ) : BaseViewModel<HomeEvent>() {
     init {
         viewModelScope.launch {
@@ -37,7 +37,7 @@ internal class HomeViewModel(
 
     internal val hasSetup = multiWalletRepository.forActivatedOne().map {
         it?.let {
-            hdWalletInMemory.loadToMemory(it.mnemonic, it.passphrase)
+//            hdWalletInMemory.loadToMemory(it.mnemonic, it.passphrase)
             Result.Success(true)
         } ?: Result.Success(false)
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(3000), Result.Loading)

@@ -2,7 +2,7 @@
 
 echo "kotlin lint checking..."
 
-#./gradlew ktlintCheck --no-configuration-cache --stacktrace
+./gradlew ktlintCheck --no-configuration-cache --stacktrace
 
 status=$?
 

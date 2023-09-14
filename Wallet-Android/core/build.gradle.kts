@@ -7,3 +7,7 @@ plugins {
 android {
     namespace = "com.easy.wallet.android.core"
 }
+
+dependencies {
+    implementation(libs.androidx.core.ktx)
+}

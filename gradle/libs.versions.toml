@@ -3,6 +3,9 @@ androidx-core-splashscreen = "1.0.1"
 androidx-core-ktx = "1.10.1"
 androidx-appcompat = "1.6.1"
 androidx-paging = "3.2.0"
+androidxTracing = "1.1.0"
+androidxWindowManager = "1.1.0"
+androidxWork = "2.9.0-beta01"
 
 compose-bom = "2023.08.00"
 compose-compiler = "1.5.3"
@@ -37,8 +40,16 @@ androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version
 androidx-paging = { group = "androidx.paging", name = "paging-runtime", version.ref = "androidx-paging" }
 androidx-paging-compose = { group = "androidx.paging", name = "paging-compose", version.ref = "androidx-paging" }
 
+androidx-tracing-ktx = { group = "androidx.tracing", name = "tracing-ktx", version.ref = "androidxTracing" }
+androidx-window-manager = { module = "androidx.window:window", version.ref = "androidxWindowManager" }
+androidx-work-ktx = { group = "androidx.work", name = "work-runtime-ktx", version.ref = "androidxWork" }
+androidx-work-testing = { group = "androidx.work", name = "work-testing", version.ref = "androidxWork" }
+
 androidx-compose-activity = { module = "androidx.activity:activity-compose", version.ref = "compose-activity" }
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "compose-bom" }
+androidx-compose-animation = { module = "androidx.compose.animation:animation" }
+androidx-compose-animation-core = { module = "androidx.compose.animation:animation-core" }
+androidx-compose-animation-graphics = { module = "androidx.compose.animation:animation-graphics" }
 androidx-compose-ui = { group = "androidx.compose.ui", name = "ui" }
 androidx-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }

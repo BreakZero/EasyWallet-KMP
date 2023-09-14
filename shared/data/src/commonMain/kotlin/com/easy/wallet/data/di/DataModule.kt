@@ -1,6 +1,6 @@
 package com.easy.wallet.data.di
 
-import com.easy.wallet.data.hdwallet.HDWalletInMemory
+import com.easy.wallet.data.global.HDWalletInstant
 import com.easy.wallet.data.multiwallet.MultiWalletRepository
 import com.easy.wallet.data.news.NewsApi
 import com.easy.wallet.data.news.NewsRepository
@@ -36,7 +36,6 @@ val dataModule = module {
 
     singleOf(::UserPasswordStorage)
     singleOf(::DatabaseKeyStorage)
-    singleOf(::HDWalletInMemory)
     single {
         MultiWalletRepository(get())
     }
@@ -99,4 +98,5 @@ val dataModule = module {
         TokenLocalDatasource(get())
     }
     singleOf(::TokenRepository)
+    singleOf(::HDWalletInstant)
 }
