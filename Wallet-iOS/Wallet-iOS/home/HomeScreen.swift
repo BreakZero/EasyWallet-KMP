@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import data
 
 struct HomeScreen: View {
     @ObservedObject private var viewModel = HomeViewModel()
@@ -15,6 +16,8 @@ struct HomeScreen: View {
             List(viewModel.tokens, id: \.self.id) { token in
                 Text(token.name)
             }
+        }.onDisappear {
+            viewModel.onCleared()
         }
     }
 }
