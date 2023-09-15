@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS BlockChain (
 
 insert:
 INSERT OR REPLACE INTO BlockChain(name, website, explorer, symbol, type, decimals, logo_uri, status)
-VALUES(?,?,?,?,?,?,?,?);
+VALUES ?;
 
 selectByName:
 SELECT * FROM BlockChain

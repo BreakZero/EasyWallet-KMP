@@ -7,23 +7,36 @@
 //
 
 import Foundation
+import Combine
 import data
 
 extension HomeScreen {
     @MainActor final class HomeViewModel: ObservableObject {
-        @Published private(set) var existAccount: Bool = false
+        private let tokenWrapper = TokenWrapper()
+        private var disposables = Set<AnyCancellable>()
+        
+        @Published private(set) var tokens:[ModelToken] = []
         
         init() {
-            let task = Task {
-                let result = try await suspend(TokenWrapper().loadTokens())
-                print("pre count: \(result.count)")
-                let tokens: [DatabaseToken] = result as! [DatabaseToken]
-                print(tokens.count)
-                tokens.forEach {token in
-                    print(token.coin_name)
+            createPublisher(wrapper: tokenWrapper.tokensStream())
+                .sink(receiveCompletion: { completion in switch completion {
+                case .finished:
+                    print("Completed with success")
+                    break
+                case let .failure(throwable):
+                    print("Completed with failure: \(throwable)")
+                    break
                 }
+                    
+                }, receiveValue: { tokens in
+                    self.tokens = tokens as! [ModelToken]
+                }).store(in: &disposables)
+        }
+        
+        func onCleared() {
+            disposables.forEach { disposable in
+                disposable.cancel()
             }
-//            task.cancel()
         }
     }
 }

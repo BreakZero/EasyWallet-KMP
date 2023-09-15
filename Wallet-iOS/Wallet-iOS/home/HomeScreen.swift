@@ -7,14 +7,21 @@
 //
 
 import SwiftUI
+import data
 
 struct HomeScreen: View {
     @ObservedObject private var viewModel = HomeViewModel()
     var body: some View {
-        Text("Home")
+        VStack {
+            List(viewModel.tokens, id: \.self.id) { token in
+                TokenItemView(token: token)
+            }
+        }.onDisappear {
+            viewModel.onCleared()
+        }
     }
 }
 
 #Preview {
-    HomeScreen()
+    Text("HELLO ")
 }

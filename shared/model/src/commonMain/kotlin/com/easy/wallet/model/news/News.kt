@@ -1,5 +1,8 @@
 package com.easy.wallet.model.news
 
+import kotlin.experimental.ExperimentalObjCName
+import kotlin.native.ObjCName
+
 /**
  * "title": "Binance's Asia-Pacific Head Departs Amidst Market Share Decline and Regulatory Pressures",
  * "source": "cryptonews.com",
@@ -14,6 +17,8 @@ package com.easy.wallet.model.news
  * "file": "binances-asiapacific-head-departs-amidst-market-share-decline-and-regulatory-pressures",
  * "permalink": "https://blockchair.com/news/binances-asiapacific-head-departs-amidst-market-share-decline-and-regulatory-pressures--0063723b0b"
  */
+@OptIn(ExperimentalObjCName::class)
+@ObjCName("News")
 data class News(
     val title: String,
     val source: String,

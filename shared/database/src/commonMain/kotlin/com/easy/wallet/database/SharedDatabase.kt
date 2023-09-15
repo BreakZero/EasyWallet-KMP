@@ -77,7 +77,7 @@ object Schema : SqlSchema<QueryResult.Value<Unit>> by WalletDatabase.Schema {
     }
 }
 
-class SharedDatabase(
+class SharedDatabase internal constructor(
     databaseKeyStorage: DatabaseKeyStorage,
     factory: DatabaseDriverFactory
 ) {
@@ -97,7 +97,7 @@ class SharedDatabase(
             TokenAdapter = Token.Adapter(
                 decimalsAdapter = DecimalsAdapter(),
                 typeAdapter = TokenTypeAdapter(),
-            ),
+            )
         )
     }
 }

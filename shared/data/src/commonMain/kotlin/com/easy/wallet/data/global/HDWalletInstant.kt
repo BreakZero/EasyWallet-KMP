@@ -1,10 +1,10 @@
-package com.easy.wallet.data.hdwallet
+package com.easy.wallet.data.global
 
 import com.trustwallet.core.HDWallet
 import kotlinx.atomicfu.locks.SynchronizedObject
 import kotlinx.atomicfu.locks.synchronized
 
-class HDWalletInMemory : SynchronizedObject() {
+class HDWalletInstant internal constructor() : SynchronizedObject() {
     private var hdWallet: HDWallet? = null
 
     fun loadToMemory(
@@ -19,8 +19,9 @@ class HDWalletInMemory : SynchronizedObject() {
     /**
      * when using this function, please add check exception
      */
-    fun hdWallet(): HDWallet = synchronized(this) {
+    fun hdWallet() = synchronized(this) {
         checkNotNull(hdWallet)
+        ""
     }
 
     fun reset() {

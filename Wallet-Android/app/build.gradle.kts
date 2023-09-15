@@ -11,6 +11,7 @@ plugins {
 
 android {
     defaultConfig {
+        applicationId = "com.easy.wallet"
         versionCode = 1000000
         versionName = "v1.0.0"
     }
@@ -39,9 +40,6 @@ android {
         resources {
             excludes.add("META-INF/versions/9/previous-compilation-data.bin")
         }
-    }
-    defaultConfig {
-        applicationId = "com.easy.wallet"
     }
     compileOptions {
         isCoreLibraryDesugaringEnabled = true

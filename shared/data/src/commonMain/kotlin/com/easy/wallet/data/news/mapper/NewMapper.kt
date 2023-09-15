@@ -1,6 +1,6 @@
-package com.easy.wallet.data.news.model.mapper
+package com.easy.wallet.data.news.mapper
 
-import com.easy.wallet.data.news.model.BlockChairNewDto
+import com.easy.wallet.data.source.blockchair.model.BlockChairNewDto
 import com.easy.wallet.model.news.News
 
 internal fun BlockChairNewDto.externalModel(): News {
