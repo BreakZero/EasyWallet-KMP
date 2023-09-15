@@ -5,7 +5,7 @@ import com.easy.wallet.android.core.BaseViewModel
 import com.easy.wallet.core.result.Result
 import com.easy.wallet.data.global.HDWalletInstant
 import com.easy.wallet.data.multiwallet.MultiWalletRepository
-import com.easy.wallet.data.token.TokenRepository
+import com.easy.wallet.data.usecase.DashboardUseCase
 import com.easy.wallet.home.component.ActionSheetMenu
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -16,7 +16,7 @@ import kotlinx.coroutines.flow.update
 
 internal class HomeViewModel(
     multiWalletRepository: MultiWalletRepository,
-    private val tokenRepository: TokenRepository,
+    private val dashboardUseCase: DashboardUseCase,
     private val hdWalletInstant: HDWalletInstant
 ) : BaseViewModel<HomeEvent>() {
 
@@ -25,7 +25,7 @@ internal class HomeViewModel(
     )
     internal val guestUiState = _guestUiState.asStateFlow()
 
-    internal val walletUiState = tokenRepository.tokensStream().map {
+    internal val walletUiState = dashboardUseCase().map {
         WalletUiState(it)
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(3_000), WalletUiState())
 

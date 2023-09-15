@@ -15,6 +15,7 @@
 		3C75652E2A973FC90032A653 /* MarketplaceScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C75652D2A973FC90032A653 /* MarketplaceScreen.swift */; };
 		3C7565302A973FDF0032A653 /* DiscoverScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C75652F2A973FDF0032A653 /* DiscoverScreen.swift */; };
 		3CB6A4D12AB40F8A00861D13 /* FlowWrapperHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CB6A4D02AB40F8A00861D13 /* FlowWrapperHelper.swift */; };
+		3CB6A4D42AB44EA500861D13 /* TokenItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CB6A4D32AB44EA500861D13 /* TokenItemView.swift */; };
 		3CC032F22AA44C7C0023A60A /* SuspendWrapperHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CC032F12AA44C7C0023A60A /* SuspendWrapperHelper.swift */; };
 		7555FF83242A565900829871 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7555FF82242A565900829871 /* ContentView.swift */; };
 		7AD2AF90D402E4E225A0BC88 /* Pods_Wallet_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 010E03C3B43D8120F7621271 /* Pods_Wallet_iOS.framework */; };
@@ -31,6 +32,7 @@
 		3C75652D2A973FC90032A653 /* MarketplaceScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketplaceScreen.swift; sourceTree = "<group>"; };
 		3C75652F2A973FDF0032A653 /* DiscoverScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverScreen.swift; sourceTree = "<group>"; };
 		3CB6A4D02AB40F8A00861D13 /* FlowWrapperHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowWrapperHelper.swift; sourceTree = "<group>"; };
+		3CB6A4D32AB44EA500861D13 /* TokenItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenItemView.swift; sourceTree = "<group>"; };
 		3CC032F12AA44C7C0023A60A /* SuspendWrapperHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuspendWrapperHelper.swift; sourceTree = "<group>"; };
 		7555FF7B242A565900829871 /* Wallet-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Wallet-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7555FF82242A565900829871 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -61,6 +63,7 @@
 		3C7565242A973C9C0032A653 /* home */ = {
 			isa = PBXGroup;
 			children = (
+				3CB6A4D22AB44E7F00861D13 /* component */,
 				3C7565272A973CC80032A653 /* HomeScreen.swift */,
 				3C7565292A973CDC0032A653 /* HomeViewModel.swift */,
 			);
@@ -81,6 +84,14 @@
 				3C75652F2A973FDF0032A653 /* DiscoverScreen.swift */,
 			);
 			path = discover;
+			sourceTree = "<group>";
+		};
+		3CB6A4D22AB44E7F00861D13 /* component */ = {
+			isa = PBXGroup;
+			children = (
+				3CB6A4D32AB44EA500861D13 /* TokenItemView.swift */,
+			);
+			path = component;
 			sourceTree = "<group>";
 		};
 		3CC032F02AA44C650023A60A /* helper */ = {
@@ -261,6 +272,7 @@
 				7555FF83242A565900829871 /* ContentView.swift in Sources */,
 				3C75652E2A973FC90032A653 /* MarketplaceScreen.swift in Sources */,
 				3CB6A4D12AB40F8A00861D13 /* FlowWrapperHelper.swift in Sources */,
+				3CB6A4D42AB44EA500861D13 /* TokenItemView.swift in Sources */,
 				3C7565282A973CC80032A653 /* HomeScreen.swift in Sources */,
 				3CC032F22AA44C7C0023A60A /* SuspendWrapperHelper.swift in Sources */,
 				3C7565302A973FDF0032A653 /* DiscoverScreen.swift in Sources */,

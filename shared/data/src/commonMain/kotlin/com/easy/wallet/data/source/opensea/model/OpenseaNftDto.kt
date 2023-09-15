@@ -1,4 +1,4 @@
-package com.easy.wallet.data.nft.model
+package com.easy.wallet.data.source.opensea.model
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

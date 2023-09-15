@@ -14,7 +14,7 @@ struct HomeScreen: View {
     var body: some View {
         VStack {
             List(viewModel.tokens, id: \.self.id) { token in
-                Text(token.name)
+                TokenItemView(token: token)
             }
         }.onDisappear {
             viewModel.onCleared()
@@ -23,5 +23,5 @@ struct HomeScreen: View {
 }
 
 #Preview {
-    HomeScreen()
+    Text("HELLO ")
 }
