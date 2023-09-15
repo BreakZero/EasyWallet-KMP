@@ -2,6 +2,7 @@ package com.easy.wallet.data.source.blockchair
 
 import com.easy.wallet.data.source.blockchair.model.BlockChairBaseResponse
 import com.easy.wallet.data.source.blockchair.model.BlockChairNewDto
+import com.easy.wallet.data.source.blockchair.model.DashboardResponse
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
@@ -16,6 +17,16 @@ internal class BlockchairDataSource constructor(
             parameter("offset", offset)
         }.body<BlockChairBaseResponse<List<BlockChairNewDto>>>()
         return resp.data
+    }
+
+    override suspend fun getDashboardByAccount(chain: String, account: String): DashboardResponse {
+        val resp = httpClient.get("$chain/dashboards/address/$account") {
+            parameter("erc_20", true)
+            parameter("limit", 0)
+            parameter("nonce", true)
+            parameter("apiKey", "cryptocompCKG5vJBN")
+        }.body<BlockChairBaseResponse<Map<String, DashboardResponse>>>()
+        return resp.data.values.first()
     }
 
 }

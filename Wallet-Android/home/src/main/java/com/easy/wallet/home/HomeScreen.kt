@@ -10,7 +10,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.easy.wallet.core.result.Result
 import com.easy.wallet.design.component.LoadingWheel
 import com.easy.wallet.home.component.GuestContent
 import com.easy.wallet.home.component.UserHomeContent
@@ -23,9 +22,7 @@ internal fun HomeRoute(
     onRestoreWallet: () -> Unit,
     navigateToSettings: () -> Unit
 ) {
-    val guestUiState by viewModel.guestUiState.collectAsStateWithLifecycle()
-    val walletUiState by viewModel.walletUiState.collectAsStateWithLifecycle()
-    val hasSetup by viewModel.hasSetup.collectAsStateWithLifecycle()
+    val uiState by viewModel.homeUiState.collectAsStateWithLifecycle()
     LaunchedEffect(key1 = viewModel) {
         viewModel.eventFlow.collect { event ->
             when (event) {
@@ -40,9 +37,7 @@ internal fun HomeRoute(
         modifier = Modifier
             .fillMaxSize()
             .padding(horizontal = 16.dp),
-        guestUiState = guestUiState,
-        walletUiState = walletUiState,
-        hasSetup = hasSetup,
+        homeUiState = uiState,
         onEvent = viewModel::handleEvent,
     )
 }
@@ -50,30 +45,25 @@ internal fun HomeRoute(
 @Composable
 internal fun HomeScreen(
     modifier: Modifier = Modifier,
-    guestUiState: GuestUiState,
-    walletUiState: WalletUiState,
-    hasSetup: Result<Boolean>,
+    homeUiState: HomeUiState,
     onEvent: (HomeEvent) -> Unit
 ) {
-    when (hasSetup) {
-        is Result.Loading -> {
+    when (homeUiState) {
+        is HomeUiState.Fetching -> {
             Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                 LoadingWheel(contentDesc = "")
             }
         }
 
-        is Result.Success -> {
-            if (hasSetup.data) {
-                UserHomeContent(
-                    modifier = modifier,
-                    walletUiState = walletUiState,
-                    onEvent = onEvent,
-                )
-            } else {
-                GuestContent(modifier = modifier, guestUiState = guestUiState, onEvent = onEvent)
-            }
+        is HomeUiState.WalletUiState -> {
+            UserHomeContent(
+                modifier = modifier,
+                uiState = homeUiState,
+                onEvent = onEvent,
+            )
         }
-
-        else -> Unit
+        is HomeUiState.GuestUiState -> {
+            GuestContent(modifier = modifier, uiState = homeUiState, onEvent = onEvent)
+        }
     }
 }

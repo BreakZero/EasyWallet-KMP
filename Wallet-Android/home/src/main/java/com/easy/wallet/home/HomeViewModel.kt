@@ -10,6 +10,7 @@ import com.easy.wallet.home.component.ActionSheetMenu
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.flatMapConcat
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
@@ -21,20 +22,15 @@ internal class HomeViewModel(
 ) : BaseViewModel<HomeEvent>() {
 
     private val _guestUiState = MutableStateFlow(
-        GuestUiState(),
+        HomeUiState.GuestUiState()
     )
-    internal val guestUiState = _guestUiState.asStateFlow()
 
-    internal val walletUiState = dashboardUseCase().map {
-        WalletUiState(it)
-    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(3_000), WalletUiState())
-
-    internal val hasSetup = multiWalletRepository.forActivatedOne().map {
+    val homeUiState = multiWalletRepository.forActivatedOne().flatMapConcat {
         it?.let {
-//            hdWalletInMemory.loadToMemory(it.mnemonic, it.passphrase)
-            Result.Success(true)
-        } ?: Result.Success(false)
-    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(3000), Result.Loading)
+            hdWalletInstant.loadInMemory(it.mnemonic, it.passphrase)
+            dashboardUseCase().map { HomeUiState.WalletUiState(it) }
+        } ?: _guestUiState
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(3_000), HomeUiState.Fetching)
 
     override fun handleEvent(event: HomeEvent) {
         when (event) {

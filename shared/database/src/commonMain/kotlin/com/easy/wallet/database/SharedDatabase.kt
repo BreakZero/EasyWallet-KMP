@@ -69,7 +69,7 @@ object Schema : SqlSchema<QueryResult.Value<Unit>> by WalletDatabase.Schema {
             |INSERT OR REPLACE INTO Token(
             |id, name, symbol, decimals, address, logo_uri, status, type, blockchain_name
             |)
-            |VALUES ("c60_t0x6B3595068778DD592e39A122f4f5a5cF09C90fE2", "SUSHI", "SushiSwap", 18, "0x6B3595068778DD592e39A122f4f5a5cF09C90fE2", "https://assets-cdn.trustwallet.com/blockchains/ethereum/assets/0x6B3595068778DD592e39A122f4f5a5cF09C90fE2/logo.png", 1, "ERC20", "Ethereum")
+            |VALUES ("c60_t0x6B3595068778DD592e39A122f4f5a5cF09C90fE2", "SushiSwap", "SUSHI", 18, "0x6B3595068778DD592e39A122f4f5a5cF09C90fE2", "https://assets-cdn.trustwallet.com/blockchains/ethereum/assets/0x6B3595068778DD592e39A122f4f5a5cF09C90fE2/logo.png", 1, "ERC20", "Ethereum")
             """.trimMargin(),
             0,
         )

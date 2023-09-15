@@ -4,7 +4,13 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
 class BitcoinRepository: TokenRepository {
-    override fun loadBalance(): Flow<String> {
+    override fun dashboard(account: String): Flow<Map<String, String>> {
+        return flow {
+            emit(emptyMap())
+        }
+    }
+
+    override fun loadBalance(account: String): Flow<String> {
         return flow {
             emit("Bitcoin Balances")
         }
