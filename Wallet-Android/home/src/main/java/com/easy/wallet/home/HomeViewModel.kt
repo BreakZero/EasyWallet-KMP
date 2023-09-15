@@ -13,25 +13,19 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 
 internal class HomeViewModel(
     multiWalletRepository: MultiWalletRepository,
     private val tokenRepository: TokenRepository,
     private val hdWalletInstant: HDWalletInstant
 ) : BaseViewModel<HomeEvent>() {
-    init {
-        viewModelScope.launch {
-            tokenRepository.loadTokens()
-        }
-    }
 
     private val _guestUiState = MutableStateFlow(
         GuestUiState(),
     )
     internal val guestUiState = _guestUiState.asStateFlow()
 
-    internal val walletUiState = tokenRepository.tokenStream().map {
+    internal val walletUiState = tokenRepository.tokensStream().map {
         WalletUiState(it)
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(3_000), WalletUiState())
 

@@ -7,8 +7,11 @@ import kotlinx.cinterop.usePinned
 import platform.Foundation.NSData
 import platform.Foundation.create
 import platform.UIKit.UIImage
+import kotlin.experimental.ExperimentalObjCName
 
-class CommonHelper {
+@OptIn(ExperimentalObjCName::class)
+@ObjCName("iOSCommonHelper")
+object CommonHelper {
     @OptIn(ExperimentalForeignApi::class, BetaInteropApi::class)
     fun getUIImageFromBytes(bytes: ByteArray): UIImage {
         val data = bytes.usePinned {

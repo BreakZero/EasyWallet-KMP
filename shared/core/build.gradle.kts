@@ -4,6 +4,11 @@ plugins {
 
 kotlin {
     sourceSets {
+        getByName("androidMain") {
+            dependencies {
+                implementation(libs.androidx.lifecycle)
+            }
+        }
         getByName("commonMain") {
             dependencies {
                 implementation(libs.kotlinx.datetime)

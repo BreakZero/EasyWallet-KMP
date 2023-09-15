@@ -3,6 +3,7 @@ package com.easy.wallet.core.common
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.async
 import kotlin.experimental.ExperimentalObjCName
 
@@ -26,4 +27,8 @@ class SuspendWrapper<out T> internal constructor(
         if (isCancelled) deferred.cancel() else deferred.start()
         return deferred.await()
     }
+}
+
+fun <T : Any> (suspend () -> T).wrap(scope: CoroutineScope = MainScope()): SuspendWrapper<T> {
+    return SuspendWrapper(scope = scope, block = this)
 }

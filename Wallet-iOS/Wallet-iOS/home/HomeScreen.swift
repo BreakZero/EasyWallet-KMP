@@ -11,7 +11,11 @@ import SwiftUI
 struct HomeScreen: View {
     @ObservedObject private var viewModel = HomeViewModel()
     var body: some View {
-        Text("Home")
+        VStack {
+            List(viewModel.tokens, id: \.self.id) { token in
+                Text(token.name)
+            }
+        }
     }
 }
 

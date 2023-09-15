@@ -2,6 +2,7 @@
 androidx-core-splashscreen = "1.0.1"
 androidx-core-ktx = "1.10.1"
 androidx-appcompat = "1.6.1"
+androidx-lifecycle = "2.6.2"
 androidx-paging = "3.2.0"
 androidxTracing = "1.1.0"
 androidxWindowManager = "1.1.0"
@@ -10,7 +11,6 @@ androidxWork = "2.9.0-beta01"
 compose-bom = "2023.08.00"
 compose-compiler = "1.5.3"
 compose-activity = "1.7.2"
-compose-lifecycle-runtime = "2.6.1"
 compose-navigation = "2.7.1"
 
 kotlinx-coroutine = "1.7.3"
@@ -31,6 +31,8 @@ coil = "2.4.0"
 koin = "3.4.1"
 ktor = "2.3.3"
 material = "1.9.0"
+ksp = "1.9.0-1.0.13"
+hilt = "2.48"
 
 
 [libraries]
@@ -39,6 +41,7 @@ androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = 
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "androidx-appcompat" }
 androidx-paging = { group = "androidx.paging", name = "paging-runtime", version.ref = "androidx-paging" }
 androidx-paging-compose = { group = "androidx.paging", name = "paging-compose", version.ref = "androidx-paging" }
+androidx-lifecycle = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "androidx-lifecycle" }
 
 androidx-tracing-ktx = { group = "androidx.tracing", name = "tracing-ktx", version.ref = "androidxTracing" }
 androidx-window-manager = { module = "androidx.window:window", version.ref = "androidxWindowManager" }
@@ -58,7 +61,7 @@ androidx-compose-material-icons-extended = { group = "androidx.compose.material"
 androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3" }
 androidx-compose-material3-window-size = { group = "androidx.compose.material3", name = "material3-window-size-class" }
 androidx-compose-viewmodel = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose" }
-androidx-compose-lifecycle-runtime = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "compose-lifecycle-runtime" }
+androidx-compose-lifecycle-runtime = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "androidx-lifecycle" }
 androidx-compose-navigation = { group = "androidx.navigation", name = "navigation-compose", version.ref = "compose-navigation" }
 
 ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
@@ -106,6 +109,7 @@ android-library = { id = "com.android.library", version.ref = "android-gradle-pl
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "org-jetbrains-kotlin" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "org-jetbrains-kotlin" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "org-jetbrains-kotlin" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 
 [bundles]
 compose-android-bundle = [

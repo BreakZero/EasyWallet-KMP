@@ -24,6 +24,7 @@ kotlin {
                 implementation(project(":shared:datastore"))
 
                 implementation(libs.kotlinx.datetime)
+                implementation(libs.kotlinx.coroutines.core)
 
                 implementation(libs.ktor.client.core)
                 implementation(libs.ktor.client.logging)
