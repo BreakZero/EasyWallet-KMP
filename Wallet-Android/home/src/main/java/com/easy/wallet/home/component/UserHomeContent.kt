@@ -91,7 +91,7 @@ internal fun UserHomeContent(
             verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
             items(uiState.tokens, key = { it.token.id }) {
-                TokenItemView(tokenWithBalance = it)
+                TokenItemView(extraToken = it)
             }
         }
     }

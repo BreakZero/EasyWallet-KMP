@@ -14,17 +14,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
+import com.easy.wallet.data.model.ExtraToken
 import com.easy.wallet.design.component.DynamicAsyncImage
-import com.easy.wallet.model.token.TokenWithBalance
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun TokenItemView(
     modifier: Modifier = Modifier,
-    tokenWithBalance: TokenWithBalance
+    extraToken: ExtraToken
 ) {
-    val token = tokenWithBalance.token
-    val balance = tokenWithBalance.balance
+    val token = extraToken.token
+    val balance = extraToken.balance
     Card(
         modifier = modifier,
         onClick = { /*TODO*/ },
@@ -47,7 +47,7 @@ internal fun TokenItemView(
             )
             Text(modifier = Modifier.padding(start = 12.dp), text = token.name)
             Spacer(modifier = Modifier.weight(1.0f))
-            Text(text = "$balance ${token.symbol}")
+            Text(text = "${balance.approximate()} ${token.symbol}")
         }
     }
 }

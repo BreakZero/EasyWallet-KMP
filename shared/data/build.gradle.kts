@@ -32,6 +32,7 @@ kotlin {
                 implementation(libs.ktor.serialization.kotlinx.json)
 
                 api("com.trustwallet:wallet-core-kotlin:3.2.20")
+                implementation("com.ionspin.kotlin:bignum:0.3.8")
             }
         }
         getByName("iosMain") {

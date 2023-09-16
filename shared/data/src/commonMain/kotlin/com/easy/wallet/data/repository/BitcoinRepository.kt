@@ -1,12 +1,14 @@
 package com.easy.wallet.data.repository
 
+import com.easy.wallet.data.model.Balance
+import com.easy.wallet.data.model.ExtraToken
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
 class BitcoinRepository: TokenRepository {
-    override fun dashboard(account: String): Flow<Map<String, String>> {
+    override fun dashboard(account: String): Flow<List<Balance>> {
         return flow {
-            emit(emptyMap())
+            emit(emptyList())
         }
     }
 

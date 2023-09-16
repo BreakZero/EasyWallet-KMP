@@ -15,10 +15,3 @@ data class Token(
     val address: String,
     val logoURI: String
 )
-
-@OptIn(ExperimentalObjCName::class)
-@ObjCName("TokenWithBalance")
-data class TokenWithBalance(
-    val token: Token,
-    val balance: String
-)

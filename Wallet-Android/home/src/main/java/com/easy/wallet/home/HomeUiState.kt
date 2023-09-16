@@ -1,7 +1,7 @@
 package com.easy.wallet.home
 
+import com.easy.wallet.data.model.ExtraToken
 import com.easy.wallet.home.component.ActionSheetMenu
-import com.easy.wallet.model.token.TokenWithBalance
 
 internal sealed interface HomeUiState {
     data object Fetching: HomeUiState
@@ -11,6 +11,6 @@ internal sealed interface HomeUiState {
     ): HomeUiState
 
     data class WalletUiState(
-        val tokens: List<TokenWithBalance>
+        val tokens: List<ExtraToken>
     ): HomeUiState
 }

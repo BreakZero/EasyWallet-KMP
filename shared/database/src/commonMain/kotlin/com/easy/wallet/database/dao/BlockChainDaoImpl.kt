@@ -19,7 +19,7 @@ internal fun BlockChain.toExternalToken(): Token {
         symbol = symbol,
         decimals = decimals ?: 0,
         type = type,
-        address = "",
+        address = name.lowercase(),
         logoURI = logo_uri,
     )
 }
