@@ -97,7 +97,7 @@ val dataModule = module {
             hdWalletInstant = get(),
             supportedTokenRepository = get(),
             ethereumRepository = get(named("Ethereum")),
-            bitcoinRepository = get(named("Bitcoin"))
+            bitcoinRepository = get(named("Bitcoin")),
         )
     }
 }

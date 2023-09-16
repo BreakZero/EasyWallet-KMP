@@ -2,14 +2,12 @@ package com.easy.wallet.home
 
 import androidx.lifecycle.viewModelScope
 import com.easy.wallet.android.core.BaseViewModel
-import com.easy.wallet.core.result.Result
 import com.easy.wallet.data.global.HDWalletInstant
 import com.easy.wallet.data.multiwallet.MultiWalletRepository
 import com.easy.wallet.data.usecase.DashboardUseCase
 import com.easy.wallet.home.component.ActionSheetMenu
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.flatMapConcat
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
@@ -22,7 +20,7 @@ internal class HomeViewModel(
 ) : BaseViewModel<HomeEvent>() {
 
     private val _guestUiState = MutableStateFlow(
-        HomeUiState.GuestUiState()
+        HomeUiState.GuestUiState(),
     )
 
     val homeUiState = multiWalletRepository.forActivatedOne().flatMapConcat {

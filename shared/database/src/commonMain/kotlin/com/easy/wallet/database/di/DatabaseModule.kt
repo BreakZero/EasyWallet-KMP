@@ -18,7 +18,7 @@ val databaseModule = module {
     single {
         BlockChainDaoImpl(
             get<SharedDatabase>().database.blockChainQueries,
-            dispatcher = Dispatchers.IO
+            dispatcher = Dispatchers.IO,
         )
     } bind BlockChainDao::class
 }

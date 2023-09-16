@@ -18,7 +18,7 @@ class EthereumRepository internal constructor(
                 type = CoinVals.CoinType.COIN,
                 address = "ethereum",
                 decimal = 18,
-                balance = dashboard.dashboardInfo.balance.toBigInteger()
+                balance = dashboard.dashboardInfo.balance.toBigInteger(),
             )
 
             val tokenBalances = dashboard.layer2Dto?.ethTokens?.map {

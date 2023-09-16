@@ -4,6 +4,14 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
+internal data class BlockChairNewsRootResponse(
+    @SerialName("data")
+    val data: List<BlockChairNewDto>,
+    @SerialName("context")
+    val context: BlockChairContextDto
+)
+
+@Serializable
 internal data class BlockChairNewDto(
     @SerialName("description")
     val description: String,

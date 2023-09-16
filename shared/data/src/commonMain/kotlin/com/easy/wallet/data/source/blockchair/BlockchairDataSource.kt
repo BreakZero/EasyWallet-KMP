@@ -1,7 +1,7 @@
 package com.easy.wallet.data.source.blockchair
 
-import com.easy.wallet.data.source.blockchair.model.BlockChairBaseResponse
 import com.easy.wallet.data.source.blockchair.model.BlockChairNewDto
+import com.easy.wallet.data.source.blockchair.model.BlockChairNewsRootResponse
 import com.easy.wallet.data.source.blockchair.model.DashboardResponse
 import com.easy.wallet.data.source.blockchair.model.DashboardRootResponse
 import io.ktor.client.HttpClient
@@ -16,7 +16,7 @@ internal class BlockchairDataSource constructor(
         val resp = httpClient.get("news?q=language(en)") {
             parameter("limit", limit)
             parameter("offset", offset)
-        }.body<BlockChairBaseResponse<List<BlockChairNewDto>>>()
+        }.body<BlockChairNewsRootResponse>()
         return resp.data
     }
 
@@ -29,5 +29,4 @@ internal class BlockchairDataSource constructor(
         }.body<DashboardRootResponse>()
         return resp.data.values.first()
     }
-
 }

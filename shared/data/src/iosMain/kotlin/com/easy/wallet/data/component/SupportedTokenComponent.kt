@@ -10,6 +10,7 @@ import kotlin.experimental.ExperimentalObjCName
 @ObjCName("SupportedTokenComponent")
 class SupportedTokenComponent : KoinComponent {
     private val supportedTokenRepository: SupportedTokenRepository by inject()
+
     @ObjCName("supportedTokens")
     fun supportedTokens() = supportedTokenRepository.allSupportedTokens().wrap()
 }

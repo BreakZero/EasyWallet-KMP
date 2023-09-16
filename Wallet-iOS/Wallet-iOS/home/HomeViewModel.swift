@@ -18,21 +18,21 @@ extension HomeScreen {
         @Published private(set) var tokens:[ExtraToken] = []
 
         init() {
-            createPublisher(wrapper: dashboard.dashboard())
-                .sink(
-                    receiveCompletion: { completion in switch completion {
-                    case .finished:
-                        print("Completed with success")
-                        break
-                    case let .failure(throwable):
-                        print("Completed with failure: \(throwable)")
-                        break
-                    }
-                    },
-                    receiveValue: { tokens in
-                        self.tokens = tokens as! [ExtraToken]
-                    }
-                ).store(in: &disposables)
+//            createPublisher(wrapper: dashboard.dashboard())
+//                .sink(
+//                    receiveCompletion: { completion in switch completion {
+//                    case .finished:
+//                        print("Completed with success")
+//                        break
+//                    case let .failure(throwable):
+//                        print("Completed with failure: \(throwable)")
+//                        break
+//                    }
+//                    },
+//                    receiveValue: { tokens in
+//                        self.tokens = tokens as! [ExtraToken]
+//                    }
+//                ).store(in: &disposables)
         }
 
         func onCleared() {

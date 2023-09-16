@@ -15,7 +15,7 @@ data class Balance(
             type = CoinVals.CoinType.COIN,
             address = "",
             decimal = 0,
-            balance = BigInteger.ZERO
+            balance = BigInteger.ZERO,
         )
     }
 

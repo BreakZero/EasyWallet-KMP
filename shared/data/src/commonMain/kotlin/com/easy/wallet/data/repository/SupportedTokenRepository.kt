@@ -15,4 +15,3 @@ class SupportedTokenRepository internal constructor(
         return blockChainDao.allTokenStream()
     }
 }
-

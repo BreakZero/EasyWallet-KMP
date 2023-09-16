@@ -97,7 +97,7 @@ class SharedDatabase internal constructor(
             TokenAdapter = Token.Adapter(
                 decimalsAdapter = DecimalsAdapter(),
                 typeAdapter = TokenTypeAdapter(),
-            )
+            ),
         )
     }
 }

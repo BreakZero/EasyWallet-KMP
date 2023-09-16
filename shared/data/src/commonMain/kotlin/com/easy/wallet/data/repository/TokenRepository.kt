@@ -1,7 +1,6 @@
 package com.easy.wallet.data.repository
 
 import com.easy.wallet.data.model.Balance
-import com.easy.wallet.data.model.ExtraToken
 import kotlinx.coroutines.flow.Flow
 
 interface TokenRepository {
