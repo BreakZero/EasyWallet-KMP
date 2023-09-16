@@ -24,7 +24,7 @@ internal class BlockchairDataSource constructor(
             parameter("erc_20", true)
             parameter("limit", 0)
             parameter("nonce", true)
-            parameter("apiKey", "cryptocompCKG5vJBN")
+//            parameter("apiKey", "")
         }.body<BlockChairBaseResponse<Map<String, DashboardResponse>>>()
         return resp.data.values.first()
     }

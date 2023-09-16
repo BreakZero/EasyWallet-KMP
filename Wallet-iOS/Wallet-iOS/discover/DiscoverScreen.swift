@@ -11,9 +11,6 @@ import SwiftUI
 struct DiscoverScreen: View {
     var body: some View {
         Text("Discover")
-        Button(action: {}, label: {
-            /*@START_MENU_TOKEN@*/Text("Button")/*@END_MENU_TOKEN@*/
-        })
     }
 }
 
