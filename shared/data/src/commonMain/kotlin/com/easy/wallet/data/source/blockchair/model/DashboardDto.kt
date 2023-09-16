@@ -1,8 +1,15 @@
 package com.easy.wallet.data.source.blockchair.model
 
-
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+
+@Serializable
+internal data class DashboardRootResponse(
+    @SerialName("data")
+    val data: Map<String, DashboardResponse>,
+    @SerialName("context")
+    val context: BlockChairContextDto
+)
 
 @Serializable
 internal data class DashboardResponse(

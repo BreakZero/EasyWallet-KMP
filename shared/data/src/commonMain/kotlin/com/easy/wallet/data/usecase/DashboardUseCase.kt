@@ -18,10 +18,10 @@ class DashboardUseCase internal constructor(
     private val bitcoinRepository: TokenRepository
 ) {
     operator fun invoke(): Flow<List<ExtraToken>> {
-        val hdWallet = HDWallet(hdWalletInstant.hdWallet(), "")
+//        val hdWallet = HDWallet(hdWalletInstant.hdWallet(), "")
         return combine(
             supportedTokenRepository.allSupportedTokens(),
-            ethereumRepository.dashboard(hdWallet.getAddressForCoin(CoinType.Ethereum)),
+            ethereumRepository.dashboard("0x81080a7e991bcDdDBA8C2302A70f45d6Bd369Ab5"),
             bitcoinRepository.dashboard("")
         ) { tokens, ethBalances, _ ->
             tokens.map { token ->

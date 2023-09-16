@@ -3,6 +3,7 @@ package com.easy.wallet.data.source.blockchair
 import com.easy.wallet.data.source.blockchair.model.BlockChairBaseResponse
 import com.easy.wallet.data.source.blockchair.model.BlockChairNewDto
 import com.easy.wallet.data.source.blockchair.model.DashboardResponse
+import com.easy.wallet.data.source.blockchair.model.DashboardRootResponse
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
@@ -25,7 +26,7 @@ internal class BlockchairDataSource constructor(
             parameter("limit", 0)
             parameter("nonce", true)
 //            parameter("apiKey", "")
-        }.body<BlockChairBaseResponse<Map<String, DashboardResponse>>>()
+        }.body<DashboardRootResponse>()
         return resp.data.values.first()
     }
 
