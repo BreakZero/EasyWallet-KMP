@@ -15,7 +15,6 @@ jobs:
   release_build:
     runs-on: macos-latest
     if: startsWith(github.ref, 'refs/tags/')
-    needs: import-keystore
 
     steps:
       - name: Check out repository
