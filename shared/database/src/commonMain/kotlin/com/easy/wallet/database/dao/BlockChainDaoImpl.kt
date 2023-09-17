@@ -56,6 +56,4 @@ class BlockChainDaoImpl internal constructor(
             .map(DbToken::toExternalToken)
         chainToken + tokens
     }
-
-
 }
