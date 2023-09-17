@@ -24,3 +24,6 @@ jobs:
         with:
           distribution: "temurin"
           java-version: "17"
+
+      - name: Build Release bundle
+        run: ./gradlew Wallet-Android:app:assembleProdRelease
