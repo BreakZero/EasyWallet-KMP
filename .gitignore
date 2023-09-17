@@ -50,4 +50,6 @@ Wallet-iOS/Wallet-iOS.xcworkspace/*
 
 # keystore files
 /keystore/*
+!/keystore/keystore.jks
+!/keystore/keystore.properties
 github_token.properties

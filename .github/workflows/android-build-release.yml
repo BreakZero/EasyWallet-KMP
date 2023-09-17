@@ -6,10 +6,12 @@ on:
       - v*
 permissions:
   contents: write
-jobs:
-  import-keystore:
-    uses: ./.github/workflows/local-file-prepare.yml
 
+env:
+  GT_USERNAME: "BreakZero"
+  GT_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+jobs:
   release_build:
     runs-on: macos-latest
     if: startsWith(github.ref, 'refs/tags/')
@@ -21,16 +23,6 @@ jobs:
         with:
           submodules: 'true'
           fetch-depth: 0
-
-      - name: Store Local Files
-        run: |
-          mkdir keystore
-          cd . > keystore/keystore.properties
-          cd . > keystore/keystore.jks
-          cd . > github_token.properties
-          echo ${{ secrets.SIGNING_STORE_PROPERTIES }} | base64 --decode > keystore/keystore.properties
-          echo ${{ secrets.SIGNING_KEY_STORE_BASE64 }} | base64 --decode > keystore/keystore.jks
-          echo ${{ secrets.MAVEN_TOKEN }} | base64 --decode > github_token.properties
 
       - name: Generate cache key
         run: ./scripts/checksum.sh . checksum.txt
