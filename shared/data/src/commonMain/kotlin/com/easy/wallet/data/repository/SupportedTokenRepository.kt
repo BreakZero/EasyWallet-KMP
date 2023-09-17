@@ -3,6 +3,7 @@ package com.easy.wallet.data.repository
 import com.easy.wallet.database.dao.BlockChainDao
 import com.easy.wallet.model.token.Token
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import kotlin.experimental.ExperimentalObjCRefinement
 import kotlin.native.HiddenFromObjC
 
@@ -12,7 +13,9 @@ class SupportedTokenRepository internal constructor(
 ) {
     @HiddenFromObjC
     fun allSupportedTokenStream(): Flow<List<Token>> {
-        return blockChainDao.allTokenStream()
+        return flow {
+            emit(allSupportedToken())
+        }
     }
 
     @HiddenFromObjC
