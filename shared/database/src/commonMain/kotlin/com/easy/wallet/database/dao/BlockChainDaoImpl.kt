@@ -19,7 +19,7 @@ internal fun BlockChain.toExternalToken(): Token {
         symbol = symbol,
         decimals = decimals ?: 0,
         type = type,
-        address = "",
+        address = name.lowercase(),
         logoURI = logo_uri,
     )
 }
@@ -56,5 +56,13 @@ class BlockChainDaoImpl internal constructor(
                 chainToken + tokens
             }
         }
+    }
+
+    override suspend fun allSupportedToken(): List<Token> {
+        val chainToken = blockChainQueries.selectByName(chainName = "Ethereum").executeAsList()
+            .map(BlockChain::toExternalToken)
+        val tokens = blockChainQueries.selectWithTokens(chainName = "Ethereum").executeAsList()
+            .map(DbToken::toExternalToken)
+        return chainToken + tokens
     }
 }

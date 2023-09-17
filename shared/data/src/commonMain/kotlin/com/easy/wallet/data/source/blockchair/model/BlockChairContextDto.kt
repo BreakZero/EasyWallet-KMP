@@ -13,10 +13,10 @@ internal data class BlockChairContextDto(
     val code: Int = 0,
     @SerialName("full_time")
     val fullTime: Double = 0.0,
-    @SerialName("limit")
-    val limit: Int = 0,
-    @SerialName("offset")
-    val offset: Int = 0,
+//    @SerialName("limit")
+//    val limit: Int = 0,
+//    @SerialName("offset")
+//    val offset: Int = 0,
     @SerialName("pre_rows")
     val preRows: Int = 0,
     @SerialName("render_time")

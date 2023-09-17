@@ -28,12 +28,12 @@ import androidx.compose.ui.unit.dp
 import com.easy.wallet.design.component.ThemePreviews
 import com.easy.wallet.design.ui.EWalletTheme
 import com.easy.wallet.home.HomeEvent
-import com.easy.wallet.home.WalletUiState
+import com.easy.wallet.home.HomeUiState
 
 @Composable
 internal fun UserHomeContent(
     modifier: Modifier = Modifier,
-    walletUiState: WalletUiState,
+    uiState: HomeUiState.WalletUiState,
     onEvent: (HomeEvent) -> Unit
 ) {
     Column(
@@ -90,8 +90,8 @@ internal fun UserHomeContent(
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
-            items(walletUiState.tokens, key = { it.id }) {
-                TokenItemView(token = it)
+            items(uiState.tokens, key = { it.token.id }) {
+                TokenItemView(extraToken = it)
             }
         }
     }
@@ -105,7 +105,7 @@ private fun UserHome_Preview() {
             modifier = Modifier
                 .fillMaxSize(),
         ) {
-            UserHomeContent(walletUiState = WalletUiState()) {}
+            UserHomeContent(uiState = HomeUiState.WalletUiState(emptyList())) {}
         }
     }
 }

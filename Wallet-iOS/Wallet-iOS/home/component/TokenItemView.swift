@@ -11,9 +11,11 @@ import data
 
 struct TokenItemView: View {
     private let token: ModelToken
+    private let balance: Balance
     
-    init(token: ModelToken) {
-        self.token = token
+    init(extraToken: ExtraToken) {
+        self.token = extraToken.token
+        self.balance = extraToken.balance
     }
     
     var body: some View {
@@ -26,13 +28,15 @@ struct TokenItemView: View {
                 .clipShape(Circle())
             
             Text(token.name)
+            Spacer()
+            Text("\(balance.approximate(scale: 8)) \(token.symbol)")
         }
     }
 }
 
 #Preview {
      TokenItemView(
-        token: ModelToken(
+        extraToken: ExtraToken(token: ModelToken(
             id: "1",
             name: "Ethereum",
             symbol: "ETH",
@@ -40,6 +44,6 @@ struct TokenItemView: View {
             type: ModelCoinValsCoinType.coin,
             address: "",
             logoURI: "https://hws.dev/paul.jpg"
-        )
+        ), balance: Balance.companion.ZERO)
     )
 }

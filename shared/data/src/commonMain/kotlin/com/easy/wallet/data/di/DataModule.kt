@@ -90,7 +90,14 @@ val dataModule = module {
     singleOf(::HDWalletInstant)
 
     single<TokenRepository>(named("Bitcoin")) { BitcoinRepository() }
-    single<TokenRepository>(named("Ethereum")) { EthereumRepository() }
+    single<TokenRepository>(named("Ethereum")) { EthereumRepository(get()) }
 
-    single { DashboardUseCase(get(), get(named("Ethereum")), get(named("Bitcoin"))) }
+    single {
+        DashboardUseCase(
+            hdWalletInstant = get(),
+            supportedTokenRepository = get(),
+            ethereumRepository = get(named("Ethereum")),
+            bitcoinRepository = get(named("Bitcoin")),
+        )
+    }
 }

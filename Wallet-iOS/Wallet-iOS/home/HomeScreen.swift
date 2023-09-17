@@ -13,8 +13,8 @@ struct HomeScreen: View {
     @ObservedObject private var viewModel = HomeViewModel()
     var body: some View {
         VStack {
-            List(viewModel.tokens, id: \.self.id) { token in
-                TokenItemView(token: token)
+            List(viewModel.tokens, id: \.self.token.id) { token in
+                TokenItemView(extraToken: token)
             }
         }.onDisappear {
             viewModel.onCleared()

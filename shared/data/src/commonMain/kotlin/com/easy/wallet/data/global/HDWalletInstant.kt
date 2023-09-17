@@ -6,12 +6,14 @@ import kotlinx.atomicfu.locks.synchronized
 
 class HDWalletInstant internal constructor() : SynchronizedObject() {
     private var hdWallet: HDWallet? = null
+    private var mnemonic: String = ""
 
-    fun loadToMemory(
+    fun loadInMemory(
         mnemonic: String,
         passphrase: String = ""
     ) {
         synchronized(this) {
+            this.mnemonic = mnemonic
             hdWallet = HDWallet(mnemonic, passphrase)
         }
     }
@@ -21,7 +23,7 @@ class HDWalletInstant internal constructor() : SynchronizedObject() {
      */
     fun hdWallet() = synchronized(this) {
         checkNotNull(hdWallet)
-        ""
+        mnemonic
     }
 
     fun reset() {

@@ -1,18 +1,18 @@
 package com.easy.wallet.android.core.util
 
 import android.content.Context
-import androidx.core.content.getSystemService
 import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkCapabilities
 import android.net.NetworkRequest
+import androidx.core.content.getSystemService
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 
 class ConnectivityManagerNetworkMonitor(
     private val context: Context
-): NetworkMonitor {
+) : NetworkMonitor {
     override val isOnline: Flow<Boolean> = callbackFlow {
         val connectivityManager = context.getSystemService<ConnectivityManager>()
         if (connectivityManager == null) {

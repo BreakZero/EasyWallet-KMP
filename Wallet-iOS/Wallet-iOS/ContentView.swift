@@ -10,6 +10,12 @@ struct ContentView: View {
                     icon: { Image("home") }
                 )
             }
+            NewsScreen().tabItem {
+                Label(
+                    title: { Text("News")},
+                    icon: { Image("store") }
+                )
+            }
             MarketplaceScreen().tabItem {
                 Label(
                     title: { Text("Marketplace") },

@@ -22,14 +22,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.easy.wallet.design.component.ThemePreviews
 import com.easy.wallet.design.ui.EWalletTheme
-import com.easy.wallet.home.GuestUiState
 import com.easy.wallet.home.HomeEvent
+import com.easy.wallet.home.HomeUiState
 import com.easy.wallet.home.R
 
 @Composable
 internal fun GuestContent(
     modifier: Modifier = Modifier,
-    guestUiState: GuestUiState,
+    uiState: HomeUiState.GuestUiState,
     onEvent: (HomeEvent) -> Unit
 ) {
     Column(
@@ -73,10 +73,10 @@ internal fun GuestContent(
             Text(text = stringResource(id = R.string.onboard_import_wallet))
         }
     }
-    if (guestUiState.isActionSheetOpen) {
+    if (uiState.isActionSheetOpen) {
         WalletActionSheet(
             modifier = Modifier.fillMaxHeight(0.5f),
-            menus = guestUiState.actions,
+            menus = uiState.actions,
             onEvent = onEvent,
         )
     }
@@ -91,7 +91,7 @@ private fun GuestContent_Preview() {
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(horizontal = 16.dp),
-                guestUiState = GuestUiState(),
+                uiState = HomeUiState.GuestUiState(),
                 onEvent = {},
             )
         }
