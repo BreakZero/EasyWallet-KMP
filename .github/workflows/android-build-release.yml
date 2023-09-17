@@ -39,7 +39,7 @@ jobs:
 
       - name: Build Release apk
         env:
-          GT_USERNAME: "BreakZero"
+          GT_USERNAME: ${{ github.actor }}
           GT_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: ./gradlew Wallet-Android:app:assembleProdRelease
 
