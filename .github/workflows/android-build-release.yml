@@ -12,12 +12,9 @@ env:
   GT_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
-  import-keystore:
-    uses: ./.github/workflows/local-file-prepare.yml
   release_build:
     runs-on: macos-latest
     if: startsWith(github.ref, 'refs/tags/')
-    needs: import-keystore
 
     steps:
       - name: Check out repository
@@ -54,7 +51,6 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           generate_release_notes: true
-          prerelease: true
           files: |
             Wallet-Android/app/build/outputs/apk/prod/release/app-prod-release.apk
             Wallet-Android/app/build/outputs/bundle/prodRelease/app-prod-release.aab
