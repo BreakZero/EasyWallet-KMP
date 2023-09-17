@@ -12,9 +12,12 @@ env:
   GT_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
+  import-keystore:
+    uses: ./.github/workflows/local-file-prepare.yml
   release_build:
     runs-on: macos-latest
     if: startsWith(github.ref, 'refs/tags/')
+    needs: import-keystore
 
     steps:
       - name: Check out repository
