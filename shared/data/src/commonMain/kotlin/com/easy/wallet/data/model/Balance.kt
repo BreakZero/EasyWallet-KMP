@@ -20,9 +20,12 @@ data class Balance(
     }
 
     fun approximate(scale: Long = 8): String {
-        return if (balance == BigInteger.ZERO) "0.00"
-        else BigDecimal.fromBigInteger(balance)
-            .moveDecimalPoint(-decimal).scale(scale)
-            .toPlainString()
+        return if (balance == BigInteger.ZERO) {
+            "0.00"
+        } else {
+            BigDecimal.fromBigInteger(balance)
+                .moveDecimalPoint(-decimal).scale(scale)
+                .toPlainString()
+        }
     }
 }

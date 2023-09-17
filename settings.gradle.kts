@@ -14,8 +14,12 @@ dependencyResolutionManagement {
         maven(uri("https://maven.pkg.github.com/trustwallet/wallet-core")) {
             credentials {
                 with(tokenProperty()) {
-                    username = getProperty("gpr.name")
-                    password = getProperty("gpr.key")
+                    username = getProperty("gpr.name") ?: System.getenv("USERNAME").also {
+                        println("========= $it")
+                    }
+                    password = getProperty("gpr.key") ?: System.getenv("TOKEN").also {
+                        println("========= $it")
+                    }
                 }
             }
         }

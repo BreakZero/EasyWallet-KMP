@@ -1,0 +1,13 @@
+#!/bin/bash
+
+echo "-----------------------------------------------------------"
+echo "> Running ktlint checks locally before push..."
+echo "-----------------------------------------------------------"
+
+./gradlew ktlintCheck --no-configuration-cache --stacktrace
+
+status=$?
+
+# return 1 exit code if running checks fails
+[ $status -ne 0 ] && exit 1
+exit 0
