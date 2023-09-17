@@ -7,10 +7,6 @@ on:
 permissions:
   contents: write
 
-env:
-  GT_USERNAME: "BreakZero"
-  GT_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
 jobs:
   release_build:
     runs-on: macos-latest
@@ -42,9 +38,15 @@ jobs:
           java-version: "17"
 
       - name: Build Release apk
+        env:
+          GT_USERNAME: "BreakZero"
+          GT_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: ./gradlew Wallet-Android:app:assembleProdRelease
 
       - name: Build Release bundle
+        env:
+          GT_USERNAME: ${{ github.actor }}
+          GT_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: ./gradlew Wallet-Android:app:bundleProdRelease
 
       - name: Create Github Release
@@ -52,5 +54,5 @@ jobs:
         with:
           generate_release_notes: true
           files: |
-            Wallet-Android/app/build/outputs/apk/prod/release/app-prod-release.apk
-            Wallet-Android/app/build/outputs/bundle/prodRelease/app-prod-release.aab
+            Wallet-Android/app/build/outputs/apk/**/release/*.apk
+            Wallet-Android/app/build/outputs/bundle/*Release/*.aab
