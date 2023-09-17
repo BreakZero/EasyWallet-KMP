@@ -1,4 +1,4 @@
-set -e
+#!/bin/bash
 
 echo "-----------------------------------------------------------"
 echo "> Running ktlint checks locally before push..."
