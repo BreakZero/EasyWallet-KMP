@@ -25,3 +25,10 @@ selectWithTokens:
 SELECT Token.* FROM BlockChain
 INNER JOIN Token ON BlockChain.name == Token.blockchain_name
 WHERE BlockChain.name = :chainName;
+
+selectAllChain:
+SELECT * FROM BlockChain;
+
+selectAllToken:
+SELECT Token.* FROM BlockChain
+INNER JOIN Token ON BlockChain.name == Token.blockchain_name;

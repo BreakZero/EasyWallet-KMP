@@ -1,15 +1,12 @@
 package com.easy.wallet.database.dao
 
-import app.cash.sqldelight.coroutines.asFlow
-import app.cash.sqldelight.coroutines.mapToList
 import com.easy.wallet.database.BlockChain
 import com.easy.wallet.database.BlockChainQueries
 import com.easy.wallet.model.token.Token
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.withContext
 import com.easy.wallet.database.Token as DbToken
 
 internal fun BlockChain.toExternalToken(): Token {
@@ -44,25 +41,21 @@ class BlockChainDaoImpl internal constructor(
         blockChainQueries.insert(blockChain)
     }
 
-    override fun allTokenStream(): Flow<List<Token>> {
-        return blockChainQueries.transactionWithResult {
-            val chainTokenFlow = blockChainQueries.selectByName(chainName = "Ethereum").asFlow()
-                .mapToList(dispatcher)
-            val tokensFlow = blockChainQueries.selectWithTokens(chainName = "Ethereum").asFlow()
-                .mapToList(dispatcher)
-            combine(chainTokenFlow, tokensFlow) { _chainToken, _tokens ->
-                val chainToken = _chainToken.map { it.toExternalToken() }
-                val tokens = _tokens.map(DbToken::toExternalToken)
-                chainToken + tokens
-            }
-        }
+    override suspend fun allSupportedToken(): List<Token> = withContext(dispatcher) {
+        val chainToken = blockChainQueries.selectAllChain().executeAsList()
+            .map(BlockChain::toExternalToken)
+        val tokens = blockChainQueries.selectAllToken().executeAsList()
+            .map(DbToken::toExternalToken)
+        chainToken + tokens
     }
 
-    override suspend fun allSupportedToken(): List<Token> {
-        val chainToken = blockChainQueries.selectByName(chainName = "Ethereum").executeAsList()
+    override suspend fun allSupportedTokenByChain(chainName: String) {
+        val chainToken = blockChainQueries.selectByName(chainName = chainName).executeAsList()
             .map(BlockChain::toExternalToken)
-        val tokens = blockChainQueries.selectWithTokens(chainName = "Ethereum").executeAsList()
+        val tokens = blockChainQueries.selectWithTokens(chainName = chainName).executeAsList()
             .map(DbToken::toExternalToken)
-        return chainToken + tokens
+        chainToken + tokens
     }
+
+
 }
