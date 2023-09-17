@@ -13,12 +13,19 @@ struct NewsScreen: View {
     @ObservedObject private var viewModel = ViewModel()
     
     var body: some View {
-        VStack {
-            List(viewModel.news, id: \.self.title) { news in
-                Text(news.title).onAppear {
+        List {
+            ForEach(viewModel.news, id: \.self.title) { news in
+                NewsView(news: news).onAppear {
                     viewModel.loadMoreNews(currentHash: news.hash)
                 }
             }
-        }
+            
+            if viewModel.hasNotMore {
+                Text("-- Not more --")
+                    .frame(maxWidth: .infinity, alignment: .center)
+            } else {
+                ProgressView()
+            }
+        }.listStyle(.plain)
     }
 }

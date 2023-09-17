@@ -16,7 +16,7 @@ extension NewsScreen {
         @Published private(set) var news:[ModelNews] = []
         private var offset: Int32 = 0
         private let limit: Int32 = 20
-        private var hasNotMore: Bool = false
+        @Published private(set) var hasNotMore: Bool = false
         
         private var disposables = Set<AnyCancellable>()
         

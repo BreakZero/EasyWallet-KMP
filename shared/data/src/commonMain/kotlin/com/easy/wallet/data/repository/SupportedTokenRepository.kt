@@ -11,7 +11,12 @@ class SupportedTokenRepository internal constructor(
     private val blockChainDao: BlockChainDao
 ) {
     @HiddenFromObjC
-    fun allSupportedTokens(): Flow<List<Token>> {
+    fun allSupportedTokenStream(): Flow<List<Token>> {
         return blockChainDao.allTokenStream()
+    }
+
+    @HiddenFromObjC
+    suspend fun allSupportedToken(): List<Token> {
+        return blockChainDao.allSupportedToken()
     }
 }

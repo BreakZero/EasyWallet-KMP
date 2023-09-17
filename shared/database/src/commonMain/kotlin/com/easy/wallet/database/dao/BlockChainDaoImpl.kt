@@ -57,4 +57,12 @@ class BlockChainDaoImpl internal constructor(
             }
         }
     }
+
+    override suspend fun allSupportedToken(): List<Token> {
+        val chainToken = blockChainQueries.selectByName(chainName = "Ethereum").executeAsList()
+            .map(BlockChain::toExternalToken)
+        val tokens = blockChainQueries.selectWithTokens(chainName = "Ethereum").executeAsList()
+            .map(DbToken::toExternalToken)
+        return chainToken + tokens
+    }
 }
