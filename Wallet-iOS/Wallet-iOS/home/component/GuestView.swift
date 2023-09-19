@@ -10,22 +10,28 @@ import SwiftUI
 
 struct GuestView: View {
     var body: some View {
-        VStack {
-            Image("wallet_setup")
-            
-            Text("Wallet Setup")
-            
-            Text("Import an existing wallet \n or create a new one")
-            Spacer()
-            Button(action: {}, label: {
-                Text("Create wallet").frame(maxWidth: .infinity)
-                    .frame(height: 40)
-            }).padding(.horizontal).buttonStyle(.easy)
-            Button(action: {}, label: {
-                Text("I already have one").frame(maxWidth: .infinity)
-                    .frame(height: 40)
-            }).padding(.horizontal)
-                .buttonStyle(.easy)
+        GeometryReader { geometry in
+            VStack {
+                Spacer()
+                Image("wallet_setup").resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: geometry.size.width * 0.7)
+                
+                Text("Wallet Setup").font(.title).frame(maxWidth: .infinity, alignment: .leading).padding(.horizontal)
+                
+                Text("Import an existing wallet \n or create a new one").frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.horizontal)
+                Spacer()
+                Button(action: {}, label: {
+                    Text("Create wallet").frame(maxWidth: .infinity)
+                        .frame(height: 40)
+                }).padding(.horizontal).buttonStyle(.easy)
+                Button(action: {}, label: {
+                    Text("I already have one").frame(maxWidth: .infinity)
+                        .frame(height: 40)
+                }).padding(.horizontal)
+                    .buttonStyle(.easy)
+            }
         }
     }
 }
