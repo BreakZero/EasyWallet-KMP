@@ -13,11 +13,14 @@ struct HomeScreen: View {
     @ObservedObject private var viewModel = HomeViewModel()
     var body: some View {
         VStack {
-            List(viewModel.tokens, id: \.self.token.id) { token in
-                TokenItemView(extraToken: token)
+            switch viewModel.homeUiState {
+            case .Fetching:
+                ProgressView()
+            case .GuestUiState(_):
+                GuestView()
+            case .WalletUiState(let dashboard):
+                Text(dashboard.user)
             }
-        }.onDisappear {
-            viewModel.onCleared()
         }
     }
 }

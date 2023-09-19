@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "-----------------------------------------------------------"
-echo "> Running ktlint checks locally before push..."
+echo "> Running ktlint checks locally before commit..."
 echo "-----------------------------------------------------------"
 
 ./gradlew ktlintCheck --no-configuration-cache --stacktrace
