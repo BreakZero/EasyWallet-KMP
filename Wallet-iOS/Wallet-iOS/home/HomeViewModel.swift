@@ -40,7 +40,6 @@ extension HomeScreen {
                         }
                     },
                     receiveValue: { uiState in
-                        print("==== \(Thread.current)")
                         self.homeUiState = uiState
                     }
                 ).store(in: &disposables)

@@ -24,7 +24,3 @@ struct HomeScreen: View {
         }
     }
 }
-
-#Preview {
-    Text("HELLO ")
-}

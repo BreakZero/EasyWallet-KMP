@@ -9,6 +9,22 @@
 import Foundation
 import SwiftUI
 
+struct EasyDefaultTextFieldStyle: TextFieldStyle {
+    func _body(configuration: TextField<Self._Label>) -> some View {
+        configuration
+            .padding(.all)
+            .overlay {
+                RoundedRectangle(cornerRadius: 12)
+                    .stroke(Color.primary, lineWidth: 2)
+            }
+            .padding(.horizontal)
+        //            .shadow(color: .gray, radius: 10)
+    }
+}
+
+extension TextFieldStyle where Self == EasyDefaultTextFieldStyle {
+    static var easy: Self {.init()}
+}
 
 struct EasyDefaultButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {

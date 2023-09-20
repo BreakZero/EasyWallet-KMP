@@ -26,15 +26,15 @@ struct GuestView: View {
                     .padding(.horizontal)
                 Spacer()
                 Button(action: {
-                    showActions = true
                     self.isForCreate = true
+                    showActions = true
                 }, label: {
                     Text("Create wallet").frame(maxWidth: .infinity)
                         .frame(height: 40)
                 }).padding(.horizontal).buttonStyle(.easy)
                 Button(action: {
-                    showActions = true
                     self.isForCreate = false
+                    showActions = true
                 }, label: {
                     Text("I already have one").frame(maxWidth: .infinity)
                         .frame(height: 40)

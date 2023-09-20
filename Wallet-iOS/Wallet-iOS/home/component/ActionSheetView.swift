@@ -35,7 +35,7 @@ struct ActionSheetView: View {
     var body: some View {
         NavigationView {
             List(actions, id: \.self.title) { actionItem in
-                NavigationLink(destination: Text(actionItem.desc), label: {
+                NavigationLink(destination: RestoreScreen(), label: {
                     HStack {
                         VStack {
                             Text(actionItem.title)
