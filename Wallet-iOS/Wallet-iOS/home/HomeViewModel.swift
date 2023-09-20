@@ -13,6 +13,7 @@ import data
 extension HomeScreen {
     @MainActor final class HomeViewModel: ObservableObject {
         private let dashboard = HomeDashboardComponent()
+        private let globalComponent = GlobalEnvComponent()
         private let multiWalletRepository = MultiWalletComponent()
         private var disposables = Set<AnyCancellable>()
         
@@ -23,7 +24,9 @@ extension HomeScreen {
                 .map<HomeUiState> { wallet in
                     print(Thread.current)
                     if wallet != nil {
-                        return HomeUiState.WalletUiState(HomeUiState.Dashboard(user: "",tokens: []))
+                        self.globalComponent.loadInMemory(mnemonic: wallet!.mnemonic, passphrase: "")
+                        print(self.globalComponent.mnemonic())
+                        return HomeUiState.WalletUiState(HomeUiState.Dashboard(user: self.globalComponent.mnemonic(),tokens: []))
                     } else {
                         print("=== wallet is empty")
                         return HomeUiState.GuestUiState("Guest User")

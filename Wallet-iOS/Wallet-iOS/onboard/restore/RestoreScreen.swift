@@ -21,7 +21,9 @@ struct RestoreScreen: View {
                 .textFieldStyle(.easy)
             Spacer()
             Button(action: {
-                dismiss()
+                viewModel.restoreWallet {
+                    dismiss()
+                }
             }, label: {
                 Text("Import").frame(maxWidth: .infinity).frame(height: 40)
             }).padding(.horizontal).buttonStyle(.easy)

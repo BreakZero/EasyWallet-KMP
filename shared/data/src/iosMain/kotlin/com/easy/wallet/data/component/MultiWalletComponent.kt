@@ -12,4 +12,6 @@ class MultiWalletComponent : KoinComponent {
     private val multiWalletRepository: MultiWalletRepository by inject()
 
     fun forActivatedOne() = multiWalletRepository.forActivatedOne().wrap()
+
+    fun insertOne(mnemonic: String) = suspend { multiWalletRepository.insertOne(mnemonic, "") }.wrap()
 }
