@@ -23,6 +23,7 @@
 		3CC5B6802AB89073000B97CD /* HomeUiState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CC5B67F2AB89073000B97CD /* HomeUiState.swift */; };
 		3CC5B6822AB981CC000B97CD /* GuestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CC5B6812AB981CC000B97CD /* GuestView.swift */; };
 		3CC5B6862AB9845A000B97CD /* DefaultStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CC5B6852AB9845A000B97CD /* DefaultStyle.swift */; };
+		3CC5B6882ABA8BF0000B97CD /* ActionSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CC5B6872ABA8BF0000B97CD /* ActionSheetView.swift */; };
 		7555FF83242A565900829871 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7555FF82242A565900829871 /* ContentView.swift */; };
 		7AD2AF90D402E4E225A0BC88 /* Pods_Wallet_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 010E03C3B43D8120F7621271 /* Pods_Wallet_iOS.framework */; };
 /* End PBXBuildFile section */
@@ -46,6 +47,7 @@
 		3CC5B67F2AB89073000B97CD /* HomeUiState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeUiState.swift; sourceTree = "<group>"; };
 		3CC5B6812AB981CC000B97CD /* GuestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuestView.swift; sourceTree = "<group>"; };
 		3CC5B6852AB9845A000B97CD /* DefaultStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultStyle.swift; sourceTree = "<group>"; };
+		3CC5B6872ABA8BF0000B97CD /* ActionSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionSheetView.swift; sourceTree = "<group>"; };
 		7555FF7B242A565900829871 /* Wallet-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Wallet-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7555FF82242A565900829871 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		7555FF8C242A565B00829871 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -104,6 +106,7 @@
 			children = (
 				3CB6A4D32AB44EA500861D13 /* TokenItemView.swift */,
 				3CC5B6812AB981CC000B97CD /* GuestView.swift */,
+				3CC5B6872ABA8BF0000B97CD /* ActionSheetView.swift */,
 			);
 			path = component;
 			sourceTree = "<group>";
@@ -312,6 +315,7 @@
 			files = (
 				3CB939BD2AB58754008AF467 /* NewsScreen.swift in Sources */,
 				2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */,
+				3CC5B6882ABA8BF0000B97CD /* ActionSheetView.swift in Sources */,
 				7555FF83242A565900829871 /* ContentView.swift in Sources */,
 				3C75652E2A973FC90032A653 /* MarketplaceScreen.swift in Sources */,
 				3CB6A4D12AB40F8A00861D13 /* FlowWrapperHelper.swift in Sources */,

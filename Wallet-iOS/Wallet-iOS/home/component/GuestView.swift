@@ -9,6 +9,9 @@
 import SwiftUI
 
 struct GuestView: View {
+    @State private var showActions: Bool = false
+    @State private var isForCreate: Bool = true
+    
     var body: some View {
         GeometryReader { geometry in
             VStack {
@@ -22,15 +25,23 @@ struct GuestView: View {
                 Text("Import an existing wallet \n or create a new one").frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.horizontal)
                 Spacer()
-                Button(action: {}, label: {
+                Button(action: {
+                    showActions = true
+                    self.isForCreate = true
+                }, label: {
                     Text("Create wallet").frame(maxWidth: .infinity)
                         .frame(height: 40)
                 }).padding(.horizontal).buttonStyle(.easy)
-                Button(action: {}, label: {
+                Button(action: {
+                    showActions = true
+                    self.isForCreate = false
+                }, label: {
                     Text("I already have one").frame(maxWidth: .infinity)
                         .frame(height: 40)
                 }).padding(.horizontal)
                     .buttonStyle(.easy)
+            }.sheet(isPresented: $showActions) {
+                ActionSheetView(isForCreate: self.isForCreate)
             }
         }
     }

@@ -15,9 +15,15 @@ struct NewsScreen: View {
     var body: some View {
         List {
             ForEach(viewModel.news, id: \.self.title) { news in
-                NewsView(news: news).onAppear {
-                    viewModel.loadMoreNews(currentHash: news.hash)
-                }
+                Button(action: {
+                    if let url = URL(string: news.link), UIApplication.shared.canOpenURL(url) {
+                        UIApplication.shared.open(url)
+                    }
+                }, label: {
+                    NewsView(news: news).onAppear {
+                        viewModel.loadMoreNews(currentHash: news.hash)
+                    }
+                })
             }
             
             if viewModel.hasNotMore {
