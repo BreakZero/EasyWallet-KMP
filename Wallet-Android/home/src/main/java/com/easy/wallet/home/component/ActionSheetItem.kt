@@ -16,14 +16,18 @@ import androidx.compose.material.icons.filled.Wallet
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import com.easy.wallet.design.UiText
+import com.easy.wallet.design.component.ThemePreviews
+import com.easy.wallet.design.ui.EWalletTheme
 import com.easy.wallet.home.R
 
 internal enum class ActionSheetMenu(
@@ -76,7 +80,19 @@ internal fun ActionSheetItem(
                 modifier = Modifier.size(48.dp),
                 imageVector = menu.trailingIcon,
                 contentDescription = menu.title.asString(),
+                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurfaceVariant),
             )
+        }
+    }
+}
+
+@ThemePreviews
+@Composable
+private fun ActionItem_Preview() {
+    EWalletTheme {
+        Surface {
+            ActionSheetItem(menu = ActionSheetMenu.CREATE_BY_SEED) {
+            }
         }
     }
 }
