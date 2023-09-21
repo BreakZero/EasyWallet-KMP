@@ -5,10 +5,10 @@ import com.easy.wallet.data.model.Balance
 import com.easy.wallet.data.model.ExtraToken
 import com.easy.wallet.data.repository.SupportedTokenRepository
 import com.easy.wallet.data.repository.TokenRepository
+import com.trustwallet.core.CoinType
+import com.trustwallet.core.HDWallet
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 
 class DashboardUseCase internal constructor(
@@ -18,11 +18,11 @@ class DashboardUseCase internal constructor(
     private val bitcoinRepository: TokenRepository
 ) {
     operator fun invoke(): Flow<List<ExtraToken>> {
-//        val hdWallet = HDWallet(hdWalletInstant.hdWallet(), "")
+        val hdWallet = HDWallet(hdWalletInstant.hdWallet(), "")
         return combine(
             supportedTokenRepository.allSupportedTokenStream(),
             ethereumRepository.dashboard("0x81080a7e991bcDdDBA8C2302A70f45d6Bd369Ab5"),
-            bitcoinRepository.dashboard(""),
+            bitcoinRepository.dashboard(hdWallet.getAddressForCoin(CoinType.Bitcoin)),
         ) { tokens, ethBalances, _ ->
             tokens.map { token ->
                 val balance = ethBalances.find {
@@ -35,8 +35,6 @@ class DashboardUseCase internal constructor(
                 ExtraToken(it, Balance.ZERO)
             }
             emit(emptyBalance)
-        }.catch {
-            emit(emptyList())
         }
     }
 }

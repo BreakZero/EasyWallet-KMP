@@ -11,6 +11,7 @@ class EthereumRepository internal constructor(
     private val blockchairApi: BlockchairApi
 ) : TokenRepository {
     override fun dashboard(account: String): Flow<List<Balance>> {
+        println("===== Ethereum Address $account")
         return flow {
             val dashboard = blockchairApi.getDashboardByAccount("ethereum", account)
 

@@ -27,16 +27,9 @@ func createPublisher<T>(wrapper: FlowWrapper<T>) -> AnyPublisher<T?, Error> {
     receiveSubscription: { subscription in
         print("subscribe...")
         job = wrapper.subscribe(
-            onEach: { item in
-                subject.send(item)
-            },
-            onCompletion: { error in
-                if error == nil {
-                    subject.send(completion: .finished)
-                } else {
-                    subject.send(completion: .failure(SharedError(error!)))
-                }
-            }
+            onEach: { item in subject.send(item) },
+            onCompletion: { _ in subject.send(completion: .finished) },
+            onThrow: { error in subject.send(completion: .failure(SharedError(error))) }
         )
     },
     receiveCancel: {

@@ -21,17 +21,16 @@ extension HomeScreen {
         
         init() {
             createPublisher(wrapper: multiWalletRepository.forActivatedOne())
-                .map<HomeUiState> { wallet in
-                    print(Thread.current)
+                .map { wallet in
                     if wallet != nil {
                         self.globalComponent.loadInMemory(mnemonic: wallet!.mnemonic, passphrase: "")
-                        print(self.globalComponent.mnemonic())
-                        return HomeUiState.WalletUiState(HomeUiState.Dashboard(user: self.globalComponent.mnemonic(),tokens: []))
+                        self.startTokenFetching()
+                        return HomeUiState.Fetching
                     } else {
-                        print("=== wallet is empty")
                         return HomeUiState.GuestUiState("Guest User")
                     }
-                }.sink(
+                }.subscribe(on: DispatchQueue.main)
+                .sink(
                     receiveCompletion: { completion in
                         switch completion {
                         case .finished:
@@ -43,7 +42,19 @@ extension HomeScreen {
                         }
                     },
                     receiveValue: { uiState in
+                        print("=====--- \(uiState)")
                         self.homeUiState = uiState
+                    }
+                ).store(in: &disposables)
+        }
+        
+        private func startTokenFetching() {
+            createPublisher(wrapper: dashboard.dashboard())
+                .subscribe(on: DispatchQueue.main)
+                .sink(
+                    receiveCompletion: { _ in },
+                    receiveValue: { tokens in
+                        self.homeUiState = HomeUiState.WalletUiState(HomeUiState.Dashboard(user: "Dougie", tokens: tokens as! [ExtraToken]))
                     }
                 ).store(in: &disposables)
         }

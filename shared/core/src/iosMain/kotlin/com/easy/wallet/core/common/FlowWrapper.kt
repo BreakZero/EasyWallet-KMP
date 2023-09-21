@@ -4,6 +4,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
@@ -17,10 +18,16 @@ class FlowWrapper<out T> internal constructor(
 ) {
     fun subscribe(
         onEach: (T & Any) -> Unit,
-        onCompletion: (Throwable?) -> Unit
+        onCompletion: (Throwable?) -> Unit,
+        onThrow: (error: Throwable) -> Unit
     ): Job = flow
         .onEach(onEach)
-        .onCompletion { throwable: Throwable? -> onCompletion(throwable) }
+        .catch {
+            onThrow(it)
+        }
+        .onCompletion { throwable: Throwable? ->
+            onCompletion(throwable)
+        }
         .launchIn(scope)
 }
 

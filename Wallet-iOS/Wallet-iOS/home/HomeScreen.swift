@@ -19,6 +19,15 @@ struct HomeScreen: View {
             case .GuestUiState(_):
                 GuestView()
             case .WalletUiState(let dashboard):
+                VStack {
+                    List {
+                        Section(header: Text(dashboard.user), content: {
+                            ForEach(dashboard.tokens,id: \.self.token.id) { token in
+                                TokenItemView(extraToken: token)
+                            }
+                        })
+                    }
+                }
                 Text(dashboard.user)
             }
         }
