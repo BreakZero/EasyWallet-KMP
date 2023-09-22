@@ -1,5 +1,5 @@
 target 'Wallet-iOS' do
   use_frameworks!
   platform :ios, '16.0'
-  pod 'data', :path => '../shared/data'
+  pod 'shared', :path => '../platform/shared'
 end
