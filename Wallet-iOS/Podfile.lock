@@ -1,5 +1,5 @@
 PODS:
-  - data (1.0):
+  - shared (1.0):
     - TrustWalletCore
   - SwiftProtobuf (1.21.0)
   - TrustWalletCore (3.1.18):
@@ -10,7 +10,7 @@ PODS:
     - SwiftProtobuf
 
 DEPENDENCIES:
-  - data (from `../shared/data`)
+  - shared (from `../platform/shared`)
 
 SPEC REPOS:
   trunk:
@@ -18,14 +18,14 @@ SPEC REPOS:
     - TrustWalletCore
 
 EXTERNAL SOURCES:
-  data:
-    :path: "../shared/data"
+  shared:
+    :path: "../platform/shared"
 
 SPEC CHECKSUMS:
-  data: b77e900b9555fd0263f85c48ce62bb6e288e1acd
+  shared: 3a35b3beac352792dcacc0ab9cf8d1883bde9bd5
   SwiftProtobuf: afced68785854575756db965e9da52bbf3dc45e7
   TrustWalletCore: fabbb38652ab559ee25c864af8836e6481a7e22b
 
-PODFILE CHECKSUM: acebd6ac3acac6fda783bcc216477b9f8b6fbf44
+PODFILE CHECKSUM: 3f609d190d34a2495cef5f85411b09fdbb98bc90
 
 COCOAPODS: 1.10.2

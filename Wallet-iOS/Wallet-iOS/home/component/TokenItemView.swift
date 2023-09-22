@@ -7,7 +7,7 @@
 //
 
 import SwiftUI
-import data
+import shared
 
 struct TokenItemView: View {
     private let token: ModelToken

@@ -7,7 +7,7 @@
 //
 
 import SwiftUI
-import data
+import shared
 
 struct NewsView: View {
     private let news: ModelNews

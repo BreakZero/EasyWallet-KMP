@@ -7,7 +7,7 @@
 //
 
 import SwiftUI
-import data
+import shared
 
 struct NewsScreen: View {
     @ObservedObject private var viewModel = ViewModel()
