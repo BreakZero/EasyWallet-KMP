@@ -8,7 +8,7 @@
 
 import Foundation
 import Combine
-import data
+import shared
 
 class SharedError: LocalizedError {
     let throwable: KotlinThrowable

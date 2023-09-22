@@ -7,7 +7,7 @@
 //
 
 import SwiftUI
-import data
+import shared
 
 struct HomeScreen: View {
     @ObservedObject private var viewModel = HomeViewModel()

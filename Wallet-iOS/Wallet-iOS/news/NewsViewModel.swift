@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import data
+import shared
 import Combine
 
 extension NewsScreen {

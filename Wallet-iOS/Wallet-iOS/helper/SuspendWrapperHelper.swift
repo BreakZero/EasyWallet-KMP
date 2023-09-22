@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import data
+import shared
 
 func suspend<T>(_ wrapper: SuspendWrapper<T>) async throws -> T {
     return try await withTaskCancellationHandler {

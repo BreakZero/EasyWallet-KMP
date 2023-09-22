@@ -8,7 +8,7 @@
 
 import Foundation
 import Combine
-import data
+import shared
 
 extension HomeScreen {
     @MainActor final class HomeViewModel: ObservableObject {
