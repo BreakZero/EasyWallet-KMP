@@ -13,6 +13,7 @@ kotlin {
         podfile = rootProject.file("Wallet-iOS/Podfile")
         framework {
             export(project(":platform:core"))
+            isStatic = true
         }
     }
     sourceSets {
