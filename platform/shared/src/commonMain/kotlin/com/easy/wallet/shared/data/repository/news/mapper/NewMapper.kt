@@ -1,7 +1,7 @@
 package com.easy.wallet.shared.data.repository.news.mapper
 
 import com.easy.wallet.model.news.News
-import com.easy.wallet.network.source.blockchair.model.BlockChairNewDto
+import com.easy.wallet.network.source.blockchair.dto.BlockChairNewDto
 
 internal fun BlockChairNewDto.externalModel(): News {
     return News(

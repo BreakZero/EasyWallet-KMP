@@ -1,4 +1,4 @@
-package com.easy.wallet.network.source.blockchair.model
+package com.easy.wallet.network.source.blockchair.dto
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

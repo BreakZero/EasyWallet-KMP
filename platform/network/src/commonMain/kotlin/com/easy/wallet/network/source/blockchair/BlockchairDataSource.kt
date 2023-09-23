@@ -1,9 +1,9 @@
 package com.easy.wallet.network.source.blockchair
 
-import com.easy.wallet.network.source.blockchair.model.BlockChairNewDto
-import com.easy.wallet.network.source.blockchair.model.BlockChairNewsRootResponse
-import com.easy.wallet.network.source.blockchair.model.DashboardResponse
-import com.easy.wallet.network.source.blockchair.model.DashboardRootResponse
+import com.easy.wallet.network.source.blockchair.dto.BlockChairNewDto
+import com.easy.wallet.network.source.blockchair.dto.BlockChairNewsRootResponse
+import com.easy.wallet.network.source.blockchair.dto.DashboardResponse
+import com.easy.wallet.network.source.blockchair.dto.DashboardRootResponse
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
