@@ -3,6 +3,8 @@ package com.easy.wallet.network.di
 import com.easy.wallet.network.httpClient
 import com.easy.wallet.network.source.blockchair.BlockchairApi
 import com.easy.wallet.network.source.blockchair.BlockchairDataSource
+import com.easy.wallet.network.source.etherscan.EtherscanApi
+import com.easy.wallet.network.source.etherscan.EtherscanDataSource
 import com.easy.wallet.network.source.opensea.OpenseaApi
 import com.easy.wallet.network.source.opensea.OpenseaDataSource
 import io.ktor.client.HttpClient
@@ -14,6 +16,8 @@ import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.plugins.logging.SIMPLE
 import io.ktor.client.request.header
+import io.ktor.http.URLProtocol
+import io.ktor.http.path
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 import org.koin.core.qualifier.named
@@ -46,7 +50,11 @@ val networkModule = module {
     single(qualifier = named(name = SourceQualifier.BLOCK_CHAIR.name)) {
         httpClientWithDefault {
             defaultRequest {
-                url("https://api.blockchair.com/")
+                url {
+                    protocol = URLProtocol.HTTPS
+                    host = "api.blockchair.com"
+                    path("/")
+                }
                 header("accept", "application/json")
             }
         }
@@ -54,13 +62,31 @@ val networkModule = module {
     single(qualifier = named(name = SourceQualifier.OPENSEA.name)) {
         httpClientWithDefault {
             defaultRequest {
-                url("https://api.opensea.io/v2/")
+                url {
+                    protocol = URLProtocol.HTTPS
+                    host = "api.opensea.io"
+                    path("v2/")
+                }
                 header("accept", "application/json")
                 // TODO move to backend, delegate forward
                 header("X-API-KEY", "")
             }
         }
     }
+    single(qualifier = named(name = SourceQualifier.ETHER_SCAN.name)) {
+        httpClientWithDefault {
+            defaultRequest {
+                url {
+                    protocol = URLProtocol.HTTPS
+                    host = "api.etherscan.io/"
+                    path("api/")
+                    parameters.append("apikey", "")
+                }
+                header("accept", "application/json")
+            }
+        }
+    }
     single<BlockchairApi> { BlockchairDataSource(get(qualifier = named(SourceQualifier.BLOCK_CHAIR.name))) }
     single<OpenseaApi> { OpenseaDataSource(get(qualifier = named(SourceQualifier.OPENSEA.name))) }
+    single<EtherscanApi> { EtherscanDataSource(get(qualifier = named(SourceQualifier.ETHER_SCAN.name))) }
 }

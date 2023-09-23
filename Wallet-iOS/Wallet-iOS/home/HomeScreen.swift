@@ -28,7 +28,6 @@ struct HomeScreen: View {
                         })
                     }
                 }
-                Text(dashboard.user)
             }
         }
     }
