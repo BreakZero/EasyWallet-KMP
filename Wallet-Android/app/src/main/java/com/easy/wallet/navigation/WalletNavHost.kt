@@ -4,8 +4,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import com.easy.wallet.discover.navigation.discoverTabScreen
-import com.easy.wallet.home.navigation.homeScreen
-import com.easy.wallet.home.navigation.homeTabRoute
+import com.easy.wallet.home.navigation.HOME_GRAPH_ROUTE_PATTERN
+import com.easy.wallet.home.navigation.homeGraph
+import com.easy.wallet.home.navigation.toTransactionList
 import com.easy.wallet.marketplace.navigation.marketplaceTabScreen
 import com.easy.wallet.news.navigation.newsGraph
 import com.easy.wallet.onboard.create.navigation.createGraph
@@ -21,7 +22,7 @@ fun WalletNavHost(
     appState: WalletAppState,
     onShowSnackbar: suspend (String, String?) -> Boolean,
     modifier: Modifier = Modifier,
-    startDestination: String = homeTabRoute
+    startDestination: String = HOME_GRAPH_ROUTE_PATTERN
 ) {
     val navController = appState.navController
     NavHost(
@@ -29,10 +30,14 @@ fun WalletNavHost(
         navController = navController,
         startDestination = startDestination,
     ) {
-        homeScreen(
+        homeGraph(
             onCreateWallet = navController::toCreateWallet,
             onRestoreWallet = navController::toImportWallet,
             navigateToSettings = navController::toSettings,
+            onTokenClick = {
+                navController.toTransactionList()
+            },
+            nestedGraphs = {},
         )
         createGraph(navController)
         importWalletScreen(navController)

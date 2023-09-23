@@ -14,4 +14,7 @@ dependencies {
     implementation(project(":platform:datastore"))
     implementation(project(":platform:shared"))
     implementation(project(":platform:model"))
+
+    implementation(libs.androidx.paging)
+    implementation(libs.androidx.paging.compose)
 }

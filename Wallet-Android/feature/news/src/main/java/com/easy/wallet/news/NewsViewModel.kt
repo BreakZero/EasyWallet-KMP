@@ -6,12 +6,10 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.easy.wallet.android.core.BaseViewModel
-import com.easy.wallet.model.news.News
 import com.easy.wallet.shared.data.repository.news.NewsRepository
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.stateIn
 
 internal class NewsViewModel(
     newsRepository: NewsRepository
@@ -23,23 +21,13 @@ internal class NewsViewModel(
         },
     ).flow
 
-    private val _newsUiState = MutableStateFlow<PagingData<News>>(PagingData.empty())
-    val newsUiState = _newsUiState.asStateFlow()
+    val newsUiState = pageFlow.distinctUntilChanged().cachedIn(viewModelScope)
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), PagingData.empty())
 
     override fun handleEvent(event: NewsEvent) {
         when (event) {
             is NewsEvent.ClickItem -> dispatchEvent(event)
             NewsEvent.CloseNews -> Unit
-        }
-    }
-
-    init {
-        viewModelScope.launch {
-            pageFlow.distinctUntilChanged()
-                .cachedIn(viewModelScope)
-                .collect {
-                    _newsUiState.value = it
-                }
         }
     }
 }

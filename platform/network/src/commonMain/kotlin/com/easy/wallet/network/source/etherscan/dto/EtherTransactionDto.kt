@@ -4,7 +4,17 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-internal data class EtherTransactionDto(
+internal data class EtherTransactionsResponseDto(
+    @SerialName("message")
+    val message: String,
+    @SerialName("result")
+    val result: List<EtherTransactionDto>,
+    @SerialName("status")
+    val status: String
+)
+
+@Serializable
+data class EtherTransactionDto(
     @SerialName("blockHash")
     val blockHash: String,
     @SerialName("blockNumber")

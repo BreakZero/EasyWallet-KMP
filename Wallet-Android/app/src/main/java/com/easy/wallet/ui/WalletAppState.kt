@@ -14,7 +14,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
 import com.easy.wallet.discover.navigation.discoverTabRoute
 import com.easy.wallet.discover.navigation.selectedDiscoverTab
-import com.easy.wallet.home.navigation.homeTabRoute
+import com.easy.wallet.home.navigation.homeEntryRoute
 import com.easy.wallet.home.navigation.selectedHomeTab
 import com.easy.wallet.marketplace.navigation.marketplaceTabRoute
 import com.easy.wallet.marketplace.navigation.selectedMarketplaceTab
@@ -61,7 +61,7 @@ class WalletAppState(
 
     val currentTopLevelDestination: TopLevelDestination?
         @Composable get() = when (currentDestination?.route) {
-            homeTabRoute -> TopLevelDestination.HOME
+            homeEntryRoute -> TopLevelDestination.HOME
             newsTabRoute -> TopLevelDestination.NEWS
             discoverTabRoute -> TopLevelDestination.DISCOVER
             marketplaceTabRoute -> TopLevelDestination.MARKETPLACE

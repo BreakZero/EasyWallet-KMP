@@ -69,9 +69,7 @@ internal class HomeViewModel(
                 }
                 dispatchEvent(event)
             }
-
-            HomeEvent.ClickSettings -> dispatchEvent(event)
-            is HomeEvent.ClickToken -> Unit
+            HomeEvent.ClickSettings, is HomeEvent.ClickToken -> dispatchEvent(event)
         }
     }
 }
