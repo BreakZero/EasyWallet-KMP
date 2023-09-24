@@ -26,7 +26,7 @@ class HDWalletInstant internal constructor() : SynchronizedObject() {
         mnemonic
     }
 
-    fun reset() {
+    fun release() {
         synchronized(this) {
             hdWallet = null
         }

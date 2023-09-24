@@ -67,7 +67,10 @@ internal fun UserHomeContent(
             modifier = Modifier
                 .padding(top = 12.dp)
                 .fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceAround,
+            horizontalArrangement = Arrangement.spacedBy(
+                space = 24.dp,
+                alignment = Alignment.CenterHorizontally,
+            ),
         ) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,

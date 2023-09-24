@@ -12,7 +12,7 @@ import com.easy.wallet.model.token.Token
 const val HOME_GRAPH_ROUTE_PATTERN = "home_graph"
 const val homeEntryRoute = "_home_route"
 
-internal val transactionListRoute = "_transaction_list_route"
+internal const val transactionListRoute = "_transaction_list_route"
 
 fun NavController.selectedHomeTab(navOptions: NavOptions? = null) {
     this.navigate(HOME_GRAPH_ROUTE_PATTERN, navOptions)
