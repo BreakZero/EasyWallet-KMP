@@ -21,7 +21,7 @@ class DashboardUseCase internal constructor(
         val hdWallet = HDWallet(hdWalletInstant.hdWallet(), "")
         return combine(
             supportedTokenRepository.allSupportedTokenStream(),
-            ethereumRepository.dashboard("0x81080a7e991bcDdDBA8C2302A70f45d6Bd369Ab5"),
+            ethereumRepository.dashboard(hdWallet.getAddressForCoin(CoinType.Ethereum)),
             bitcoinRepository.dashboard(hdWallet.getAddressForCoin(CoinType.Bitcoin)),
         ) { tokens, ethBalances, _ ->
             tokens.map { token ->

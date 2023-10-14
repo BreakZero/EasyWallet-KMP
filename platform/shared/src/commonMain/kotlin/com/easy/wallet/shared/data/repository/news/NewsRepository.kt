@@ -2,7 +2,7 @@ package com.easy.wallet.shared.data.repository.news
 
 import com.easy.wallet.model.news.News
 import com.easy.wallet.network.source.blockchair.BlockchairApi
-import com.easy.wallet.network.source.blockchair.model.BlockChairNewDto
+import com.easy.wallet.network.source.blockchair.dto.BlockChairNewDto
 import com.easy.wallet.shared.data.repository.news.mapper.externalModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

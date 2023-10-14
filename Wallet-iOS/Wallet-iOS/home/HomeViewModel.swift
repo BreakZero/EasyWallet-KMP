@@ -16,9 +16,9 @@ extension HomeScreen {
         private let globalComponent = GlobalEnvComponent()
         private let multiWalletRepository = MultiWalletComponent()
         private var disposables = Set<AnyCancellable>()
-        
+
         @Published private(set) var homeUiState: HomeUiState = HomeUiState.Fetching
-        
+
         init() {
             createPublisher(wrapper: multiWalletRepository.forActivatedOne())
                 .map { wallet in
@@ -47,7 +47,7 @@ extension HomeScreen {
                     }
                 ).store(in: &disposables)
         }
-        
+
         private func startTokenFetching() {
             createPublisher(wrapper: dashboard.dashboard())
                 .subscribe(on: DispatchQueue.main)
@@ -58,7 +58,7 @@ extension HomeScreen {
                     }
                 ).store(in: &disposables)
         }
-        
+
         func onCleared() {
             disposables.forEach { disposable in
                 disposable.cancel()

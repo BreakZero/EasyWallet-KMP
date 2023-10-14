@@ -13,5 +13,8 @@ dependencies {
     implementation(libs.androidx.compose.activity)
     implementation(libs.bundles.compose.android.bundle)
 
+    implementation(libs.androidx.paging)
+    implementation(libs.androidx.paging.compose)
+
     implementation(libs.coil.kt.compose)
 }

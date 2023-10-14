@@ -15,7 +15,7 @@ import com.easy.wallet.model.news.News
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun NewItemView(
+internal fun NewsItemView(
     modifier: Modifier = Modifier,
     news: News,
     itemClick: (News) -> Unit

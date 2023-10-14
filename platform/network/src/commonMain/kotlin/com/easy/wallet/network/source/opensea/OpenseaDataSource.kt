@@ -1,6 +1,6 @@
 package com.easy.wallet.network.source.opensea
 
-import com.easy.wallet.network.source.opensea.model.NftListDto
+import com.easy.wallet.network.source.opensea.dto.NftListDto
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get

@@ -5,6 +5,7 @@ import com.easy.wallet.network.source.blockchair.BlockchairApi
 import com.easy.wallet.network.source.blockchair.BlockchairDataSource
 import com.easy.wallet.network.source.etherscan.EtherscanApi
 import com.easy.wallet.network.source.etherscan.EtherscanDataSource
+import com.easy.wallet.network.source.okx.OKXWebSocketManager
 import com.easy.wallet.network.source.opensea.OpenseaApi
 import com.easy.wallet.network.source.opensea.OpenseaDataSource
 import io.ktor.client.HttpClient
@@ -15,16 +16,18 @@ import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.plugins.logging.SIMPLE
+import io.ktor.client.plugins.websocket.WebSockets
 import io.ktor.client.request.header
 import io.ktor.http.URLProtocol
 import io.ktor.http.path
+import io.ktor.serialization.kotlinx.KotlinxWebsocketSerializationConverter
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 enum class SourceQualifier {
-    OPENSEA, BLOCK_CHAIR, ETHER_SCAN
+    OPENSEA, BLOCK_CHAIR, ETHER_SCAN, OKX_WEBSOCKETS
 }
 
 private fun httpClientWithDefault(special: HttpClientConfig<*>.() -> Unit = {}): HttpClient {
@@ -43,6 +46,23 @@ private fun httpClientWithDefault(special: HttpClientConfig<*>.() -> Unit = {}):
             level = LogLevel.BODY
         }
         special()
+    }
+}
+
+private fun webSocketClient(config: HttpClientConfig<*>.() -> Unit = {}): HttpClient {
+    return httpClient {
+        install(WebSockets) {
+            contentConverter = KotlinxWebsocketSerializationConverter(Json {
+                prettyPrint = true
+                isLenient = true
+                ignoreUnknownKeys = true
+            })
+        }
+        install(Logging) {
+            logger = Logger.SIMPLE
+            level = LogLevel.BODY
+        }
+        config()
     }
 }
 
@@ -86,7 +106,10 @@ val networkModule = module {
             }
         }
     }
+    single(qualifier = named(name = SourceQualifier.OKX_WEBSOCKETS.name)) { webSocketClient() }
+
     single<BlockchairApi> { BlockchairDataSource(get(qualifier = named(SourceQualifier.BLOCK_CHAIR.name))) }
     single<OpenseaApi> { OpenseaDataSource(get(qualifier = named(SourceQualifier.OPENSEA.name))) }
     single<EtherscanApi> { EtherscanDataSource(get(qualifier = named(SourceQualifier.ETHER_SCAN.name))) }
+    single { OKXWebSocketManager(get(qualifier = named(SourceQualifier.OKX_WEBSOCKETS.name))) }
 }

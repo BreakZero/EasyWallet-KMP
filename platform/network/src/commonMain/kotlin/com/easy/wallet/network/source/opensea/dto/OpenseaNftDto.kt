@@ -1,4 +1,4 @@
-package com.easy.wallet.network.source.opensea.model
+package com.easy.wallet.network.source.opensea.dto
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
