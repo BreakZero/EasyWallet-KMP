@@ -8,6 +8,7 @@ import com.easy.wallet.datastore.di.userDefaultModule
 import com.easy.wallet.network.di.networkModule
 import com.easy.wallet.shared.data.global.HDWalletInstant
 import com.easy.wallet.shared.data.multiwallet.MultiWalletRepository
+import com.easy.wallet.shared.data.okx.OKXDataRepository
 import com.easy.wallet.shared.data.repository.BitcoinRepository
 import com.easy.wallet.shared.data.repository.EthereumRepository
 import com.easy.wallet.shared.data.repository.SupportedTokenRepository
@@ -40,6 +41,8 @@ val sharedModule = module {
     single<TokenRepository>(named("Ethereum")) { EthereumRepository(get()) }
 
     single<TransactionRepository>(named("Ethereum")) { EthereumTransactionRepository(get()) }
+
+    single { OKXDataRepository(get()) }
 
     single {
         TransactionsUseCase(
