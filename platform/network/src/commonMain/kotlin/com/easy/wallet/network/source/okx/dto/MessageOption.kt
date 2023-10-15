@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-internal data class MessageOption(
+data class MessageOption(
     @SerialName("args")
     val args: List<OptionArg>,
     @SerialName("op")
@@ -12,7 +12,7 @@ internal data class MessageOption(
 )
 
 @Serializable
-internal data class OptionArg(
+data class OptionArg(
     @SerialName("channel")
     val channel: String,
     @SerialName("instId")
