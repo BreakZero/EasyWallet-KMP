@@ -32,6 +32,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
+import com.easy.wallet.design.component.EasyBackground
 import com.easy.wallet.navigation.TopLevelDestination
 import com.easy.wallet.navigation.WalletNavHost
 
@@ -41,51 +42,53 @@ fun WalletApp(
     windowSizeClass: WindowSizeClass,
     appState: WalletAppState = rememberAppState(windowSizeClass = windowSizeClass)
 ) {
-    val snackbarHostState = remember { SnackbarHostState() }
-    Scaffold(
-        containerColor = Color.Transparent,
-        contentColor = MaterialTheme.colorScheme.onBackground,
-        contentWindowInsets = WindowInsets(0, 0, 0, 0),
-        snackbarHost = { SnackbarHost(snackbarHostState) },
-        bottomBar = {
-            if (appState.shouldShowBottomBar) {
-                WalletBottomBar(
-                    destinations = appState.topLevelDestinations,
-                    onNavigateToDestination = appState::navigateToTopLevelDestination,
-                    currentDestination = appState.currentDestination,
-                )
-            }
-        },
-    ) { padding ->
-        Row(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(padding)
-                .consumeWindowInsets(padding)
-                .windowInsetsPadding(
-                    WindowInsets.safeDrawing.only(
-                        WindowInsetsSides.Horizontal,
-                    ),
-                ),
-        ) {
-            if (appState.shouldShowNavRail) {
-                // nav rail
-            }
-            Column(modifier = Modifier.fillMaxSize()) {
-                when (appState.currentTopLevelDestination) {
-                    TopLevelDestination.HOME -> {}
-                    else -> Unit
+    EasyBackground {
+        val snackbarHostState = remember { SnackbarHostState() }
+        Scaffold(
+            containerColor = Color.Transparent,
+            contentColor = MaterialTheme.colorScheme.onBackground,
+            contentWindowInsets = WindowInsets(0, 0, 0, 0),
+            snackbarHost = { SnackbarHost(snackbarHostState) },
+            bottomBar = {
+                if (appState.shouldShowBottomBar) {
+                    WalletBottomBar(
+                        destinations = appState.topLevelDestinations,
+                        onNavigateToDestination = appState::navigateToTopLevelDestination,
+                        currentDestination = appState.currentDestination,
+                    )
                 }
-                WalletNavHost(
-                    appState = appState,
-                    onShowSnackbar = { message, action ->
-                        snackbarHostState.showSnackbar(
-                            message = message,
-                            actionLabel = action,
-                            duration = SnackbarDuration.Short,
-                        ) == SnackbarResult.ActionPerformed
-                    },
-                )
+            },
+        ) { padding ->
+            Row(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(padding)
+                    .consumeWindowInsets(padding)
+                    .windowInsetsPadding(
+                        WindowInsets.safeDrawing.only(
+                            WindowInsetsSides.Horizontal,
+                        ),
+                    ),
+            ) {
+                if (appState.shouldShowNavRail) {
+                    // nav rail
+                }
+                Column(modifier = Modifier.fillMaxSize()) {
+                    when (appState.currentTopLevelDestination) {
+                        TopLevelDestination.HOME -> {}
+                        else -> Unit
+                    }
+                    WalletNavHost(
+                        appState = appState,
+                        onShowSnackbar = { message, action ->
+                            snackbarHostState.showSnackbar(
+                                message = message,
+                                actionLabel = action,
+                                duration = SnackbarDuration.Short,
+                            ) == SnackbarResult.ActionPerformed
+                        },
+                    )
+                }
             }
         }
     }

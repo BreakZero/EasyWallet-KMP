@@ -30,6 +30,7 @@ import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
+import com.easy.wallet.design.theme.ThemePreviews
 import com.easy.wallet.design.ui.EWalletTheme
 import kotlinx.coroutines.launch
 
