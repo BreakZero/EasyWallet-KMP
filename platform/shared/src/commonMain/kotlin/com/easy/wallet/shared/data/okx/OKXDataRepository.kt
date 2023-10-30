@@ -1,17 +1,25 @@
 package com.easy.wallet.shared.data.okx
 
 import com.easy.wallet.network.source.okx.OKXWebSocketManager
+import com.easy.wallet.network.source.okx.dto.OptionArg
 
 class OKXDataRepository internal constructor(
     private val okxWebSocketManager: OKXWebSocketManager
 ) {
-    suspend fun connect(path: String, onReceive: (String) -> Unit) {
-        okxWebSocketManager.connect(path, onReceive)
+    suspend fun connect(path: String, callback: suspend () -> Unit) {
+        okxWebSocketManager.connect(path, callback)
     }
 
     suspend fun subscribe(
+        args: List<OptionArg>,
         onReceive: (String) -> Unit
     ) {
-        okxWebSocketManager.subscribeCandle(onReceive)
+        okxWebSocketManager.subscribe(args, onReceive)
+    }
+
+    suspend fun unsubscribe(
+        args: List<OptionArg>
+    ) {
+        okxWebSocketManager.unsubscribe(args)
     }
 }

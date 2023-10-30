@@ -33,7 +33,7 @@ kotlin {
                 implementation(libs.ktor.client.content.negotiation)
                 implementation(libs.ktor.serialization.kotlinx.json)
 
-                api("com.trustwallet:wallet-core-kotlin:3.2.20")
+                api("com.trustwallet:wallet-core-kotlin:4.0.1")
                 implementation("com.ionspin.kotlin:bignum:0.3.8")
             }
         }

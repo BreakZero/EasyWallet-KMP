@@ -11,4 +11,5 @@ android {
 dependencies {
     implementation(project(":Wallet-Android:design-system"))
     implementation(project(":platform:shared"))
+    implementation(project(":platform:network"))
 }
