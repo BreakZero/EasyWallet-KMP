@@ -2,6 +2,7 @@ package com.easy.wallet.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.core.text.isDigitsOnly
 import androidx.navigation.compose.NavHost
 import com.easy.wallet.discover.navigation.discoverTabScreen
 import com.easy.wallet.home.navigation.HOME_GRAPH_ROUTE_PATTERN

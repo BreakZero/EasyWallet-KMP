@@ -20,6 +20,7 @@ fun <T : Any> DefaultPagingStateColumn(
     contentPadding: PaddingValues = PaddingValues(0.dp),
     verticalArrangement: Arrangement.Vertical = Arrangement.spacedBy(0.dp),
     paging: LazyPagingItems<T>,
+    header: @Composable LazyItemScope.() -> Unit = {},
     itemView: @Composable LazyItemScope.(T) -> Unit
 ) {
     LazyColumn(
@@ -27,6 +28,7 @@ fun <T : Any> DefaultPagingStateColumn(
         contentPadding = contentPadding,
         verticalArrangement = verticalArrangement,
     ) {
+        item { header() }
         items(paging.itemCount) {
             itemView(paging[it]!!)
         }

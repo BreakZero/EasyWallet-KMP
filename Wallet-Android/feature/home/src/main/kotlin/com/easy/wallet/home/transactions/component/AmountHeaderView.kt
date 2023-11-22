@@ -1,10 +1,13 @@
 package com.easy.wallet.home.transactions.component
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.shape.CircleShape
@@ -31,8 +34,18 @@ internal fun AmountHeaderView(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Text(text = "8.066", style = MaterialTheme.typography.titleLarge)
-        Text(text = "¥ 29.72")
+        Box(
+            modifier = Modifier
+                .fillMaxWidth(0.5f)
+                .aspectRatio(1f)
+                .border(2.dp, color = MaterialTheme.colorScheme.onBackground, shape = CircleShape),
+            contentAlignment = Alignment.Center
+        ) {
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                Text(text = "8.066", style = MaterialTheme.typography.titleLarge)
+                Text(text = "¥ 29.72")
+            }
+        }
         Spacer(modifier = Modifier.height(12.dp))
         Row(
             modifier = Modifier.fillMaxWidth(),

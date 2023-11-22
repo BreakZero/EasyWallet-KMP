@@ -38,8 +38,7 @@ internal fun HomeRoute(
     }
     HomeScreen(
         modifier = Modifier
-            .fillMaxSize()
-            .padding(horizontal = 16.dp),
+            .fillMaxSize(),
         homeUiState = uiState,
         onEvent = viewModel::handleEvent,
     )

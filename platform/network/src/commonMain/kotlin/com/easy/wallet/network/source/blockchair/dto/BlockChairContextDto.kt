@@ -41,7 +41,7 @@ data class BlockChairContextDto(
         @SerialName("last_major_update")
         val lastMajorUpdate: String = "",
         @SerialName("next_major_update")
-        val nextMajorUpdate: Long? = null,
+        val nextMajorUpdate: String? = null,
         @SerialName("notice")
         val notice: String = "",
         @SerialName("version")

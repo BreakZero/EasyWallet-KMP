@@ -36,40 +36,27 @@ internal fun TransactionView(
         modifier = modifier,
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        if (isSend) {
-            Icon(
-                modifier = Modifier
-                    .size(56.dp)
-                    .padding(8.dp)
-                    .clip(CircleShape)
-                    .background(MaterialTheme.colorScheme.primaryContainer),
-                imageVector = Icons.Default.ArrowUpward,
-                contentDescription = null,
+        val label = if (isSend) "Send" else "Receive"
+        val desc = if (isSend) "To ${transaction.recipient.take(5)}...${transaction.recipient.takeLast(4)}"
+        else "To ${transaction.sender.take(5)}...${transaction.sender.takeLast(4)}"
+        val icon = if (isSend) Icons.Default.ArrowUpward else Icons.Default.ArrowDownward
+        Icon(
+            modifier = Modifier
+                .size(56.dp)
+                .padding(8.dp)
+                .clip(CircleShape)
+                .background(MaterialTheme.colorScheme.primaryContainer)
+                .padding(8.dp),
+            imageVector = icon,
+            contentDescription = null,
+        )
+        Column {
+            Text(text = label, style = MaterialTheme.typography.titleMedium)
+            Text(
+                text = desc,
+                overflow = TextOverflow.Ellipsis,
+                maxLines = 1,
             )
-            Column {
-                Text(text = "Send", style = MaterialTheme.typography.titleMedium)
-                Text(
-                    text = "To ${transaction.recipient.take(5)}...${transaction.recipient.takeLast(4)}",
-                    overflow = TextOverflow.Ellipsis,
-                    maxLines = 1,
-                )
-            }
-        } else {
-            Icon(
-                modifier = Modifier
-                    .size(56.dp)
-                    .padding(8.dp)
-                    .clip(CircleShape)
-                    .background(MaterialTheme.colorScheme.primaryContainer),
-                imageVector = Icons.Default.ArrowDownward,
-                contentDescription = null,
-            )
-            Column {
-                Text(text = "Receive", style = MaterialTheme.typography.titleMedium)
-                Text(
-                    text = "To ${transaction.sender.take(5)}...${transaction.sender.takeLast(4)}",
-                )
-            }
         }
         Spacer(modifier = Modifier.weight(1.0f))
         Text(text = transaction.amount)
