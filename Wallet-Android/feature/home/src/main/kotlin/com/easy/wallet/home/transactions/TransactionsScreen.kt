@@ -1,9 +1,11 @@
 package com.easy.wallet.home.transactions
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
@@ -38,14 +40,16 @@ internal fun TransactionsScreen(
         },
         modifier = Modifier.fillMaxSize()
     ) {
-        Column(
+        Box(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(it)
         ) {
+            AmountHeaderView(
+                modifier = Modifier.fillMaxWidth().height(275.dp)
+            )
             DefaultPagingStateColumn(
                 paging = transactionPaging,
-                header = { AmountHeaderView(modifier = Modifier.fillMaxWidth()) },
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) { transaction ->
                 TransactionView(

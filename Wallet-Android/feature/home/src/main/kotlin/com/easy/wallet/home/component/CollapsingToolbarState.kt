@@ -1,3 +1,6 @@
+/**
+ * reference https://medium.com/kotlin-and-kotlin-for-android/collapsing-toolbar-in-jetpack-compose-lazycolumn-version-f1b0a7924ffe
+ */
 package com.easy.wallet.home.component
 
 import androidx.compose.runtime.Composable

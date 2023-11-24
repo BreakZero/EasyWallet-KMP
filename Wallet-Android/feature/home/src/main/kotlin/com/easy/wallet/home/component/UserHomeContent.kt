@@ -2,6 +2,7 @@ package com.easy.wallet.home.component
 
 import androidx.compose.animation.core.FloatExponentialDecaySpec
 import androidx.compose.animation.core.animateDecay
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
@@ -15,9 +16,15 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.graphicsLayer
@@ -47,13 +54,16 @@ internal fun UserHomeContent(
     val listState = rememberLazyListState()
     val toolbarState = rememberCollapsingToolbarState(toolbarHeightRange)
     val scope = rememberCoroutineScope()
-
+    var scale by rememberSaveable {
+        mutableFloatStateOf(1.0f)
+    }
     val nestedScrollConnection = remember {
         object : NestedScrollConnection {
             override fun onPreScroll(available: Offset, source: NestedScrollSource): Offset {
                 toolbarState.scrollTopLimitReached =
                     listState.firstVisibleItemIndex == 0 && listState.firstVisibleItemScrollOffset == 0
                 toolbarState.scrollOffset = toolbarState.scrollOffset - available.y
+                scale = (toolbarHeightRange.last - toolbarState.scrollOffset) / toolbarHeightRange.last
                 return Offset(0f, toolbarState.consumed)
             }
 
@@ -82,7 +92,8 @@ internal fun UserHomeContent(
         DashboardView(
             modifier = Modifier
                 .fillMaxWidth()
-                .graphicsLayer { translationY = toolbarState.offset },
+                .scale(scale)
+                .graphicsLayer { translationY = toolbarHeightRange.last * (scale - 1.0f) },
             onEvent = onEvent
         )
         LazyColumn(
