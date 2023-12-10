@@ -24,7 +24,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -36,6 +35,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.easy.wallet.android.core.extensions.ObserveAsEvents
 import com.easy.wallet.design.theme.ThemePreviews
 import com.easy.wallet.design.ui.EWalletTheme
 import com.easy.wallet.onboard.R
@@ -48,12 +48,10 @@ internal fun SeedPhraseRoute(
     viewModel: CreateWalletViewModel,
     onCreateSuccess: () -> Unit
 ) {
-    LaunchedEffect(key1 = viewModel) {
-        viewModel.eventFlow.collect {
-            when (it) {
-                is CreateWalletEvent.OnCreateWallet -> onCreateSuccess()
-                else -> Unit
-            }
+    ObserveAsEvents(flow = viewModel.navigationEvents) {
+        when (it) {
+            is CreateWalletEvent.OnCreateWallet -> onCreateSuccess()
+            else -> Unit
         }
     }
     SeedPhraseScreen(
@@ -98,7 +96,8 @@ internal fun SeedPhraseScreen(
             contentAlignment = Alignment.Center,
         ) {
             LazyVerticalGrid(
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
                     .let {
                         if (hideSeedWords) return@let it.blur(6.dp)
                         it

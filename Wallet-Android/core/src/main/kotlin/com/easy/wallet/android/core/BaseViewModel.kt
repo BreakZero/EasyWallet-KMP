@@ -7,8 +7,8 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
 abstract class BaseViewModel<E> : ViewModel() {
-    private val _eventFlow = Channel<E>()
-    val eventFlow = _eventFlow.receiveAsFlow()
+    private val _navigationEvents = Channel<E>()
+    val navigationEvents = _navigationEvents.receiveAsFlow()
 
     abstract fun handleEvent(event: E)
 
@@ -17,6 +17,7 @@ abstract class BaseViewModel<E> : ViewModel() {
      * @Option2 If a event will trigger a navigation change need to dispatch
      */
     protected fun dispatchEvent(event: E) {
-        viewModelScope.launch { _eventFlow.send(event) }
+        viewModelScope.launch { _navigationEvents.send(event) }
     }
 }
+

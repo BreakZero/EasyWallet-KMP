@@ -22,7 +22,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -30,6 +29,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.easy.wallet.android.core.extensions.ObserveAsEvents
 import com.easy.wallet.design.theme.ThemePreviews
 import com.easy.wallet.design.ui.EWalletTheme
 import com.easy.wallet.onboard.R
@@ -45,13 +45,11 @@ internal fun CreatePasswordRoute(
     onClose: () -> Unit
 ) {
     val uiState by viewModel.passwordUiState.collectAsStateWithLifecycle()
-    LaunchedEffect(key1 = viewModel) {
-        viewModel.eventFlow.collect {
-            when (it) {
-                is CreateWalletEvent.NextToSecure -> nextToSecure()
-                is CreateWalletEvent.Close -> onClose()
-                else -> Unit
-            }
+    ObserveAsEvents(flow = viewModel.navigationEvents) {
+        when (it) {
+            is CreateWalletEvent.NextToSecure -> nextToSecure()
+            is CreateWalletEvent.Close -> onClose()
+            else -> Unit
         }
     }
     CreatePasswordScreen(uiState, viewModel::handleEvent)

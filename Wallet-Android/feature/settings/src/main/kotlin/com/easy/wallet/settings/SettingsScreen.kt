@@ -16,10 +16,10 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.easy.wallet.android.core.extensions.ObserveAsEvents
 import com.easy.wallet.design.theme.ThemePreviews
 import com.easy.wallet.design.ui.EWalletTheme
 import com.easy.wallet.settings.component.SettingsItem
@@ -30,11 +30,9 @@ internal fun SettingsRoute(
     popBack: () -> Unit
 ) {
     val viewModel: SettingsViewModel = koinViewModel()
-    LaunchedEffect(key1 = viewModel) {
-        viewModel.eventFlow.collect {
-            when (it) {
-                SettingsEvent.PopBack -> popBack()
-            }
+    ObserveAsEvents(flow = viewModel.navigationEvents) {
+        when (it) {
+            SettingsEvent.PopBack -> popBack()
         }
     }
     SettingsScreen(onEvent = viewModel::handleEvent)

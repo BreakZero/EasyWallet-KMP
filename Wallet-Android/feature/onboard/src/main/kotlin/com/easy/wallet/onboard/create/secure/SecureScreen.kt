@@ -17,11 +17,11 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.easy.wallet.android.core.extensions.ObserveAsEvents
 import com.easy.wallet.design.theme.ThemePreviews
 import com.easy.wallet.design.ui.EWalletTheme
 import com.easy.wallet.onboard.R
@@ -34,12 +34,10 @@ internal fun SecureRoute(
     viewModel: CreateWalletViewModel,
     nextToCheckSeed: () -> Unit
 ) {
-    LaunchedEffect(key1 = viewModel) {
-        viewModel.eventFlow.collect {
-            when (it) {
-                is CreateWalletEvent.NextToCheckSeed -> nextToCheckSeed()
-                else -> Unit
-            }
+    ObserveAsEvents(flow = viewModel.navigationEvents) {
+        when (it) {
+            is CreateWalletEvent.NextToCheckSeed -> nextToCheckSeed()
+            else -> Unit
         }
     }
     SecureScreen(onEvent = viewModel::handleEvent)

@@ -17,13 +17,13 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.easy.wallet.android.core.extensions.ObserveAsEvents
 import com.easy.wallet.onboard.R
 import org.koin.androidx.compose.koinViewModel
 
@@ -32,10 +32,8 @@ internal fun RestoreWalletRoute(
     onImportSuccess: () -> Unit
 ) {
     val viewModel = koinViewModel<RestoreWalletViewModel>()
-    LaunchedEffect(key1 = viewModel) {
-        viewModel.eventFlow.collect {
-            onImportSuccess()
-        }
+    ObserveAsEvents(flow = viewModel.navigationEvents) {
+        onImportSuccess()
     }
     val uiState by viewModel.restoreWalletUiState.collectAsStateWithLifecycle()
     val seedPhraseForm = viewModel.seedPhraseForm

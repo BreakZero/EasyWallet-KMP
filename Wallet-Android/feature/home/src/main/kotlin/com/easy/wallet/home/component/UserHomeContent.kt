@@ -54,6 +54,7 @@ internal fun UserHomeContent(
     val listState = rememberLazyListState()
     val toolbarState = rememberCollapsingToolbarState(toolbarHeightRange)
     val scope = rememberCoroutineScope()
+
     var scale by rememberSaveable {
         mutableFloatStateOf(1.0f)
     }
