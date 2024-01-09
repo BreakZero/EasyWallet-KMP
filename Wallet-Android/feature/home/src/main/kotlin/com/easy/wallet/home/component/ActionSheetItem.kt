@@ -91,8 +91,7 @@ internal fun ActionSheetItem(
 private fun ActionItem_Preview() {
     EWalletTheme {
         Surface {
-            ActionSheetItem(menu = ActionSheetMenu.CREATE_BY_SEED) {
-            }
+            ActionSheetItem(menu = ActionSheetMenu.CREATE_BY_SEED) {}
         }
     }
 }

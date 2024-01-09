@@ -15,6 +15,10 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -29,9 +33,12 @@ import com.easy.wallet.home.R
 @Composable
 internal fun GuestContent(
     modifier: Modifier = Modifier,
-    uiState: HomeUiState.GuestUiState,
+    guestUiState: HomeUiState.GuestUiState,
     onEvent: (HomeEvent) -> Unit
 ) {
+    var isShowActions by remember {
+        mutableStateOf(false)
+    }
     Column(
         modifier = modifier,
     ) {
@@ -62,21 +69,28 @@ internal fun GuestContent(
 
         Button(
             modifier = Modifier.fillMaxWidth(),
-            onClick = { onEvent(HomeEvent.ShowCreateWalletSheet) },
+            onClick = {
+                isShowActions = true
+                onEvent(HomeEvent.OpenCreateWalletActions)
+            },
         ) {
             Text(text = stringResource(id = R.string.onboard_create_wallet))
         }
         OutlinedButton(
             modifier = Modifier.fillMaxWidth(),
-            onClick = { onEvent(HomeEvent.ShowRestoreWalletSheet) },
+            onClick = {
+                isShowActions = true
+                onEvent(HomeEvent.OpenRestoreWalletActions)
+            },
         ) {
             Text(text = stringResource(id = R.string.onboard_import_wallet))
         }
     }
-    if (uiState.isActionSheetOpen) {
+    if (isShowActions) {
         WalletActionSheet(
             modifier = Modifier.fillMaxHeight(0.5f),
-            menus = uiState.actions,
+            menus = guestUiState.actions,
+            onDismiss = { isShowActions = false },
             onEvent = onEvent,
         )
     }
@@ -91,7 +105,7 @@ private fun GuestContent_Preview() {
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(horizontal = 16.dp),
-                uiState = HomeUiState.GuestUiState(),
+                guestUiState = HomeUiState.GuestUiState(),
                 onEvent = {},
             )
         }

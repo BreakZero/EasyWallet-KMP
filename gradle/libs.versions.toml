@@ -8,6 +8,7 @@ androidxTracing = "1.1.0"
 androidxWindowManager = "1.1.0"
 androidxWork = "2.9.0-beta01"
 
+buildkonfigGradlePlugin = "0.15.1"
 compose-bom = "2023.08.00"
 compose-compiler = "1.5.3"
 compose-activity = "1.7.2"
@@ -64,6 +65,7 @@ androidx-compose-viewmodel = { group = "androidx.lifecycle", name = "lifecycle-v
 androidx-compose-lifecycle-runtime = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "androidx-lifecycle" }
 androidx-compose-navigation = { group = "androidx.navigation", name = "navigation-compose", version.ref = "compose-navigation" }
 
+buildkonfig-gradle-plugin = { module = "com.codingfeline.buildkonfig:buildkonfig-gradle-plugin", version.ref = "buildkonfigGradlePlugin" }
 ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 

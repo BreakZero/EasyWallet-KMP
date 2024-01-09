@@ -20,6 +20,7 @@ import com.easy.wallet.home.HomeEvent
 internal fun WalletActionSheet(
     modifier: Modifier = Modifier,
     menus: List<ActionSheetMenu>,
+    onDismiss: () -> Unit,
     onEvent: (HomeEvent) -> Unit
 ) {
     val bottomSheetState = rememberModalBottomSheetState(
@@ -28,17 +29,16 @@ internal fun WalletActionSheet(
     ModalBottomSheet(
         modifier = modifier,
         sheetState = bottomSheetState,
-        onDismissRequest = {
-            onEvent(HomeEvent.CloseActionSheet)
-        },
+        onDismissRequest = onDismiss
     ) {
         LazyColumn(modifier = Modifier.fillMaxWidth()) {
             items(menus, key = { it.title.toString() }) { menu ->
                 ActionSheetItem(menu = menu) {
                     when (menu) {
-                        ActionSheetMenu.CREATE_BY_SEED -> onEvent(HomeEvent.OnCreateWallet)
-                        ActionSheetMenu.RESTORE_BY_SEED -> onEvent(HomeEvent.OnRestoreWallet)
+                        ActionSheetMenu.CREATE_BY_SEED -> onEvent(HomeEvent.CreateWallet)
+                        ActionSheetMenu.RESTORE_BY_SEED -> onEvent(HomeEvent.RestoreWallet)
                     }
+                    onDismiss()
                 }
             }
             // TODO remove when support more actions

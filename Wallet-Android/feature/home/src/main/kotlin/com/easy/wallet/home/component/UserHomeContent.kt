@@ -2,7 +2,6 @@ package com.easy.wallet.home.component
 
 import androidx.compose.animation.core.FloatExponentialDecaySpec
 import androidx.compose.animation.core.animateDecay
-import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
@@ -18,7 +17,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -45,7 +43,7 @@ import kotlinx.coroutines.launch
 @Composable
 internal fun UserHomeContent(
     modifier: Modifier = Modifier,
-    uiState: HomeUiState.WalletUiState,
+    walletUiState: HomeUiState.WalletUiState,
     onEvent: (HomeEvent) -> Unit
 ) {
     val toolbarHeightRange = with(LocalDensity.current) {
@@ -94,8 +92,7 @@ internal fun UserHomeContent(
             modifier = Modifier
                 .fillMaxWidth()
                 .scale(scale)
-                .graphicsLayer { translationY = toolbarHeightRange.last * (scale - 1.0f) },
-            onEvent = onEvent
+                .graphicsLayer { translationY = toolbarHeightRange.last * (scale - 1.0f) }
         )
         LazyColumn(
             modifier = Modifier
@@ -114,7 +111,7 @@ internal fun UserHomeContent(
             verticalArrangement = Arrangement.spacedBy(12.dp),
             state = listState
         ) {
-            items(uiState.tokens, key = { it.token.id }) {
+            items(walletUiState.tokens, key = { it.token.id }) {
                 TokenItemView(extraToken = it, onEvent = onEvent)
             }
         }
@@ -129,7 +126,7 @@ private fun UserHome_Preview() {
             modifier = Modifier
                 .fillMaxSize(),
         ) {
-            UserHomeContent(uiState = HomeUiState.WalletUiState(emptyList())) {}
+            UserHomeContent(walletUiState = HomeUiState.WalletUiState(emptyList())) {}
         }
     }
 }

@@ -9,7 +9,6 @@ import com.easy.wallet.shared.domain.DashboardUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.flatMapConcat
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
@@ -29,48 +28,29 @@ internal class HomeViewModel(
             hdWalletInstant.loadInMemory(it.mnemonic, it.passphrase)
             dashboardUseCase().map { HomeUiState.WalletUiState(it) }
         } ?: _guestUiState
-    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(3_000), HomeUiState.Fetching)
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(3_000), HomeUiState.Loading)
 
     override fun handleEvent(event: HomeEvent) {
         when (event) {
-            HomeEvent.ShowCreateWalletSheet -> {
+            HomeEvent.OpenCreateWalletActions -> {
                 _guestUiState.update {
                     it.copy(
-                        isActionSheetOpen = true,
                         actions = listOf(ActionSheetMenu.CREATE_BY_SEED),
                     )
                 }
             }
 
-            HomeEvent.ShowRestoreWalletSheet -> {
+            HomeEvent.OpenRestoreWalletActions -> {
                 _guestUiState.update {
                     it.copy(
-                        isActionSheetOpen = true,
                         actions = listOf(ActionSheetMenu.RESTORE_BY_SEED),
                     )
                 }
             }
 
-            HomeEvent.CloseActionSheet -> {
-                _guestUiState.update {
-                    it.copy(isActionSheetOpen = false)
-                }
-            }
-
-            HomeEvent.OnCreateWallet -> {
-                _guestUiState.update {
-                    it.copy(isActionSheetOpen = false)
-                }
+            else -> {
                 dispatchEvent(event)
             }
-
-            HomeEvent.OnRestoreWallet -> {
-                _guestUiState.update {
-                    it.copy(isActionSheetOpen = false)
-                }
-                dispatchEvent(event)
-            }
-            HomeEvent.ClickSettings, is HomeEvent.ClickToken -> dispatchEvent(event)
         }
     }
 }

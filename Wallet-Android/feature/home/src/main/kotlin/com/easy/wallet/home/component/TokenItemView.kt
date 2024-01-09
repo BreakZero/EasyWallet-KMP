@@ -31,7 +31,7 @@ internal fun TokenItemView(
         modifier = Modifier
             .fillMaxWidth()
             .clickable {
-                onEvent(HomeEvent.ClickToken(token))
+                onEvent(HomeEvent.TokenClicked(token))
             }
             .padding(
                 horizontal = 16.dp,
