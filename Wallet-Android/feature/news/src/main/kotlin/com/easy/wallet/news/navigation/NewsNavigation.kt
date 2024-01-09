@@ -1,36 +1,34 @@
 package com.easy.wallet.news.navigation
 
+import android.content.Context
 import android.net.Uri
+import androidx.annotation.ColorInt
+import androidx.browser.customtabs.CustomTabColorSchemeParams
+import androidx.browser.customtabs.CustomTabsIntent
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
-import androidx.navigation.NavType
 import androidx.navigation.compose.composable
-import androidx.navigation.navArgument
-import com.easy.wallet.news.NewsDetailScreen
 import com.easy.wallet.news.NewsRoute
 
 const val newsTabRoute = "_news_tab_route"
-internal const val newsDetailRoute = "_news_detail_route"
 
 fun NavController.selectedNewsTab(navOptions: NavOptions? = null) {
     this.navigate(newsTabRoute, navOptions)
 }
 
-fun NavGraphBuilder.newsGraph(navController: NavController) {
+fun NavGraphBuilder.newsGraph() {
     composable(route = newsTabRoute) {
-        NewsRoute {
-            val encodedUrl = Uri.encode(it)
-            navController.navigate("$newsDetailRoute/$encodedUrl")
-        }
+        NewsRoute()
     }
-    composable(
-        route = "$newsDetailRoute/{url}",
-        arguments = listOf(
-            navArgument("url") { type = NavType.StringType },
-        ),
-    ) { backStackEntry ->
-        val url = backStackEntry.arguments?.getString("url").orEmpty()
-        NewsDetailScreen(url = Uri.decode(url), popBack = navController::popBackStack)
-    }
+}
+
+internal fun launchCustomChromeTab(context: Context, uri: Uri, @ColorInt toolbarColor: Int) {
+    val customTabBarColor = CustomTabColorSchemeParams.Builder()
+        .setToolbarColor(toolbarColor).build()
+    val customTabsIntent = CustomTabsIntent.Builder()
+        .setDefaultColorSchemeParams(customTabBarColor)
+        .build()
+
+    customTabsIntent.launchUrl(context, uri)
 }

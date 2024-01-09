@@ -1,5 +1,6 @@
 package com.easy.wallet.news
 
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
@@ -13,7 +14,7 @@ import kotlinx.coroutines.flow.stateIn
 
 internal class NewsViewModel(
     newsRepository: NewsRepository
-) : BaseViewModel<NewsEvent>() {
+) : ViewModel() {
     private val pageFlow = Pager(
         config = PagingConfig(pageSize = Int.MAX_VALUE, prefetchDistance = 2),
         pagingSourceFactory = {
@@ -23,11 +24,4 @@ internal class NewsViewModel(
 
     val newsUiState = pageFlow.distinctUntilChanged().cachedIn(viewModelScope)
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), PagingData.empty())
-
-    override fun handleEvent(event: NewsEvent) {
-        when (event) {
-            is NewsEvent.ClickItem -> dispatchEvent(event)
-            NewsEvent.CloseNews -> Unit
-        }
-    }
 }

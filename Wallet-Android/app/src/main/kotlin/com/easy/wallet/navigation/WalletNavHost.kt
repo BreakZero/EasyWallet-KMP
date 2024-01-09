@@ -42,7 +42,7 @@ fun WalletNavHost(
         )
         createGraph(navController)
         importWalletScreen(navController)
-        newsGraph(navController)
+        newsGraph()
         marketplaceTabScreen()
         discoverTabScreen()
         settingsGraph(popBack = navController::popBackStack)

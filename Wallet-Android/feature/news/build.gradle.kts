@@ -15,6 +15,8 @@ dependencies {
     implementation(project(":platform:shared"))
     implementation(project(":platform:model"))
 
+    implementation("androidx.browser:browser:1.7.0")
+
     implementation(libs.androidx.paging)
     implementation(libs.androidx.paging.compose)
 }
