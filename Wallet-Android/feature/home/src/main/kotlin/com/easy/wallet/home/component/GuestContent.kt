@@ -25,7 +25,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.easy.wallet.design.theme.ThemePreviews
-import com.easy.wallet.design.ui.EWalletTheme
+import com.easy.wallet.design.ui.EasyWalletTheme
 import com.easy.wallet.home.HomeEvent
 import com.easy.wallet.home.HomeUiState
 import com.easy.wallet.home.R
@@ -99,7 +99,7 @@ internal fun GuestContent(
 @ThemePreviews
 @Composable
 private fun GuestContent_Preview() {
-    EWalletTheme {
+    EasyWalletTheme {
         Surface(modifier = Modifier.fillMaxSize()) {
             GuestContent(
                 modifier = Modifier

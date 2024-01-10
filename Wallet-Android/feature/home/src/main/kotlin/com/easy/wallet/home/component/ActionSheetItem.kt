@@ -27,7 +27,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import com.easy.wallet.design.UiText
 import com.easy.wallet.design.theme.ThemePreviews
-import com.easy.wallet.design.ui.EWalletTheme
+import com.easy.wallet.design.ui.EasyWalletTheme
 import com.easy.wallet.home.R
 
 internal enum class ActionSheetMenu(
@@ -89,7 +89,7 @@ internal fun ActionSheetItem(
 @ThemePreviews
 @Composable
 private fun ActionItem_Preview() {
-    EWalletTheme {
+    EasyWalletTheme {
         Surface {
             ActionSheetItem(menu = ActionSheetMenu.CREATE_BY_SEED) {}
         }

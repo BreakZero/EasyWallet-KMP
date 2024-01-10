@@ -11,6 +11,7 @@ import com.easy.wallet.shared.data.multiwallet.MultiWalletRepository
 import com.easy.wallet.shared.data.okx.OKXDataRepository
 import com.easy.wallet.shared.data.repository.BitcoinRepository
 import com.easy.wallet.shared.data.repository.EthereumRepository
+import com.easy.wallet.shared.data.repository.MarketsRepository
 import com.easy.wallet.shared.data.repository.SupportedTokenRepository
 import com.easy.wallet.shared.data.repository.TokenRepository
 import com.easy.wallet.shared.data.repository.news.NewsRepository
@@ -41,6 +42,8 @@ val sharedModule = module {
     single<TokenRepository>(named("Ethereum")) { EthereumRepository(get()) }
 
     single<TransactionRepository>(named("Ethereum")) { EthereumTransactionRepository(get()) }
+
+    singleOf(::MarketsRepository)
 
     single { OKXDataRepository(get()) }
 

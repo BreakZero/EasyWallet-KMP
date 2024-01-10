@@ -3,6 +3,8 @@ package com.easy.wallet.network.di
 import com.easy.wallet.network.httpClient
 import com.easy.wallet.network.source.blockchair.BlockchairApi
 import com.easy.wallet.network.source.blockchair.BlockchairDataSource
+import com.easy.wallet.network.source.coingecko.CoinGeckoApi
+import com.easy.wallet.network.source.coingecko.CoinGeckoDataSource
 import com.easy.wallet.network.source.etherscan.EtherscanApi
 import com.easy.wallet.network.source.etherscan.EtherscanDataSource
 import com.easy.wallet.network.source.okx.OKXWebSocketManager
@@ -27,7 +29,7 @@ import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 enum class SourceQualifier {
-    OPENSEA, BLOCK_CHAIR, ETHER_SCAN, OKX_WEBSOCKETS
+    OPENSEA, BLOCK_CHAIR, ETHER_SCAN, OKX_WEBSOCKETS, COINGECKO
 }
 
 private fun httpClientWithDefault(special: HttpClientConfig<*>.() -> Unit = {}): HttpClient {
@@ -106,10 +108,23 @@ val networkModule = module {
             }
         }
     }
+    single(qualifier = named(name = SourceQualifier.COINGECKO.name)) {
+        httpClientWithDefault {
+            defaultRequest {
+                url {
+                    protocol = URLProtocol.HTTPS
+                    host = "api.coingecko.com"
+                    path("api/v3/")
+                }
+                header("accept", "application/json")
+            }
+        }
+    }
     single(qualifier = named(name = SourceQualifier.OKX_WEBSOCKETS.name)) { webSocketClient() }
 
     single<BlockchairApi> { BlockchairDataSource(get(qualifier = named(SourceQualifier.BLOCK_CHAIR.name))) }
     single<OpenseaApi> { OpenseaDataSource(get(qualifier = named(SourceQualifier.OPENSEA.name))) }
     single<EtherscanApi> { EtherscanDataSource(get(qualifier = named(SourceQualifier.ETHER_SCAN.name))) }
+    single<CoinGeckoApi> { CoinGeckoDataSource(get(qualifier = named(SourceQualifier.COINGECKO.name))) }
     single { OKXWebSocketManager(get(qualifier = named(SourceQualifier.OKX_WEBSOCKETS.name))) }
 }

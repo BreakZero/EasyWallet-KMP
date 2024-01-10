@@ -17,7 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.easy.wallet.design.theme.ThemePreviews
-import com.easy.wallet.design.ui.EWalletTheme
+import com.easy.wallet.design.ui.EasyWalletTheme
 import com.patrykandpatrick.vico.compose.chart.Chart
 import com.patrykandpatrick.vico.compose.chart.line.lineChart
 import com.patrykandpatrick.vico.core.chart.scale.AutoScaleUp
@@ -67,7 +67,7 @@ internal fun DashboardView(
 @ThemePreviews
 @Composable
 private fun DashboardView_Preview() {
-    EWalletTheme {
+    EasyWalletTheme {
         DashboardView(
             modifier = Modifier
                 .height(248.dp)

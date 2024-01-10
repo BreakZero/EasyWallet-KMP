@@ -37,7 +37,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.easy.wallet.android.core.extensions.ObserveAsEvents
 import com.easy.wallet.design.theme.ThemePreviews
-import com.easy.wallet.design.ui.EWalletTheme
+import com.easy.wallet.design.ui.EasyWalletTheme
 import com.easy.wallet.onboard.R
 import com.easy.wallet.onboard.create.CreateWalletEvent
 import com.easy.wallet.onboard.create.CreateWalletViewModel
@@ -149,7 +149,7 @@ internal fun SeedPhraseScreen(
 @ThemePreviews
 @Composable
 private fun SeedScreen_Preview() {
-    EWalletTheme {
+    EasyWalletTheme {
         Surface(modifier = Modifier.fillMaxSize()) {
             SeedPhraseScreen(
                 (1..12).map {

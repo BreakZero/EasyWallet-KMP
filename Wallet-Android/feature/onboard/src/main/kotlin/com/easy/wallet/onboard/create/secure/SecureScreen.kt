@@ -23,7 +23,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.easy.wallet.android.core.extensions.ObserveAsEvents
 import com.easy.wallet.design.theme.ThemePreviews
-import com.easy.wallet.design.ui.EWalletTheme
+import com.easy.wallet.design.ui.EasyWalletTheme
 import com.easy.wallet.onboard.R
 import com.easy.wallet.onboard.create.CreateWalletEvent
 import com.easy.wallet.onboard.create.CreateWalletViewModel
@@ -97,7 +97,7 @@ internal fun SecureScreen(
 @Composable
 @ThemePreviews
 private fun SecurePreview() {
-    EWalletTheme {
+    EasyWalletTheme {
         Surface(modifier = Modifier.fillMaxSize()) {
             SecureScreen {}
         }

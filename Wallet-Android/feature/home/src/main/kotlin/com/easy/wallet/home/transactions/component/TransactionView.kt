@@ -21,7 +21,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.easy.wallet.design.theme.ThemePreviews
-import com.easy.wallet.design.ui.EWalletTheme
+import com.easy.wallet.design.ui.EasyWalletTheme
 import com.easy.wallet.model.data.Direction
 import com.easy.wallet.model.data.EthereumTransaction
 import com.easy.wallet.model.data.Transaction
@@ -66,7 +66,7 @@ internal fun TransactionView(
 @ThemePreviews
 @Composable
 private fun TransactionView_Preview() {
-    EWalletTheme {
+    EasyWalletTheme {
         Surface {
             TransactionView(
                 transaction = EthereumTransaction(
