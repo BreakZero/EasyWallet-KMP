@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyItemScope
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -17,6 +19,7 @@ import androidx.paging.compose.LazyPagingItems
 @Composable
 fun <T : Any> DefaultPagingStateColumn(
     modifier: Modifier = Modifier,
+    state: LazyListState = rememberLazyListState(),
     contentPadding: PaddingValues = PaddingValues(0.dp),
     verticalArrangement: Arrangement.Vertical = Arrangement.spacedBy(0.dp),
     paging: LazyPagingItems<T>,
@@ -25,6 +28,7 @@ fun <T : Any> DefaultPagingStateColumn(
 ) {
     LazyColumn(
         modifier,
+        state = state,
         contentPadding = contentPadding,
         verticalArrangement = verticalArrangement,
     ) {

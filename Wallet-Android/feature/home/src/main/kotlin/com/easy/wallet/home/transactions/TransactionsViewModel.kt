@@ -13,17 +13,15 @@ import kotlinx.coroutines.flow.stateIn
 
 internal class TransactionsViewModel(
     transactionsUseCase: TransactionsUseCase
-) : BaseViewModel<TransactionsEvent>() {
-    private val pageFlow = Pager(
+) : BaseViewModel<TransactionEvent>() {
+    private val _transactionPageFlow = Pager(
         config = PagingConfig(pageSize = Int.MAX_VALUE, prefetchDistance = 2),
-        pagingSourceFactory = {
-            TransactionPagingSource("", transactionsUseCase)
-        },
+        pagingSourceFactory = { TransactionPagingSource("", transactionsUseCase)}
     ).flow
 
-    val transactionUiState = pageFlow.distinctUntilChanged()
+    val transactionUiState = _transactionPageFlow.distinctUntilChanged()
         .cachedIn(viewModelScope)
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), PagingData.empty())
-    override fun handleEvent(event: TransactionsEvent) {
+    override fun handleEvent(event: TransactionEvent) {
     }
 }

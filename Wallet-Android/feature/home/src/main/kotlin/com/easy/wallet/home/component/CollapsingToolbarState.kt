@@ -6,6 +6,7 @@ package com.easy.wallet.home.component
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.mapSaver
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -62,9 +63,8 @@ class ScrollState(
     heightRange: IntRange,
     scrollOffset: Float = 0f
 ): ScrollFlagState(heightRange) {
-    override var _scrollOffset by mutableStateOf(
-        value = scrollOffset.coerceIn(0f, maxHeight.toFloat()),
-        policy = structuralEqualityPolicy()
+    override var _scrollOffset by mutableFloatStateOf(
+        value = scrollOffset.coerceIn(0f, maxHeight.toFloat())
     )
 
     override val offset: Float
