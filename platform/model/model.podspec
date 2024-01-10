@@ -11,6 +11,17 @@ Pod::Spec.new do |spec|
     spec.ios.deployment_target = '16.0'
                 
                 
+    if !Dir.exist?('build/cocoapods/framework/model.framework') || Dir.empty?('build/cocoapods/framework/model.framework')
+        raise "
+
+        Kotlin framework 'model' doesn't exist yet, so a proper Xcode project can't be generated.
+        'pod install' should be executed after running ':generateDummyFramework' Gradle task:
+
+            ./gradlew :platform:model:generateDummyFramework
+
+        Alternatively, proper pod installation is performed during Gradle sync in the IDE (if Podfile location is set)"
+    end
+                
     spec.pod_target_xcconfig = {
         'KOTLIN_PROJECT_PATH' => ':platform:model',
         'PRODUCT_MODULE_NAME' => 'model',

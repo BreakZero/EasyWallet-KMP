@@ -41,7 +41,7 @@ fun tokenProperty(): java.util.Properties {
     return properties
 }
 
-rootProject.name = "E-Wallet"
+rootProject.name = "EasyWallet"
 include(":platform:core")
 include(":platform:database")
 include(":platform:model")

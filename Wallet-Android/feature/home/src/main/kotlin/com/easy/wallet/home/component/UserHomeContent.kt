@@ -100,7 +100,7 @@ internal fun UserHomeContent(
                 .graphicsLayer { translationY = toolbarState.height + toolbarState.offset }
                 .background(MaterialTheme.colorScheme.background)
                 .shadow(
-                    elevation = 3.dp,
+                    elevation = 2.dp,
                     shape = RoundedCornerShape(topEnd = 20.dp, topStart = 20.dp)
                 )
                 .pointerInput(Unit) {
