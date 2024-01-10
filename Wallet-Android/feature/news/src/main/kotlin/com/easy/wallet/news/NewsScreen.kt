@@ -1,6 +1,7 @@
 package com.easy.wallet.news
 
 import android.net.Uri
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -34,7 +35,7 @@ internal fun NewsScreen(
     newsPaging: LazyPagingItems<News>
 ) {
     val context = LocalContext.current
-    val backgroundColor = MaterialTheme.colorScheme.background.toArgb()
+    val backgroundColor = MaterialTheme.colorScheme.surface.toArgb()
     Box(modifier = Modifier.fillMaxSize()) {
         DefaultPagingStateColumn<News>(
             paging = newsPaging,

@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -15,14 +16,9 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.graphicsLayer
@@ -47,22 +43,20 @@ internal fun UserHomeContent(
     onEvent: (HomeEvent) -> Unit
 ) {
     val toolbarHeightRange = with(LocalDensity.current) {
-        0.dp.roundToPx()..275.dp.roundToPx()
+        0.dp.roundToPx()..260.dp.roundToPx()
     }
     val listState = rememberLazyListState()
     val toolbarState = rememberCollapsingToolbarState(toolbarHeightRange)
     val scope = rememberCoroutineScope()
 
-    var scale by rememberSaveable {
-        mutableFloatStateOf(1.0f)
-    }
     val nestedScrollConnection = remember {
         object : NestedScrollConnection {
             override fun onPreScroll(available: Offset, source: NestedScrollSource): Offset {
                 toolbarState.scrollTopLimitReached =
                     listState.firstVisibleItemIndex == 0 && listState.firstVisibleItemScrollOffset == 0
                 toolbarState.scrollOffset = toolbarState.scrollOffset - available.y
-                scale = (toolbarHeightRange.last - toolbarState.scrollOffset) / toolbarHeightRange.last
+
+                println("===== progress: ${toolbarState.progress}")
                 return Offset(0f, toolbarState.consumed)
             }
 
@@ -74,8 +68,10 @@ internal fun UserHomeContent(
                             initialVelocity = available.y,
                             animationSpec = FloatExponentialDecaySpec()
                         ) { value, _ ->
-                            toolbarState.scrollTopLimitReached = listState.firstVisibleItemIndex == 0 && listState.firstVisibleItemScrollOffset == 0
-                            toolbarState.scrollOffset = toolbarState.scrollOffset - (value - (toolbarState.height + toolbarState.offset))
+                            toolbarState.scrollTopLimitReached =
+                                listState.firstVisibleItemIndex == 0 && listState.firstVisibleItemScrollOffset == 0
+                            toolbarState.scrollOffset =
+                                toolbarState.scrollOffset - (value - (toolbarState.height + toolbarState.offset))
                             if (toolbarState.scrollOffset == 0f) scope.coroutineContext.cancelChildren()
                         }
                     }
@@ -91,18 +87,21 @@ internal fun UserHomeContent(
         DashboardView(
             modifier = Modifier
                 .fillMaxWidth()
-                .scale(scale)
-                .graphicsLayer { translationY = toolbarHeightRange.last * (scale - 1.0f) }
+                .height(260.dp)
+                .graphicsLayer {
+                    translationY =
+                        toolbarHeightRange.last * (toolbarState.progress * toolbarState.progress - 1.0f)
+                }
         )
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
                 .graphicsLayer { translationY = toolbarState.height + toolbarState.offset }
-                .background(MaterialTheme.colorScheme.background)
                 .shadow(
                     elevation = 2.dp,
                     shape = RoundedCornerShape(topEnd = 20.dp, topStart = 20.dp)
                 )
+                .background(MaterialTheme.colorScheme.surfaceVariant)
                 .pointerInput(Unit) {
                     detectTapGestures(
                         onPress = { scope.coroutineContext.cancelChildren() }

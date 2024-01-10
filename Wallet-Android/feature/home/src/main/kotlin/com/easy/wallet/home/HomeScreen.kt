@@ -57,13 +57,15 @@ internal fun HomeScreen(
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
-            TopAppBar(title = { /*TODO*/ }, navigationIcon = {
-                if (homeUiState is HomeUiState.WalletUiState) {
-                    IconButton(onClick = { onEvent(HomeEvent.SettingsClicked) }) {
-                        Icon(imageVector = Icons.Default.Settings, contentDescription = null)
+            TopAppBar(title = { /*TODO*/ },
+                navigationIcon = {
+                    if (homeUiState is HomeUiState.WalletUiState) {
+                        IconButton(onClick = { onEvent(HomeEvent.SettingsClicked) }) {
+                            Icon(imageVector = Icons.Default.Settings, contentDescription = null)
+                        }
                     }
                 }
-            })
+            )
         }
     ) { paddingValues ->
         when (homeUiState) {
