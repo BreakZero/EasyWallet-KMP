@@ -9,7 +9,7 @@ EasyWallet初衷是一个为CryptoDeFiWallet重构准备而实验的一个项目
 | ![Settings](https://github.com/BreakZero/EasyWallet-KMP/blob/main/screens/Screenshot_20240111_100215.png) |  ![Chat](https://github.com/BreakZero/EasyWallet-KMP/blob/main/screens/Screenshot_20240111_100239.png)  |                                                                                                           |                                                                                                           |
 
 ### 配置
-由于项目中依赖[wallet-core](https://github.com/trustwallet/wallet-core)实现区块链相关功能处理，其使用`GitHub packages`进行包管理，所以想要拉去依赖库，需要使用到`github token`，
+由于项目中依赖[wallet-core](https://github.com/trustwallet/wallet-core)实现区块链相关功能处理，其使用`GitHub packages`进行包管理，所以想拉取依赖库，需要使用到`github token`，
 所以需要创建一个文件命名为`github_token.properties`，并填入以下内容：
 ```properties
 gpr.name=Your Github Name
