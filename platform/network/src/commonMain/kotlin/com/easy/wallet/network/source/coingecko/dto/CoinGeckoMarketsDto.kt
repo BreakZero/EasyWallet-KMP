@@ -55,5 +55,13 @@ data class CoinGeckoMarketsDto(
     @SerialName("total_supply")
     val totalSupply: Double?,
     @SerialName("total_volume")
-    val totalVolume: Double
+    val totalVolume: Double,
+    @SerialName("sparkline_in_7d")
+    val sparklineIn7d: SparklineIn7d? = null,
+)
+
+@Serializable
+data class SparklineIn7d(
+    @SerialName("price")
+    val price: List<Double>
 )

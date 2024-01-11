@@ -48,7 +48,9 @@ internal fun MarketplaceScreen(marketplaceUiState: MarketplaceUiState) {
         when (marketplaceUiState) {
             is MarketplaceUiState.Loading -> {
                 Box(
-                    modifier = Modifier.fillMaxSize().padding(paddingValues),
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(paddingValues),
                     contentAlignment = Alignment.Center
                 ) {
                     LoadingWheel(contentDesc = "")
@@ -58,11 +60,13 @@ internal fun MarketplaceScreen(marketplaceUiState: MarketplaceUiState) {
             is MarketplaceUiState.Success -> {
                 LazyColumn(
                     modifier = Modifier
-                        .padding(paddingValues)
-                        .padding(bottom = 8.dp),
-                    contentPadding = PaddingValues(horizontal = 16.dp),
+                        .padding(paddingValues),
+                    contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
                     verticalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
+                    item {
+                        Text(text = "Trending Coins")
+                    }
                     item {
                         LazyRow(
                             horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -71,6 +75,9 @@ internal fun MarketplaceScreen(marketplaceUiState: MarketplaceUiState) {
                                 TrendingItem(trending = it)
                             }
                         }
+                    }
+                    item {
+                        Text(text = "Top Coins")
                     }
                     items(marketplaceUiState.topCoins) {
                         MarketCoinItem(marketCoin = it)

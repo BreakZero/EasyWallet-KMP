@@ -16,7 +16,7 @@ class MarketsRepository internal constructor(
                 page = 1,
                 numCoinsPerPage = 100,
                 order = "market_cap_desc",
-                includeSparkline7dData = false,
+                includeSparkline7dData = true,
                 priceChangePercentageIntervals = "",
                 coinIds = null
             )
@@ -27,7 +27,8 @@ class MarketsRepository internal constructor(
                     name = it.name,
                     image = it.image,
                     currentPrice = it.currentPrice,
-                    priceChangePercentage24h = it.priceChangePercentage24h
+                    priceChangePercentage24h = it.priceChangePercentage24h,
+                    price = it.sparklineIn7d?.price ?: emptyList()
                 )
             })
         }
