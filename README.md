@@ -2,7 +2,6 @@
 EasyWallet初衷是一个为CryptoDeFiWallet重构准备而实验的一个项目，同时也是为了学习Android新技术栈的练习项目。目前使用Kotlin Multiplatform完成Android
 和iOS开发，共享逻辑代码，UI分别使用Jetpack Compose和SwiftUI实现。
 
-### 简易的界面
 |                                                                                                       |                                                                                                         |                                                                                                           |
 |:-----------------------------------------------------------------------------------------------------:|:-------------------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------------------------:|
 | ![Home](https://github.com/BreakZero/EasyWallet-KMP/blob/main/screens/Screenshot_20240111_100157.png) | ![Drawer](https://github.com/BreakZero/EasyWallet-KMP/blob/main/screens/Screenshot_20240111_100109.png) | ![Settings](https://github.com/BreakZero/EasyWallet-KMP/blob/main/screens/Screenshot_20240111_100215.png) |
