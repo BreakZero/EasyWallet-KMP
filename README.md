@@ -22,3 +22,7 @@ gpr.key=Your Github token
 ### 各链数据接口
 不同链的数据来源也不同，所以需要不同apikey，可以查看[NetworkModule.kt](platform%2Fnetwork%2Fsrc%2FcommonMain%2Fkotlin%2Fcom%2Feasy%2Fwallet%2Fnetwork%2Fdi%2FNetworkModule.kt)中补上。
 > 计划实现一个服务端，加上Redis实现缓存，统一处理数据来源结构
+
+### 界面参考资源
+- [Crypto-Wallet-Mobile-Ui-(Free)-(Community)](https://www.figma.com/file/sLqrdLp6vOedEnZgW1E3ze/Cryptooly---Crypto-Wallet-Mobile-Ui-(Free)-(Community)?type=design&mode=design)
+- [CoinTrend](https://github.com/CoinTrend/CoinTrend)
