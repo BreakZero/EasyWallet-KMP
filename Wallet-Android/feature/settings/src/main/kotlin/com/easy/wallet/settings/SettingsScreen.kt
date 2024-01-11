@@ -21,7 +21,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.easy.wallet.android.core.extensions.ObserveAsEvents
 import com.easy.wallet.design.theme.ThemePreviews
-import com.easy.wallet.design.ui.EWalletTheme
+import com.easy.wallet.design.ui.EasyWalletTheme
 import com.easy.wallet.settings.component.SettingsItem
 import org.koin.androidx.compose.koinViewModel
 
@@ -93,7 +93,7 @@ internal fun SettingsScreen(
 @ThemePreviews
 @Composable
 private fun Settings_Preview() {
-    EWalletTheme {
+    EasyWalletTheme {
         Surface(modifier = Modifier.fillMaxSize()) {
             SettingsScreen {}
         }

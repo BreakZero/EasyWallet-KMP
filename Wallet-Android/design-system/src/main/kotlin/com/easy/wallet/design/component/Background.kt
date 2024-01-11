@@ -21,7 +21,7 @@ import com.easy.wallet.design.theme.GradientColors
 import com.easy.wallet.design.theme.LocalBackgroundTheme
 import com.easy.wallet.design.theme.LocalGradientColors
 import com.easy.wallet.design.theme.ThemePreviews
-import com.easy.wallet.design.ui.EWalletTheme
+import com.easy.wallet.design.ui.EasyWalletTheme
 import kotlin.math.tan
 
 @Composable
@@ -111,7 +111,7 @@ fun EasyGradientBackground(
 @ThemePreviews
 @Composable
 fun GradientBackgroundDynamic() {
-    EWalletTheme(dynamicColor = true) {
+    EasyWalletTheme(dynamicColor = true) {
         EasyGradientBackground(
             Modifier.size(100.dp), content = {},
             gradientColors = GradientColors(

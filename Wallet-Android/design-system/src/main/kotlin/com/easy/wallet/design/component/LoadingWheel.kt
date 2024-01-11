@@ -31,7 +31,7 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import com.easy.wallet.design.theme.ThemePreviews
-import com.easy.wallet.design.ui.EWalletTheme
+import com.easy.wallet.design.ui.EasyWalletTheme
 import kotlinx.coroutines.launch
 
 private const val ROTATION_TIME = 12000
@@ -137,7 +137,7 @@ fun OverlayLoadingWheel(
 @ThemePreviews
 @Composable
 fun LoadingWheelPreview() {
-    EWalletTheme {
+    EasyWalletTheme {
         Surface {
             LoadingWheel(contentDesc = "LoadingWheel")
         }
@@ -147,7 +147,7 @@ fun LoadingWheelPreview() {
 @ThemePreviews
 @Composable
 fun OverlayLoadingWheelPreview() {
-    EWalletTheme {
+    EasyWalletTheme {
         Surface {
             OverlayLoadingWheel(contentDesc = "LoadingWheel")
         }

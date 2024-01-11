@@ -31,7 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.easy.wallet.android.core.extensions.ObserveAsEvents
 import com.easy.wallet.design.theme.ThemePreviews
-import com.easy.wallet.design.ui.EWalletTheme
+import com.easy.wallet.design.ui.EasyWalletTheme
 import com.easy.wallet.onboard.R
 import com.easy.wallet.onboard.create.CreateWalletEvent
 import com.easy.wallet.onboard.create.CreateWalletViewModel
@@ -153,7 +153,7 @@ internal fun CreatePasswordScreen(
 @Composable
 @ThemePreviews
 private fun CreatePassword_Preview() {
-    EWalletTheme {
+    EasyWalletTheme {
         Surface(modifier = Modifier.fillMaxSize()) {
             CreatePasswordScreen(
                 uiState = PasswordUiState(),

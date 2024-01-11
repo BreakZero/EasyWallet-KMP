@@ -4,45 +4,24 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.easy.wallet.network.source.okx.dto.OptionArg
 import com.easy.wallet.shared.data.okx.OKXDataRepository
+import com.easy.wallet.shared.data.repository.MarketsRepository
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class MarketplaceViewModel(
-    private val okxDataRepository: OKXDataRepository
+    private val marketsRepository: MarketsRepository
 ) : ViewModel() {
 
-    private val args = listOf(
-        OptionArg(channel = "index-candle15m", instId = "BTC-USD")
-    )
+    private val _topCoins = marketsRepository.fetchTopCoins()
+    private val _trends = marketsRepository.searchTrends()
 
-    private val _content = MutableStateFlow("Marketplace")
-    val content = _content.asStateFlow()
-
-    init {
-        viewModelScope.launch {
-            okxDataRepository.connect("/ws/v5/business") {
-                delay(1000)
-                okxDataRepository.subscribe(
-                    args = listOf(
-                        OptionArg(channel = "index-candle1m", instId = "BTC-USD")
-                    )
-                ) { marketInfo ->
-                    println(marketInfo)
-                    _content.update {
-                        marketInfo
-                    }
-                }
-            }
-        }
-    }
-
-    override fun onCleared() {
-        viewModelScope.launch {
-            okxDataRepository.unsubscribe(args)
-        }
-        super.onCleared()
-    }
+    internal val marketplaceUiState = combine(_topCoins, _trends) { topCoins, trends ->
+        MarketplaceUiState.Success(trends = trends, topCoins = topCoins)
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(3_000), MarketplaceUiState.Loading)
 }

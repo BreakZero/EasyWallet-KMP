@@ -16,7 +16,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import com.easy.wallet.design.theme.ThemePreviews
-import com.easy.wallet.design.ui.EWalletTheme
+import com.easy.wallet.design.ui.EasyWalletTheme
 import com.easy.wallet.home.HomeEvent
 import com.easy.wallet.home.HomeUiState
 
@@ -59,7 +59,7 @@ internal fun UserHomeContent(
 @ThemePreviews
 @Composable
 private fun UserHome_Preview() {
-    EWalletTheme {
+    EasyWalletTheme {
         Surface(
             modifier = Modifier
                 .fillMaxSize(),
