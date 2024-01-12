@@ -11,17 +11,25 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.easy.wallet.android.core.extensions.ObserveAsEvents
 import com.easy.wallet.design.component.LoadingWheel
 import com.easy.wallet.home.component.GuestContent
 import com.easy.wallet.home.component.UserHomeContent
 import com.easy.wallet.model.token.Token
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.sync.withLock
 import org.koin.androidx.compose.koinViewModel
+import kotlin.coroutines.resume
 
 @Composable
 internal fun HomeRoute(
@@ -32,6 +40,23 @@ internal fun HomeRoute(
     navigateToSettings: () -> Unit
 ) {
     val uiState by viewModel.homeUiState.collectAsStateWithLifecycle()
+    val lifecycleOwner = LocalLifecycleOwner.current
+    DisposableEffect(lifecycleOwner) {
+        // Create an observer that triggers our remembered callbacks
+        // for sending analytics events
+        val observer = LifecycleEventObserver { _, event ->
+            println("===== ${event.targetState.name}")
+        }
+
+        // Add the observer to the lifecycle
+        lifecycleOwner.lifecycle.addObserver(observer)
+
+        // When the effect leaves the Composition, remove the observer
+        onDispose {
+            lifecycleOwner.lifecycle.removeObserver(observer)
+        }
+    }
+
     ObserveAsEvents(flow = viewModel.navigationEvents) { event ->
         when (event) {
             HomeEvent.CreateWallet -> onCreateWallet()

@@ -86,7 +86,6 @@ fun CollapsingToolbarWithLazyList(
                 .height(with(LocalDensity.current) { toolbarState.height.toDp() })
                 .scale(toolbarState.progress.coerceAtLeast(0.8f))
                 .graphicsLayer {
-                    println("===== ${toolbarState.progress}")
                     translationY = -(toolbarState.scrollOffset / 1.5f)
                 }
         )

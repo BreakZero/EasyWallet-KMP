@@ -28,7 +28,7 @@ internal class HomeViewModel(
             hdWalletInstant.loadInMemory(it.mnemonic, it.passphrase)
             dashboardUseCase().map { HomeUiState.WalletUiState(it) }
         } ?: _guestUiState
-    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(3_000), HomeUiState.Loading)
+    }.stateIn(viewModelScope, SharingStarted.Lazily, HomeUiState.Loading)
 
     override fun handleEvent(event: HomeEvent) {
         when (event) {
@@ -52,5 +52,10 @@ internal class HomeViewModel(
                 dispatchEvent(event)
             }
         }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        println("===== onCleared")
     }
 }
