@@ -21,6 +21,7 @@ import io.ktor.client.plugins.logging.SIMPLE
 import io.ktor.client.plugins.websocket.WebSockets
 import io.ktor.client.request.header
 import io.ktor.http.URLProtocol
+import io.ktor.http.parameters
 import io.ktor.http.path
 import io.ktor.serialization.kotlinx.KotlinxWebsocketSerializationConverter
 import io.ktor.serialization.kotlinx.json.json
@@ -115,6 +116,7 @@ val networkModule = module {
                     protocol = URLProtocol.HTTPS
                     host = "api.coingecko.com"
                     path("api/v3/")
+//                    parameters.append("x_cg_demo_api_key","")
                 }
                 header("accept", "application/json")
             }

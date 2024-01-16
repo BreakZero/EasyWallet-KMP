@@ -33,17 +33,21 @@ kotlin {
                 implementation(libs.ktor.client.content.negotiation)
                 implementation(libs.ktor.serialization.kotlinx.json)
 
+                implementation("app.cash.paging:paging-common:3.3.0-alpha02-0.4.0")
+
                 api("com.trustwallet:wallet-core-kotlin:4.0.15")
                 implementation("com.ionspin.kotlin:bignum:0.3.8")
             }
         }
         getByName("iosMain") {
             dependencies {
+                implementation("app.cash.paging:paging-runtime-uikit:3.3.0-alpha02-0.4.0")
                 implementation(libs.ktor.client.darwin)
             }
         }
         getByName("androidMain") {
             dependencies {
+                implementation(libs.androidx.paging)
                 implementation(libs.ktor.client.okhttp)
             }
         }

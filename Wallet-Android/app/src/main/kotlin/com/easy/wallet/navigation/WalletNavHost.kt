@@ -36,7 +36,7 @@ fun WalletNavHost(
             onRestoreWallet = navController::toImportWallet,
             navigateToSettings = navController::toSettings,
             onTokenClick = {
-                navController.toTransactionList()
+                navController.toTransactionList(it.id)
             },
             nestedGraphs = {},
         )
