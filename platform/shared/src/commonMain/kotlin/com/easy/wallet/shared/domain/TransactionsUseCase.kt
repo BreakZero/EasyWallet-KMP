@@ -12,7 +12,7 @@ class TransactionsUseCase internal constructor(
     private val ethereumTransactionRepository: TransactionRepository
 ) {
     operator fun invoke(
-        token: Token,
+        token: Token?,
         account: String,
     ): Pager<Int, Transaction> {
         return Pager(
@@ -31,14 +31,10 @@ class TransactionsUseCase internal constructor(
 private const val LIMIT = 20
 
 internal class TransactionPagingSource(
-    private val token: Token,
+    private val token: Token?,
     private val account: String,
     private val transactionRepository: TransactionRepository
 ) : PagingSource<Int, Transaction>() {
-
-    init {
-        println("=====--- $token")
-    }
     override fun getRefreshKey(state: PagingState<Int, Transaction>): Int {
         return state.anchorPosition ?: 1
     }
@@ -46,7 +42,8 @@ internal class TransactionPagingSource(
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Transaction> {
         return try {
             val currentPage = params.key ?: 1
-            val transactions = transactionRepository.getTransactions(currentPage, LIMIT, account)
+            val transactions =
+                transactionRepository.getTransactions(token, currentPage, LIMIT, account)
             LoadResult.Page(
                 data = transactions,
                 prevKey = if (currentPage == 1) null else currentPage - 1,

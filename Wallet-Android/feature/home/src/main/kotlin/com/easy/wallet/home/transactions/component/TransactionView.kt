@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.dp
 import com.easy.wallet.design.theme.ThemePreviews
 import com.easy.wallet.design.ui.EasyWalletTheme
 import com.easy.wallet.model.data.Direction
-import com.easy.wallet.model.data.EthereumTransaction
+import com.easy.wallet.model.data.EthereumTransactionUiModel
 import com.easy.wallet.model.data.Transaction
 
 @Composable
@@ -69,7 +69,7 @@ private fun TransactionView_Preview() {
     EasyWalletTheme {
         Surface {
             TransactionView(
-                transaction = EthereumTransaction(
+                transaction = EthereumTransactionUiModel(
                     hash = "0x07e8f83aaa03cb24b0cda6931cfd4a4fe9ac329524b53068c34e5dfdf111f0d0",
                     amount = "20000000000000000",
                     recipient = "0x81080a7e991bcdddba8c2302a70f45d6bd369ab5",

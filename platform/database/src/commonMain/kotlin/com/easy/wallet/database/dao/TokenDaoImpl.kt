@@ -11,8 +11,8 @@ class TokenDaoImpl internal constructor(
     private val tokenQueries: TokenQueries,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : TokenDao {
-    override suspend fun findById(tokenId: String): Token = withContext(dispatcher) {
-        val token = tokenQueries.findById(tokenId).executeAsOne()
-        token.toExternalToken()
+    override suspend fun findById(tokenId: String): Token? = withContext(dispatcher) {
+        val token = tokenQueries.findById(tokenId).executeAsOneOrNull()
+        token?.toExternalToken()
     }
 }

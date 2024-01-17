@@ -26,7 +26,7 @@ class SupportedTokenRepository internal constructor(
     }
 
     @HiddenFromObjC
-    fun findTokenByIdFlow(tokenId: String): Flow<Token> {
+    fun findTokenByIdFlow(tokenId: String): Flow<Token?> {
         return flow { emit(tokenDao.findById(tokenId)) }
     }
 }
