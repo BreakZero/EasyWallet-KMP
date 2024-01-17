@@ -1,6 +1,7 @@
 package com.easy.wallet.network.di
 
 import com.easy.wallet.network.httpClient
+import com.easy.wallet.network.key.BuildKonfig
 import com.easy.wallet.network.source.blockchair.BlockchairApi
 import com.easy.wallet.network.source.blockchair.BlockchairDataSource
 import com.easy.wallet.network.source.coingecko.CoinGeckoApi
@@ -21,7 +22,6 @@ import io.ktor.client.plugins.logging.SIMPLE
 import io.ktor.client.plugins.websocket.WebSockets
 import io.ktor.client.request.header
 import io.ktor.http.URLProtocol
-import io.ktor.http.parameters
 import io.ktor.http.path
 import io.ktor.serialization.kotlinx.KotlinxWebsocketSerializationConverter
 import io.ktor.serialization.kotlinx.json.json
@@ -92,7 +92,7 @@ val networkModule = module {
                 }
                 header("accept", "application/json")
                 // TODO move to backend, delegate forward
-                header("X-API-KEY", "")
+                header("X-API-KEY", BuildKonfig.OPENSEA_KEY)
             }
         }
     }
@@ -103,7 +103,7 @@ val networkModule = module {
                     protocol = URLProtocol.HTTPS
                     host = "api.etherscan.io/"
                     path("api/")
-                    parameters.append("apikey", "")
+                    parameters.append("apikey", BuildKonfig.ETHERSCAN_KEY)
                 }
                 header("accept", "application/json")
             }
@@ -116,7 +116,7 @@ val networkModule = module {
                     protocol = URLProtocol.HTTPS
                     host = "api.coingecko.com"
                     path("api/v3/")
-//                    parameters.append("x_cg_demo_api_key","")
+                    parameters.append("x_cg_demo_api_key", BuildKonfig.COINGECKO_KEY)
                 }
                 header("accept", "application/json")
             }

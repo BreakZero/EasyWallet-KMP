@@ -2,6 +2,7 @@
 buildscript {
     dependencies {
         classpath(libs.kotlinx.atomicfu)
+        classpath("com.codingfeline.buildkonfig:buildkonfig-gradle-plugin:0.15.1")
     }
 }
 

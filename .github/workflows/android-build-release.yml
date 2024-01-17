@@ -19,6 +19,11 @@ jobs:
           submodules: 'true'
           fetch-depth: 0
 
+      - name: ApiKey from secrets
+        run: |
+          cd . > keystore/apikey.properties
+          echo ${{ secrets.APIKEY_PROPERTIES }} | base64 --decode > keystore/apikey.properties
+
       - name: Generate cache key
         run: ./scripts/checksum.sh . checksum.txt
 
