@@ -27,7 +27,7 @@ class MarketsRepository internal constructor(
 
     fun searchTrends(): Flow<List<CoinTrend>> {
         return flow {
-            val trends = coinGeckoApi.getSearchTrending().coins.map { it.item }
+            val trends = coinGeckoApi.getSearchTrending()?.coins?.map { it.item } ?: emptyList()
             emit(
                 trends.map {
                     CoinTrend(
@@ -40,8 +40,6 @@ class MarketsRepository internal constructor(
                     )
                 }
             )
-        }.catch {
-            emit(emptyList())
         }
     }
 }

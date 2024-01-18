@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class BlockChairNewsRootResponse(
     @SerialName("data")
-    val data: List<BlockChairNewDto>,
+    val data: List<BlockChairNewDto>?,
     @SerialName("context")
     val context: BlockChairContextDto
 )

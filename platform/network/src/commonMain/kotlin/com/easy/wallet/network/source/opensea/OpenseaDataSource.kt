@@ -1,9 +1,9 @@
 package com.easy.wallet.network.source.opensea
 
+import com.easy.wallet.network.doGetWithCatch
 import com.easy.wallet.network.source.opensea.dto.NftListDto
 import io.ktor.client.HttpClient
-import io.ktor.client.call.body
-import io.ktor.client.request.get
+import io.ktor.client.request.parameter
 
 class OpenseaDataSource internal constructor(
     private val httpClient: HttpClient
@@ -12,8 +12,9 @@ class OpenseaDataSource internal constructor(
         account: String,
         chain: String,
         limit: Int
-    ): NftListDto {
-        val nfts: NftListDto = httpClient.get("chain/$chain/account/$account/nfts?limit=$limit").body()
-        return nfts
+    ): NftListDto? {
+        return httpClient.doGetWithCatch<NftListDto>("chain/$chain/account/$account/nfts") {
+            parameter("limit", limit)
+        }
     }
 }

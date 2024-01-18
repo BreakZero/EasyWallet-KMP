@@ -1,11 +1,10 @@
 package com.easy.wallet.network.source.coingecko
 
+import com.easy.wallet.network.doGetWithCatch
 import com.easy.wallet.network.source.coingecko.dto.CoinGeckoMarketChartDto
 import com.easy.wallet.network.source.coingecko.dto.CoinGeckoMarketsDto
 import com.easy.wallet.network.source.coingecko.dto.CoinGeckoSearchTrendingDto
 import io.ktor.client.HttpClient
-import io.ktor.client.call.body
-import io.ktor.client.request.get
 import io.ktor.client.request.parameter
 
 class CoinGeckoDataSource internal constructor(
@@ -20,7 +19,7 @@ class CoinGeckoDataSource internal constructor(
         priceChangePercentageIntervals: String,
         coinIds: String?
     ): List<CoinGeckoMarketsDto> {
-        val response = httpClient.get("coins/markets") {
+        return httpClient.doGetWithCatch<List<CoinGeckoMarketsDto>>("coins/markets", isThrows = true) {
             parameter("vs_currency", currency)
             parameter("page", page)
             parameter("per_page", numCoinsPerPage)
@@ -28,31 +27,21 @@ class CoinGeckoDataSource internal constructor(
             parameter("sparkline", includeSparkline7dData)
             parameter("price_change_percentage", priceChangePercentageIntervals)
             parameter("ids", coinIds)
-        }.body<List<CoinGeckoMarketsDto>>()
-        return response
+        } ?: emptyList()
     }
 
     override suspend fun getCoinMarketChart(
         coinId: String,
         currency: String,
         days: String
-    ): CoinGeckoMarketChartDto {
-        return try {
-            val response = httpClient.get("coins/$coinId/market_chart") {
-                parameter("vs_currency", currency)
-                parameter("days", days)
-            }.body<CoinGeckoMarketChartDto>()
-            response
-        } catch (e: Exception) {
-            throw e
+    ): CoinGeckoMarketChartDto? {
+        return httpClient.doGetWithCatch<CoinGeckoMarketChartDto>("coins/$coinId/market_chart") {
+            parameter("vs_currency", currency)
+            parameter("days", days)
         }
     }
 
-    override suspend fun getSearchTrending(): CoinGeckoSearchTrendingDto {
-        return try {
-            httpClient.get("search/trending").body<CoinGeckoSearchTrendingDto>()
-        } catch (e: Exception) {
-            throw e
-        }
+    override suspend fun getSearchTrending(): CoinGeckoSearchTrendingDto? {
+        return httpClient.doGetWithCatch<CoinGeckoSearchTrendingDto>("search/trending")
     }
 }

@@ -18,7 +18,7 @@ interface CoinGeckoApi {
         coinId: String,
         currency: String = "usd",
         days: String = "1"
-    ): CoinGeckoMarketChartDto
+    ): CoinGeckoMarketChartDto?
 
-    suspend fun getSearchTrending(): CoinGeckoSearchTrendingDto
+    suspend fun getSearchTrending(): CoinGeckoSearchTrendingDto?
 }

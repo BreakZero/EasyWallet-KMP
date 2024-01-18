@@ -30,7 +30,7 @@ data class BlockChairContextDto(
     @SerialName("source")
     val source: String = "",
     @SerialName("time")
-    val time: Double = 0.0,
+    val time: Double? = 0.0,
     @SerialName("total_rows")
     val totalRows: Long? = null
 ) {
