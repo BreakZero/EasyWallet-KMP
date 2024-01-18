@@ -1,13 +1,20 @@
 package com.easy.wallet.home.navigation
 
+import androidx.annotation.VisibleForTesting
+import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
+import androidx.navigation.NavType
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import androidx.navigation.navigation
 import com.easy.wallet.home.HomeRoute
 import com.easy.wallet.home.transactions.TransactionsRoute
 import com.easy.wallet.model.token.Token
+import java.net.URLDecoder
+import java.net.URLEncoder
+import kotlin.text.Charsets.UTF_8
 
 const val HOME_GRAPH_ROUTE_PATTERN = "home_graph"
 const val homeEntryRoute = "_home_route"
@@ -18,8 +25,21 @@ fun NavController.selectedHomeTab(navOptions: NavOptions? = null) {
     this.navigate(HOME_GRAPH_ROUTE_PATTERN, navOptions)
 }
 
-fun NavController.toTransactionList(navOptions: NavOptions? = null) {
-    this.navigate(transactionListRoute, navOptions)
+@VisibleForTesting
+internal const val TOKEN_ID_ARG = "tokenId"
+
+internal class TokenArgs(val tokenId: String) {
+    constructor(savedStateHandle: SavedStateHandle) : this(
+        URLDecoder.decode(
+            savedStateHandle[TOKEN_ID_ARG],
+            UTF_8.name()
+        )
+    )
+}
+
+fun NavController.toTransactionList(tokenId: String, navOptions: NavOptions? = null) {
+    val encodeTokenId = URLEncoder.encode(tokenId, UTF_8.name())
+    this.navigate("$transactionListRoute/$encodeTokenId", navOptions)
 }
 
 fun NavGraphBuilder.homeGraph(
@@ -38,7 +58,12 @@ fun NavGraphBuilder.homeGraph(
                 navigateToSettings = navigateToSettings,
             )
         }
-        composable(route = transactionListRoute) {
+        composable(
+            route = "$transactionListRoute/{$TOKEN_ID_ARG}",
+            arguments = listOf(
+                navArgument(TOKEN_ID_ARG) { type = NavType.StringType }
+            )
+        ) {
             TransactionsRoute()
         }
         nestedGraphs()

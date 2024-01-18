@@ -22,3 +22,6 @@ SELECT * FROM Token;
 insert:
 INSERT OR REPLACE INTO Token(id, name, symbol, decimals, address, logo_uri, status, type, blockchain_name)
 VALUES (?,?,?,?,?,?,?,?,?);
+
+findById:
+SELECT * FROM Token WHERE id = :id;

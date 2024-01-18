@@ -6,12 +6,14 @@ import com.easy.wallet.home.component.ActionSheetMenu
 import com.easy.wallet.shared.data.global.HDWalletInstant
 import com.easy.wallet.shared.data.multiwallet.MultiWalletRepository
 import com.easy.wallet.shared.domain.DashboardUseCase
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.flatMapConcat
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
 internal class HomeViewModel(
     multiWalletRepository: MultiWalletRepository,
@@ -28,7 +30,7 @@ internal class HomeViewModel(
             hdWalletInstant.loadInMemory(it.mnemonic, it.passphrase)
             dashboardUseCase().map { HomeUiState.WalletUiState(it) }
         } ?: _guestUiState
-    }.stateIn(viewModelScope, SharingStarted.Lazily, HomeUiState.Loading)
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(3_000), HomeUiState.Loading)
 
     override fun handleEvent(event: HomeEvent) {
         when (event) {
