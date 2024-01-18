@@ -55,9 +55,4 @@ internal class HomeViewModel(
             }
         }
     }
-
-    override fun onCleared() {
-        super.onCleared()
-        println("===== onCleared")
-    }
 }
