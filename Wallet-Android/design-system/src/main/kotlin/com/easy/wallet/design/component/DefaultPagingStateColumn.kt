@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyItemScope
+import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Button
@@ -23,7 +24,11 @@ fun <T : Any> DefaultPagingStateColumn(
     contentPadding: PaddingValues = PaddingValues(0.dp),
     verticalArrangement: Arrangement.Vertical = Arrangement.spacedBy(0.dp),
     paging: LazyPagingItems<T>,
-    header: @Composable LazyItemScope.() -> Unit = {},
+    header: LazyListScope.() -> Unit = {},
+    footer: LazyListScope.() -> Unit = {},
+    itemKey: ((index: Int) -> Any)? = {
+        paging[it].hashCode()
+    },
     itemView: @Composable LazyItemScope.(T) -> Unit
 ) {
     LazyColumn(
@@ -32,8 +37,11 @@ fun <T : Any> DefaultPagingStateColumn(
         contentPadding = contentPadding,
         verticalArrangement = verticalArrangement,
     ) {
-        item { header() }
-        items(paging.itemCount) {
+        header()
+        items(
+            key = itemKey,
+            count = paging.itemCount
+        ) {
             itemView(paging[it]!!)
         }
         paging.apply {
@@ -48,6 +56,7 @@ fun <T : Any> DefaultPagingStateColumn(
                         }
                     }
                 }
+
                 loadState.refresh is LoadState.Error -> {
                     item {
                         Box(
@@ -60,6 +69,7 @@ fun <T : Any> DefaultPagingStateColumn(
                         }
                     }
                 }
+
                 loadState.append is LoadState.Loading -> {
                     item {
                         Box(
@@ -85,5 +95,6 @@ fun <T : Any> DefaultPagingStateColumn(
                 }
             }
         }
+        footer()
     }
 }

@@ -37,14 +37,22 @@ class CoinGeckoDataSource internal constructor(
         currency: String,
         days: String
     ): CoinGeckoMarketChartDto {
-        val response = httpClient.get("coins/$coinId/market_chart") {
-            parameter("vs_currency", currency)
-            parameter("days", days)
-        }.body<CoinGeckoMarketChartDto>()
-        return response
+        return try {
+            val response = httpClient.get("coins/$coinId/market_chart") {
+                parameter("vs_currency", currency)
+                parameter("days", days)
+            }.body<CoinGeckoMarketChartDto>()
+            response
+        } catch (e: Exception) {
+            throw e
+        }
     }
 
     override suspend fun getSearchTrending(): CoinGeckoSearchTrendingDto {
-        return httpClient.get("search/trending").body<CoinGeckoSearchTrendingDto>()
+        return try {
+            httpClient.get("search/trending").body<CoinGeckoSearchTrendingDto>()
+        } catch (e: Exception) {
+            throw e
+        }
     }
 }

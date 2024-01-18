@@ -71,15 +71,17 @@ internal fun TransactionsScreen(
                         .background(MaterialTheme.colorScheme.secondaryContainer),
                     state = lazyListState,
                     paging = transactionPaging,
-                    verticalArrangement = Arrangement.spacedBy(12.dp)
-                ) { transaction ->
-                    TransactionView(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(end = 16.dp, start = 8.dp),
-                        transaction = transaction,
-                    )
-                }
+                    verticalArrangement = Arrangement.spacedBy(12.dp),
+                    itemKey = { index -> transactionPaging[index]!!.hash },
+                    itemView = { transaction ->
+                        TransactionView(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(end = 16.dp, start = 8.dp),
+                            transaction = transaction,
+                        )
+                    }
+                )
             }
         )
     }
