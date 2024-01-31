@@ -10,6 +10,7 @@ import io.ktor.client.plugins.ServerResponseException
 import io.ktor.client.request.HttpRequestBuilder
 import io.ktor.client.request.get
 import io.ktor.client.request.post
+import io.ktor.utils.io.errors.IOException
 
 internal expect fun httpClient(config: HttpClientConfig<*>.() -> Unit = {}): HttpClient
 
@@ -21,24 +22,10 @@ internal suspend inline fun <reified T> HttpClient.doGetWithCatch(
     return try {
         get(urlString, block).body<T>()
     } catch (exception: ResponseException) {
-        when (exception) {
-            is RedirectResponseException -> {
-                // Status codes 3XX
-                val errorString = exception.response.body<String>()
-                println("===== $errorString")
-            }
-
-            is ClientRequestException -> {
-                // status codes 4XX
-                println("===== status codes 4XX")
-            }
-
-            is ServerResponseException -> {
-                // status codes 5XX
-                println("===== status codes 5XX")
-            }
-        }
+        exception.debugLogging()
         if (isThrows) throw exception else null
+    } catch (ioException: IOException) {
+        if (isThrows) throw ioException else null
     }
 }
 
@@ -50,23 +37,29 @@ internal suspend inline fun <reified T> HttpClient.doPostWithCatch(
     return try {
         post(urlString, block).body<T>()
     } catch (exception: ResponseException) {
-        when (exception) {
-            is RedirectResponseException -> {
-                // Status codes 3XX
-                val errorString = exception.response.body<String>()
-                println("===== $errorString")
-            }
-
-            is ClientRequestException -> {
-                // status codes 4XX
-                println("===== status codes 4XX")
-            }
-
-            is ServerResponseException -> {
-                // status codes 5XX
-                println("===== status codes 5XX")
-            }
-        }
+        exception.debugLogging()
         if (isThrows) throw exception else null
+    } catch (ioException: IOException) {
+        if (isThrows) throw ioException else null
+    }
+}
+
+private suspend fun ResponseException.debugLogging() {
+    when (this) {
+        is RedirectResponseException -> {
+            // Status codes 3XX
+            val errorString = response.body<String>()
+            println("===== $errorString")
+        }
+
+        is ClientRequestException -> {
+            // status codes 4XX
+            println("===== status codes 4XX")
+        }
+
+        is ServerResponseException -> {
+            // status codes 5XX
+            println("===== status codes 5XX")
+        }
     }
 }
