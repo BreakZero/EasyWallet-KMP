@@ -41,7 +41,7 @@ struct GuestView: View {
                 }).padding(.horizontal)
                     .buttonStyle(.easy)
             }.sheet(isPresented: $showActions) {
-                ActionSheetView(isForCreate: self.isForCreate)
+                ActionSheetView(isForCreate: self.isForCreate).presentationDetents([.fraction(0.4), .fraction(0.8)])
             }
         }
     }
