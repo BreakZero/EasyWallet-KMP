@@ -9,7 +9,6 @@ import platform.Foundation.NSUUID
 
 actual class DatabaseDriverFactory {
 
-    @Suppress("MISSING_DEPENDENCY_CLASS")
     actual fun createDriver(passphraseCheck: (String) -> String): SqlDriver {
         val uuid = NSUUID.UUID().UUIDString
         val key = passphraseCheck(uuid).ifBlank { uuid }

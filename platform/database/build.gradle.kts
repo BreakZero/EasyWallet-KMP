@@ -25,7 +25,8 @@ kotlin {
         getByName("iosMain") {
             dependencies {
                 implementation(libs.sqldelight.native)
-//                implementation("co.touchlab:sqliter-driver:1.2.3")
+//                implementation("co.touchlab:sqliter-driver:1.3.1")
+                implementation("co.touchlab:stately-common:2.0.5")
             }
         }
     }
