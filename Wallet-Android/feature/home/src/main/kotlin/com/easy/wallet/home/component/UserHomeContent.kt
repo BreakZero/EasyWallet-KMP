@@ -19,6 +19,7 @@ import com.easy.wallet.design.theme.ThemePreviews
 import com.easy.wallet.design.ui.EasyWalletTheme
 import com.easy.wallet.home.HomeEvent
 import com.easy.wallet.home.HomeUiState
+import com.patrykandpatrick.vico.core.entry.entryOf
 
 @Composable
 internal fun UserHomeContent(
@@ -37,7 +38,8 @@ internal fun UserHomeContent(
         header = { headerModifier ->
             DashboardView(
                 modifier = headerModifier
-                    .height(260.dp)
+                    .height(260.dp),
+                List(8) { entryOf(it, 12) }
             )
         },
         listContent = { contentModifier ->

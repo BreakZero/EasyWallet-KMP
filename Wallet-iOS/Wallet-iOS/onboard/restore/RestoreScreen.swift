@@ -13,8 +13,9 @@ struct RestoreScreen: View {
     @ObservedObject private var viewModel: ViewModel = ViewModel()
     var body: some View {
         VStack {
-            TextField("Seed phrase", text: $viewModel.seedPhrase)
+            TextField("Seed phrase", text: $viewModel.seedPhrase, axis: .vertical)
                 .textFieldStyle(.easy)
+                .lineLimit(3...6)
             TextField("New Password", text: $viewModel.password)
                 .textFieldStyle(.easy)
             TextField("Confirm Password", text: $viewModel.confirmPassword)

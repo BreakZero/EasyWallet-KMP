@@ -7,10 +7,16 @@
 //
 
 import SwiftUI
+import SwiftUICharts
 
 struct MarketplaceScreen: View {
+    var demoData: [Double] = [8,2,4,6,12,9,2]
     var body: some View {
-        Text("Marketplace")
+        LineChart().data(demoData)
+            .chartStyle(ChartStyle(
+                backgroundColor: .white,
+                foregroundColor: ColorGradient(.blue, .purple))
+            )
     }
 }
 

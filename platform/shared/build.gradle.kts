@@ -46,7 +46,7 @@ kotlin {
                 implementation("app.cash.paging:paging-common:3.3.0-alpha02-0.4.0")
 
                 api("com.trustwallet:wallet-core-kotlin:4.0.26")
-                implementation("com.ionspin.kotlin:bignum:0.3.8")
+                implementation("com.ionspin.kotlin:bignum:0.3.9")
             }
         }
         getByName("iosMain") {

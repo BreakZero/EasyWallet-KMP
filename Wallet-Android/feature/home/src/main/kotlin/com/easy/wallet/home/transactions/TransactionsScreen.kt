@@ -28,6 +28,7 @@ import com.easy.wallet.home.component.CollapsingToolbarWithLazyList
 import com.easy.wallet.home.component.DashboardView
 import com.easy.wallet.home.transactions.component.TransactionView
 import com.easy.wallet.model.data.Transaction
+import com.patrykandpatrick.vico.core.entry.entryOf
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -60,7 +61,8 @@ internal fun TransactionsScreen(
             header = { headerModifier ->
                 DashboardView(
                     modifier = headerModifier
-                        .height(260.dp)
+                        .height(260.dp),
+                    List(8) { entryOf(it, 16f) }
                 )
             },
             listState = lazyListState,

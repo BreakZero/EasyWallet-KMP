@@ -22,23 +22,23 @@ import com.patrykandpatrick.vico.compose.chart.Chart
 import com.patrykandpatrick.vico.compose.chart.line.lineChart
 import com.patrykandpatrick.vico.core.chart.scale.AutoScaleUp
 import com.patrykandpatrick.vico.core.entry.ChartEntryModelProducer
+import com.patrykandpatrick.vico.core.entry.FloatEntry
 import com.patrykandpatrick.vico.core.entry.entryOf
 import kotlin.random.Random
 
-private fun getRandomEntries() = List(8) { entryOf(it, Random.nextFloat() * 16f) }
-
 @Composable
 internal fun DashboardView(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    charDatas: List<FloatEntry>
 ) {
     val chartEntryModelProducer by remember {
-        mutableStateOf(ChartEntryModelProducer(getRandomEntries()))
+        mutableStateOf(ChartEntryModelProducer(charDatas))
     }
     Box(modifier = modifier.padding(vertical = 16.dp)) {
         Chart(
             modifier = Modifier
                 .fillMaxWidth(0.8f)
-                .fillMaxHeight(1.5f)
+                .fillMaxHeight(1.0f)
                 .align(Alignment.CenterEnd),
             chart = lineChart(),
             chartModelProducer = chartEntryModelProducer,
@@ -71,7 +71,8 @@ private fun DashboardView_Preview() {
         DashboardView(
             modifier = Modifier
                 .height(248.dp)
-                .fillMaxWidth()
+                .fillMaxWidth(),
+            List(8) { entryOf(it, Random.nextFloat() * 16f) }
         )
     }
 }

@@ -24,7 +24,7 @@ extension RestoreScreen {
         ) {
             insertTask = Task {
                 do {
-                    _ = try await suspend(multiWalletRepository.insertOne(mnemonic: "ripple scissors kick mammal hire column oak again sun offer wealth tomorrow wagon turn fatal"))
+                    _ = try await suspend(multiWalletRepository.insertOne(mnemonic: seedPhrase))
                     onCompletion()
                 } catch {
                     debugPrint("we get an error \(error)")
