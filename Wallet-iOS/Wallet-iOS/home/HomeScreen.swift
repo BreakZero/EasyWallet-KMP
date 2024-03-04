@@ -8,6 +8,7 @@
 
 import SwiftUI
 import shared
+import SwiftUICharts
 
 struct HomeScreen: View {
     @ObservedObject private var viewModel = HomeViewModel()
@@ -21,11 +22,17 @@ struct HomeScreen: View {
             case .WalletUiState(let dashboard):
                 VStack {
                     List {
-                        Section(header: Text(dashboard.user), content: {
-                            ForEach(dashboard.tokens,id: \.self.token.id) { token in
-                                TokenItemView(extraToken: token)
+                        Section(
+                            header: LineChart().data(dashboard.moneyTrend).frame(height: 150).chartStyle(ChartStyle(
+                                backgroundColor: .white,
+                                foregroundColor: ColorGradient(.blue, .purple))
+                            ).listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 12, trailing: 0)),
+                            content: {
+                                ForEach(dashboard.tokens,id: \.self.token.id) { token in
+                                    TokenItemView(extraToken: token)
+                                }
                             }
-                        })
+                        )
                     }
                 }
             }

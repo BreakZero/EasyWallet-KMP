@@ -16,6 +16,8 @@ extension HomeScreen {
         private let globalComponent = GlobalEnvComponent()
         private let multiWalletRepository = MultiWalletComponent()
         private var disposables = Set<AnyCancellable>()
+        
+        private let moneyTrend: [Double] = [8,2,4,6,12,9,2]
 
         @Published private(set) var homeUiState: HomeUiState = HomeUiState.Fetching
 
@@ -54,7 +56,7 @@ extension HomeScreen {
                 .sink(
                     receiveCompletion: { _ in },
                     receiveValue: { tokens in
-                        self.homeUiState = HomeUiState.WalletUiState(HomeUiState.Dashboard(user: "Dougie", tokens: tokens as! [ExtraToken]))
+                        self.homeUiState = HomeUiState.WalletUiState(HomeUiState.Dashboard(user: "Dougie", moneyTrend: self.moneyTrend, tokens: tokens as! [ExtraToken]))
                     }
                 ).store(in: &disposables)
         }
