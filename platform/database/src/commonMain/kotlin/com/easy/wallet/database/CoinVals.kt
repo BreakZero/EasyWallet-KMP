@@ -6,6 +6,10 @@ interface CoinVals {
         ERC20
     }
 
+    enum class ChainLayer2Type {
+        ERC20
+    }
+
     enum class ChainNetwork(
         val label: String
     ) {

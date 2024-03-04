@@ -1,0 +1,29 @@
+import kotlin.Boolean;
+import kotlin.Int;
+
+CREATE TABLE IF NOT EXISTS TokenEntity(
+    id TEXT PRIMARY KEY NOT NULL,
+    chain_id INTEGER NOT NULL,
+    name TEXT NOT NULL,
+    symbol TEXT NOT NULL,
+    decimals INTEGER AS Int,
+    contract_address TEXT,
+    icon_uri TEXT,
+    is_active INTEGER AS Boolean,
+    FOREIGN KEY(chain_id) REFERENCES BlockChainEntity(id)
+);
+
+
+addOne:
+INSERT OR IGNORE INTO TokenEntity(id, chain_id, name, symbol, decimals, contract_address, icon_uri, is_active)
+VALUES ?;
+
+getByChainId:
+SELECT TokenEntity.id, TokenEntity.name, TokenEntity.symbol, TokenEntity.decimals, TokenEntity.contract_address, TokenEntity.icon_uri, TokenEntity.is_active
+FROM TokenEntity WHERE chain_id = :chainId;
+
+getAll:
+SELECT TokenEntity.id, TokenEntity.name, TokenEntity.symbol, TokenEntity.decimals, TokenEntity.contract_address, TokenEntity.icon_uri, TokenEntity.is_active,
+BlockChainEntity.name AS chain_name
+FROM TokenEntity
+LEFT JOIN BlockChainEntity ON TokenEntity.chain_id = BlockChainEntity.id;

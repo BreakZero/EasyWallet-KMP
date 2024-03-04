@@ -1,0 +1,19 @@
+import com.easy.wallet.database.CoinVals.ChainLayer2Type;
+
+CREATE TABLE IF NOT EXISTS BlockChainEntity(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    website TEXT NOT NULL,
+    explorer TEXT,
+    layer2_type TEXT AS ChainLayer2Type,
+    chain_id TEXT
+);
+
+addOne:
+INSERT OR IGNORE INTO BlockChainEntity(name, website, explorer, layer2_type, chain_id) VALUES ?;
+
+getAllChain:
+SELECT * FROM BlockChainEntity;
+
+getChainById:
+SELECT * FROM BlockChainEntity WHERE id = :id;
