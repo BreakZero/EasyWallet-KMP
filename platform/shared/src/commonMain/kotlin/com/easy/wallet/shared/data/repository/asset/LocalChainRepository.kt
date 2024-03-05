@@ -1,9 +1,8 @@
 package com.easy.wallet.shared.data.repository.asset
 
-import com.easy.wallet.database.BlockChainEntity
+import com.easy.wallet.database.ChainEntity
 import com.easy.wallet.database.dao.ChainDao
 import com.easy.wallet.model.ChainInformation
-import com.easy.wallet.model.enums.CoinVals
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
@@ -15,10 +14,10 @@ class LocalChainRepository(
         name: String,
         website: String,
         explorer: String?,
-        layer2Type: CoinVals.ChainLayer2Type?,
+        rpcUrl: String,
         chainId: String?
     ) {
-        chainDao.addOne(name, website, explorer, layer2Type, chainId)
+        chainDao.addOne(name, website, explorer, rpcUrl, chainId)
     }
 
     override suspend fun deleteById(id: Long) {
@@ -30,24 +29,24 @@ class LocalChainRepository(
             val localChainEntity = chainDao.getChainById(id)
                 ?: throw NoSuchElementException("couldn't found the row in table that id = $id")
             emit(localChainEntity)
-        }.map(BlockChainEntity::asModel)
+        }.map(ChainEntity::asModel)
     }
 
     override fun allChains(): Flow<List<ChainInformation>> {
         return flow {
-            val chains = chainDao.allChains().map(BlockChainEntity::asModel)
+            val chains = chainDao.allChains().map(ChainEntity::asModel)
             emit(chains)
         }
     }
 }
 
-internal fun BlockChainEntity.asModel(): ChainInformation {
+internal fun ChainEntity.asModel(): ChainInformation {
     return ChainInformation(
         id = id,
         name = name,
         website = website,
         explorer = explorer,
-        layer2Type = layer2_type,
+        rpcUrl = rpc_url,
         chainId = chain_id
     )
 }

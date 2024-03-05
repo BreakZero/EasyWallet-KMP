@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS TokenEntity(
     contract_address TEXT,
     icon_uri TEXT,
     is_active INTEGER AS Boolean,
-    FOREIGN KEY(chain_id) REFERENCES BlockChainEntity(id)
+    FOREIGN KEY(chain_id) REFERENCES ChainEntity(id)
 );
 
 
@@ -24,6 +24,6 @@ FROM TokenEntity WHERE chain_id = :chainId;
 
 getAll:
 SELECT TokenEntity.id, TokenEntity.name, TokenEntity.symbol, TokenEntity.decimals, TokenEntity.contract_address, TokenEntity.icon_uri, TokenEntity.is_active,
-BlockChainEntity.name AS chain_name
+ChainEntity.name AS chain_name
 FROM TokenEntity
-LEFT JOIN BlockChainEntity ON TokenEntity.chain_id = BlockChainEntity.id;
+LEFT JOIN ChainEntity ON TokenEntity.chain_id = ChainEntity.id;

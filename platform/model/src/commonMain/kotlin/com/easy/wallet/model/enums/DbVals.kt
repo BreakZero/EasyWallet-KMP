@@ -23,6 +23,10 @@ interface CoinVals {
         }
     }
 
+    enum class ChainType {
+         Bitcoin, Ethereum
+    }
+
     enum class ChainLayer2Type {
         ERC20
     }

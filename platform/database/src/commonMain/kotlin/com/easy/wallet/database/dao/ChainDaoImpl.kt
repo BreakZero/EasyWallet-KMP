@@ -1,8 +1,7 @@
 package com.easy.wallet.database.dao
 
-import com.easy.wallet.database.BlockChainEntity
+import com.easy.wallet.database.ChainEntity
 import com.easy.wallet.database.ChainEntityQueries
-import com.easy.wallet.model.enums.CoinVals
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
@@ -17,7 +16,7 @@ internal class ChainDaoImpl(
         name: String,
         website: String,
         explorer: String?,
-        layer2Type: CoinVals.ChainLayer2Type?,
+        rpcUrl: String,
         chainId: String?
     ) {
         queries.transaction {
@@ -27,7 +26,7 @@ internal class ChainDaoImpl(
                     name = name,
                     website = website,
                     explorer = explorer,
-                    layer2_type = layer2Type,
+                    rpc_url = rpcUrl,
                     chain_id = chainId
                 )
             }
@@ -38,11 +37,11 @@ internal class ChainDaoImpl(
         queries.deleteById(id)
     }
 
-    override suspend fun getChainById(id: Long): BlockChainEntity? = withContext(dispatcher) {
+    override suspend fun getChainById(id: Long): ChainEntity? = withContext(dispatcher) {
         queries.getChainById(id).executeAsOneOrNull()
     }
 
-    override suspend fun allChains(): List<BlockChainEntity> = withContext(dispatcher) {
+    override suspend fun allChains(): List<ChainEntity> = withContext(dispatcher) {
         queries.getAllChain().executeAsList()
     }
 

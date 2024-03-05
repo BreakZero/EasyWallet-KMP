@@ -1,8 +1,7 @@
 package com.easy.wallet.database.dao
 
 import com.easy.wallet.database.BlockChain
-import com.easy.wallet.database.BlockChainEntity
-import com.easy.wallet.model.enums.CoinVals
+import com.easy.wallet.database.ChainEntity
 import com.easy.wallet.model.token.Token
 
 interface BlockChainDao {
@@ -19,13 +18,13 @@ interface ChainDao {
         name: String,
         website: String,
         explorer: String?,
-        layer2Type: CoinVals.ChainLayer2Type?,
+        rpcUrl: String,
         chainId: String?
     )
 
     suspend fun deleteById(id: Long)
 
-    suspend fun getChainById(id: Long): BlockChainEntity?
+    suspend fun getChainById(id: Long): ChainEntity?
 
-    suspend fun allChains() : List<BlockChainEntity>
+    suspend fun allChains() : List<ChainEntity>
 }

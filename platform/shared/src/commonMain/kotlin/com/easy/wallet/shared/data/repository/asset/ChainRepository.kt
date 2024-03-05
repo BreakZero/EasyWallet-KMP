@@ -1,7 +1,6 @@
 package com.easy.wallet.shared.data.repository.asset
 
 import com.easy.wallet.model.ChainInformation
-import com.easy.wallet.model.enums.CoinVals
 import kotlinx.coroutines.flow.Flow
 
 interface ChainRepository {
@@ -9,7 +8,7 @@ interface ChainRepository {
         name: String,
         website: String,
         explorer: String?,
-        layer2Type: CoinVals.ChainLayer2Type?,
+        rpcUrl: String,
         chainId: String?
     )
 

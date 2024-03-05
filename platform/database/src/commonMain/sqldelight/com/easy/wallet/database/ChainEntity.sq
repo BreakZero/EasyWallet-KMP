@@ -1,26 +1,26 @@
 import com.easy.wallet.model.enums.CoinVals.ChainLayer2Type;
 
-CREATE TABLE IF NOT EXISTS BlockChainEntity(
+CREATE TABLE IF NOT EXISTS ChainEntity(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
     website TEXT NOT NULL,
     explorer TEXT,
-    layer2_type TEXT AS ChainLayer2Type,
+    rpc_url TEXT NOT NULL,
     chain_id TEXT
 );
 
 addOne:
-INSERT OR IGNORE INTO BlockChainEntity(name, website, explorer, layer2_type, chain_id)
+INSERT OR IGNORE INTO ChainEntity(name, website, explorer, rpc_url, chain_id)
 VALUES (?,?,?,?,?);
 
 checkByName:
-SELECT COUNT(*) FROM BlockChainEntity WHERE name = :name;
+SELECT COUNT(*) FROM ChainEntity WHERE name = :name;
 
 deleteById:
-DELETE FROM BlockChainEntity WHERE id = :id;
+DELETE FROM ChainEntity WHERE id = :id;
 
 getAllChain:
-SELECT * FROM BlockChainEntity;
+SELECT * FROM ChainEntity;
 
 getChainById:
-SELECT * FROM BlockChainEntity WHERE id = :id;
+SELECT * FROM ChainEntity WHERE id = :id;

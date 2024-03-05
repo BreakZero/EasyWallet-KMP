@@ -7,6 +7,6 @@ data class ChainInformation(
     val name: String,
     val website: String,
     val explorer: String?,
-    val layer2Type: CoinVals.ChainLayer2Type?,
+    val rpcUrl: String,
     val chainId: String?
 )

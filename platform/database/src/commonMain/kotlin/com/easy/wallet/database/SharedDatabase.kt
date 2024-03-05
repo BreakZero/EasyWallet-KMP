@@ -99,9 +99,6 @@ class SharedDatabase internal constructor(
                 decimalsAdapter = DecimalsAdapter(),
                 typeAdapter = TokenTypeAdapter(),
             ),
-            BlockChainEntityAdapter = BlockChainEntity.Adapter(
-                layer2_typeAdapter = Layer2TypeAdapter()
-            ),
             TokenEntityAdapter = TokenEntity.Adapter(
                 decimalsAdapter = DecimalsAdapter()
             )
