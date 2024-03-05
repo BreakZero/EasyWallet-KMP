@@ -27,7 +27,7 @@ kotlin {
         }
     }
     sourceSets {
-        getByName("commonMain") {
+        commonMain {
             dependencies {
                 api(project(":platform:core"))
                 implementation(project(":platform:model"))
@@ -49,13 +49,13 @@ kotlin {
                 implementation("com.ionspin.kotlin:bignum:0.3.9")
             }
         }
-        getByName("iosMain") {
+        iosMain {
             dependencies {
                 implementation("app.cash.paging:paging-runtime-uikit:3.3.0-alpha02-0.4.0")
                 implementation(libs.ktor.client.darwin)
             }
         }
-        getByName("androidMain") {
+        androidMain {
             dependencies {
                 implementation(libs.androidx.paging)
                 implementation(libs.ktor.client.okhttp)
