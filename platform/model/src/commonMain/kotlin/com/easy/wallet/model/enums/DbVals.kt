@@ -22,4 +22,8 @@ interface CoinVals {
             }
         }
     }
+
+    enum class ChainLayer2Type {
+        ERC20
+    }
 }

@@ -3,6 +3,8 @@ package com.easy.wallet.database.di
 import com.easy.wallet.database.SharedDatabase
 import com.easy.wallet.database.dao.BlockChainDao
 import com.easy.wallet.database.dao.BlockChainDaoImpl
+import com.easy.wallet.database.dao.ChainDao
+import com.easy.wallet.database.dao.ChainDaoImpl
 import com.easy.wallet.database.dao.TokenDao
 import com.easy.wallet.database.dao.TokenDaoImpl
 import kotlinx.coroutines.Dispatchers
@@ -23,6 +25,13 @@ val databaseModule = module {
             dispatcher = Dispatchers.IO,
         )
     } bind BlockChainDao::class
+
+    single {
+        ChainDaoImpl(
+            get<SharedDatabase>().database.chainEntityQueries,
+            dispatcher = Dispatchers.IO
+        )
+    } bind ChainDao::class
 
     single {
         TokenDaoImpl(

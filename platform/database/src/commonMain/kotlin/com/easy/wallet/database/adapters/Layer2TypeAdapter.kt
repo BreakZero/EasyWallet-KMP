@@ -1,7 +1,7 @@
 package com.easy.wallet.database.adapters
 
 import app.cash.sqldelight.ColumnAdapter
-import com.easy.wallet.database.CoinVals.ChainLayer2Type
+import com.easy.wallet.model.enums.CoinVals.ChainLayer2Type
 
 class Layer2TypeAdapter() : ColumnAdapter<ChainLayer2Type, String> {
     override fun encode(value: ChainLayer2Type): String {
