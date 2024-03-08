@@ -9,6 +9,7 @@ import com.easy.wallet.news.di.newsModule
 import com.easy.wallet.onboard.di.onboardModule
 import com.easy.wallet.settings.di.settingsModule
 import com.easy.wallet.shared.di.sharedModule
+import com.easy.wallet.token_manager.di.assetModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
@@ -29,6 +30,7 @@ class WalletApplication : Application() {
             modules(sharedModule)
             modules(marketModule)
             modules(settingsModule)
+            modules(assetModule())
         }
     }
 }

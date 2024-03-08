@@ -1,17 +1,14 @@
 package com.easy.wallet.token_manager.chain
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text2.BasicTextField2
 import androidx.compose.foundation.text2.input.InputTransformation
 import androidx.compose.foundation.text2.input.TextFieldLineLimits
@@ -30,24 +27,23 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.style.BaselineShift
-import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.easy.wallet.design.theme.ThemePreviews
 import com.easy.wallet.design.ui.EasyWalletTheme
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 internal fun ChainManagerRoute() {
-    ChainManagerScreen()
+    val viewModel: ChainManagerViewModel = koinViewModel()
+    ChainManagerScreen(viewModel::save)
 }
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
-private fun ChainManagerScreen() {
+private fun ChainManagerScreen(
+    onSaved: () -> Unit
+) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
@@ -63,7 +59,8 @@ private fun ChainManagerScreen() {
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp)
                     .padding(bottom = 12.dp),
-                onClick = { /*TODO*/ }) {
+                onClick = onSaved
+            ) {
                 Text(text = "Save")
             }
         }
@@ -125,7 +122,7 @@ private fun Editor_Preview() {
         Surface(
             modifier = Modifier.fillMaxWidth()
         ) {
-            ChainManagerScreen()
+            ChainManagerScreen{}
         }
     }
 }
