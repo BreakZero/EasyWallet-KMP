@@ -4,15 +4,9 @@
 EasyWallet初衷是一个为CryptoDeFiWallet重构准备而实验的一个项目，同时也是为了学习Android新技术栈的练习项目。目前使用Kotlin Multiplatform进行Android
 和iOS开发，共享逻辑代码。UI分别使用Jetpack Compose和SwiftUI实现。
 
-|                                                                                                           |                                                                                                         |                                                                                                           |
-|:---------------------------------------------------------------------------------------------------------:|:-------------------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------------------------:|
-|   ![Home](https://github.com/BreakZero/EasyWallet-KMP/blob/main/screens/Screenshot_20240111_101720.png)   | ![Drawer](https://github.com/BreakZero/EasyWallet-KMP/blob/main/screens/Screenshot_20240111_101734.png) | ![Settings](https://github.com/BreakZero/EasyWallet-KMP/blob/main/screens/Screenshot_20240111_101801.png) |
-| ![Settings](https://github.com/BreakZero/EasyWallet-KMP/blob/main/screens/Screenshot_20240111_101811.png) |  ![Home](https://github.com/BreakZero/EasyWallet-KMP/blob/main/screens/Screenshot_20240111_100157.png)  |  ![Drawer](https://github.com/BreakZero/EasyWallet-KMP/blob/main/screens/Screenshot_20240111_100109.png)  |
-| ![Settings](https://github.com/BreakZero/EasyWallet-KMP/blob/main/screens/Screenshot_20240111_100215.png) |  ![Chat](https://github.com/BreakZero/EasyWallet-KMP/blob/main/screens/Screenshot_20240111_100239.png)  |                                                                                                           |                                                                                                           |
-
 ### 配置
-由于项目中依赖[wallet-core](https://github.com/trustwallet/wallet-core)实现区块链相关功能处理，其使用`GitHub packages`进行包管理，所以想拉取依赖库，需要使用到`github token`，
-所以需要创建一个文件命名为`github_token.properties`，并填入以下内容：
+由于项目中依赖[wallet-core](https://github.com/trustwallet/wallet-core)实现区块链相关功能处理，其使用`GitHub packages`进行包管理，所以想拉取依赖库，需要使用到`github token`。
+为了保证所有依赖都能成功下载，需要创建一个文件命名为`github_token.properties`，并填入以下内容：
 ```properties
 gpr.name=Your Github Name
 gpr.key=Your Github token
@@ -37,6 +31,14 @@ opensea=008e**********91dd6564880a
 ```
 
 > 计划实现一个服务端，加上Redis实现缓存，统一处理数据来源结构
+
+### UI展示
+
+|                                                                                                           |                                                                                                         |                                                                                                           |
+|:---------------------------------------------------------------------------------------------------------:|:-------------------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------------------------:|
+|   ![Home](https://github.com/BreakZero/EasyWallet-KMP/blob/main/screens/Screenshot_20240111_101720.png)   | ![Drawer](https://github.com/BreakZero/EasyWallet-KMP/blob/main/screens/Screenshot_20240111_101734.png) | ![Settings](https://github.com/BreakZero/EasyWallet-KMP/blob/main/screens/Screenshot_20240111_101801.png) |
+| ![Settings](https://github.com/BreakZero/EasyWallet-KMP/blob/main/screens/Screenshot_20240111_101811.png) |  ![Home](https://github.com/BreakZero/EasyWallet-KMP/blob/main/screens/Screenshot_20240111_100157.png)  |  ![Drawer](https://github.com/BreakZero/EasyWallet-KMP/blob/main/screens/Screenshot_20240111_100109.png)  |
+| ![Settings](https://github.com/BreakZero/EasyWallet-KMP/blob/main/screens/Screenshot_20240111_100215.png) |  ![Chat](https://github.com/BreakZero/EasyWallet-KMP/blob/main/screens/Screenshot_20240111_100239.png)  |                                                                                                           |                                                                                                           |
 
 ### 界面参考资源
 - [Crypto-Wallet-Mobile-Ui-(Free)-(Community)](https://www.figma.com/file/sLqrdLp6vOedEnZgW1E3ze/Cryptooly---Crypto-Wallet-Mobile-Ui-(Free)-(Community)?type=design&mode=design)
