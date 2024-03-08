@@ -14,6 +14,8 @@ import com.easy.wallet.shared.data.repository.EthereumRepository
 import com.easy.wallet.shared.data.repository.MarketsRepository
 import com.easy.wallet.shared.data.repository.SupportedTokenRepository
 import com.easy.wallet.shared.data.repository.TokenRepository
+import com.easy.wallet.shared.data.repository.asset.ChainRepository
+import com.easy.wallet.shared.data.repository.asset.LocalChainRepository
 import com.easy.wallet.shared.data.repository.news.NewsRepository
 import com.easy.wallet.shared.data.repository.transactions.EthereumTransactionRepository
 import com.easy.wallet.shared.data.repository.transactions.TransactionRepository
@@ -40,6 +42,8 @@ val sharedModule = module {
 
     single<TokenRepository>(named("Bitcoin")) { BitcoinRepository() }
     single<TokenRepository>(named("Ethereum")) { EthereumRepository(get()) }
+
+    single<ChainRepository>(named<LocalChainRepository>()) { LocalChainRepository(get()) }
 
     single<TransactionRepository>(named("Ethereum")) { EthereumTransactionRepository(get()) }
 

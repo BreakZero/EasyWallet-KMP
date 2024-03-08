@@ -5,6 +5,7 @@ import app.cash.sqldelight.db.SqlDriver
 import app.cash.sqldelight.db.SqlSchema
 import com.easy.wallet.database.adapters.DateTimeAdapter
 import com.easy.wallet.database.adapters.DecimalsAdapter
+import com.easy.wallet.database.adapters.Layer2TypeAdapter
 import com.easy.wallet.database.adapters.TokenTypeAdapter
 import com.easy.wallet.database.platform.DatabaseDriverFactory
 import com.easy.wallet.datastore.DatabaseKeyStorage
@@ -98,6 +99,9 @@ class SharedDatabase internal constructor(
                 decimalsAdapter = DecimalsAdapter(),
                 typeAdapter = TokenTypeAdapter(),
             ),
+            TokenEntityAdapter = TokenEntity.Adapter(
+                decimalsAdapter = DecimalsAdapter()
+            )
         )
     }
 }

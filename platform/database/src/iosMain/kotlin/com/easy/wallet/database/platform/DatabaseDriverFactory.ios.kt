@@ -30,6 +30,7 @@ actual class DatabaseDriverFactory {
             name = "e_wallet.db",
             version = schema.version.toInt(),
             encryptionConfig = DatabaseConfiguration.Encryption(key = key),
+            extendedConfig = DatabaseConfiguration.Extended(foreignKeyConstraints = true)
         )
         return NativeSqliteDriver(databaseConfiguration)
     }

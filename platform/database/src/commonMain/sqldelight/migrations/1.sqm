@@ -1,0 +1,23 @@
+import kotlin.Boolean;
+import kotlin.Int;
+
+CREATE TABLE IF NOT EXISTS ChainEntity(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    website TEXT NOT NULL,
+    explorer TEXT,
+    rpc_url TEXT NOT NULL,
+    chain_id TEXT
+);
+
+CREATE TABLE IF NOT EXISTS TokenEntity(
+    id TEXT PRIMARY KEY NOT NULL,
+    chain_id INTEGER NOT NULL,
+    name TEXT NOT NULL,
+    symbol TEXT NOT NULL,
+    decimals INTEGER AS Int,
+    contract_address TEXT,
+    icon_uri TEXT,
+    is_active INTEGER AS Boolean,
+    FOREIGN KEY(chain_id) REFERENCES ChainEntity(id)
+);

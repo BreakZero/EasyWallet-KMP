@@ -15,11 +15,15 @@ fun NavController.toSettings(navOptions: NavOptions? = null) {
 }
 
 fun NavGraphBuilder.settingsGraph(
+    navigateChainManager: () -> Unit,
     popBack: () -> Unit
 ) {
     navigation(route = settingsRoute, startDestination = settingsEntryRoute) {
         composable(settingsEntryRoute) {
-            SettingsRoute(popBack = popBack)
+            SettingsRoute(
+                navigateChainManager = navigateChainManager,
+                popBack = popBack
+            )
         }
     }
 }

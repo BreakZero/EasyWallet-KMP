@@ -10,15 +10,15 @@ androidxWork = "2.9.0"
 vico = "1.14.0"
 
 buildkonfigGradlePlugin = "0.15.1"
-compose-bom = "2024.02.01"
-compose-compiler = "1.5.7"
+compose-bom = "2024.02.02"
+compose-compiler = "1.5.10"
 compose-activity = "1.8.2"
 compose-navigation = "2.7.7"
 
 kotlinx-coroutine = "1.7.3"
 
 # For plugins
-org-jetbrains-kotlin = "1.9.21"
+org-jetbrains-kotlin = "1.9.22"
 android-gradle-plugin = "8.2.2"
 
 # For testing
@@ -33,7 +33,7 @@ coil = "2.4.0"
 koin = "3.4.1"
 ktor = "2.3.3"
 material = "1.11.0"
-ksp = "1.9.0-1.0.13"
+ksp = "1.9.22-1.0.17"
 hilt = "2.48"
 
 
@@ -75,7 +75,7 @@ kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-cor
 kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlinx-coroutine" }
 
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version = "0.4.1" }
-kotlinx-atomicfu = { module = "org.jetbrains.kotlinx:atomicfu-gradle-plugin", version = "0.22.0" }
+kotlinx-atomicfu = { module = "org.jetbrains.kotlinx:atomicfu-gradle-plugin", version = "0.23.2" }
 
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test-ext-junit" }
