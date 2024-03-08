@@ -16,6 +16,7 @@ import com.easy.wallet.onboard.restore.navigation.toImportWallet
 import com.easy.wallet.settings.navigation.settingsGraph
 import com.easy.wallet.settings.navigation.toSettings
 import com.easy.wallet.token_manager.chain.navigation.attachChainManager
+import com.easy.wallet.token_manager.chain.navigation.navigateChainEditor
 import com.easy.wallet.token_manager.chain.navigation.navigateChainManager
 import com.easy.wallet.ui.WalletAppState
 
@@ -50,6 +51,9 @@ fun WalletNavHost(
             navigateChainManager = navController::navigateChainManager,
             popBack = navController::popBackStack
         )
-        attachChainManager()
+        attachChainManager(
+            navigateToEditor = { navController.navigateChainEditor() },
+            navigateUp = navController::navigateUp
+        )
     }
 }

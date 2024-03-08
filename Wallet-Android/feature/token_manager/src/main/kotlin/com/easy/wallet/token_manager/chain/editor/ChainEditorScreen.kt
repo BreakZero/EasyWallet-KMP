@@ -1,4 +1,4 @@
-package com.easy.wallet.token_manager.chain
+package com.easy.wallet.token_manager.chain.editor
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
@@ -34,21 +34,27 @@ import com.easy.wallet.design.ui.EasyWalletTheme
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-internal fun ChainManagerRoute() {
-    val viewModel: ChainManagerViewModel = koinViewModel()
-    ChainManagerScreen(viewModel::save)
+internal fun ChainEditorRoute(
+    navigateUp: () -> Unit
+) {
+    val viewModel: ChainEditorViewModel = koinViewModel()
+    ChainEditorScreen(
+        onSaved = {},
+        navigateUp = navigateUp
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
-private fun ChainManagerScreen(
-    onSaved: () -> Unit
+private fun ChainEditorScreen(
+    onSaved: () -> Unit,
+    navigateUp: () -> Unit
 ) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
             TopAppBar(title = { }, navigationIcon = {
-                IconButton(onClick = { /*TODO*/ }) {
+                IconButton(onClick = navigateUp) {
                     Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
                 }
             })
@@ -122,7 +128,7 @@ private fun Editor_Preview() {
         Surface(
             modifier = Modifier.fillMaxWidth()
         ) {
-            ChainManagerScreen{}
+            ChainEditorScreen({}, {})
         }
     }
 }
