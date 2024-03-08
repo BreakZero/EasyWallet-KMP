@@ -2,7 +2,6 @@ package com.easy.wallet.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.core.text.isDigitsOnly
 import androidx.navigation.compose.NavHost
 import com.easy.wallet.discover.navigation.discoverTabScreen
 import com.easy.wallet.home.navigation.HOME_GRAPH_ROUTE_PATTERN
@@ -16,6 +15,8 @@ import com.easy.wallet.onboard.restore.navigation.importWalletScreen
 import com.easy.wallet.onboard.restore.navigation.toImportWallet
 import com.easy.wallet.settings.navigation.settingsGraph
 import com.easy.wallet.settings.navigation.toSettings
+import com.easy.wallet.token_manager.chain.navigation.attachChainManager
+import com.easy.wallet.token_manager.chain.navigation.navigateChainManager
 import com.easy.wallet.ui.WalletAppState
 
 @Composable
@@ -45,6 +46,10 @@ fun WalletNavHost(
         newsGraph()
         marketplaceTabScreen()
         discoverTabScreen()
-        settingsGraph(popBack = navController::popBackStack)
+        settingsGraph(
+            navigateChainManager = navController::navigateChainManager,
+            popBack = navController::popBackStack
+        )
+        attachChainManager()
     }
 }
