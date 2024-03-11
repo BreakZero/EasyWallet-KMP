@@ -12,6 +12,6 @@ fun assetModule() = module {
         ChainManagerViewModel(get(named<LocalChainRepository>()))
     }
     viewModel {
-        ChainEditorViewModel(get(named<LocalChainRepository>()))
+        ChainEditorViewModel(get(named<LocalChainRepository>()), get())
     }
 }

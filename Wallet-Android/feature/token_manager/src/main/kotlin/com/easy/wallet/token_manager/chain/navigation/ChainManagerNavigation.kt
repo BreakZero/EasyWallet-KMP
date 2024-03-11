@@ -3,7 +3,9 @@ package com.easy.wallet.token_manager.chain.navigation
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
+import androidx.navigation.NavType
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import com.easy.wallet.token_manager.chain.editor.ChainEditorRoute
 import com.easy.wallet.token_manager.chain.manager.ChainManagerRoute
 
@@ -14,8 +16,8 @@ fun NavController.navigateChainManager(navOptions: NavOptions? = null) {
     navigate(chainManagerRouter, navOptions)
 }
 
-fun NavController.navigateChainEditor(navOptions: NavOptions? = null) {
-    navigate(chainEditorRouter, navOptions)
+fun NavController.navigateChainEditor(chainId: Long, navOptions: NavOptions? = null) {
+    navigate("${chainEditorRouter}?chainId=$chainId", navOptions)
 }
 
 fun NavGraphBuilder.attachChainManager(
@@ -29,7 +31,15 @@ fun NavGraphBuilder.attachChainManager(
         )
     }
 
-    composable(chainEditorRouter) {
-        ChainEditorRoute(navigateUp = navigateUp)
+    composable(
+        route = "${chainEditorRouter}?chainId={chainId}",
+        arguments = listOf(navArgument("chainId") {
+            type = NavType.LongType
+            defaultValue = -1L
+        })
+    ) {
+        ChainEditorRoute(
+            navigateUp = navigateUp
+        )
     }
 }

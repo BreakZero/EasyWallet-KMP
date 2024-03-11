@@ -46,6 +46,10 @@ internal fun ChainManagerRoute(
                 navigateToEditor(it.id)
             }
 
+            is ChainManagerEvent.ClickAdd -> {
+                navigateToEditor(-1L)
+            }
+
             else -> Unit
         }
     }
@@ -63,13 +67,15 @@ private fun ChainManagerScreen(
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
-            TopAppBar(title = { }, navigationIcon = {
-                IconButton(onClick = navigateUp) {
-                    Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
-                }
-            },
+            TopAppBar(
+                title = { },
+                navigationIcon = {
+                    IconButton(onClick = navigateUp) {
+                        Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
+                    }
+                },
                 actions = {
-                    IconButton(onClick = { /*TODO*/ }) {
+                    IconButton(onClick = { onEvent(ChainManagerEvent.ClickAdd) }) {
                         Icon(
                             imageVector = Icons.Default.AddCircleOutline,
                             contentDescription = null
@@ -112,8 +118,9 @@ private fun ChainManagerScreen(
                                     IconButton(
                                         modifier = Modifier.background(MaterialTheme.colorScheme.error),
                                         onClick = {
-                                            println("clicked delete ${it.id}")
-                                        }) {
+                                            onEvent(ChainManagerEvent.ClickDeleted(it.id))
+                                        }
+                                    ) {
                                         Icon(
                                             imageVector = Icons.Filled.Delete,
                                             contentDescription = null
@@ -122,8 +129,9 @@ private fun ChainManagerScreen(
                                     IconButton(
                                         modifier = Modifier.background(MaterialTheme.colorScheme.secondary),
                                         onClick = {
-                                            println("clicked edit ${it.id}")
-                                        }) {
+                                            onEvent(ChainManagerEvent.ClickEdit(it.id))
+                                        }
+                                    ) {
                                         Icon(
                                             imageVector = Icons.Filled.Edit,
                                             contentDescription = null

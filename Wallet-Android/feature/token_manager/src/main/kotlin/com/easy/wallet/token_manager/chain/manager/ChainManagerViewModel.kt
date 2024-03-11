@@ -19,6 +19,7 @@ internal class ChainManagerViewModel(
 
     override fun handleEvent(event: ChainManagerEvent) {
         when (event) {
+            is ChainManagerEvent.ClickAdd -> dispatchEvent(event)
             is ChainManagerEvent.ClickEdit -> dispatchEvent(event)
             is ChainManagerEvent.ClickDeleted -> { onDelete(event.id) }
         }
