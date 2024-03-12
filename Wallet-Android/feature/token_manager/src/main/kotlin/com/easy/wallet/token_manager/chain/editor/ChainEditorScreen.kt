@@ -31,6 +31,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.easy.wallet.android.core.extensions.ObserveAsEvents
 import com.easy.wallet.design.theme.ThemePreviews
 import com.easy.wallet.design.ui.EasyWalletTheme
 import org.koin.androidx.compose.koinViewModel
@@ -40,11 +41,17 @@ internal fun ChainEditorRoute(
     navigateUp: () -> Unit
 ) {
     val viewModel: ChainEditorViewModel = koinViewModel()
+
+    ObserveAsEvents(flow = viewModel.navigationEvents) {
+        if (it == ChainEditorUiEvent.NavigateUp) {
+            navigateUp()
+        }
+    }
+
     val chainEditorUiState by viewModel.chainEditorUiState.collectAsStateWithLifecycle()
     ChainEditorScreen(
         chainEditorUiState = chainEditorUiState,
-        onSaved = { viewModel.handleEvent(ChainEditorUiEvent.OnSavedClick) },
-        navigateUp = navigateUp
+        onEvent = viewModel::handleEvent
     )
 }
 
@@ -52,14 +59,13 @@ internal fun ChainEditorRoute(
 @Composable
 private fun ChainEditorScreen(
     chainEditorUiState: ChainEditorUiState,
-    onSaved: () -> Unit,
-    navigateUp: () -> Unit
+    onEvent: (ChainEditorUiEvent) -> Unit
 ) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
             TopAppBar(title = { }, navigationIcon = {
-                IconButton(onClick = navigateUp) {
+                IconButton(onClick = { onEvent(ChainEditorUiEvent.NavigateUp) }) {
                     Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
                 }
             })
@@ -70,7 +76,7 @@ private fun ChainEditorScreen(
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp)
                     .padding(bottom = 12.dp),
-                onClick = onSaved
+                onClick = { onEvent(ChainEditorUiEvent.OnSavedClick) }
             ) {
                 Text(text = "Save")
             }
@@ -151,7 +157,7 @@ private fun Editor_Preview() {
         Surface(
             modifier = Modifier.fillMaxWidth()
         ) {
-            ChainEditorScreen(ChainEditorUiState(), {}, {})
+            ChainEditorScreen(ChainEditorUiState(), onEvent = {})
         }
     }
 }

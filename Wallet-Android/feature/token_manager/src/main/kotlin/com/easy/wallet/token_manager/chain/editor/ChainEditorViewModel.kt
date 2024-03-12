@@ -46,8 +46,10 @@ internal class ChainEditorViewModel(
                             chainId.asString()
                         )
                     }
+                    dispatchEvent(ChainEditorUiEvent.NavigateUp)
                 }
             }
+            else -> dispatchEvent(ChainEditorUiEvent.NavigateUp)
         }
     }
 

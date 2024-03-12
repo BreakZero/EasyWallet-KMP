@@ -16,4 +16,6 @@ internal data class ChainEditorUiState(
 
 internal sealed interface ChainEditorUiEvent {
     data object OnSavedClick: ChainEditorUiEvent
+
+    data object NavigateUp: ChainEditorUiEvent
 }
