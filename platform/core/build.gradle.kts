@@ -1,5 +1,5 @@
 plugins {
-    id("easy.multiplatform.library")
+    id("org.easy.multiplatform")
 }
 
 kotlin {

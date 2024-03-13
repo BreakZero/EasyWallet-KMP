@@ -1,6 +1,6 @@
 @Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
 plugins {
-    id("easy.multiplatform.library")
+    id("org.easy.multiplatform")
     alias(libs.plugins.kotlin.serialization)
     id("kotlinx-atomicfu")
 }
