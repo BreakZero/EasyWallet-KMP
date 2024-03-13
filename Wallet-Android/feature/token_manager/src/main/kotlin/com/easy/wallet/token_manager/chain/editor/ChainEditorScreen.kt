@@ -12,7 +12,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text2.BasicTextField2
 import androidx.compose.foundation.text2.input.InputTransformation
 import androidx.compose.foundation.text2.input.TextFieldLineLimits
-import androidx.compose.foundation.text2.input.rememberTextFieldState
+import androidx.compose.foundation.text2.input.TextFieldState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Button
@@ -25,10 +25,13 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.easy.wallet.android.core.extensions.ObserveAsEvents
 import com.easy.wallet.design.theme.ThemePreviews
 import com.easy.wallet.design.ui.EasyWalletTheme
 import org.koin.androidx.compose.koinViewModel
@@ -38,23 +41,31 @@ internal fun ChainEditorRoute(
     navigateUp: () -> Unit
 ) {
     val viewModel: ChainEditorViewModel = koinViewModel()
+
+    ObserveAsEvents(flow = viewModel.navigationEvents) {
+        if (it == ChainEditorUiEvent.NavigateUp) {
+            navigateUp()
+        }
+    }
+
+    val chainEditorUiState by viewModel.chainEditorUiState.collectAsStateWithLifecycle()
     ChainEditorScreen(
-        onSaved = {},
-        navigateUp = navigateUp
+        chainEditorUiState = chainEditorUiState,
+        onEvent = viewModel::handleEvent
     )
 }
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 private fun ChainEditorScreen(
-    onSaved: () -> Unit,
-    navigateUp: () -> Unit
+    chainEditorUiState: ChainEditorUiState,
+    onEvent: (ChainEditorUiEvent) -> Unit
 ) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
             TopAppBar(title = { }, navigationIcon = {
-                IconButton(onClick = navigateUp) {
+                IconButton(onClick = { onEvent(ChainEditorUiEvent.NavigateUp) }) {
                     Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
                 }
             })
@@ -65,7 +76,7 @@ private fun ChainEditorScreen(
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp)
                     .padding(bottom = 12.dp),
-                onClick = onSaved
+                onClick = { onEvent(ChainEditorUiEvent.OnSavedClick) }
             ) {
                 Text(text = "Save")
             }
@@ -80,11 +91,31 @@ private fun ChainEditorScreen(
             val modifier = Modifier
                 .fillMaxWidth()
 
-            EditorWithLabel(modifier = modifier, label = "Name")
-            EditorWithLabel(modifier = modifier, label = "RPC Url")
-            EditorWithLabel(modifier = modifier, label = "Chain ID")
-            EditorWithLabel(modifier = modifier, label = "Website")
-            EditorWithLabel(modifier = modifier, label = "Explorer")
+            EditorWithLabel(
+                modifier = modifier,
+                textFieldState = chainEditorUiState.name,
+                label = "Name"
+            )
+            EditorWithLabel(
+                modifier = modifier,
+                textFieldState = chainEditorUiState.rpcUrl,
+                label = "RPC Url"
+            )
+            EditorWithLabel(
+                modifier = modifier,
+                textFieldState = chainEditorUiState.chainId,
+                label = "Chain ID"
+            )
+            EditorWithLabel(
+                modifier = modifier,
+                textFieldState = chainEditorUiState.website,
+                label = "Website"
+            )
+            EditorWithLabel(
+                modifier = modifier,
+                textFieldState = chainEditorUiState.explorer,
+                label = "Explorer"
+            )
         }
     }
 }
@@ -94,12 +125,9 @@ private fun ChainEditorScreen(
 private fun EditorWithLabel(
     modifier: Modifier = Modifier,
     inputTransformation: InputTransformation? = null,
+    textFieldState: TextFieldState,
     label: String
 ) {
-    val textFieldState = rememberTextFieldState()
-    textFieldState.edit {
-        println(this.asCharSequence())
-    }
     Row(
         modifier = modifier.padding(vertical = 8.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -121,6 +149,7 @@ private fun EditorWithLabel(
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @ThemePreviews
 @Composable
 private fun Editor_Preview() {
@@ -128,7 +157,7 @@ private fun Editor_Preview() {
         Surface(
             modifier = Modifier.fillMaxWidth()
         ) {
-            ChainEditorScreen({}, {})
+            ChainEditorScreen(ChainEditorUiState(), onEvent = {})
         }
     }
 }

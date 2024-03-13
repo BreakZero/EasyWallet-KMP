@@ -52,7 +52,7 @@ fun WalletNavHost(
             popBack = navController::popBackStack
         )
         attachChainManager(
-            navigateToEditor = { navController.navigateChainEditor() },
+            navigateToEditor = { navController.navigateChainEditor(it) },
             navigateUp = navController::navigateUp
         )
     }
