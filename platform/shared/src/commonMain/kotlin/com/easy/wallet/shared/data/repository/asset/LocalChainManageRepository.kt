@@ -7,9 +7,9 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 
-class LocalChainRepository(
+class LocalChainManageRepository(
     private val chainDao: ChainDao
-) : ChainRepository {
+) : ChainManageRepository {
     override suspend fun addOne(
         name: String,
         website: String,

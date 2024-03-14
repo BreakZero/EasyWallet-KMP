@@ -3,7 +3,7 @@ package com.easy.wallet.shared.data.repository.asset
 import com.easy.wallet.model.ChainInformation
 import kotlinx.coroutines.flow.Flow
 
-interface ChainRepository {
+interface ChainManageRepository {
     suspend fun addOne(
         name: String,
         website: String,

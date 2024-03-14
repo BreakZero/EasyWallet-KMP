@@ -1,13 +1,9 @@
-package com.easy.wallet.database.dao
+package com.easy.wallet.shared.data.repository.asset
 
 import com.easy.wallet.model.TokenInformation
-import com.easy.wallet.model.token.Token
+import kotlinx.coroutines.flow.Flow
 
-interface TokenDao {
-    suspend fun findById(tokenId: String): Token?
-}
-
-interface LocalTokenDao {
+interface TokenManageRepository {
     suspend fun addOne(
         id: String,
         chainId: Long,
@@ -19,5 +15,7 @@ interface LocalTokenDao {
         isActive: Boolean
     )
 
-    suspend fun allTokens(): List<TokenInformation>
+    suspend fun deleteById(id: String)
+
+    fun allTokens(): Flow<List<TokenInformation>>
 }
