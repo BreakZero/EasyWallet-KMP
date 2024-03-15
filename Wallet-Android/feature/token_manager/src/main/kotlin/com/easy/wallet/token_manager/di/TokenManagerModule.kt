@@ -23,6 +23,10 @@ fun assetModule() = module {
     }
 
     viewModel {
-        TokenEditorViewModel()
+        TokenEditorViewModel(
+            get(named<LocalChainManageRepository>()),
+            get(named<LocalTokenManageRepository>()),
+            get()
+        )
     }
 }

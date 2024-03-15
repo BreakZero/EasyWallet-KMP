@@ -122,7 +122,7 @@ private fun ChainEditorScreen(
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-private fun EditorWithLabel(
+internal fun EditorWithLabel(
     modifier: Modifier = Modifier,
     inputTransformation: InputTransformation? = null,
     textFieldState: TextFieldState,

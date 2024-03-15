@@ -18,9 +18,15 @@ fun NavController.navigateToTokenEditor(navOptions: NavOptions? = null) {
     navigate(tokenEditorRoute, navOptions)
 }
 
-fun NavGraphBuilder.attachTokenManager() {
+fun NavGraphBuilder.attachTokenManager(
+    navigateToEditor: (String?) -> Unit,
+    navigateUp: () -> Unit
+) {
     composable(tokenManagerRoute) {
-        TokenManagerRoute()
+        TokenManagerRoute(
+            navigateToEditor = navigateToEditor,
+            navigateUp = navigateUp
+        )
     }
 
     composable(tokenEditorRoute) {

@@ -99,6 +99,7 @@ private fun ChainManagerScreen(
                     modifier = modifier
                 ) {
                     items(uiState.chains, key = { it.id }) {
+                        println("===== ${it.id}")
                         SwipeToActions(
                             modifier = Modifier
                                 .fillMaxWidth()

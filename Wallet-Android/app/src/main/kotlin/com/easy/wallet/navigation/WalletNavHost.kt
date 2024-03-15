@@ -18,6 +18,9 @@ import com.easy.wallet.settings.navigation.toSettings
 import com.easy.wallet.token_manager.chain.navigation.attachChainManager
 import com.easy.wallet.token_manager.chain.navigation.navigateChainEditor
 import com.easy.wallet.token_manager.chain.navigation.navigateChainManager
+import com.easy.wallet.token_manager.token.navigation.attachTokenManager
+import com.easy.wallet.token_manager.token.navigation.navigateToTokenEditor
+import com.easy.wallet.token_manager.token.navigation.navigateToTokenManager
 import com.easy.wallet.ui.WalletAppState
 
 @Composable
@@ -49,10 +52,15 @@ fun WalletNavHost(
         discoverTabScreen()
         settingsGraph(
             navigateChainManager = navController::navigateChainManager,
+            navigateTokenManager = navController::navigateToTokenManager,
             popBack = navController::popBackStack
         )
         attachChainManager(
             navigateToEditor = { navController.navigateChainEditor(it) },
+            navigateUp = navController::navigateUp
+        )
+        attachTokenManager(
+            navigateToEditor = { navController.navigateToTokenEditor() },
             navigateUp = navController::navigateUp
         )
     }

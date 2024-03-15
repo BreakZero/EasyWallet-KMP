@@ -12,10 +12,17 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.ModeEditOutline
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -51,6 +58,7 @@ internal fun TokenManagerRoute(
     TokenManagerScreen(uiState = uiState, onEvent = viewModel::handleEvent)
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun TokenManagerScreen(
     uiState: TokenManagerUiState,
@@ -58,13 +66,31 @@ private fun TokenManagerScreen(
 ) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
+        topBar = {
+            TopAppBar(
+                title = { },
+                navigationIcon = {
+                    IconButton(onClick = { onEvent(TokenManagerEvent.ClickPopBack) }) {
+                        Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
+                    }
+                },
+                actions = {
+                    IconButton(onClick = { onEvent(TokenManagerEvent.ClickEdit("")) }) {
+                        Icon(
+                            imageVector = Icons.Default.ModeEditOutline,
+                            contentDescription = null
+                        )
+                    }
+                }
+            )
+        }
     ) { paddingValues ->
         val modifier = Modifier
             .fillMaxSize()
             .padding(paddingValues)
         when (uiState) {
             is TokenManagerUiState.Loading -> {
-                Box(modifier = modifier) {
+                Box(modifier = modifier, contentAlignment = Alignment.Center) {
                     LoadingWheel(contentDesc = "Loading Tokens")
                 }
             }

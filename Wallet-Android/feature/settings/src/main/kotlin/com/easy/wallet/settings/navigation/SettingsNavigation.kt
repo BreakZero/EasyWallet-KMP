@@ -16,12 +16,14 @@ fun NavController.toSettings(navOptions: NavOptions? = null) {
 
 fun NavGraphBuilder.settingsGraph(
     navigateChainManager: () -> Unit,
+    navigateTokenManager: () -> Unit,
     popBack: () -> Unit
 ) {
     navigation(route = settingsRoute, startDestination = settingsEntryRoute) {
         composable(settingsEntryRoute) {
             SettingsRoute(
                 navigateChainManager = navigateChainManager,
+                navigateTokenManager = navigateTokenManager,
                 popBack = popBack
             )
         }
