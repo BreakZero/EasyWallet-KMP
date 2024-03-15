@@ -15,7 +15,7 @@ interface TokenManageRepository {
         isActive: Boolean
     )
 
-    suspend fun deleteById(id: String)
+    suspend fun deleteByIds(ids: List<String>)
 
     fun allTokens(): Flow<List<TokenInformation>>
 }

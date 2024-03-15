@@ -23,8 +23,8 @@ class LocalTokenManageRepository(
         )
     }
 
-    override suspend fun deleteById(id: String) {
-        TODO("Not yet implemented")
+    override suspend fun deleteByIds(ids: List<String>) {
+        println("$ids")
     }
 
     override fun allTokens(): Flow<List<TokenInformation>> {
