@@ -13,7 +13,7 @@ data class TokenEditorUiState(
     val contract: TextFieldState = TextFieldState(),
     val iconUri: TextFieldState = TextFieldState(),
     val localChains: List<ChainInformation>,
-    val chainId: Long,
+    val chainName: String,
     val isActive: Boolean = false
 )
 

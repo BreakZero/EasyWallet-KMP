@@ -32,9 +32,10 @@ internal class TokenEditorViewModel(
         _chainId,
         _isActive
     ) { localChains, chainId, isActive ->
+        val chainName = localChains.find { it.id == chainId }?.name.orEmpty()
         TokenEditorUiState(
             localChains = localChains,
-            chainId = chainId,
+            chainName = chainName,
             isActive = isActive
         )
     }.stateIn(
@@ -42,7 +43,7 @@ internal class TokenEditorViewModel(
         SharingStarted.WhileSubscribed(3_000),
         TokenEditorUiState(
             localChains = emptyList(),
-            chainId = -1L
+            chainName = ""
         )
     )
 
@@ -51,7 +52,7 @@ internal class TokenEditorViewModel(
     }
 
     override fun handleEvent(event: TokenEditorEvent) {
-        when(event) {
+        when (event) {
             is TokenEditorEvent.ClickSaved -> {
                 // onSaved()
             }
@@ -59,7 +60,8 @@ internal class TokenEditorViewModel(
     }
 
     private fun onSaved() {
-        viewModelScope.launch {
+        log()
+        /*viewModelScope.launch {
             tokenManageRepository.addOne(
                 id = UUID.randomUUID().toString(),
                 chainId = 6L,
@@ -70,6 +72,13 @@ internal class TokenEditorViewModel(
                 iconUri = "https://assets-cdn.trustwallet.com/blockchains/ethereum/assets/0xc00e94Cb662C3520282E6f5717214004A7f26888/logo.png",
                 isActive = _isActive.value
             )
+        }*/
+    }
+
+    private fun log() {
+        val info = buildString {
+            appendLine(_chainId.value)
+            appendLine(_isActive.value)
         }
     }
 }
