@@ -88,6 +88,7 @@ private fun TokenManagerScreen(
         val modifier = Modifier
             .fillMaxSize()
             .padding(paddingValues)
+            .padding(16.dp)
         when (uiState) {
             is TokenManagerUiState.Loading -> {
                 Box(modifier = modifier, contentAlignment = Alignment.Center) {
