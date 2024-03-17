@@ -2,7 +2,7 @@ package com.easy.wallet.token_manager.chain.manager
 
 import androidx.lifecycle.viewModelScope
 import com.easy.wallet.android.core.BaseViewModel
-import com.easy.wallet.shared.data.repository.asset.ChainRepository
+import com.easy.wallet.shared.data.repository.asset.ChainManageRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 internal class ChainManagerViewModel(
-    private val localChainRepository: ChainRepository
+    private val localChainRepository: ChainManageRepository
 ) : BaseViewModel<ChainManagerEvent>() {
 
     private val isNeedFetch: MutableStateFlow<Boolean> = MutableStateFlow(true)

@@ -4,9 +4,8 @@ import java.util.Properties
 
 @Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
 plugins {
-    alias(easy.plugins.android.application.compose)
-    alias(easy.plugins.android.application.jacoco)
-    id("jacoco")
+    id("org.easy.android.application.compose")
+    id("org.easy.jacoco")
 }
 
 android {

@@ -31,6 +31,7 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 internal fun SettingsRoute(
     navigateChainManager: () -> Unit,
+    navigateTokenManager: () -> Unit,
     popBack: () -> Unit
 ) {
     val viewModel: SettingsViewModel = koinViewModel()
@@ -38,6 +39,7 @@ internal fun SettingsRoute(
         when (it) {
             SettingsEvent.PopBack -> popBack()
             SettingsEvent.ClickChainManager -> navigateChainManager()
+            SettingsEvent.ClickTokenManager -> navigateTokenManager()
         }
     }
     SettingsScreen(onEvent = viewModel::handleEvent)
@@ -85,7 +87,9 @@ internal fun SettingsScreen(
             )
             ExtendSettingsItem(
                 title = "Token Manager",
-                onClick = {}
+                onClick = {
+                    onEvent(SettingsEvent.ClickTokenManager)
+                }
             )
             HorizontalDivider()
             SettingsItem(

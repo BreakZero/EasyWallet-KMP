@@ -5,7 +5,7 @@ import androidx.compose.foundation.text2.input.TextFieldState
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.easy.wallet.android.core.BaseViewModel
-import com.easy.wallet.shared.data.repository.asset.ChainRepository
+import com.easy.wallet.shared.data.repository.asset.ChainManageRepository
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)
 internal class ChainEditorViewModel(
-    private val localChainRepository: ChainRepository,
+    private val localChainRepository: ChainManageRepository,
     savedStateHandle: SavedStateHandle
 ) : BaseViewModel<ChainEditorUiEvent>() {
 

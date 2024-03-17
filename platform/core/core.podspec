@@ -1,11 +1,11 @@
 Pod::Spec.new do |spec|
     spec.name                     = 'core'
     spec.version                  = '1.0'
-    spec.homepage                 = 'dejinlu.com'
+    spec.homepage                 = 'https://mock.com'
     spec.source                   = { :http=> ''}
-    spec.authors                  = 'Dougie'
+    spec.authors                  = ''
     spec.license                  = ''
-    spec.summary                  = 'cocoapod submodule'
+    spec.summary                  = 'replace to your feature summary'
     spec.vendored_frameworks      = 'build/cocoapods/framework/core.framework'
     spec.libraries                = 'c++'
     spec.ios.deployment_target = '16.0'

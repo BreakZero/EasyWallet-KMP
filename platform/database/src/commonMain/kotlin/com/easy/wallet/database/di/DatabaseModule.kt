@@ -5,6 +5,8 @@ import com.easy.wallet.database.dao.BlockChainDao
 import com.easy.wallet.database.dao.BlockChainDaoImpl
 import com.easy.wallet.database.dao.ChainDao
 import com.easy.wallet.database.dao.ChainDaoImpl
+import com.easy.wallet.database.dao.LocalTokenDao
+import com.easy.wallet.database.dao.LocalTokenDaoImpl
 import com.easy.wallet.database.dao.TokenDao
 import com.easy.wallet.database.dao.TokenDaoImpl
 import kotlinx.coroutines.Dispatchers
@@ -39,4 +41,11 @@ val databaseModule = module {
             dispatcher = Dispatchers.IO
         )
     } bind TokenDao::class
+
+    single {
+        LocalTokenDaoImpl(
+            get<SharedDatabase>().database.tokenEntityQueries,
+            dispatcher = Dispatchers.IO
+        )
+    } bind LocalTokenDao::class
 }

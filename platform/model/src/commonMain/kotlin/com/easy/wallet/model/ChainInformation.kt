@@ -1,6 +1,5 @@
 package com.easy.wallet.model
 
-import com.easy.wallet.model.enums.CoinVals
 
 data class ChainInformation(
     val id: Long,
