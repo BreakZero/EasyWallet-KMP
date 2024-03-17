@@ -18,4 +18,6 @@ interface TokenManageRepository {
     suspend fun deleteByIds(ids: List<String>)
 
     fun allTokens(): Flow<List<TokenInformation>>
+
+    fun findById(id: String): Flow<TokenInformation>
 }

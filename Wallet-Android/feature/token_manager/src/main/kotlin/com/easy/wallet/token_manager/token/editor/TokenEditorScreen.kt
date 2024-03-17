@@ -39,13 +39,19 @@ import org.koin.androidx.compose.koinViewModel
 internal fun TokenEditorRoute() {
     val viewModel: TokenEditorViewModel = koinViewModel()
     val editorUiState by viewModel.tokenEditorUiState.collectAsStateWithLifecycle()
-    TokenEditorScreen(editorUiState = editorUiState, onEvent = viewModel::handleEvent)
+    val editorFields by viewModel.tokenEditorFields.collectAsStateWithLifecycle()
+    TokenEditorScreen(
+        editorUiState = editorUiState,
+        editorFields = editorFields,
+        onEvent = viewModel::handleEvent
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 private fun TokenEditorScreen(
     editorUiState: TokenEditorUiState,
+    editorFields: TokenEditorFields,
     onEvent: (TokenEditorEvent) -> Unit
 ) {
     Scaffold(
@@ -88,39 +94,42 @@ private fun TokenEditorScreen(
             }) {
                 // chain id selector
                 Text(text = "In Chain")
-                Text(text = "Chain Name")
+                Text(text = editorUiState.chainName)
                 Spacer(modifier = Modifier.weight(1.0f))
                 Icon(imageVector = Icons.Default.KeyboardArrowRight, contentDescription = null)
             }
             EditorWithLabel(
                 modifier = modifier,
-                textFieldState = editorUiState.name,
+                textFieldState = editorFields.name,
                 label = "Name"
             )
             EditorWithLabel(
                 modifier = modifier,
-                textFieldState = editorUiState.symbol,
+                textFieldState = editorFields.symbol,
                 label = "Symbol"
             )
             EditorWithLabel(
                 modifier = modifier,
-                textFieldState = editorUiState.decimals,
+                textFieldState = editorFields.decimals,
                 label = "Decimals"
             )
             EditorWithLabel(
                 modifier = modifier,
-                textFieldState = editorUiState.contract,
+                textFieldState = editorFields.contract,
                 label = "Contract Address"
             )
             EditorWithLabel(
                 modifier = modifier,
-                textFieldState = editorUiState.iconUri,
+                textFieldState = editorFields.iconUri,
                 label = "Icon Uri"
             )
             Row(modifier = modifier, verticalAlignment = Alignment.CenterVertically) {
                 Text(text = "Active")
                 Spacer(modifier = Modifier.weight(1.0f))
-                Switch(checked = true, onCheckedChange = {})
+                Switch(
+                    checked = editorUiState.isActive,
+                    onCheckedChange = { onEvent(TokenEditorEvent.OnActiveChanged(it)) }
+                )
             }
         }
 
@@ -135,8 +144,10 @@ private fun TokenEditorScreen(
                         Text(text = it.name, modifier = Modifier
                             .fillMaxWidth()
                             .clickable {
+                                onEvent(TokenEditorEvent.OnChainChanged(it.id))
                                 isShowChainSelector = false
-                            })
+                            }
+                        )
                     }
                 }
             }

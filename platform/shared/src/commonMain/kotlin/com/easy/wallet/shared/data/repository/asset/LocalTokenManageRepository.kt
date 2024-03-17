@@ -32,4 +32,10 @@ class LocalTokenManageRepository(
             emit(localTokenDao.allTokens())
         }
     }
+
+    override fun findById(id: String): Flow<TokenInformation> {
+        return flow {
+            emit(localTokenDao.findById(id))
+        }
+    }
 }

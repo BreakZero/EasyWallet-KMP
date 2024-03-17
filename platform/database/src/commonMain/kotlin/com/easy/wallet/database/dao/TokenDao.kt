@@ -19,5 +19,7 @@ interface LocalTokenDao {
         isActive: Boolean
     )
 
+    suspend fun findById(id: String): TokenInformation
+
     suspend fun allTokens(): List<TokenInformation>
 }

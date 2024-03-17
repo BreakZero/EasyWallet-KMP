@@ -61,4 +61,8 @@ class LocalTokenDaoImpl internal constructor(
             )
         }
     }
+
+    override suspend fun findById(id: String): TokenInformation {
+        throw NoSuchElementException("could not find the token with id: $id")
+    }
 }
