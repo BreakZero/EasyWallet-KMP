@@ -10,7 +10,7 @@ import SwiftUI
 import shared
 
 struct TokenItemView: View {
-    private let token: ModelToken
+    private let token: ModelTokenInformation
     private let balance: Balance
 
     init(extraToken: ExtraToken) {
@@ -36,14 +36,15 @@ struct TokenItemView: View {
 
 #Preview {
      TokenItemView(
-        extraToken: ExtraToken(token: ModelToken(
+        extraToken: ExtraToken(token: ModelTokenInformation(
             id: "1",
+            chainName: "Ethereum",
             name: "Ethereum",
             symbol: "ETH",
             decimals: 18,
-            type: ModelCoinValsCoinType.coin,
-            address: "",
-            logoURI: "https://hws.dev/paul.jpg"
+            contract: "",
+            iconUri: "https://hws.dev/paul.jpg",
+            isActive: true
         ), balance: Balance.companion.ZERO)
     )
 }
