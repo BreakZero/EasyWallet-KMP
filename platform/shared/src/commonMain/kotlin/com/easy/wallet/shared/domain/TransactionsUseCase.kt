@@ -4,15 +4,15 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
+import com.easy.wallet.model.TokenInformation
 import com.easy.wallet.model.data.Transaction
-import com.easy.wallet.model.token.Token
 import com.easy.wallet.shared.data.repository.transactions.TransactionRepository
 
 class TransactionsUseCase internal constructor(
     private val ethereumTransactionRepository: TransactionRepository
 ) {
     operator fun invoke(
-        token: Token?,
+        token: TokenInformation?,
         account: String,
     ): Pager<Int, Transaction> {
         return Pager(
@@ -31,7 +31,7 @@ class TransactionsUseCase internal constructor(
 private const val LIMIT = 20
 
 internal class TransactionPagingSource(
-    private val token: Token?,
+    private val token: TokenInformation?,
     private val account: String,
     private val transactionRepository: TransactionRepository
 ) : PagingSource<Int, Transaction>() {

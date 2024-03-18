@@ -1,8 +1,8 @@
 package com.easy.wallet.shared.data.repository
 
-import com.easy.wallet.database.dao.BlockChainDao
-import com.easy.wallet.database.dao.TokenDao
-import com.easy.wallet.model.token.Token
+import com.easy.wallet.database.dao.ChainDao
+import com.easy.wallet.database.dao.LocalTokenDao
+import com.easy.wallet.model.TokenInformation
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlin.experimental.ExperimentalObjCRefinement
@@ -10,23 +10,23 @@ import kotlin.native.HiddenFromObjC
 
 @OptIn(ExperimentalObjCRefinement::class)
 class SupportedTokenRepository internal constructor(
-    private val blockChainDao: BlockChainDao,
-    private val tokenDao: TokenDao
+    private val blockChainDao: ChainDao,
+    private val tokenDao: LocalTokenDao
 ) {
     @HiddenFromObjC
-    fun allSupportedTokenStream(): Flow<List<Token>> {
+    fun allSupportedTokenStream(): Flow<List<TokenInformation>> {
         return flow {
-            emit(allSupportedToken())
+            emit(emptyList())
         }
     }
 
     @HiddenFromObjC
-    suspend fun allSupportedToken(): List<Token> {
-        return blockChainDao.allSupportedToken()
+    suspend fun allSupportedToken(): List<TokenInformation> {
+        return emptyList()
     }
 
     @HiddenFromObjC
-    fun findTokenByIdFlow(tokenId: String): Flow<Token?> {
-        return flow { emit(tokenDao.findById(tokenId)) }
+    fun findTokenByIdFlow(tokenId: String): Flow<TokenInformation?> {
+        return flow { emit(null) }
     }
 }

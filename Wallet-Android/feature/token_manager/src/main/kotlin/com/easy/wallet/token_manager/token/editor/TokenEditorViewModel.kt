@@ -32,7 +32,7 @@ internal class TokenEditorViewModel(
         TokenEditorFields(
             name = TextFieldState(it.name),
             symbol = TextFieldState(it.symbol),
-            decimals = TextFieldState(it.decimal.toString()),
+            decimals = TextFieldState(it.decimals.toString()),
             contract = TextFieldState(it.contract.orEmpty()),
             iconUri = TextFieldState(it.iconUri)
         )

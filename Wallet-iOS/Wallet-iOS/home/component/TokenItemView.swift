@@ -12,21 +12,21 @@ import shared
 struct TokenItemView: View {
     private let token: ModelToken
     private let balance: Balance
-    
+
     init(extraToken: ExtraToken) {
         self.token = extraToken.token
         self.balance = extraToken.balance
     }
-    
+
     var body: some View {
         HStack {
-            AsyncImage(url: URL(string: token.logoURI)) { phase in switch phase {
+            AsyncImage(url: URL(string: token.iconUri)) { phase in switch phase {
             case .failure: Image(systemName: "photo").font(.largeTitle)
             case .success(let image): image.resizable()
                 default: ProgressView() }
             }.frame(width: 48, height: 48)
                 .clipShape(Circle())
-            
+
             Text(token.name)
             Spacer()
             Text("\(balance.approximate(scale: 8)) \(token.symbol)")

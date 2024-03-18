@@ -10,13 +10,14 @@ CREATE TABLE IF NOT EXISTS TokenEntity(
     contract_address TEXT,
     icon_uri TEXT,
     is_active INTEGER AS Boolean,
+    tags TEXT NOT NULL,
     FOREIGN KEY(chain_id) REFERENCES ChainEntity(id)
 );
 
 
 addOne:
-INSERT OR IGNORE INTO TokenEntity(id, chain_id, name, symbol, decimals, contract_address, icon_uri, is_active)
-VALUES (?,?,?,?,?,?,?,?);
+INSERT OR IGNORE INTO TokenEntity(id, chain_id, name, symbol, decimals, contract_address, icon_uri, is_active, tags)
+VALUES (?,?,?,?,?,?,?,?,?);
 
 getByChainId:
 SELECT TokenEntity.id, TokenEntity.name, TokenEntity.symbol, TokenEntity.decimals, TokenEntity.contract_address, TokenEntity.icon_uri, TokenEntity.is_active

@@ -12,6 +12,7 @@ interface TokenManageRepository {
         decimal: Int,
         contractAddress: String?,
         iconUri: String,
+        tags: String,
         isActive: Boolean
     )
 
