@@ -28,3 +28,10 @@ SELECT TokenEntity.id, TokenEntity.name, TokenEntity.symbol, TokenEntity.decimal
 ChainEntity.name AS chain_name
 FROM TokenEntity
 LEFT JOIN ChainEntity ON TokenEntity.chain_id = ChainEntity.id;
+
+findById:
+SELECT TokenEntity.id, TokenEntity.name, TokenEntity.symbol, TokenEntity.decimals, TokenEntity.contract_address, TokenEntity.icon_uri, TokenEntity.is_active,
+ChainEntity.name AS chain_name
+FROM TokenEntity
+LEFT JOIN ChainEntity ON TokenEntity.chain_id = ChainEntity.id
+WHERE TokenEntity.id = :id;

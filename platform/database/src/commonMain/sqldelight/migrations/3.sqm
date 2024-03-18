@@ -36,3 +36,6 @@ VALUES ("c60_t0x6B175474E89094C44Da98b954EedeAC495271d0F", -1, "Dai","DAI",18, "
 
 INSERT OR ABORT INTO TokenEntity(id, chain_id, name, symbol, decimals, contract_address, icon_uri, is_active, tags)
 VALUES ("c60_t0x6B3595068778DD592e39A122f4f5a5cF09C90fE2", -1, "SushiSwap","SUSHI",18, "0x6B3595068778DD592e39A122f4f5a5cF09C90fE2", "https://assets-cdn.trustwallet.com/blockchains/ethereum/assets/0x6B3595068778DD592e39A122f4f5a5cF09C90fE2/logo.png",1, "ERC20");
+
+INSERT OR ABORT INTO TokenEntity(id, chain_id, name, symbol, decimals, contract_address, icon_uri, is_active, tags)
+VALUES ("ether_coin", -1, "Ethereum","ETH",18, "", "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/info/logo.png",1, "");

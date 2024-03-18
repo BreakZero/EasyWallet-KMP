@@ -4,6 +4,7 @@ import com.easy.wallet.database.dao.ChainDao
 import com.easy.wallet.database.dao.LocalTokenDao
 import com.easy.wallet.model.TokenInformation
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlin.experimental.ExperimentalObjCRefinement
 import kotlin.native.HiddenFromObjC

@@ -10,7 +10,7 @@ import kotlinx.coroutines.withContext
 class LocalTokenDaoImpl internal constructor(
     private val tokenEntityQueries: TokenEntityQueries,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
-): LocalTokenDao {
+) : LocalTokenDao {
     override suspend fun addOne(
         id: String,
         chainId: Long,
@@ -52,6 +52,17 @@ class LocalTokenDaoImpl internal constructor(
     }
 
     override suspend fun findById(id: String): TokenInformation {
-        throw NoSuchElementException("could not find the token with id: $id")
+        val entity = tokenEntityQueries.findById(id).executeAsOneOrNull()
+            ?: throw NoSuchElementException("could not find the token id: $id")
+        return TokenInformation(
+            id = entity.id,
+            chainName = entity.chain_name.orEmpty(),
+            name = entity.name,
+            symbol = entity.symbol,
+            decimals = entity.decimals ?: 8,
+            contract = entity.contract_address,
+            iconUri = entity.icon_uri.orEmpty(),
+            isActive = entity.is_active ?: false
+        )
     }
 }
