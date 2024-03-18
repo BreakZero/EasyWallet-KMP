@@ -25,7 +25,9 @@ class DashboardUseCase internal constructor(
             bitcoinRepository.dashboard(hdWallet.getAddressForCoin(CoinType.Bitcoin)),
         ) { tokens, ethBalances, _ ->
             tokens.map { token ->
-                val balance = Balance.ZERO
+                val balance = ethBalances.find {
+                    token.contract.equals(it.address, ignoreCase = true)
+                } ?: Balance.ZERO
                 ExtraToken(token, balance)
             }
         }.onStart {

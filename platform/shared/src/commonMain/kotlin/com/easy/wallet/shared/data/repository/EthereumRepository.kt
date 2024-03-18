@@ -1,6 +1,5 @@
 package com.easy.wallet.shared.data.repository
 
-import com.easy.wallet.model.enums.CoinVals
 import com.easy.wallet.network.source.blockchair.BlockchairApi
 import com.easy.wallet.shared.model.Balance
 import com.ionspin.kotlin.bignum.integer.toBigInteger
@@ -16,7 +15,6 @@ class EthereumRepository internal constructor(
             val dashboard = blockchairApi.getDashboardByAccount("ethereum", account)
             val result = dashboard?.let {
                 val coinBalance = Balance(
-                    type = CoinVals.CoinType.COIN,
                     address = "ethereum",
                     decimal = 18,
                     balance = dashboard.dashboardInfo.balance.toBigInteger(),
@@ -24,7 +22,6 @@ class EthereumRepository internal constructor(
 
                 val tokenBalances = dashboard.layer2Dto?.ethTokens?.map {
                     Balance(
-                        type = CoinVals.CoinType.ERC20,
                         address = it.tokenAddress,
                         decimal = it.tokenDecimals,
                         balance = it.balance.toBigInteger(),

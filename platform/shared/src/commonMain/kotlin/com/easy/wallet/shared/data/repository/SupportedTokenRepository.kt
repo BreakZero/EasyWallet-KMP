@@ -16,7 +16,7 @@ class SupportedTokenRepository internal constructor(
     @HiddenFromObjC
     fun allSupportedTokenStream(): Flow<List<TokenInformation>> {
         return flow {
-            emit(emptyList())
+            emit(tokenDao.allTokens())
         }
     }
 
@@ -27,6 +27,6 @@ class SupportedTokenRepository internal constructor(
 
     @HiddenFromObjC
     fun findTokenByIdFlow(tokenId: String): Flow<TokenInformation?> {
-        return flow { emit(null) }
+        return flow { emit(tokenDao.findById(tokenId)) }
     }
 }
