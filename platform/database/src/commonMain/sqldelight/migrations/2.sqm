@@ -1,0 +1,17 @@
+import kotlin.Boolean;
+import kotlin.Int;
+
+CREATE TABLE IF NOT EXISTS TokenEntity(
+    id TEXT PRIMARY KEY NOT NULL,
+    chain_id INTEGER NOT NULL,
+    name TEXT NOT NULL,
+    symbol TEXT NOT NULL,
+    decimals INTEGER AS Int,
+    contract_address TEXT,
+    icon_uri TEXT,
+    is_active INTEGER AS Boolean,
+    tags TEXT NOT NULL,
+    FOREIGN KEY(chain_id) REFERENCES ChainEntity(id)
+);
+
+ALTER TABLE TokenEntity ADD COLUMN tags TEXT;

@@ -17,7 +17,6 @@ internal class TokenManagerViewModel(
     private val isNeedFetch: MutableStateFlow<Boolean> = MutableStateFlow(true)
 
     val tokenManagerUiState = isNeedFetch.flatMapConcat { tokenManageRepository.allTokens() }.map {
-        delay(2000)
         TokenManagerUiState.Success(tokens = it)
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(3_000), TokenManagerUiState.Loading)
 

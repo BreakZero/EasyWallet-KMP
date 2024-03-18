@@ -11,7 +11,7 @@ import androidx.navigation.navArgument
 import androidx.navigation.navigation
 import com.easy.wallet.home.HomeRoute
 import com.easy.wallet.home.transactions.TransactionsRoute
-import com.easy.wallet.model.token.Token
+import com.easy.wallet.model.TokenInformation
 import java.net.URLDecoder
 import java.net.URLEncoder
 import kotlin.text.Charsets.UTF_8
@@ -46,7 +46,7 @@ fun NavGraphBuilder.homeGraph(
     onCreateWallet: () -> Unit,
     onRestoreWallet: () -> Unit,
     navigateToSettings: () -> Unit,
-    onTokenClick: (Token) -> Unit,
+    onTokenClick: (TokenInformation) -> Unit,
     nestedGraphs: NavGraphBuilder.() -> Unit
 ) {
     navigation(route = HOME_GRAPH_ROUTE_PATTERN, startDestination = homeEntryRoute) {

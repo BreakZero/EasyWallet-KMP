@@ -1,11 +1,6 @@
 package com.easy.wallet.database.dao
 
 import com.easy.wallet.model.TokenInformation
-import com.easy.wallet.model.token.Token
-
-interface TokenDao {
-    suspend fun findById(tokenId: String): Token?
-}
 
 interface LocalTokenDao {
     suspend fun addOne(
@@ -16,6 +11,7 @@ interface LocalTokenDao {
         decimal: Int,
         contractAddress: String?,
         iconUri: String,
+        tags: String,
         isActive: Boolean
     )
 

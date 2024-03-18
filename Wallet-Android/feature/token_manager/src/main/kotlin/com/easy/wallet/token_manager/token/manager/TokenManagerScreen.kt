@@ -148,7 +148,7 @@ private fun TokenInformation_Preview() {
                     name = "Ethereum",
                     symbol = "ETH",
                     chainName = "Ethereum(Main)",
-                    decimal = 18,
+                    decimals = 18,
                     contract = null,
                     iconUri = "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/info/logo.png",
                     isActive = true

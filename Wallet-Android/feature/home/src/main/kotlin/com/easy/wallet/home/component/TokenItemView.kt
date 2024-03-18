@@ -43,7 +43,7 @@ internal fun TokenItemView(
             modifier = Modifier
                 .size(48.dp)
                 .clip(CircleShape),
-            imageUrl = token.logoURI,
+            imageUrl = token.iconUri,
             contentDescription = token.name,
         )
         Text(modifier = Modifier.padding(start = 12.dp), text = token.name)

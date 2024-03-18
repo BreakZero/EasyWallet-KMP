@@ -16,10 +16,11 @@ class LocalTokenManageRepository(
         decimal: Int,
         contractAddress: String?,
         iconUri: String,
+        tags: String,
         isActive: Boolean
     ) {
         localTokenDao.addOne(
-            id, chainId, name, symbol, decimal, contractAddress, iconUri, isActive
+            id, chainId, name, symbol, decimal, contractAddress, iconUri, tags, isActive
         )
     }
 

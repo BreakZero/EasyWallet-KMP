@@ -9,6 +9,7 @@ import com.easy.wallet.home.navigation.TokenArgs
 import com.easy.wallet.shared.data.repository.SupportedTokenRepository
 import com.easy.wallet.shared.domain.TransactionsUseCase
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapConcat
 import kotlinx.coroutines.flow.stateIn
@@ -22,8 +23,8 @@ internal class TransactionsViewModel(
     private val tokenId = tokenArgs.tokenId
 
     private val _transactionPageFlow = supportedTokenRepository.findTokenByIdFlow(tokenId).flatMapConcat {
-        transactionsUseCase(it, "0x81080a7e991bcDdDBA8C2302A70f45d6Bd369Ab5").flow
-    }
+            transactionsUseCase(it, "0x81080a7e991bcDdDBA8C2302A70f45d6Bd369Ab5").flow
+        }.catch { emit(PagingData.empty()) }
 
     val transactionUiState = _transactionPageFlow.distinctUntilChanged()
         .cachedIn(viewModelScope)
