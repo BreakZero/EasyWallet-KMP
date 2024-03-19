@@ -14,5 +14,6 @@ class GlobalEnvComponent : KoinComponent {
         hdWalletInstant.loadInMemory(mnemonic, passphrase)
     }
 
-    fun mnemonic(): String = hdWalletInstant.hdWallet()
+//    fun mnemonic(): String = hdWalletInstant.hdWallet()
+    fun mnemonic(): String = hdWalletInstant.mnemonic()
 }

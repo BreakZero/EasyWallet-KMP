@@ -25,7 +25,7 @@ class LocalTokenManageRepository(
     }
 
     override suspend fun deleteByIds(ids: List<String>) {
-        println("$ids")
+        localTokenDao.deleteByIds(ids)
     }
 
     override fun allTokens(): Flow<List<TokenInformation>> {

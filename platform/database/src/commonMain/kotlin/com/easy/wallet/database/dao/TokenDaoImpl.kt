@@ -65,4 +65,8 @@ class LocalTokenDaoImpl internal constructor(
             isActive = entity.is_active ?: false
         )
     }
+
+    override suspend fun deleteByIds(ids: List<String>) {
+        tokenEntityQueries.deleteByIds(ids)
+    }
 }

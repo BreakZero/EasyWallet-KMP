@@ -14,6 +14,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)
 internal class TokenEditorViewModel(
@@ -78,17 +79,19 @@ internal class TokenEditorViewModel(
 
     private fun onSaved() {
         log()
+
         // check information if available before insert into database
         /*viewModelScope.launch {
             tokenManageRepository.addOne(
-                id = UUID.randomUUID().toString(),
-                chainId = 6L,
-                name = "Compound",
-                symbol = "COMP",
+                id = "ether_coin",
+                chainId = -1,
+                name = "Ethereum",
+                symbol = "ETH",
                 decimal = 18,
-                contractAddress = "0xc00e94Cb662C3520282E6f5717214004A7f26888",
-                iconUri = "https://assets-cdn.trustwallet.com/blockchains/ethereum/assets/0xc00e94Cb662C3520282E6f5717214004A7f26888/logo.png",
-                isActive = _isActive.value
+                contractAddress = "",
+                iconUri = "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/info/logo.png",
+                isActive = true,
+                tags = ""
             )
         }*/
     }

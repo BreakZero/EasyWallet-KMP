@@ -6,15 +6,26 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.easy.wallet.model.TokenInformation
 import com.easy.wallet.model.data.Transaction
+import com.easy.wallet.shared.data.multiwallet.MultiWalletRepository
 import com.easy.wallet.shared.data.repository.transactions.TransactionRepository
+import com.trustwallet.core.CoinType
+import com.trustwallet.core.HDWallet
+import kotlinx.coroutines.flow.firstOrNull
 
 class TransactionsUseCase internal constructor(
+    private val walletRepository: MultiWalletRepository,
     private val ethereumTransactionRepository: TransactionRepository
 ) {
-    operator fun invoke(
-        token: TokenInformation?,
-        account: String,
+    suspend operator fun invoke(
+        token: TokenInformation
     ): Pager<Int, Transaction> {
+        val hdWallet = walletRepository.forActivatedOne().firstOrNull()?.let {
+            HDWallet(it.mnemonic, it.passphrase)
+        } ?: throw IllegalArgumentException("No wallet had been set yet.")
+        val account = when (token.chainName) {
+            "Ethereum" -> hdWallet.getAddressForCoin(CoinType.Ethereum)
+            else -> ""
+        }
         return Pager(
             config = PagingConfig(pageSize = Int.MAX_VALUE, prefetchDistance = 2),
             pagingSourceFactory = {

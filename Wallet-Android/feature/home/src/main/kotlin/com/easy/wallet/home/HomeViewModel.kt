@@ -17,8 +17,7 @@ import kotlinx.coroutines.launch
 
 internal class HomeViewModel(
     multiWalletRepository: MultiWalletRepository,
-    private val dashboardUseCase: DashboardUseCase,
-    private val hdWalletInstant: HDWalletInstant
+    private val dashboardUseCase: DashboardUseCase
 ) : BaseViewModel<HomeEvent>() {
 
     private val _guestUiState = MutableStateFlow(
@@ -27,7 +26,6 @@ internal class HomeViewModel(
 
     val homeUiState = multiWalletRepository.forActivatedOne().flatMapConcat {
         it?.let {
-            hdWalletInstant.loadInMemory(it.mnemonic, it.passphrase)
             dashboardUseCase().map { HomeUiState.WalletUiState(it) }
         } ?: _guestUiState
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(3_000), HomeUiState.Loading)

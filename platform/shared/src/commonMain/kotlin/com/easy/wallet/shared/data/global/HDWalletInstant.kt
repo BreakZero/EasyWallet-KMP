@@ -18,11 +18,7 @@ class HDWalletInstant internal constructor() : SynchronizedObject() {
         }
     }
 
-    /**
-     * when using this function, please add check exception
-     */
-    fun hdWallet() = synchronized(this) {
-        checkNotNull(hdWallet)
+    fun mnemonic() = synchronized(this) {
         mnemonic
     }
 

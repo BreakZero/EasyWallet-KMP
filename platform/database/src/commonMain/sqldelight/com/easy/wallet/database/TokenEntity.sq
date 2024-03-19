@@ -35,3 +35,6 @@ ChainEntity.name AS chain_name
 FROM TokenEntity
 LEFT JOIN ChainEntity ON TokenEntity.chain_id = ChainEntity.id
 WHERE TokenEntity.id = :id;
+
+deleteByIds:
+DELETE FROM TokenEntity WHERE id IN :ids;

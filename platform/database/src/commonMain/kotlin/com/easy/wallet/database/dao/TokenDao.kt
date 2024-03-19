@@ -18,4 +18,6 @@ interface LocalTokenDao {
     suspend fun findById(id: String): TokenInformation
 
     suspend fun allTokens(): List<TokenInformation>
+
+    suspend fun deleteByIds(ids: List<String>)
 }

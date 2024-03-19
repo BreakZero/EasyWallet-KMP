@@ -1,5 +1,6 @@
 package com.easy.wallet.token_manager.token.manager
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,6 +13,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ModeEditOutline
@@ -27,6 +29,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.easy.wallet.android.core.extensions.ObserveAsEvents
@@ -101,7 +104,9 @@ private fun TokenManagerScreen(
                     modifier = modifier
                 ) {
                     items(uiState.tokens, key = { it.id }) {
-                        TokenInformationView(modifier = Modifier.fillMaxWidth(), token = it)
+                        TokenInformationView(modifier = Modifier.fillMaxWidth(), token = it) {
+                            onEvent(TokenManagerEvent.ClickDelete(listOf(it.id)))
+                        }
                     }
                 }
             }
@@ -112,14 +117,21 @@ private fun TokenManagerScreen(
 @Composable
 private fun TokenInformationView(
     modifier: Modifier,
-    token: TokenInformation
+    token: TokenInformation,
+    onItemClicked: (TokenInformation) -> Unit
 ) {
     Row(
-        modifier = modifier,
+        modifier = modifier
+            .padding(vertical = 8.dp)
+            .clickable {
+                onItemClicked(token)
+            },
         verticalAlignment = Alignment.CenterVertically
     ) {
         DynamicAsyncImage(
-            modifier = Modifier.size(48.dp),
+            modifier = Modifier
+                .size(48.dp)
+                .clip(CircleShape),
             imageUrl = token.iconUri,
             contentDescription = null
         )
@@ -153,7 +165,7 @@ private fun TokenInformation_Preview() {
                     iconUri = "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/info/logo.png",
                     isActive = true
                 )
-            )
+            ) {}
         }
     }
 }
