@@ -15,7 +15,7 @@ class EthereumRepository internal constructor(
             val dashboard = blockchairApi.getDashboardByAccount("ethereum", account)
             val result = dashboard?.let {
                 val coinBalance = Balance(
-                    address = "ethereum",
+                    address = "",
                     decimal = 18,
                     balance = dashboard.dashboardInfo.balance.toBigInteger(),
                 )
@@ -27,11 +27,8 @@ class EthereumRepository internal constructor(
                         balance = it.balance.toBigInteger(),
                     )
                 }
-                val result = tokenBalances?.let {
-                    tokenBalances + coinBalance
-                } ?: listOf(coinBalance)
-                result
-            } ?: emptyList<Balance>()
+                listOf(coinBalance) + (tokenBalances ?: emptyList())
+            } ?: emptyList()
             emit(result)
         }.catch { emptyList<Balance>() }
     }

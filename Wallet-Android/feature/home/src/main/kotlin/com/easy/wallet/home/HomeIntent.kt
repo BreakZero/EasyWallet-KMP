@@ -2,7 +2,7 @@ package com.easy.wallet.home
 
 import com.easy.wallet.home.component.ActionSheetMenu
 import com.easy.wallet.model.TokenInformation
-import com.easy.wallet.shared.model.ExtraToken
+import com.easy.wallet.shared.model.TokenUiModel
 
 internal sealed interface HomeEvent {
     data object OpenCreateWalletActions: HomeEvent
@@ -20,6 +20,6 @@ internal sealed interface HomeUiState {
     ): HomeUiState
 
     data class WalletUiState(
-        val tokens: List<ExtraToken>
+        val tokens: List<TokenUiModel>
     ): HomeUiState
 }

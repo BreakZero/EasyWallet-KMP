@@ -63,7 +63,6 @@ val sharedModule = module {
 
     single {
         DashboardUseCase(
-            walletRepository = get(),
             supportedTokenRepository = get(),
             ethereumRepository = get(named("Ethereum")),
             bitcoinRepository = get(named("Bitcoin")),

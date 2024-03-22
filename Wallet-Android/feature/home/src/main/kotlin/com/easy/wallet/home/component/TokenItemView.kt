@@ -16,13 +16,13 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import com.easy.wallet.design.component.DynamicAsyncImage
 import com.easy.wallet.home.HomeEvent
-import com.easy.wallet.shared.model.ExtraToken
+import com.easy.wallet.shared.model.TokenUiModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun TokenItemView(
     modifier: Modifier = Modifier,
-    extraToken: ExtraToken,
+    extraToken: TokenUiModel,
     onEvent: (HomeEvent) -> Unit
 ) {
     val token = extraToken.token
