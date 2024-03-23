@@ -33,11 +33,9 @@ import com.easy.wallet.design.component.DefaultPagingStateColumn
 import com.easy.wallet.design.component.LoadingWheel
 import com.easy.wallet.home.component.CollapsingToolbarWithLazyList
 import com.easy.wallet.home.transactions.component.AmountHeaderView
-import com.easy.wallet.home.transactions.component.TransactionView
+import com.easy.wallet.home.transactions.component.TransactionSummaryView
 import com.easy.wallet.model.data.Transaction
-import com.patrykandpatrick.vico.core.entry.entryOf
 import org.koin.androidx.compose.koinViewModel
-import kotlin.random.Random
 
 @Composable
 internal fun TransactionsRoute() {
@@ -115,17 +113,20 @@ internal fun TransactionsScreen(
                 DefaultPagingStateColumn(
                     modifier = contentModifier
                         .clip(RoundedCornerShape(topEnd = 20.dp, topStart = 20.dp))
-                        .background(MaterialTheme.colorScheme.secondaryContainer),
+                        .background(MaterialTheme.colorScheme.surfaceVariant),
                     state = lazyListState,
                     paging = transactionPaging,
                     verticalArrangement = Arrangement.spacedBy(12.dp),
                     itemKey = { index -> transactionPaging[index]!!.hash },
                     itemView = { transaction ->
-                        TransactionView(
+                        TransactionSummaryView(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(end = 16.dp, start = 8.dp),
                             transaction = transaction,
+                            itemClicked = {
+                                println(it.hash)
+                            }
                         )
                     }
                 )

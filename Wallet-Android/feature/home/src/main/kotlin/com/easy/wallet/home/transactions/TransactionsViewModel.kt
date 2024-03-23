@@ -11,7 +11,6 @@ import com.easy.wallet.shared.data.repository.SupportedTokenRepository
 import com.easy.wallet.shared.domain.CoinTrendUseCase
 import com.easy.wallet.shared.domain.TokenAmountUseCase
 import com.easy.wallet.shared.domain.TransactionsUseCase
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine

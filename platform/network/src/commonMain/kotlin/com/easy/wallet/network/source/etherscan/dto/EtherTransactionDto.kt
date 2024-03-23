@@ -51,8 +51,6 @@ data class EtherTransactionDto(
     val to: String,
     @SerialName("transactionIndex")
     val transactionIndex: String,
-    @SerialName("txreceipt_status")
-    val txreceiptStatus: String,
     @SerialName("value")
     val value: String
 )
