@@ -73,6 +73,7 @@ val sharedModule = module {
 
     single {
         CoinTrendUseCase(
+            walletRepository = get(),
             ethereumRepository = get(named("Ethereum")),
             bitcoinRepository = get(named("Bitcoin")),
         )
@@ -80,6 +81,7 @@ val sharedModule = module {
 
     single {
         TokenAmountUseCase(
+            walletRepository = get(),
             ethereumRepository = get(named("Ethereum")),
             bitcoinRepository = get(named("Bitcoin")),
         )
