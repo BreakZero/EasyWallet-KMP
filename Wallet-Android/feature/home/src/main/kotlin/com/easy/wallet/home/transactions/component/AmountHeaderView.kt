@@ -25,7 +25,6 @@ import com.patrykandpatrick.vico.compose.chart.Chart
 import com.patrykandpatrick.vico.compose.chart.line.lineChart
 import com.patrykandpatrick.vico.core.chart.scale.AutoScaleUp
 import com.patrykandpatrick.vico.core.entry.ChartEntryModelProducer
-import com.patrykandpatrick.vico.core.entry.FloatEntry
 import com.patrykandpatrick.vico.core.entry.entryOf
 import java.math.BigDecimal
 import kotlin.random.Random
@@ -36,10 +35,11 @@ internal fun AmountHeaderView(
     tokenInformation: TokenInformation?,
     balance: String,
     rate: BigDecimal = BigDecimal.ONE,
-    trends: List<FloatEntry>
+    trends: List<String>
 ) {
-    val chartEntryModelProducer by remember {
-        mutableStateOf(ChartEntryModelProducer(trends))
+    val chartEntryModelProducer by remember(trends) {
+        val trendValues = trends.map { it.toFloatOrNull() ?: 0.0f }
+        mutableStateOf(ChartEntryModelProducer(trendValues.mapIndexed { index, value -> entryOf(index, value) }))
     }
     Box(
         modifier = modifier,
@@ -93,7 +93,7 @@ private fun AmountHeader_Preview() {
                     true
                 ),
                 balance = "12345678",
-                trends = List(18) { entryOf(it, Random.nextInt(12)) }
+                trends = List(8) { Random.nextInt(12).toString() }
             )
         }
     }

@@ -2,6 +2,7 @@ package com.easy.wallet.home.transactions
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -21,6 +22,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
@@ -28,10 +30,10 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.easy.wallet.design.component.DefaultPagingStateColumn
+import com.easy.wallet.design.component.LoadingWheel
 import com.easy.wallet.home.component.CollapsingToolbarWithLazyList
 import com.easy.wallet.home.transactions.component.AmountHeaderView
 import com.easy.wallet.home.transactions.component.TransactionView
-import com.easy.wallet.model.TokenInformation
 import com.easy.wallet.model.data.Transaction
 import com.patrykandpatrick.vico.core.entry.entryOf
 import org.koin.androidx.compose.koinViewModel
@@ -40,15 +42,15 @@ import kotlin.random.Random
 @Composable
 internal fun TransactionsRoute() {
     val viewModel: TransactionsViewModel = koinViewModel()
-    val transactionUiState = viewModel.transactionUiState.collectAsLazyPagingItems()
-    val tokenInformation by viewModel.tokenInformation.collectAsStateWithLifecycle()
-    TransactionsScreen(tokenInformation = tokenInformation, transactionPaging = transactionUiState)
+    val transactionUiState = viewModel.transactionPager.collectAsLazyPagingItems()
+    val dashboardUiState by viewModel.dashboardUiState.collectAsStateWithLifecycle()
+    TransactionsScreen(dashboardUiState = dashboardUiState, transactionPaging = transactionUiState)
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun TransactionsScreen(
-    tokenInformation: TokenInformation?,
+    dashboardUiState: TransactionDashboardUiState,
     transactionPaging: LazyPagingItems<Transaction>
 ) {
     Scaffold(
@@ -88,12 +90,25 @@ internal fun TransactionsScreen(
                 .fillMaxSize()
                 .padding(it),
             header = { headerModifier ->
-                AmountHeaderView(
-                    modifier = headerModifier.height(260.dp),
-                    tokenInformation = tokenInformation,
-                    balance = "0.00",
-                    trends = List(8) { entryOf(it, Random.nextInt(12)) }
-                )
+                when (dashboardUiState) {
+                    is TransactionDashboardUiState.Loading -> {
+                        Box(
+                            modifier = headerModifier.height(260.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            LoadingWheel(contentDesc = "")
+                        }
+                    }
+
+                    is TransactionDashboardUiState.Success -> {
+                        AmountHeaderView(
+                            modifier = headerModifier.height(260.dp),
+                            tokenInformation = dashboardUiState.tokenInformation,
+                            balance = dashboardUiState.amount,
+                            trends = dashboardUiState.trends
+                        )
+                    }
+                }
             },
             listState = lazyListState,
             listContent = { contentModifier ->
