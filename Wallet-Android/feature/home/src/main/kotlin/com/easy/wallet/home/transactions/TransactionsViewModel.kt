@@ -23,10 +23,14 @@ internal class TransactionsViewModel(
     private val tokenArgs: TokenArgs = TokenArgs(savedStateHandle)
     private val tokenId = tokenArgs.tokenId
 
-    private val _transactionPageFlow = supportedTokenRepository.findTokenByIdFlow(tokenId)
+    private val _tokenFlow = supportedTokenRepository.findTokenByIdFlow(tokenId)
+
+    private val _transactionPageFlow = _tokenFlow
         .mapNotNull { it }.flatMapConcat {
             transactionsUseCase(it).flow
         }.catch { emit(PagingData.empty()) }
+
+    val tokenInformation = _tokenFlow.stateIn(viewModelScope, SharingStarted.Lazily, null)
 
     val transactionUiState = _transactionPageFlow.distinctUntilChanged()
         .cachedIn(viewModelScope)

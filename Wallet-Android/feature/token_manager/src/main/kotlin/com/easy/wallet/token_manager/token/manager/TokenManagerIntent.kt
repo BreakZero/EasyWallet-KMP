@@ -16,4 +16,5 @@ sealed interface TokenManagerEvent {
 
     data object ClickInEditModel : TokenManagerEvent
     data class ClickEdit(val id: String) : TokenManagerEvent
+    data class OnActivatedChanged(val isChecked: Boolean): TokenManagerEvent
 }

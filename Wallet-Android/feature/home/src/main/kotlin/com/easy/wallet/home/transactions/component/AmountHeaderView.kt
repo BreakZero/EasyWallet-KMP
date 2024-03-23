@@ -1,97 +1,74 @@
 package com.easy.wallet.home.transactions.component
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowDownward
-import androidx.compose.material.icons.filled.ArrowUpward
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.easy.wallet.design.theme.ThemePreviews
 import com.easy.wallet.design.ui.EasyWalletTheme
+import com.easy.wallet.model.TokenInformation
+import com.patrykandpatrick.vico.compose.chart.Chart
+import com.patrykandpatrick.vico.compose.chart.line.lineChart
+import com.patrykandpatrick.vico.core.chart.scale.AutoScaleUp
+import com.patrykandpatrick.vico.core.entry.ChartEntryModelProducer
+import com.patrykandpatrick.vico.core.entry.FloatEntry
+import com.patrykandpatrick.vico.core.entry.entryOf
+import java.math.BigDecimal
+import kotlin.random.Random
 
 @Composable
 internal fun AmountHeaderView(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    tokenInformation: TokenInformation?,
+    balance: String,
+    rate: BigDecimal = BigDecimal.ONE,
+    trends: List<FloatEntry>
 ) {
-    Column(
+    val chartEntryModelProducer by remember {
+        mutableStateOf(ChartEntryModelProducer(trends))
+    }
+    Box(
         modifier = modifier,
-        horizontalAlignment = Alignment.CenterHorizontally,
+        contentAlignment = Alignment.TopStart
     ) {
-        Box(
+        Chart(
             modifier = Modifier
-                .fillMaxWidth(0.5f)
-                .aspectRatio(1f)
-                .border(2.dp, color = MaterialTheme.colorScheme.onBackground, shape = CircleShape),
-            contentAlignment = Alignment.Center
+                .fillMaxHeight(1.0f)
+                .align(Alignment.CenterStart),
+            chart = lineChart(),
+            chartModelProducer = chartEntryModelProducer,
+            isZoomEnabled = false,
+            autoScaleUp = AutoScaleUp.Full
+        )
+        Column(
+            modifier = Modifier
+                .padding(12.dp)
+                .background(
+                    MaterialTheme.colorScheme.surfaceTint.copy(alpha = 0.5f),
+                    RoundedCornerShape(8.dp)
+                )
+                .padding(8.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Text(text = "8.066", style = MaterialTheme.typography.titleLarge)
-                Text(text = "¥ 29.72")
-            }
-        }
-        Spacer(modifier = Modifier.height(12.dp))
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(
-                space = 12.dp,
-                alignment = Alignment.CenterHorizontally,
-            ),
-        ) {
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                IconButton(
-                    modifier = Modifier.background(
-                        color = MaterialTheme.colorScheme.secondaryContainer,
-                        shape = CircleShape,
-                    ),
-                    onClick = { /*TODO*/ },
-                ) {
-                    Icon(imageVector = Icons.Default.ArrowUpward, contentDescription = "")
-                }
-                Text(text = "Send")
-            }
-
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                IconButton(
-                    modifier = Modifier.background(
-                        color = MaterialTheme.colorScheme.secondaryContainer,
-                        shape = CircleShape,
-                    ),
-                    onClick = { /*TODO*/ },
-                ) {
-                    Icon(imageVector = Icons.Default.ArrowDownward, contentDescription = "")
-                }
-                Text(text = "Receive")
-            }
-
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                IconButton(
-                    modifier = Modifier.background(
-                        color = MaterialTheme.colorScheme.secondaryContainer,
-                        shape = CircleShape,
-                    ),
-                    onClick = { /*TODO*/ },
-                ) {
-                    Icon(imageVector = Icons.Default.ArrowUpward, contentDescription = "")
-                }
-                Text(text = "Trade")
-            }
+            Text(
+                text = "$balance ${tokenInformation?.symbol}",
+                style = MaterialTheme.typography.headlineLarge
+            )
+            Text(text = "¥ ${balance.toBigDecimal().times(rate)}")
         }
     }
 }
@@ -101,7 +78,23 @@ internal fun AmountHeaderView(
 private fun AmountHeader_Preview() {
     EasyWalletTheme {
         Surface {
-            AmountHeaderView()
+            AmountHeaderView(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(260.dp),
+                tokenInformation = TokenInformation(
+                    "",
+                    "Ethereum",
+                    "Ethereum",
+                    "ETH",
+                    18,
+                    null,
+                    "",
+                    true
+                ),
+                balance = "12345678",
+                trends = List(18) { entryOf(it, Random.nextInt(12)) }
+            )
         }
     }
 }

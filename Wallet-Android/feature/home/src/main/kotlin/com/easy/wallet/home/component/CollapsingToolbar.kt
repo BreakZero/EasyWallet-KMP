@@ -44,7 +44,7 @@ fun CollapsingToolbarWithLazyList(
             override fun onPreScroll(available: Offset, source: NestedScrollSource): Offset {
                 toolbarState.scrollTopLimitReached =
                     listState.firstVisibleItemIndex == 0 && listState.firstVisibleItemScrollOffset == 0
-                toolbarState.scrollOffset = toolbarState.scrollOffset - available.y
+                toolbarState.scrollOffset -= available.y
 
                 return Offset(0f, toolbarState.consumed)
             }
@@ -59,8 +59,7 @@ fun CollapsingToolbarWithLazyList(
                         ) { value, _ ->
                             toolbarState.scrollTopLimitReached =
                                 listState.firstVisibleItemIndex == 0 && listState.firstVisibleItemScrollOffset == 0
-                            toolbarState.scrollOffset =
-                                toolbarState.scrollOffset - (value - (toolbarState.height + toolbarState.offset))
+                            toolbarState.scrollOffset -= (value - (toolbarState.height + toolbarState.offset))
                             if (toolbarState.scrollOffset == 0f) scope.coroutineContext.cancelChildren()
                         }
                     }
@@ -69,6 +68,7 @@ fun CollapsingToolbarWithLazyList(
             }
         }
     }
+
     Box(modifier = modifier.nestedScroll(nestedScrollConnection)) {
         listContent(
             Modifier
