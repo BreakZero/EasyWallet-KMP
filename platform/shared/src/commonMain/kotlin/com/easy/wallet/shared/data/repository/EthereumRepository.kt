@@ -1,14 +1,23 @@
 package com.easy.wallet.shared.data.repository
 
+import com.easy.wallet.model.TokenInformation
+import com.easy.wallet.model.data.Direction
+import com.easy.wallet.model.data.EthereumTransactionUiModel
+import com.easy.wallet.model.data.Transaction
 import com.easy.wallet.network.source.blockchair.BlockchairApi
+import com.easy.wallet.network.source.etherscan.EtherscanApi
+import com.easy.wallet.network.source.etherscan.dto.EtherTransactionDto
 import com.easy.wallet.shared.model.Balance
+import com.ionspin.kotlin.bignum.decimal.RoundingMode
+import com.ionspin.kotlin.bignum.decimal.toBigDecimal
 import com.ionspin.kotlin.bignum.integer.toBigInteger
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 
 class EthereumRepository internal constructor(
-    private val blockchairApi: BlockchairApi
+    private val blockchairApi: BlockchairApi,
+    private val etherscanApi: EtherscanApi
 ) : TokenRepository {
     override fun dashboard(account: String): Flow<List<Balance>> {
         return flow {
@@ -40,7 +49,39 @@ class EthereumRepository internal constructor(
         }
     }
 
-    override fun loadTransactions(limit: Int, offset: Int): Flow<Unit> {
-        TODO("Not yet implemented")
+    override suspend fun loadTransactions(
+        account: String,
+        token: TokenInformation,
+        page: Int,
+        offset: Int
+    ): List<Transaction> {
+        val isContract = !token.contract.isNullOrBlank()
+        val tnxDto = if (isContract) {
+            etherscanApi.getContractInternalTransactions(page, offset, account, token.contract.orEmpty())
+        } else {
+            etherscanApi.getTransactions(page, offset, account)
+        }
+        return tnxDto.map { it.asTransactionUiModel(token, account) }
     }
+}
+
+private fun EtherTransactionDto.asTransactionUiModel(
+    token: TokenInformation,
+    account: String
+): EthereumTransactionUiModel {
+    val direction = if (from.equals(account, true)) Direction.SEND else Direction.RECEIVE
+    return EthereumTransactionUiModel(
+        hash = hash,
+        amount = value.toBigDecimal().moveDecimalPoint(-token.decimals)
+            .roundToDigitPositionAfterDecimalPoint(8, RoundingMode.ROUND_HALF_CEILING)
+            .toPlainString(),
+        recipient = to,
+        sender = from,
+        direction = direction,
+        gasPrice = gasPrice,
+        gas = gas,
+        gasUsed = gasUsed,
+        symbol = token.symbol,
+        functionName = functionName
+    )
 }

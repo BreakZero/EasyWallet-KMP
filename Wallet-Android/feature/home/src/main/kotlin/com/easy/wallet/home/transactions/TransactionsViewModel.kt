@@ -10,7 +10,7 @@ import com.easy.wallet.model.data.Transaction
 import com.easy.wallet.shared.data.repository.SupportedTokenRepository
 import com.easy.wallet.shared.domain.CoinTrendUseCase
 import com.easy.wallet.shared.domain.TokenAmountUseCase
-import com.easy.wallet.shared.domain.TransactionsUseCase
+import com.easy.wallet.shared.domain.TransactionPagerUseCase
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
@@ -24,7 +24,7 @@ internal class TransactionsViewModel(
     supportedTokenRepository: SupportedTokenRepository,
     tokenAmountUseCase: TokenAmountUseCase,
     coinTrendUseCase: CoinTrendUseCase,
-    transactionsUseCase: TransactionsUseCase
+    tnxPagerUseCase: TransactionPagerUseCase
 ) : BaseViewModel<TransactionEvent>() {
     private val tokenArgs: TokenArgs = TokenArgs(savedStateHandle)
     private val tokenId = tokenArgs.tokenId
@@ -41,7 +41,7 @@ internal class TransactionsViewModel(
     }.stateIn(viewModelScope, SharingStarted.Lazily, TransactionDashboardUiState.Loading)
 
     val transactionPager = _tokenFlow.filterNotNull().flatMapConcat {
-        transactionsUseCase(it).flow
+        tnxPagerUseCase(it).flow
     }.distinctUntilChanged()
         .catch { PagingData.empty<Transaction>() }
         .cachedIn(viewModelScope)

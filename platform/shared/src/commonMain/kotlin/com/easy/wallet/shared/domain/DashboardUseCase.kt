@@ -1,5 +1,6 @@
 package com.easy.wallet.shared.domain
 
+import com.easy.wallet.core.commom.Constants
 import com.easy.wallet.model.Wallet
 import com.easy.wallet.shared.data.repository.SupportedTokenRepository
 import com.easy.wallet.shared.data.repository.TokenRepository
@@ -23,7 +24,7 @@ class DashboardUseCase internal constructor(
             ethereumRepository.dashboard(hdWallet.getAddressForCoin(CoinType.Ethereum)),
             bitcoinRepository.dashboard(hdWallet.getAddressForCoin(CoinType.Bitcoin)),
         ) { tokens, ethBalances, _ ->
-            val ethereumTokens = tokens.filter { it.chainName == "Ethereum" }
+            val ethereumTokens = tokens.filter { it.chainName == Constants.ETH_CHAIN_NAME }
             ethereumTokens.map { token ->
                 val balance = ethBalances.find {
                     token.contract.equals(it.address, ignoreCase = true)
