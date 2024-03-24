@@ -14,7 +14,7 @@ import io.ktor.utils.io.errors.IOException
 
 internal expect fun httpClient(config: HttpClientConfig<*>.() -> Unit = {}): HttpClient
 
-internal suspend inline fun <reified T> HttpClient.doGetWithCatch(
+internal suspend inline fun <reified T> HttpClient.tryGet(
     urlString: String,
     isThrows: Boolean = false,
     block: HttpRequestBuilder.() -> Unit = {}
@@ -29,7 +29,7 @@ internal suspend inline fun <reified T> HttpClient.doGetWithCatch(
     }
 }
 
-internal suspend inline fun <reified T> HttpClient.doPostWithCatch(
+internal suspend inline fun <reified T> HttpClient.tryPost(
     urlString: String,
     isThrows: Boolean = false,
     block: HttpRequestBuilder.() -> Unit = {}

@@ -30,6 +30,7 @@ internal class TokenManagerViewModel(
             TokenManagerEvent.ClickAdd, is TokenManagerEvent.ClickEdit, TokenManagerEvent.ClickPopBack -> {
                 dispatchEvent(event)
             }
+            is TokenManagerEvent.OnActivatedChanged -> Unit
         }
     }
 

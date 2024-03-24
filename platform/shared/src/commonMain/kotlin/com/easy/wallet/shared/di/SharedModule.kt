@@ -21,8 +21,10 @@ import com.easy.wallet.shared.data.repository.asset.LocalTokenManageRepository
 import com.easy.wallet.shared.data.repository.news.NewsRepository
 import com.easy.wallet.shared.data.repository.transactions.EthereumTransactionRepository
 import com.easy.wallet.shared.data.repository.transactions.TransactionRepository
+import com.easy.wallet.shared.domain.CoinTrendUseCase
 import com.easy.wallet.shared.domain.CreateWalletUseCase
 import com.easy.wallet.shared.domain.DashboardUseCase
+import com.easy.wallet.shared.domain.TokenAmountUseCase
 import com.easy.wallet.shared.domain.TransactionsUseCase
 import org.koin.core.module.dsl.singleOf
 import org.koin.core.qualifier.named
@@ -68,5 +70,22 @@ val sharedModule = module {
             bitcoinRepository = get(named("Bitcoin")),
         )
     }
+
+    single {
+        CoinTrendUseCase(
+            walletRepository = get(),
+            ethereumRepository = get(named("Ethereum")),
+            bitcoinRepository = get(named("Bitcoin")),
+        )
+    }
+
+    single {
+        TokenAmountUseCase(
+            walletRepository = get(),
+            ethereumRepository = get(named("Ethereum")),
+            bitcoinRepository = get(named("Bitcoin")),
+        )
+    }
+
     singleOf(::CreateWalletUseCase)
 }

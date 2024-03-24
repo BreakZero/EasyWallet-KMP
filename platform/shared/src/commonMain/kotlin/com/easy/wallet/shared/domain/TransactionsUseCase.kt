@@ -42,7 +42,7 @@ class TransactionsUseCase internal constructor(
 private const val LIMIT = 20
 
 internal class TransactionPagingSource(
-    private val token: TokenInformation?,
+    private val token: TokenInformation,
     private val account: String,
     private val transactionRepository: TransactionRepository
 ) : PagingSource<Int, Transaction>() {
@@ -53,8 +53,12 @@ internal class TransactionPagingSource(
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Transaction> {
         return try {
             val currentPage = params.key ?: 1
-            val transactions =
+            val transactions = if (token.contract.isNullOrBlank()) {
                 transactionRepository.getTransactions(token, currentPage, LIMIT, account)
+            } else {
+                transactionRepository.getContractInternalTransactions(token, currentPage, LIMIT, account)
+            }
+
             LoadResult.Page(
                 data = transactions,
                 prevKey = if (currentPage == 1) null else currentPage - 1,

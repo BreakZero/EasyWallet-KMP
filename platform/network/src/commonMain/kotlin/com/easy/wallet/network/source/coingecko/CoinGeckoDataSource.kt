@@ -1,6 +1,6 @@
 package com.easy.wallet.network.source.coingecko
 
-import com.easy.wallet.network.doGetWithCatch
+import com.easy.wallet.network.tryGet
 import com.easy.wallet.network.source.coingecko.dto.CoinGeckoMarketChartDto
 import com.easy.wallet.network.source.coingecko.dto.CoinGeckoMarketsDto
 import com.easy.wallet.network.source.coingecko.dto.CoinGeckoSearchTrendingDto
@@ -19,7 +19,7 @@ class CoinGeckoDataSource internal constructor(
         priceChangePercentageIntervals: String,
         coinIds: String?
     ): List<CoinGeckoMarketsDto> {
-        return httpClient.doGetWithCatch<List<CoinGeckoMarketsDto>>("coins/markets", isThrows = true) {
+        return httpClient.tryGet<List<CoinGeckoMarketsDto>>("coins/markets", isThrows = true) {
             parameter("vs_currency", currency)
             parameter("page", page)
             parameter("per_page", numCoinsPerPage)
@@ -35,13 +35,13 @@ class CoinGeckoDataSource internal constructor(
         currency: String,
         days: String
     ): CoinGeckoMarketChartDto? {
-        return httpClient.doGetWithCatch<CoinGeckoMarketChartDto>("coins/$coinId/market_chart") {
+        return httpClient.tryGet<CoinGeckoMarketChartDto>("coins/$coinId/market_chart") {
             parameter("vs_currency", currency)
             parameter("days", days)
         }
     }
 
     override suspend fun getSearchTrending(): CoinGeckoSearchTrendingDto? {
-        return httpClient.doGetWithCatch<CoinGeckoSearchTrendingDto>("search/trending")
+        return httpClient.tryGet<CoinGeckoSearchTrendingDto>("search/trending")
     }
 }

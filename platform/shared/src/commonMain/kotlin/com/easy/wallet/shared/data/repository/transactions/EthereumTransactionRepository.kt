@@ -10,13 +10,13 @@ import com.ionspin.kotlin.bignum.decimal.RoundingMode
 import com.ionspin.kotlin.bignum.decimal.toBigDecimal
 
 internal fun EtherTransactionDto.asTransactionUiModel(
-    token: TokenInformation?,
+    token: TokenInformation,
     account: String
 ): EthereumTransactionUiModel {
     val direction = if (from.equals(account, true)) Direction.SEND else Direction.RECEIVE
     return EthereumTransactionUiModel(
         hash = hash,
-        amount = value.toBigDecimal().moveDecimalPoint(-(token?.decimals ?: 18))
+        amount = value.toBigDecimal().moveDecimalPoint(-token.decimals)
             .roundToDigitPositionAfterDecimalPoint(8, RoundingMode.ROUND_HALF_CEILING)
             .toPlainString(),
         recipient = to,
@@ -25,6 +25,8 @@ internal fun EtherTransactionDto.asTransactionUiModel(
         gasPrice = gasPrice,
         gas = gas,
         gasUsed = gasUsed,
+        symbol = token.symbol,
+        functionName = functionName
     )
 }
 
@@ -32,12 +34,22 @@ class EthereumTransactionRepository internal constructor(
     private val etherscanApi: EtherscanApi
 ) : TransactionRepository {
     override suspend fun getTransactions(
-        token: TokenInformation?,
+        token: TokenInformation,
         page: Int,
         offset: Int,
         account: String
     ): List<Transaction> {
         val tnxDto = etherscanApi.getTransactions(page, offset, account)
+        return tnxDto.map { it.asTransactionUiModel(token, account) }
+    }
+
+    override suspend fun getContractInternalTransactions(
+        token: TokenInformation,
+        page: Int,
+        offset: Int,
+        account: String
+    ): List<Transaction> {
+        val tnxDto = etherscanApi.getContractInternalTransactions(page, offset, account, token.contract.orEmpty())
         return tnxDto.map { it.asTransactionUiModel(token, account) }
     }
 }

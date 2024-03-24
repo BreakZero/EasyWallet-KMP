@@ -27,8 +27,6 @@ data class EtherTransactionDto(
     val cumulativeGasUsed: String,
     @SerialName("from")
     val from: String,
-    @SerialName("functionName")
-    val functionName: String,
     @SerialName("gas")
     val gas: String,
     @SerialName("gasPrice")
@@ -39,10 +37,6 @@ data class EtherTransactionDto(
     val hash: String,
     @SerialName("input")
     val input: String,
-    @SerialName("isError")
-    val isError: String,
-    @SerialName("methodId")
-    val methodId: String,
     @SerialName("nonce")
     val nonce: String,
     @SerialName("timeStamp")
@@ -51,8 +45,13 @@ data class EtherTransactionDto(
     val to: String,
     @SerialName("transactionIndex")
     val transactionIndex: String,
-    @SerialName("txreceipt_status")
-    val txreceiptStatus: String,
     @SerialName("value")
-    val value: String
+    val value: String,
+
+    @SerialName("isError")
+    val isError: String? = null,
+    @SerialName("methodId")
+    val methodId: String? = null,
+    @SerialName("functionName")
+    val functionName: String? = null,
 )

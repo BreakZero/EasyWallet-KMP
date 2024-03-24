@@ -8,6 +8,7 @@ interface Transaction {
     val hash: String
     val amount: String
     val recipient: String
+    val symbol: String
     val sender: String
     val direction: Direction
 }

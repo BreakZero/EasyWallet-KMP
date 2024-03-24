@@ -20,6 +20,7 @@ import com.easy.wallet.design.ui.EasyWalletTheme
 import com.easy.wallet.home.HomeEvent
 import com.easy.wallet.home.HomeUiState
 import com.patrykandpatrick.vico.core.entry.entryOf
+import kotlin.random.Random
 
 @Composable
 internal fun UserHomeContent(
@@ -39,7 +40,7 @@ internal fun UserHomeContent(
             DashboardView(
                 modifier = headerModifier
                     .height(260.dp),
-                List(8) { entryOf(it, 12) }
+                List(8) { entryOf(it, Random.nextInt(12)) }
             )
         },
         listContent = { contentModifier ->

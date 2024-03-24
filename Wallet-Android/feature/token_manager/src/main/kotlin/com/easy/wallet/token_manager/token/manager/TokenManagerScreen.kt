@@ -105,7 +105,7 @@ private fun TokenManagerScreen(
                 ) {
                     items(uiState.tokens, key = { it.id }) {
                         TokenInformationView(modifier = Modifier.fillMaxWidth(), token = it) {
-                            onEvent(TokenManagerEvent.ClickDelete(listOf(it.id)))
+
                         }
                     }
                 }
@@ -118,14 +118,11 @@ private fun TokenManagerScreen(
 private fun TokenInformationView(
     modifier: Modifier,
     token: TokenInformation,
-    onItemClicked: (TokenInformation) -> Unit
+    onCheckedChange: (Boolean) -> Unit
 ) {
     Row(
         modifier = modifier
-            .padding(vertical = 8.dp)
-            .clickable {
-                onItemClicked(token)
-            },
+            .padding(vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         DynamicAsyncImage(
@@ -141,7 +138,7 @@ private fun TokenInformationView(
             Text(text = token.symbol)
         }
         Spacer(modifier = Modifier.weight(1.0f))
-        Switch(checked = token.isActive, onCheckedChange = {})
+        Switch(checked = token.isActive, onCheckedChange = onCheckedChange)
     }
 }
 
