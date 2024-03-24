@@ -9,5 +9,6 @@ data class EthereumTransactionUiModel(
     override val symbol: String,
     val gas: String,
     val gasPrice: String,
-    val gasUsed: String
+    val gasUsed: String,
+    val functionName: String?
 ) : Transaction

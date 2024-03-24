@@ -25,7 +25,8 @@ internal fun EtherTransactionDto.asTransactionUiModel(
         gasPrice = gasPrice,
         gas = gas,
         gasUsed = gasUsed,
-        symbol = token.symbol
+        symbol = token.symbol,
+        functionName = functionName
     )
 }
 

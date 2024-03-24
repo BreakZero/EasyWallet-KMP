@@ -32,7 +32,7 @@ class EtherscanDataSource internal constructor(
     ): List<EtherTransactionDto> {
         return httpClient.tryGet<EtherTransactionsResponseDto>("") {
             parameter("module", "account")
-            parameter("action", "txlist")
+            parameter("action", "tokentx")
             parameter("address", account)
             parameter("page", page)
             parameter("offset", offset)

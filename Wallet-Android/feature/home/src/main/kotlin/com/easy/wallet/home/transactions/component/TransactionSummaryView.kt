@@ -47,9 +47,19 @@ internal fun TransactionSummaryView(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             val label = if (isSend) "Send" else "Receive"
-            val desc = if (isSend) "To ${transaction.recipient.ellipsize(5)}}" else "From ${
-                transaction.sender.ellipsize(4)
-            }"
+            val isEthContractCall =
+                transaction is EthereumTransactionUiModel && transaction.functionName?.isNotBlank() == true
+            val desc = when {
+                isEthContractCall -> {
+                    val funcName =
+                        (transaction as EthereumTransactionUiModel).functionName?.split("(")
+                            ?.firstOrNull().orEmpty()
+                    funcName
+                }
+
+                isSend -> "To ${transaction.recipient.ellipsize(5)}"
+                else -> "From ${transaction.sender.ellipsize(4)}"
+            }
             val icon = if (isSend) Icons.Default.ArrowUpward else Icons.Default.ArrowDownward
             Icon(
                 modifier = Modifier
@@ -61,13 +71,17 @@ internal fun TransactionSummaryView(
                 imageVector = icon,
                 contentDescription = null,
             )
-            Column {
-                Text(text = label, style = MaterialTheme.typography.titleMedium)
-                Text(
-                    text = desc,
-                    overflow = TextOverflow.Ellipsis,
-                    maxLines = 1,
-                )
+            if (isEthContractCall) {
+                Text(text = desc, style = MaterialTheme.typography.titleMedium)
+            } else {
+                Column {
+                    Text(text = label, style = MaterialTheme.typography.titleMedium)
+                    Text(
+                        text = desc,
+                        overflow = TextOverflow.Ellipsis,
+                        maxLines = 1,
+                    )
+                }
             }
             Spacer(modifier = Modifier.weight(1.0f))
             Text(text = "${transaction.amount} ${transaction.symbol}")
@@ -90,7 +104,8 @@ private fun TransactionView_Preview() {
                     gas = "21000",
                     gasUsed = "62000000000",
                     gasPrice = "21000",
-                    symbol = "ETH"
+                    symbol = "ETH",
+                    functionName = ""
                 ),
                 itemClicked = {}
             )
