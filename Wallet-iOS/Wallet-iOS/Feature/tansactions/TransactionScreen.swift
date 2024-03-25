@@ -11,11 +11,19 @@ import SwiftUI
 struct TransactionScreen: View {
     @ObservedObject private var viewModel = ViewModel()
     
+    private var tokenId: String
+    
+    init(tokenId: String) {
+        self.tokenId = tokenId
+    }
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        Text("Transaction List(WIP on iOS Platform)").task {
+            await viewModel.loading(tokenId: tokenId)
+        }
     }
 }
 
 #Preview {
-    TransactionScreen()
+    TransactionScreen(tokenId: "")
 }

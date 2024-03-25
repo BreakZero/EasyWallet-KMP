@@ -40,7 +40,7 @@ private func TokenListView(
                         ZStack {
                             TokenItemView(extraToken: token)
                             NavigationLink(destination: {
-                                Text("Item: \(token.description())")
+                                TransactionScreen(tokenId: token.token.id)
                             }) {
                                 EmptyView()
                             }.opacity(0.0)
