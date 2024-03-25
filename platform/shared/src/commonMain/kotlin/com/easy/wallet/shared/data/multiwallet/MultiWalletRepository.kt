@@ -16,8 +16,7 @@ import kotlinx.datetime.toLocalDateTime
 import kotlin.experimental.ExperimentalObjCRefinement
 import kotlin.native.HiddenFromObjC
 
-@OptIn(ExperimentalObjCRefinement::class)
-class MultiWalletRepository(
+class MultiWalletRepository internal constructor(
     sharedDatabase: SharedDatabase,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) {
@@ -44,7 +43,6 @@ class MultiWalletRepository(
         }
     }
 
-    @HiddenFromObjC
     fun forActivatedOne(): Flow<Wallet?> {
         return queries.forActivatedOne().asFlow().mapToOneOrNull(dispatcher).map {
             it?.let {
