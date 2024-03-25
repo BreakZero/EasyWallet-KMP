@@ -21,7 +21,6 @@ import kotlinx.coroutines.flow.stateIn
 
 internal class TransactionsViewModel(
     savedStateHandle: SavedStateHandle,
-    supportedTokenRepository: SupportedTokenRepository,
     tokenAmountUseCase: TokenAmountUseCase,
     coinTrendUseCase: CoinTrendUseCase,
     tnxPagerUseCase: TransactionPagerUseCase
@@ -29,20 +28,14 @@ internal class TransactionsViewModel(
     private val tokenArgs: TokenArgs = TokenArgs(savedStateHandle)
     private val tokenId = tokenArgs.tokenId
 
-    private val _tokenFlow = supportedTokenRepository.findTokenByIdFlow(tokenId)
-
-    val dashboardUiState = _tokenFlow.filterNotNull().flatMapConcat { tokenInformation ->
-        combine(
-            tokenAmountUseCase(tokenInformation),
-            coinTrendUseCase(tokenInformation)
-        ) { amount, trends ->
-            TransactionDashboardUiState.Success(tokenInformation, amount, trends)
-        }
+    val dashboardUiState = combine(
+        tokenAmountUseCase(tokenId),
+        coinTrendUseCase(tokenId)
+    ) { amount, trends ->
+        TransactionDashboardUiState.Success(amount, trends)
     }.stateIn(viewModelScope, SharingStarted.Lazily, TransactionDashboardUiState.Loading)
 
-    val transactionPager = _tokenFlow.filterNotNull().flatMapConcat {
-        tnxPagerUseCase(it).flow
-    }.distinctUntilChanged()
+    val transactionPager = tnxPagerUseCase(tokenId).distinctUntilChanged()
         .catch { PagingData.empty<Transaction>() }
         .cachedIn(viewModelScope)
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), PagingData.empty())

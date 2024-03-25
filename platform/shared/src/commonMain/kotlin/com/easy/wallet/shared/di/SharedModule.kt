@@ -77,6 +77,7 @@ val sharedModule = module {
     single {
         TokenAmountUseCase(
             walletRepository = get(),
+            supportedTokenRepository = get(),
             ethereumRepository = get(named("Ethereum")),
             bitcoinRepository = get(named("Bitcoin")),
         )
@@ -87,6 +88,7 @@ val sharedModule = module {
     single {
         TransactionPagerUseCase(
             walletRepository = get(),
+            supportedTokenRepository = get(),
             ethereumRepository = get(named("Ethereum"))
         )
     }

@@ -1,6 +1,5 @@
 package com.easy.wallet.shared.domain
 
-import com.easy.wallet.model.TokenInformation
 import com.easy.wallet.shared.data.multiwallet.MultiWalletRepository
 import com.easy.wallet.shared.data.repository.TokenRepository
 import com.trustwallet.core.HDWallet
@@ -13,9 +12,7 @@ class CoinTrendUseCase internal constructor(
     private val ethereumRepository: TokenRepository,
     private val bitcoinRepository: TokenRepository,
 ) {
-    operator fun invoke(
-        tokenInformation: TokenInformation
-    ): Flow<List<String>> {
+    operator fun invoke(tokenId: String): Flow<List<String>> {
         // check which repository should be used
 
         // mock result for right now

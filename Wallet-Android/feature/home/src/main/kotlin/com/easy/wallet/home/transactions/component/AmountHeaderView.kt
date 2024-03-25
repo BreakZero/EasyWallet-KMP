@@ -20,7 +20,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.easy.wallet.design.theme.ThemePreviews
 import com.easy.wallet.design.ui.EasyWalletTheme
-import com.easy.wallet.model.TokenInformation
 import com.patrykandpatrick.vico.compose.chart.Chart
 import com.patrykandpatrick.vico.compose.chart.line.lineChart
 import com.patrykandpatrick.vico.core.chart.scale.AutoScaleUp
@@ -32,7 +31,6 @@ import kotlin.random.Random
 @Composable
 internal fun AmountHeaderView(
     modifier: Modifier = Modifier,
-    tokenInformation: TokenInformation?,
     balance: String,
     rate: BigDecimal = BigDecimal.ONE,
     trends: List<String>
@@ -65,7 +63,7 @@ internal fun AmountHeaderView(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "$balance ${tokenInformation?.symbol}",
+                text = "$balance",
                 style = MaterialTheme.typography.headlineLarge
             )
 //            Text(text = "¥ ${balance.toBigDecimal().times(rate)}")
@@ -82,16 +80,16 @@ private fun AmountHeader_Preview() {
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(260.dp),
-                tokenInformation = TokenInformation(
-                    "",
-                    "Ethereum",
-                    "Ethereum",
-                    "ETH",
-                    18,
-                    null,
-                    "",
-                    true
-                ),
+//                tokenInformation = TokenInformation(
+//                    "",
+//                    "Ethereum",
+//                    "Ethereum",
+//                    "ETH",
+//                    18,
+//                    null,
+//                    "",
+//                    true
+//                ),
                 balance = "12345678",
                 trends = List(8) { Random.nextInt(12).toString() }
             )
