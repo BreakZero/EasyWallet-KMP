@@ -25,10 +25,12 @@ extension KoinApplication {
 
 extension KoinApplication {
     private static let keyPaths: [PartialKeyPath<Koin>] = [
-         \.coinTrendUseCase,
-         \.dashboardUseCase,
-         \.tokenAmountUseCase,
-         \.transactionPagerUseCase
+        \.coinTrendUseCase,
+        \.dashboardUseCase,
+        \.tokenAmountUseCase,
+        \.transactionPagerUseCase,
+        \.multiWalletRepository,
+        \.newsRepository
     ]
     
     static func inject<T>() -> T {

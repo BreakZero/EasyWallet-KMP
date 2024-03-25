@@ -29,7 +29,7 @@ struct ContentView: View {
 //                )
 //            }
 //        }
-        Text("Wallet")
+        NewsScreen()
     }
 }
 

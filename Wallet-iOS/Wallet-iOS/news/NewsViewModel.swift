@@ -8,21 +8,24 @@
 
 import Foundation
 import shared
-import Combine
+import AsyncExtensions
 
 extension NewsScreen {
     @MainActor final class ViewModel: ObservableObject {
+        
+        @LazyKoin private var newsRepository: NewsRepository
+        
 //        private let newsComponent = NewsComponent()
-//        @Published private(set) var news:[ModelNews] = []
-//        private var offset: Int32 = 0
-//        private let limit: Int32 = 20
-//        @Published private(set) var hasNotMore: Bool = false
+        @Published private(set) var newsResult:[ModelNews] = []
+        private var offset: Int32 = 0
+        private let limit: Int32 = 20
+        @Published private(set) var hasNotMore: Bool = false
 //        
 //        private var disposables = Set<AnyCancellable>()
 //        
-//        init() {
-//            loadNews()
-//        }
+        init()  {
+        
+        }
 //        
 //        func loadMoreNews(currentHash: String) {
 //            let lastHash = self.news.last?.hash ?? ""
@@ -49,7 +52,14 @@ extension NewsScreen {
 //                    }
 //                }).store(in: &disposables)
 //        }
-//        
+        func loadNews() async {
+            let newsSteam = newsRepository.loadNewsStream(limit: limit, offset: offset)
+            for await news in newsSteam {
+                self.newsResult.append(contentsOf: news as [ModelNews])
+            }
+        }
+        
+//
 //        func onCleared() {
 ////            self.news = []
 ////            self.offset = 0

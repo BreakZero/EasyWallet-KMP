@@ -4,7 +4,7 @@ import shared
 @main
 struct iOSApp: App {
     init() {
-        IOSDiHelperKt.doInitKoin()
+        KoinApplication.start()
     }
 	var body: some Scene {
 		WindowGroup {
