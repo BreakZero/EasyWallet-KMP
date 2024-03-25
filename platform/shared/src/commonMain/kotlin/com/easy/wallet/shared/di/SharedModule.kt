@@ -29,10 +29,11 @@ import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 val sharedModule = module {
-    includes(dispatcherModule)
-    includes(userDefaultModule())
-    includes(networkModule)
-    includes(databaseModule)
+//    includes(dispatcherModule)
+//    includes(userDefaultModule())
+//    includes(networkModule)
+//    includes(databaseModule)
+
     singleOf(::UserPasswordStorage)
     singleOf(::DatabaseKeyStorage)
     single {

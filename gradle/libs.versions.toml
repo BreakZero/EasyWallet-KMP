@@ -8,6 +8,7 @@ androidxTracing = "1.2.0"
 androidxWindowManager = "1.2.0"
 androidxWork = "2.9.0"
 vico = "1.14.0"
+skie = "0.6.2"
 
 buildkonfigGradlePlugin = "0.15.1"
 compose-bom = "2024.02.02"
@@ -103,6 +104,8 @@ ktor-client-logging = { group = "io.ktor", name = "ktor-client-logging", version
 ktor-client-content-negotiation = { group = "io.ktor", name = "ktor-client-content-negotiation", version.ref = "ktor" }
 ktor-serialization-kotlinx-json = { group = "io.ktor", name = "ktor-serialization-kotlinx-json", version.ref = "ktor" }
 
+skie-annotations = { module = "co.touchlab.skie:configuration-annotations", version.ref = "skie" }
+
 # vico
 # For Jetpack Compose.
 vico-compose = { group = "com.patrykandpatrick.vico", name = "compose", version.ref = "vico" }
@@ -126,6 +129,7 @@ kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", versi
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "org-jetbrains-kotlin" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "org-jetbrains-kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+skie = { id = "co.touchlab.skie", version.ref = "skie" }
 
 [bundles]
 compose-android-bundle = [

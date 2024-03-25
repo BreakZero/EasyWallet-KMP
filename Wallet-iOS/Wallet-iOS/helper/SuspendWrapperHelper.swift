@@ -9,11 +9,11 @@
 import Foundation
 import shared
 
-func suspend<T>(_ wrapper: SuspendWrapper<T>) async throws -> T {
-    return try await withTaskCancellationHandler {
-        @MainActor in try await wrapper.execute()
-    } onCancel: {
-        wrapper.cancel()
-    }
-}
+//func suspend<T>(_ wrapper: SuspendWrapper<T>) async throws -> T {
+//    return try await withTaskCancellationHandler {
+//        @MainActor in try await wrapper.execute()
+//    } onCancel: {
+//        wrapper.cancel()
+//    }
+//}
    

@@ -48,5 +48,9 @@ internal class TransactionsViewModel(
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), PagingData.empty())
 
     override fun handleEvent(event: TransactionEvent) {
+        when(event) {
+            is TransactionEvent.ClickReceive -> TODO()
+            is TransactionEvent.ClickSend -> TODO()
+        }
     }
 }

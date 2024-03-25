@@ -1,8 +1,13 @@
+import co.touchlab.skie.configuration.EnumInterop
+import co.touchlab.skie.configuration.SealedInterop
+import org.jetbrains.kotlin.gradle.plugin.mpp.BitcodeEmbeddingMode
+
 @Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
 plugins {
     id("org.easy.multiplatform")
     alias(libs.plugins.kotlin.serialization)
     id("kotlinx-atomicfu")
+    alias(libs.plugins.skie)
 }
 
 kotlin {
@@ -24,6 +29,7 @@ kotlin {
                     linkerOpts += "-ld64"
                 }
             }
+            embedBitcode(BitcodeEmbeddingMode.DISABLE)
         }
     }
     sourceSets {
@@ -44,8 +50,9 @@ kotlin {
                 implementation(libs.ktor.serialization.kotlinx.json)
 
                 implementation("app.cash.paging:paging-common:3.3.0-alpha02-0.5.1")
+                implementation(libs.skie.annotations)
 
-                api("com.trustwallet:wallet-core-kotlin:4.0.26")
+                api("com.trustwallet:wallet-core-kotlin:4.0.31")
                 implementation("com.ionspin.kotlin:bignum:0.3.9")
             }
         }
@@ -66,4 +73,13 @@ kotlin {
 
 android {
     namespace = "com.easy.wallet.shared"
+}
+
+skie {
+    features {
+        group("co.touchlab.skie.types") {
+            SealedInterop.Enabled(false)
+            EnumInterop.Enabled(false)
+        }
+    }
 }
