@@ -10,7 +10,7 @@ import SwiftUI
 
 struct MarketplaceScreen: View {
     var body: some View {
-        Text("Marketplace")
+        Text("Marketplace(WIP on iOS)")
     }
 }
 

@@ -16,24 +16,39 @@ struct HomeScreen: View {
             switch viewModel.homeUiState {
             case .Fetching:
                 ProgressView()
-            case .GuestUiState(let user):
-                GuestView()
+            case .GuestUiState(_):
+                GuestUserView()
             case .WalletUiState(let dashboard):
-                VStack {
-                    List {
-                        Section(
-                            header: Text(dashboard.user),
-                            content: {
-                                ForEach(dashboard.tokens,id: \.self.token.id) { token in
-                                    TokenItemView(extraToken: token)
-                                }
-                            }
-                        )
-                    }
-                }
+                TokenListView(dashboard: dashboard)
             }
         }.task {
             await viewModel.fetching()
         }
     }
+}
+
+@ViewBuilder
+private func TokenListView(
+    dashboard: HomeUiState.Dashboard
+) -> some View {
+    NavigationStack {
+        List {
+            Section(
+                header: Text(dashboard.user),
+                content: {
+                    ForEach(dashboard.tokens,id: \.self.token.id) { token in
+                        TokenItemView(extraToken: token)
+                    }
+                }
+            )
+        }.toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Image(systemName: "gear")
+            }
+        }
+    }
+}
+
+#Preview {
+    TokenListView(dashboard: HomeUiState.Dashboard(user: "Dougie", moneyTrend: [], tokens: []))
 }
