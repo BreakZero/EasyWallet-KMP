@@ -20,21 +20,29 @@ struct NewsScreen: View {
                         UIApplication.shared.open(url)
                     }
                 }, label: {
-                    NewsView(news: news).onAppear {
-                        
-                    }
+                    NewsView(news: news)
+                        .listRowInsets(EdgeInsets())
+                        .listRowBackground(Color.clear)
                 })
             }
             
-            if viewModel.hasNotMore {
+            if viewModel.hasNextPage {
+                ProgressView()
+                    .onAppear {
+                        viewModel.loadNextPage()
+                    }
+            } else {
                 Text("-- Not more --")
                     .frame(maxWidth: .infinity, alignment: .center)
-            } else {
-                ProgressView()
             }
         }.listStyle(.plain)
             .task {
-                await viewModel.loadNews()
+                await viewModel.startLoadNews()
+            }.task {
+                await viewModel.subscrideDataChanged()
+            }.task {
+                await viewModel.subscrideLoadState()
             }
+        
     }
 }

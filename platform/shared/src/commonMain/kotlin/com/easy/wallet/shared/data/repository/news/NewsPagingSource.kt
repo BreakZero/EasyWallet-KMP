@@ -4,7 +4,7 @@ import androidx.paging.PagingState
 import app.cash.paging.PagingSource
 import com.easy.wallet.model.news.News
 
-private const val LIMIT = 20
+internal const val NEWS_PAGER_LIMIT = 30
 
 internal class NewsPagingSource(
     private val newsRepository: NewsRepository
@@ -15,11 +15,11 @@ internal class NewsPagingSource(
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, News> {
         return try {
             val currentOffset = params.key ?: 0
-            val news = newsRepository.loadNews(LIMIT, currentOffset)
+            val news = newsRepository.loadNews(NEWS_PAGER_LIMIT, currentOffset)
             LoadResult.Page(
                 data = news,
-                prevKey = if (currentOffset == 0) null else currentOffset - LIMIT,
-                nextKey = if (news.isEmpty()) null else currentOffset + LIMIT,
+                prevKey = if (currentOffset == 0) null else currentOffset - NEWS_PAGER_LIMIT,
+                nextKey = if (news.isEmpty()) null else currentOffset + NEWS_PAGER_LIMIT,
             )
         } catch (e: Exception) {
             LoadResult.Error(e)

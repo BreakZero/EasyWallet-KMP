@@ -7,7 +7,7 @@ import com.easy.wallet.shared.data.repository.news.mapper.externalModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
-class NewsRepository internal constructor(
+internal class NewsRepository(
     private val blockchairApi: BlockchairApi
 ) {
     fun loadNewsStream(limit: Int, offset: Int): Flow<List<News>> {

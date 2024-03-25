@@ -27,7 +27,7 @@
 		3CC5B68D2ABABED1000B97CD /* RestoreScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CC5B68C2ABABED1000B97CD /* RestoreScreen.swift */; };
 		3CC5B68F2ABABEF0000B97CD /* RestoreViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CC5B68E2ABABEF0000B97CD /* RestoreViewModel.swift */; };
 		3CED15942BB0810A006C6EC1 /* Koin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CED15932BB0810A006C6EC1 /* Koin.swift */; };
-		3CED15972BB11987006C6EC1 /* AsyncExtensions in Frameworks */ = {isa = PBXBuildFile; productRef = 3CED15962BB11987006C6EC1 /* AsyncExtensions */; };
+		3CED159B2BB14887006C6EC1 /* AsyncExtensions in Frameworks */ = {isa = PBXBuildFile; productRef = 3CED159A2BB14887006C6EC1 /* AsyncExtensions */; };
 		7555FF83242A565900829871 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7555FF82242A565900829871 /* ContentView.swift */; };
 		7AD2AF90D402E4E225A0BC88 /* Pods_Wallet_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 010E03C3B43D8120F7621271 /* Pods_Wallet_iOS.framework */; };
 /* End PBXBuildFile section */
@@ -67,7 +67,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7AD2AF90D402E4E225A0BC88 /* Pods_Wallet_iOS.framework in Frameworks */,
-				3CED15972BB11987006C6EC1 /* AsyncExtensions in Frameworks */,
+				3CED159B2BB14887006C6EC1 /* AsyncExtensions in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -253,7 +253,7 @@
 			);
 			name = "Wallet-iOS";
 			packageProductDependencies = (
-				3CED15962BB11987006C6EC1 /* AsyncExtensions */,
+				3CED159A2BB14887006C6EC1 /* AsyncExtensions */,
 			);
 			productName = "Wallet-iOS";
 			productReference = 7555FF7B242A565900829871 /* Wallet-iOS.app */;
@@ -591,7 +591,7 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		3CED15962BB11987006C6EC1 /* AsyncExtensions */ = {
+		3CED159A2BB14887006C6EC1 /* AsyncExtensions */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 3CED15952BB11987006C6EC1 /* XCRemoteSwiftPackageReference "AsyncExtensions" */;
 			productName = AsyncExtensions;

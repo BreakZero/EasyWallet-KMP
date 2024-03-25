@@ -6,7 +6,7 @@ import com.easy.wallet.model.TokenInformation
 import com.easy.wallet.model.data.Transaction
 import com.easy.wallet.shared.data.repository.TokenRepository
 
-private const val LIMIT = 20
+internal const val TRANSACTION_PAGER_LIMIT = 20
 
 internal class TransactionPagingSource(
     private val tokenInformation: TokenInformation,
@@ -24,7 +24,7 @@ internal class TransactionPagingSource(
                 account,
                 tokenInformation,
                 currPage,
-                LIMIT
+                TRANSACTION_PAGER_LIMIT
             )
             LoadResult.Page(
                 data = transactions,

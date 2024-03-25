@@ -30,7 +30,7 @@ extension KoinApplication {
         \.tokenAmountUseCase,
         \.transactionPagerUseCase,
         \.multiWalletRepository,
-        \.newsRepository
+        \.newsPager
     ]
     
     static func inject<T>() -> T {
