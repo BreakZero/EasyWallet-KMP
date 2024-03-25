@@ -39,9 +39,9 @@ struct NewsScreen: View {
             .task {
                 await viewModel.startLoadNews()
             }.task {
-                await viewModel.subscrideDataChanged()
+                await viewModel.subscribeDataChanged()
             }.task {
-                await viewModel.subscrideLoadState()
+                await viewModel.subscribeLoadState()
             }
         
     }

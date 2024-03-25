@@ -29,7 +29,7 @@ extension NewsScreen {
             }
         }
         
-        func subscrideDataChanged() async {
+        func subscribeDataChanged() async {
             for await _ in delegate.onPagesUpdatedFlow {
                 self.newsResult = delegate.getItems()
             }
@@ -39,7 +39,7 @@ extension NewsScreen {
             delegate.loadNextPage()
         }
         
-        func subscrideLoadState() async {
+        func subscribeLoadState() async {
             for await loadState in delegate.loadStateFlow {
                 switch onEnum(of: loadState.append) {
                 case .error(let errorState):
