@@ -1,11 +1,7 @@
 package com.easy.wallet.shared.di
 
-import com.easy.wallet.core.di.dispatcherModule
-import com.easy.wallet.database.di.databaseModule
 import com.easy.wallet.datastore.DatabaseKeyStorage
 import com.easy.wallet.datastore.UserPasswordStorage
-import com.easy.wallet.datastore.di.userDefaultModule
-import com.easy.wallet.network.di.networkModule
 import com.easy.wallet.shared.data.global.HDWalletInstant
 import com.easy.wallet.shared.data.multiwallet.MultiWalletRepository
 import com.easy.wallet.shared.data.okx.OKXDataRepository
@@ -18,6 +14,7 @@ import com.easy.wallet.shared.data.repository.asset.ChainManageRepository
 import com.easy.wallet.shared.data.repository.asset.LocalChainManageRepository
 import com.easy.wallet.shared.data.repository.asset.LocalTokenManageRepository
 import com.easy.wallet.shared.data.repository.asset.TokenManageRepository
+import com.easy.wallet.shared.data.repository.news.NewsPager
 import com.easy.wallet.shared.data.repository.news.NewsRepository
 import com.easy.wallet.shared.domain.CoinTrendUseCase
 import com.easy.wallet.shared.domain.CreateWalletUseCase
@@ -29,10 +26,11 @@ import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 val sharedModule = module {
-    includes(dispatcherModule)
-    includes(userDefaultModule())
-    includes(networkModule)
-    includes(databaseModule)
+//    includes(dispatcherModule)
+//    includes(userDefaultModule())
+//    includes(networkModule)
+//    includes(databaseModule)
+
     singleOf(::UserPasswordStorage)
     singleOf(::DatabaseKeyStorage)
     single {
@@ -83,6 +81,8 @@ val sharedModule = module {
             bitcoinRepository = get(named("Bitcoin")),
         )
     }
+
+    single { NewsPager(get()) }
 
     single {
         TransactionPagerUseCase(

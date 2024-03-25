@@ -15,7 +15,7 @@ struct EasyDefaultTextFieldStyle: TextFieldStyle {
             .padding(.all)
             .overlay {
                 RoundedRectangle(cornerRadius: 12)
-                    .stroke(Color.primary, lineWidth: 2)
+                    .stroke(Color.primary.opacity(0.5), lineWidth: 2)
             }
             .padding(.horizontal)
         //            .shadow(color: .gray, radius: 10)

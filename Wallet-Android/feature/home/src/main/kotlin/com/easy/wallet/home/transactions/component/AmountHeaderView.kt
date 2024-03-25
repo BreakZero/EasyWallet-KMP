@@ -68,7 +68,7 @@ internal fun AmountHeaderView(
                 text = "$balance ${tokenInformation?.symbol}",
                 style = MaterialTheme.typography.headlineLarge
             )
-            Text(text = "¥ ${balance.toBigDecimal().times(rate)}")
+//            Text(text = "¥ ${balance.toBigDecimal().times(rate)}")
         }
     }
 }

@@ -12,7 +12,9 @@ import shared
 
 extension RestoreScreen {
     @MainActor final class ViewModel: ObservableObject {
-        private let multiWalletRepository =  MultiWalletComponent()
+        
+        @LazyKoin private var multiWalletRepository: MultiWalletRepository
+        
         private var insertTask: Task<Void, Never>? = nil
         
         @Published var seedPhrase: String = ""
@@ -23,12 +25,9 @@ extension RestoreScreen {
             onCompletion: @escaping () -> Void
         ) {
             insertTask = Task {
-                do {
-                    _ = try await suspend(multiWalletRepository.insertOne(mnemonic: seedPhrase))
+                try? await multiWalletRepository.insertOne(mnemonic: seedPhrase, passphrase: "", onCompleted: {
                     onCompletion()
-                } catch {
-                    debugPrint("we get an error \(error)")
-                }
+                })
             }
         }
         func onCleaned() {

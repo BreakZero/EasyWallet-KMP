@@ -7,6 +7,7 @@ import com.easy.wallet.model.TokenInformation
 import com.easy.wallet.model.data.Transaction
 import com.easy.wallet.shared.data.multiwallet.MultiWalletRepository
 import com.easy.wallet.shared.data.repository.TokenRepository
+import com.easy.wallet.shared.data.repository.transactions.TRANSACTION_PAGER_LIMIT
 import com.easy.wallet.shared.data.repository.transactions.TransactionPagingSource
 import com.trustwallet.core.CoinType
 import com.trustwallet.core.HDWallet
@@ -26,7 +27,7 @@ class TransactionPagerUseCase internal constructor(
         }
         // will do: according token information choice the read token repository
         return Pager(
-            config = PagingConfig(pageSize = Int.MAX_VALUE, prefetchDistance = 2),
+            config = PagingConfig(pageSize = TRANSACTION_PAGER_LIMIT, prefetchDistance = 2),
             pagingSourceFactory = {
                 TransactionPagingSource(
                     tokenInformation,

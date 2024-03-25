@@ -14,7 +14,7 @@ enum HomeUiState {
     struct Dashboard {
         let user: String
         let moneyTrend: [Double]
-        let tokens: [ExtraToken]
+        let tokens: [TokenUiModel]
     }
     
     case Fetching

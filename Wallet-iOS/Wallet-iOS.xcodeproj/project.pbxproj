@@ -14,19 +14,18 @@
 		3C75652A2A973CDC0032A653 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7565292A973CDC0032A653 /* HomeViewModel.swift */; };
 		3C75652E2A973FC90032A653 /* MarketplaceScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C75652D2A973FC90032A653 /* MarketplaceScreen.swift */; };
 		3C7565302A973FDF0032A653 /* DiscoverScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C75652F2A973FDF0032A653 /* DiscoverScreen.swift */; };
-		3C89882D2B9428E400BB8551 /* SwiftUICharts in Frameworks */ = {isa = PBXBuildFile; productRef = 3C89882C2B9428E400BB8551 /* SwiftUICharts */; };
-		3CB6A4D12AB40F8A00861D13 /* FlowWrapperHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CB6A4D02AB40F8A00861D13 /* FlowWrapperHelper.swift */; };
 		3CB6A4D42AB44EA500861D13 /* TokenItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CB6A4D32AB44EA500861D13 /* TokenItemView.swift */; };
 		3CB939BD2AB58754008AF467 /* NewsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CB939BC2AB58754008AF467 /* NewsScreen.swift */; };
 		3CB939BF2AB58777008AF467 /* NewsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CB939BE2AB58777008AF467 /* NewsViewModel.swift */; };
 		3CB939C22AB5E54A008AF467 /* NewsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CB939C12AB5E54A008AF467 /* NewsView.swift */; };
-		3CC032F22AA44C7C0023A60A /* SuspendWrapperHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CC032F12AA44C7C0023A60A /* SuspendWrapperHelper.swift */; };
 		3CC5B6802AB89073000B97CD /* HomeUiState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CC5B67F2AB89073000B97CD /* HomeUiState.swift */; };
-		3CC5B6822AB981CC000B97CD /* GuestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CC5B6812AB981CC000B97CD /* GuestView.swift */; };
+		3CC5B6822AB981CC000B97CD /* GuestUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CC5B6812AB981CC000B97CD /* GuestUserView.swift */; };
 		3CC5B6862AB9845A000B97CD /* DefaultStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CC5B6852AB9845A000B97CD /* DefaultStyle.swift */; };
 		3CC5B6882ABA8BF0000B97CD /* ActionSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CC5B6872ABA8BF0000B97CD /* ActionSheetView.swift */; };
 		3CC5B68D2ABABED1000B97CD /* RestoreScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CC5B68C2ABABED1000B97CD /* RestoreScreen.swift */; };
 		3CC5B68F2ABABEF0000B97CD /* RestoreViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CC5B68E2ABABEF0000B97CD /* RestoreViewModel.swift */; };
+		3CED15942BB0810A006C6EC1 /* Koin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CED15932BB0810A006C6EC1 /* Koin.swift */; };
+		3CED159B2BB14887006C6EC1 /* AsyncExtensions in Frameworks */ = {isa = PBXBuildFile; productRef = 3CED159A2BB14887006C6EC1 /* AsyncExtensions */; };
 		7555FF83242A565900829871 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7555FF82242A565900829871 /* ContentView.swift */; };
 		7AD2AF90D402E4E225A0BC88 /* Pods_Wallet_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 010E03C3B43D8120F7621271 /* Pods_Wallet_iOS.framework */; };
 /* End PBXBuildFile section */
@@ -41,18 +40,17 @@
 		3C7565292A973CDC0032A653 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		3C75652D2A973FC90032A653 /* MarketplaceScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketplaceScreen.swift; sourceTree = "<group>"; };
 		3C75652F2A973FDF0032A653 /* DiscoverScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverScreen.swift; sourceTree = "<group>"; };
-		3CB6A4D02AB40F8A00861D13 /* FlowWrapperHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowWrapperHelper.swift; sourceTree = "<group>"; };
 		3CB6A4D32AB44EA500861D13 /* TokenItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenItemView.swift; sourceTree = "<group>"; };
 		3CB939BC2AB58754008AF467 /* NewsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsScreen.swift; sourceTree = "<group>"; };
 		3CB939BE2AB58777008AF467 /* NewsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsViewModel.swift; sourceTree = "<group>"; };
 		3CB939C12AB5E54A008AF467 /* NewsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsView.swift; sourceTree = "<group>"; };
-		3CC032F12AA44C7C0023A60A /* SuspendWrapperHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuspendWrapperHelper.swift; sourceTree = "<group>"; };
 		3CC5B67F2AB89073000B97CD /* HomeUiState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeUiState.swift; sourceTree = "<group>"; };
-		3CC5B6812AB981CC000B97CD /* GuestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuestView.swift; sourceTree = "<group>"; };
+		3CC5B6812AB981CC000B97CD /* GuestUserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuestUserView.swift; sourceTree = "<group>"; };
 		3CC5B6852AB9845A000B97CD /* DefaultStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultStyle.swift; sourceTree = "<group>"; };
 		3CC5B6872ABA8BF0000B97CD /* ActionSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionSheetView.swift; sourceTree = "<group>"; };
 		3CC5B68C2ABABED1000B97CD /* RestoreScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestoreScreen.swift; sourceTree = "<group>"; };
 		3CC5B68E2ABABEF0000B97CD /* RestoreViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestoreViewModel.swift; sourceTree = "<group>"; };
+		3CED15932BB0810A006C6EC1 /* Koin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Koin.swift; sourceTree = "<group>"; };
 		7555FF7B242A565900829871 /* Wallet-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Wallet-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7555FF82242A565900829871 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		7555FF8C242A565B00829871 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -65,7 +63,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7AD2AF90D402E4E225A0BC88 /* Pods_Wallet_iOS.framework in Frameworks */,
-				3C89882D2B9428E400BB8551 /* SwiftUICharts in Frameworks */,
+				3CED159B2BB14887006C6EC1 /* AsyncExtensions in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -111,7 +109,7 @@
 			isa = PBXGroup;
 			children = (
 				3CB6A4D32AB44EA500861D13 /* TokenItemView.swift */,
-				3CC5B6812AB981CC000B97CD /* GuestView.swift */,
+				3CC5B6812AB981CC000B97CD /* GuestUserView.swift */,
 				3CC5B6872ABA8BF0000B97CD /* ActionSheetView.swift */,
 			);
 			path = component;
@@ -133,15 +131,6 @@
 				3CB939C12AB5E54A008AF467 /* NewsView.swift */,
 			);
 			path = component;
-			sourceTree = "<group>";
-		};
-		3CC032F02AA44C650023A60A /* helper */ = {
-			isa = PBXGroup;
-			children = (
-				3CC032F12AA44C7C0023A60A /* SuspendWrapperHelper.swift */,
-				3CB6A4D02AB40F8A00861D13 /* FlowWrapperHelper.swift */,
-			);
-			path = helper;
 			sourceTree = "<group>";
 		};
 		3CC5B6832AB98443000B97CD /* theme */ = {
@@ -177,6 +166,18 @@
 			path = restore;
 			sourceTree = "<group>";
 		};
+		3CED159D2BB17AF5006C6EC1 /* Feature */ = {
+			isa = PBXGroup;
+			children = (
+				3CB939BB2AB58725008AF467 /* news */,
+				3C7565242A973C9C0032A653 /* home */,
+				3C7565252A973CA20032A653 /* marketplace */,
+				3C7565262A973CAA0032A653 /* discover */,
+				3CC5B6892ABABE9C000B97CD /* onboard */,
+			);
+			path = Feature;
+			sourceTree = "<group>";
+		};
 		7555FF72242A565900829871 = {
 			isa = PBXGroup;
 			children = (
@@ -198,17 +199,13 @@
 		7555FF7D242A565900829871 /* Wallet-iOS */ = {
 			isa = PBXGroup;
 			children = (
-				3CC5B6892ABABE9C000B97CD /* onboard */,
+				3CED159D2BB17AF5006C6EC1 /* Feature */,
 				3CC5B6832AB98443000B97CD /* theme */,
-				3CC032F02AA44C650023A60A /* helper */,
-				3C7565262A973CAA0032A653 /* discover */,
-				3C7565252A973CA20032A653 /* marketplace */,
-				3C7565242A973C9C0032A653 /* home */,
-				058557BA273AAA24004C7B11 /* Assets.xcassets */,
-				3CB939BB2AB58725008AF467 /* news */,
 				7555FF82242A565900829871 /* ContentView.swift */,
-				7555FF8C242A565B00829871 /* Info.plist */,
 				2152FB032600AC8F00CF470E /* iOSApp.swift */,
+				3CED15932BB0810A006C6EC1 /* Koin.swift */,
+				7555FF8C242A565B00829871 /* Info.plist */,
+				058557BA273AAA24004C7B11 /* Assets.xcassets */,
 				058557D7273AAEEB004C7B11 /* Preview Content */,
 			);
 			path = "Wallet-iOS";
@@ -250,7 +247,7 @@
 			);
 			name = "Wallet-iOS";
 			packageProductDependencies = (
-				3C89882C2B9428E400BB8551 /* SwiftUICharts */,
+				3CED159A2BB14887006C6EC1 /* AsyncExtensions */,
 			);
 			productName = "Wallet-iOS";
 			productReference = 7555FF7B242A565900829871 /* Wallet-iOS.app */;
@@ -282,6 +279,7 @@
 			mainGroup = 7555FF72242A565900829871;
 			packageReferences = (
 				3C89882B2B9428E400BB8551 /* XCRemoteSwiftPackageReference "ChartView" */,
+				3CED15952BB11987006C6EC1 /* XCRemoteSwiftPackageReference "AsyncExtensions" */,
 			);
 			productRefGroup = 7555FF7C242A565900829871 /* Products */;
 			projectDirPath = "";
@@ -357,16 +355,15 @@
 				7555FF83242A565900829871 /* ContentView.swift in Sources */,
 				3C75652E2A973FC90032A653 /* MarketplaceScreen.swift in Sources */,
 				3CC5B68F2ABABEF0000B97CD /* RestoreViewModel.swift in Sources */,
-				3CB6A4D12AB40F8A00861D13 /* FlowWrapperHelper.swift in Sources */,
 				3CC5B6802AB89073000B97CD /* HomeUiState.swift in Sources */,
 				3CB6A4D42AB44EA500861D13 /* TokenItemView.swift in Sources */,
+				3CED15942BB0810A006C6EC1 /* Koin.swift in Sources */,
 				3CB939BF2AB58777008AF467 /* NewsViewModel.swift in Sources */,
 				3C7565282A973CC80032A653 /* HomeScreen.swift in Sources */,
 				3CC5B68D2ABABED1000B97CD /* RestoreScreen.swift in Sources */,
-				3CC5B6822AB981CC000B97CD /* GuestView.swift in Sources */,
+				3CC5B6822AB981CC000B97CD /* GuestUserView.swift in Sources */,
 				3CC5B6862AB9845A000B97CD /* DefaultStyle.swift in Sources */,
 				3CB939C22AB5E54A008AF467 /* NewsView.swift in Sources */,
-				3CC032F22AA44C7C0023A60A /* SuspendWrapperHelper.swift in Sources */,
 				3C7565302A973FDF0032A653 /* DiscoverScreen.swift in Sources */,
 				3C75652A2A973CDC0032A653 /* HomeViewModel.swift in Sources */,
 			);
@@ -575,13 +572,21 @@
 				version = "2.0.0-beta.2";
 			};
 		};
+		3CED15952BB11987006C6EC1 /* XCRemoteSwiftPackageReference "AsyncExtensions" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sideeffect-io/AsyncExtensions";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.5.2;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		3C89882C2B9428E400BB8551 /* SwiftUICharts */ = {
+		3CED159A2BB14887006C6EC1 /* AsyncExtensions */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 3C89882B2B9428E400BB8551 /* XCRemoteSwiftPackageReference "ChartView" */;
-			productName = SwiftUICharts;
+			package = 3CED15952BB11987006C6EC1 /* XCRemoteSwiftPackageReference "AsyncExtensions" */;
+			productName = AsyncExtensions;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

@@ -13,7 +13,7 @@ struct TokenItemView: View {
     private let token: ModelTokenInformation
     private let balance: Balance
 
-    init(extraToken: ExtraToken) {
+    init(extraToken: TokenUiModel) {
         self.token = extraToken.token
         self.balance = extraToken.balance
     }
@@ -36,7 +36,7 @@ struct TokenItemView: View {
 
 #Preview {
      TokenItemView(
-        extraToken: ExtraToken(token: ModelTokenInformation(
+        extraToken: TokenUiModel(token: ModelTokenInformation(
             id: "1",
             chainName: "Ethereum",
             name: "Ethereum",
