@@ -1,15 +1,15 @@
-////
-////  HomeViewModel.swift
-////  Wallet-iOS
-////
-////  Created by Jin on 2023/8/24.
-////  Copyright © 2023 orgName. All rights reserved.
-////
 //
-//import Foundation
-//import Combine
-//import shared
+//  HomeViewModel.swift
+//  Wallet-iOS
 //
+//  Created by Jin on 2023/8/24.
+//  Copyright © 2023 orgName. All rights reserved.
+//
+
+import Foundation
+import Combine
+import shared
+
 //extension HomeScreen {
 //    @MainActor final class HomeViewModel: ObservableObject {
 //        private let dashboard = HomeDashboardComponent()
@@ -69,3 +69,9 @@
 //        }
 //    }
 //}
+
+extension HomeScreen {
+    @MainActor final class HomeViewModel: ObservableObject {
+        
+    }
+}

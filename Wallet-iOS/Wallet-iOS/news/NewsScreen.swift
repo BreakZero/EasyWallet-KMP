@@ -26,15 +26,22 @@ struct NewsScreen: View {
                 })
             }
             
-            if viewModel.hasNextPage {
+            if viewModel.showLoding {
+                // loading view
+            }
+            
+            if (viewModel.hasNextPage && !viewModel.newsResult.isEmpty) {
                 ProgressView()
                     .onAppear {
                         viewModel.loadNextPage()
                     }
-            } else {
+            }
+            
+            if (!viewModel.hasNextPage && !viewModel.newsResult.isEmpty) {
                 Text("-- Not more --")
                     .frame(maxWidth: .infinity, alignment: .center)
             }
+            
         }.listStyle(.plain)
             .task {
                 await viewModel.startLoadNews()
@@ -43,6 +50,5 @@ struct NewsScreen: View {
             }.task {
                 await viewModel.subscribeLoadState()
             }
-        
     }
 }
