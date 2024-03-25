@@ -25,23 +25,3 @@ fun initKoin(appDeclaration: KoinAppDeclaration = {}): KoinApplication {
         modules(databaseModule)
     }
 }
-
-//fun KoinApplication.Companion.start(): KoinApplication = initKoin {}
-//
-//val Koin.dashboardUseCase: DashboardUseCase
-//    get() = get()
-//
-//val Koin.coinTrendUseCase: CoinTrendUseCase
-//    get() = get()
-//
-//val Koin.tokenAmountUseCase: TokenAmountUseCase
-//    get() = get()
-//
-//val Koin.transactionPagerUseCase: TransactionPagerUseCase
-//    get() = get()
-//
-//val Koin.multiWalletRepository: MultiWalletRepository
-//    get() = get()
-//
-//val Koin.newsRepository: NewsRepository
-//    get() = get()

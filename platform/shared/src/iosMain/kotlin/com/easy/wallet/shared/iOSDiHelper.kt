@@ -5,6 +5,7 @@ import com.easy.wallet.shared.data.repository.news.NewsRepository
 import com.easy.wallet.shared.di.initKoin
 import com.easy.wallet.shared.domain.CoinTrendUseCase
 import com.easy.wallet.shared.domain.DashboardUseCase
+import com.easy.wallet.shared.domain.NewsPagerUseCase
 import com.easy.wallet.shared.domain.TokenAmountUseCase
 import com.easy.wallet.shared.domain.TransactionPagerUseCase
 import org.koin.core.Koin
@@ -27,5 +28,5 @@ val Koin.transactionPagerUseCase: TransactionPagerUseCase
 val Koin.multiWalletRepository: MultiWalletRepository
     get() = get()
 
-val Koin.newsRepository: NewsRepository
+val Koin.newsPagerUseCase: NewsPagerUseCase
     get() = get()
