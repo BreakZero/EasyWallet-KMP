@@ -20,6 +20,12 @@ struct TransactionScreen: View {
     var body: some View {
         Text("Transaction List(WIP on iOS Platform)").task {
             await viewModel.loading(tokenId: tokenId)
+        }.task {
+            await viewModel.initPaging(tokenId: tokenId)
+        }.task {
+            await viewModel.subscribeDataChanged()
+        }.task {
+            await viewModel.subscribeLoadStateChanged()
         }
     }
 }

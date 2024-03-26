@@ -9,7 +9,6 @@
 import Foundation
 import Combine
 import shared
-import AsyncExtensions
 
 extension HomeScreen {
     @MainActor final class HomeViewModel: ObservableObject {

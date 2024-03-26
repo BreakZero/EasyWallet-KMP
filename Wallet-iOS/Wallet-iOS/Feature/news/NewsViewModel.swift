@@ -8,7 +8,6 @@
 
 import Foundation
 import shared
-import AsyncExtensions
 
 extension NewsScreen {
     @MainActor final class ViewModel: ObservableObject {
