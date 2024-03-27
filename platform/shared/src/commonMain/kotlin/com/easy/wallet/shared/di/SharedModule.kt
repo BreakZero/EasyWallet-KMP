@@ -2,7 +2,6 @@ package com.easy.wallet.shared.di
 
 import com.easy.wallet.datastore.DatabaseKeyStorage
 import com.easy.wallet.datastore.UserPasswordStorage
-import com.easy.wallet.shared.data.global.HDWalletInstant
 import com.easy.wallet.shared.data.multiwallet.MultiWalletRepository
 import com.easy.wallet.shared.data.okx.OKXDataRepository
 import com.easy.wallet.shared.data.repository.BitcoinRepository
@@ -38,7 +37,6 @@ val sharedModule = module {
     }
     singleOf(::NewsRepository)
     singleOf(::SupportedTokenRepository)
-    singleOf(::HDWalletInstant)
 
     single<TokenRepository>(named("Bitcoin")) { BitcoinRepository() }
     single<TokenRepository>(named("Ethereum")) { EthereumRepository(get(), get()) }

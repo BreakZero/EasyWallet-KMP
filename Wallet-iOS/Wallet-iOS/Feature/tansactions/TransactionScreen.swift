@@ -18,7 +18,31 @@ struct TransactionScreen: View {
     }
     
     var body: some View {
-        Text("Transaction List(WIP on iOS Platform)").task {
+        VStack {
+            if (viewModel.showLoding) {
+                ProgressView()
+            } else {
+                List {
+                    ForEach(viewModel.transactions, id: \.hash_) { transaction in
+                        TransactionSummaryView(transaction: transaction)
+                    }
+                    
+                    if (!viewModel.transactions.isEmpty) {
+                        VStack {
+                            if(viewModel.hasNextPage) {
+                                ProgressView().onAppear {
+                                    viewModel.loadNextPage()
+                                }
+                            } else {
+                                VStack {
+                                    Text("-- Not more --")
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }.task {
             await viewModel.loading(tokenId: tokenId)
         }.task {
             await viewModel.initPaging(tokenId: tokenId)

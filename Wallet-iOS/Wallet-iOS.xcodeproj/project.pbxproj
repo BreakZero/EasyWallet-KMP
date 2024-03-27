@@ -29,6 +29,7 @@
 		3CED15A32BB1CBBB006C6EC1 /* TransactionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CED15A22BB1CBBB006C6EC1 /* TransactionViewModel.swift */; };
 		3CED15AC2BB27484006C6EC1 /* AsyncAlgorithms in Frameworks */ = {isa = PBXBuildFile; productRef = 3CED15AB2BB27484006C6EC1 /* AsyncAlgorithms */; };
 		3CED15B02BB279D7006C6EC1 /* AsyncExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CED15AF2BB279D7006C6EC1 /* AsyncExtensions.swift */; };
+		3CED15B22BB3A9BF006C6EC1 /* TransactionSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CED15B12BB3A9BF006C6EC1 /* TransactionSummaryView.swift */; };
 		7555FF83242A565900829871 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7555FF82242A565900829871 /* ContentView.swift */; };
 		7E8C56C9F6F8FC69B807AD81 /* Pods_Wallet_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D82E4E7CD70E0F0560D23E7 /* Pods_Wallet_iOS.framework */; };
 /* End PBXBuildFile section */
@@ -57,6 +58,7 @@
 		3CED15A02BB1CBA6006C6EC1 /* TransactionScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionScreen.swift; sourceTree = "<group>"; };
 		3CED15A22BB1CBBB006C6EC1 /* TransactionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionViewModel.swift; sourceTree = "<group>"; };
 		3CED15AF2BB279D7006C6EC1 /* AsyncExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncExtensions.swift; sourceTree = "<group>"; };
+		3CED15B12BB3A9BF006C6EC1 /* TransactionSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionSummaryView.swift; sourceTree = "<group>"; };
 		7555FF7B242A565900829871 /* Wallet-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Wallet-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7555FF82242A565900829871 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		7555FF8C242A565B00829871 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -190,6 +192,7 @@
 			children = (
 				3CED15A02BB1CBA6006C6EC1 /* TransactionScreen.swift */,
 				3CED15A22BB1CBBB006C6EC1 /* TransactionViewModel.swift */,
+				3CED15B12BB3A9BF006C6EC1 /* TransactionSummaryView.swift */,
 			);
 			path = tansactions;
 			sourceTree = "<group>";
@@ -382,6 +385,7 @@
 				3CC5B68F2ABABEF0000B97CD /* RestoreViewModel.swift in Sources */,
 				3CC5B6802AB89073000B97CD /* HomeUiState.swift in Sources */,
 				3CB6A4D42AB44EA500861D13 /* TokenItemView.swift in Sources */,
+				3CED15B22BB3A9BF006C6EC1 /* TransactionSummaryView.swift in Sources */,
 				3CED15942BB0810A006C6EC1 /* Koin.swift in Sources */,
 				3CB939BF2AB58777008AF467 /* NewsViewModel.swift in Sources */,
 				3C7565282A973CC80032A653 /* HomeScreen.swift in Sources */,
@@ -595,8 +599,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/apple/swift-async-algorithms.git";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.0;
+				kind = exactVersion;
+				version = 1.0.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */

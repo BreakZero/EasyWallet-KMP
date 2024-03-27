@@ -6,7 +6,6 @@ import org.jetbrains.kotlin.gradle.plugin.mpp.BitcodeEmbeddingMode
 plugins {
     id("org.easy.multiplatform")
     alias(libs.plugins.kotlin.serialization)
-    id("kotlinx-atomicfu")
     alias(libs.plugins.skie)
 }
 

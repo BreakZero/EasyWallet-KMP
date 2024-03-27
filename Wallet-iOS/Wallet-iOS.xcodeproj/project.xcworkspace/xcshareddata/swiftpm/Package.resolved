@@ -1,22 +1,13 @@
 {
-  "originHash" : "93f743690a050f0a5b55b69b16864439211a201ee72d1a29a13bb550a85e33c1",
+  "originHash" : "13678df8bf756b5a26255707c7a7a2f70f4fa09e8466f4b4d0ca97436222d7d0",
   "pins" : [
     {
-      "identity" : "asyncextensions",
+      "identity" : "swift-async-algorithms",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/sideeffect-io/AsyncExtensions",
+      "location" : "https://github.com/apple/swift-async-algorithms.git",
       "state" : {
-        "revision" : "1f0729e4f1f6c7166acfac3cec43b3cbe83be0e6",
-        "version" : "0.5.2"
-      }
-    },
-    {
-      "identity" : "chartview",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/AppPear/ChartView",
-      "state" : {
-        "revision" : "caa75ecbc0d68f2b50d714909566406f80214186",
-        "version" : "2.0.0-beta.2"
+        "revision" : "da4e36f86544cdf733a40d59b3a2267e3a7bbf36",
+        "version" : "1.0.0"
       }
     },
     {
