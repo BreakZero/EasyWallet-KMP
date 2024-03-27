@@ -1,13 +1,13 @@
 package com.easy.wallet.shared.data.repository
 
 import com.easy.wallet.model.TokenInformation
-import com.easy.wallet.model.data.Direction
-import com.easy.wallet.model.data.EthereumTransactionUiModel
-import com.easy.wallet.model.data.Transaction
 import com.easy.wallet.network.source.blockchair.BlockchairApi
 import com.easy.wallet.network.source.etherscan.EtherscanApi
 import com.easy.wallet.network.source.etherscan.dto.EtherTransactionDto
 import com.easy.wallet.shared.model.Balance
+import com.easy.wallet.shared.model.transaction.Direction
+import com.easy.wallet.shared.model.transaction.EthereumTransactionUiModel
+import com.easy.wallet.shared.model.transaction.TransactionUiModel
 import com.ionspin.kotlin.bignum.decimal.RoundingMode
 import com.ionspin.kotlin.bignum.decimal.toBigDecimal
 import com.ionspin.kotlin.bignum.integer.toBigInteger
@@ -54,7 +54,7 @@ class EthereumRepository internal constructor(
         token: TokenInformation,
         page: Int,
         offset: Int
-    ): List<Transaction> {
+    ): List<TransactionUiModel> {
         val isContract = !token.contract.isNullOrBlank()
         val tnxDto = if (isContract) {
             etherscanApi.getContractInternalTransactions(page, offset, account, token.contract.orEmpty())

@@ -13,13 +13,13 @@ import AsyncAlgorithms
 extension TransactionScreen {
     @MainActor final class ViewModel: ObservableObject {
         
-        private var delegate = PagingCollectionViewController<ModelTransaction>()
+        private var delegate = PagingCollectionViewController<TransactionUiModel>()
         
         @LazyKoin private var tokenAmountUseCase: TokenAmountUseCase
         @LazyKoin private var coinTrendUseCase: CoinTrendUseCase
         @LazyKoin private var tnxPagerUseCase: TransactionPagerUseCase
         
-        @Published private(set) var transactions:[ModelTransaction] = []
+        @Published private(set) var transactions:[TransactionUiModel] = []
         @Published private(set) var hasNextPage: Bool = false
         @Published private(set) var showLoding: Bool = false
         

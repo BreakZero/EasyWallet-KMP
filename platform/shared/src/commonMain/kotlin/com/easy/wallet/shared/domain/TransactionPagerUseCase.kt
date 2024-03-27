@@ -4,12 +4,12 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import app.cash.paging.Pager
 import com.easy.wallet.core.commom.Constants
-import com.easy.wallet.model.data.Transaction
 import com.easy.wallet.shared.data.multiwallet.MultiWalletRepository
 import com.easy.wallet.shared.data.repository.SupportedTokenRepository
 import com.easy.wallet.shared.data.repository.TokenRepository
 import com.easy.wallet.shared.data.repository.transactions.TRANSACTION_PAGER_LIMIT
 import com.easy.wallet.shared.data.repository.transactions.TransactionPagingSource
+import com.easy.wallet.shared.model.transaction.TransactionUiModel
 import com.trustwallet.core.CoinType
 import com.trustwallet.core.HDWallet
 import kotlinx.coroutines.flow.Flow
@@ -21,7 +21,7 @@ class TransactionPagerUseCase internal constructor(
     private val supportedTokenRepository: SupportedTokenRepository,
     private val ethereumRepository: TokenRepository
 ) {
-    operator fun invoke(tokenId: String): Flow<PagingData<Transaction>> {
+    operator fun invoke(tokenId: String): Flow<PagingData<TransactionUiModel>> {
         return combine(
             supportedTokenRepository.findTokenByIdFlow(tokenId),
             walletRepository.forActivatedOne()

@@ -77,8 +77,8 @@ android {
 skie {
     features {
         group("co.touchlab.skie.types") {
-            SealedInterop.Enabled(false)
-            EnumInterop.Enabled(false)
+            SealedInterop.Enabled(true)
+            EnumInterop.Enabled(true)
         }
     }
 }

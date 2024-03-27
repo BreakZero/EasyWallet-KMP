@@ -1,4 +1,4 @@
-package com.easy.wallet.model.data
+package com.easy.wallet.shared.model.transaction
 
 data class EthereumTransactionUiModel(
     override val hash: String,
@@ -11,4 +11,4 @@ data class EthereumTransactionUiModel(
     val gasPrice: String,
     val gasUsed: String,
     val functionName: String?
-) : Transaction
+) : TransactionUiModel()

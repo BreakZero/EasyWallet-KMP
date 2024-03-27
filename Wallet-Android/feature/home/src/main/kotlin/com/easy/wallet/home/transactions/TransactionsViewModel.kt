@@ -6,17 +6,14 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.easy.wallet.android.core.BaseViewModel
 import com.easy.wallet.home.navigation.TokenArgs
-import com.easy.wallet.model.data.Transaction
-import com.easy.wallet.shared.data.repository.SupportedTokenRepository
 import com.easy.wallet.shared.domain.CoinTrendUseCase
 import com.easy.wallet.shared.domain.TokenAmountUseCase
 import com.easy.wallet.shared.domain.TransactionPagerUseCase
+import com.easy.wallet.shared.model.transaction.TransactionUiModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.filterNotNull
-import kotlinx.coroutines.flow.flatMapConcat
 import kotlinx.coroutines.flow.stateIn
 
 internal class TransactionsViewModel(
@@ -36,7 +33,7 @@ internal class TransactionsViewModel(
     }.stateIn(viewModelScope, SharingStarted.Lazily, TransactionDashboardUiState.Loading)
 
     val transactionPager = tnxPagerUseCase(tokenId).distinctUntilChanged()
-        .catch { PagingData.empty<Transaction>() }
+        .catch { PagingData.empty<TransactionUiModel>() }
         .cachedIn(viewModelScope)
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), PagingData.empty())
 

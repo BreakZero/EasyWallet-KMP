@@ -10,24 +10,24 @@ import SwiftUI
 import shared
 
 struct TransactionSummaryView: View {
-    @State private(set) var transaction: ModelTransaction
-    private var isSend: Bool = false
-    init(transaction: ModelTransaction) {
+    @State private(set) var transaction: TransactionUiModel
+    private var action: String
+    init(transaction: TransactionUiModel) {
         self.transaction = transaction
-        isSend = transaction.direction == ModelDirection.send
+        
+        action = switch transaction.direction {
+        case .receive:
+            "Receive"
+        case .send:
+            "Send"
+        }
     }
     
     var body: some View {
         HStack {
-            Text(isSend ? "Send":"Receive")
+            Text(action)
             Spacer()
             Text("\(self.transaction.amount) \(self.transaction.symbol)")
         }.padding(.horizontal).padding(.vertical, 8)
     }
 }
-
-//#Preview {
-//    TransactionSummaryView(
-//        transaction: Ethereum
-//    )
-//}
