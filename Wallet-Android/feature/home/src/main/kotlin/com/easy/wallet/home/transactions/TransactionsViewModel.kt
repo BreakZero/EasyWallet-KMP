@@ -30,10 +30,12 @@ internal class TransactionsViewModel(
         coinTrendUseCase(tokenId)
     ) { amount, trends ->
         TransactionDashboardUiState.Success(amount, trends)
+    }.catch {
+        emit(TransactionDashboardUiState.Success("hello world", emptyList()))
     }.stateIn(viewModelScope, SharingStarted.Lazily, TransactionDashboardUiState.Loading)
 
     val transactionPager = tnxPagerUseCase(tokenId).distinctUntilChanged()
-        .catch { PagingData.empty<TransactionUiModel>() }
+        .catch { emit(PagingData.empty()) }
         .cachedIn(viewModelScope)
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), PagingData.empty())
 
