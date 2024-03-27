@@ -7,6 +7,7 @@ import com.easy.wallet.shared.data.repository.TokenRepository
 import com.ionspin.kotlin.bignum.decimal.toBigDecimal
 import com.trustwallet.core.CoinType
 import com.trustwallet.core.HDWallet
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapConcat
@@ -19,6 +20,7 @@ class TokenAmountUseCase internal constructor(
     private val ethereumRepository: TokenRepository,
     private val bitcoinRepository: TokenRepository
 ) {
+    @OptIn(ExperimentalCoroutinesApi::class)
     operator fun invoke(tokenId: String): Flow<String> {
         return combine(
             supportedTokenRepository.findTokenByIdFlow(tokenId),

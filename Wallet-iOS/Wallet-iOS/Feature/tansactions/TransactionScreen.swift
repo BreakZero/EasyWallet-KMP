@@ -19,26 +19,32 @@ struct TransactionScreen: View {
     
     var body: some View {
         VStack {
-            if (viewModel.showLoding) {
+            if (viewModel.showLoading) {
                 ProgressView()
             } else {
                 List {
+                    Dashboard(dashboard: viewModel.dashboardDesc)
+                        .frame(height: 200)
+                        .listRowInsets(EdgeInsets())
+                        .listRowBackground(Color.clear)
+                    
                     ForEach(viewModel.transactions, id: \.hash_) { transaction in
                         TransactionSummaryView(transaction: transaction)
+                            .listRowInsets(EdgeInsets())
+                            .listRowBackground(Color.clear)
                     }
                     
                     if (!viewModel.transactions.isEmpty) {
-                        VStack {
+                        VStack(alignment: .center) {
                             if(viewModel.hasNextPage) {
                                 ProgressView().onAppear {
                                     viewModel.loadNextPage()
                                 }
                             } else {
-                                VStack {
-                                    Text("-- Not more --")
-                                }
+                                Text("-- Not more --").foregroundColor(.gray)
                             }
-                        }
+                        }.frame(maxWidth: .infinity).listRowInsets(EdgeInsets())
+                            .listRowBackground(Color.clear)
                     }
                 }
             }
@@ -54,6 +60,10 @@ struct TransactionScreen: View {
     }
 }
 
-#Preview {
-    TransactionScreen(tokenId: "")
+@ViewBuilder
+private func Dashboard(dashboard: String) -> some View {
+    ZStack(alignment: .top) {
+        Text(dashboard)
+    }.padding().frame(maxWidth: .infinity).background(Color.blue.opacity(0.5))
+        .clipShape(RoundedRectangle(cornerSize: CGSize(width: 20, height: 10)))
 }
