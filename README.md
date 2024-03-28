@@ -30,7 +30,16 @@ opensea=008e**********91dd6564880a
 ./gradlew -p platform generateBuildKonfig
 ```
 
-> 计划实现一个服务端，加上Redis实现缓存，统一处理数据来源结构
+### 开源依赖库
+- [Skie](https://github.com/touchlab/SKIE)
+- [Wallet-Core](https://github.com/trustwallet/wallet-core)
+- [Coroutine](https://github.com/Kotlin/kotlinx.coroutines) + [Flow](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/) 用于异步
+- [koin](https://github.com/InsertKoinIO/koin) 依赖注入
+- [ktor](https://github.com/ktorio/ktor)
+- [sqldelight](https://github.com/cashapp/sqldelight)
+- [coil](https://github.com/coil-kt/coil)
+- [Paging3](https://github.com/cashapp/multiplatform-paging)
+- [BuildKonfig](https://github.com/yshrsmz/BuildKonfig)
 
 ### UI展示
 
