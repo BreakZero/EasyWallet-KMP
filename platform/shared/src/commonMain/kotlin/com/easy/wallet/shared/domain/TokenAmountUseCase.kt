@@ -21,6 +21,7 @@ class TokenAmountUseCase internal constructor(
     private val bitcoinRepository: TokenRepository
 ) {
     @OptIn(ExperimentalCoroutinesApi::class)
+    @Throws(NoSuchElementException::class)
     operator fun invoke(tokenId: String): Flow<String> {
         return combine(
             supportedTokenRepository.findTokenByIdFlow(tokenId),
