@@ -23,9 +23,9 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.easy.wallet.design.theme.ThemePreviews
 import com.easy.wallet.design.ui.EasyWalletTheme
-import com.easy.wallet.model.data.Direction
-import com.easy.wallet.model.data.EthereumTransactionUiModel
-import com.easy.wallet.model.data.Transaction
+import com.easy.wallet.shared.model.transaction.Direction
+import com.easy.wallet.shared.model.transaction.EthereumTransactionUiModel
+import com.easy.wallet.shared.model.transaction.TransactionUiModel
 
 private fun String.ellipsize(len: Int): String {
     if (this.length > 2 * len) {
@@ -37,8 +37,8 @@ private fun String.ellipsize(len: Int): String {
 @Composable
 internal fun TransactionSummaryView(
     modifier: Modifier = Modifier,
-    transaction: Transaction,
-    itemClicked: (Transaction) -> Unit
+    transaction: TransactionUiModel,
+    itemClicked: (TransactionUiModel) -> Unit
 ) {
     val isSend = transaction.direction == Direction.SEND
     Card(onClick = { itemClicked(transaction) }) {

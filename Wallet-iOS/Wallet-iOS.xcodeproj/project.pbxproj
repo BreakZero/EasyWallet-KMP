@@ -25,17 +25,22 @@
 		3CC5B68D2ABABED1000B97CD /* RestoreScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CC5B68C2ABABED1000B97CD /* RestoreScreen.swift */; };
 		3CC5B68F2ABABEF0000B97CD /* RestoreViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CC5B68E2ABABEF0000B97CD /* RestoreViewModel.swift */; };
 		3CED15942BB0810A006C6EC1 /* Koin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CED15932BB0810A006C6EC1 /* Koin.swift */; };
-		3CED159B2BB14887006C6EC1 /* AsyncExtensions in Frameworks */ = {isa = PBXBuildFile; productRef = 3CED159A2BB14887006C6EC1 /* AsyncExtensions */; };
+		3CED15A12BB1CBA6006C6EC1 /* TransactionScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CED15A02BB1CBA6006C6EC1 /* TransactionScreen.swift */; };
+		3CED15A32BB1CBBB006C6EC1 /* TransactionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CED15A22BB1CBBB006C6EC1 /* TransactionViewModel.swift */; };
+		3CED15AC2BB27484006C6EC1 /* AsyncAlgorithms in Frameworks */ = {isa = PBXBuildFile; productRef = 3CED15AB2BB27484006C6EC1 /* AsyncAlgorithms */; };
+		3CED15B02BB279D7006C6EC1 /* AsyncExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CED15AF2BB279D7006C6EC1 /* AsyncExtensions.swift */; };
+		3CED15B22BB3A9BF006C6EC1 /* TransactionSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CED15B12BB3A9BF006C6EC1 /* TransactionSummaryView.swift */; };
+		3CED15B62BB405CE006C6EC1 /* PagingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CED15B52BB405CE006C6EC1 /* PagingView.swift */; };
 		7555FF83242A565900829871 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7555FF82242A565900829871 /* ContentView.swift */; };
-		7AD2AF90D402E4E225A0BC88 /* Pods_Wallet_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 010E03C3B43D8120F7621271 /* Pods_Wallet_iOS.framework */; };
+		7E8C56C9F6F8FC69B807AD81 /* Pods_Wallet_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D82E4E7CD70E0F0560D23E7 /* Pods_Wallet_iOS.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		010E03C3B43D8120F7621271 /* Pods_Wallet_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Wallet_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		058557BA273AAA24004C7B11 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		058557D8273AAEEB004C7B11 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		0D82E4E7CD70E0F0560D23E7 /* Pods_Wallet_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Wallet_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1170E243CAC1ED71B700C0B7 /* Pods-Wallet-iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Wallet-iOS.debug.xcconfig"; path = "Target Support Files/Pods-Wallet-iOS/Pods-Wallet-iOS.debug.xcconfig"; sourceTree = "<group>"; };
 		2152FB032600AC8F00CF470E /* iOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSApp.swift; sourceTree = "<group>"; };
-		21824F0A535F6CF18331A414 /* Pods-Wallet-iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Wallet-iOS.release.xcconfig"; path = "Target Support Files/Pods-Wallet-iOS/Pods-Wallet-iOS.release.xcconfig"; sourceTree = "<group>"; };
 		3C7565272A973CC80032A653 /* HomeScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreen.swift; sourceTree = "<group>"; };
 		3C7565292A973CDC0032A653 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		3C75652D2A973FC90032A653 /* MarketplaceScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketplaceScreen.swift; sourceTree = "<group>"; };
@@ -51,10 +56,15 @@
 		3CC5B68C2ABABED1000B97CD /* RestoreScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestoreScreen.swift; sourceTree = "<group>"; };
 		3CC5B68E2ABABEF0000B97CD /* RestoreViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestoreViewModel.swift; sourceTree = "<group>"; };
 		3CED15932BB0810A006C6EC1 /* Koin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Koin.swift; sourceTree = "<group>"; };
+		3CED15A02BB1CBA6006C6EC1 /* TransactionScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionScreen.swift; sourceTree = "<group>"; };
+		3CED15A22BB1CBBB006C6EC1 /* TransactionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionViewModel.swift; sourceTree = "<group>"; };
+		3CED15AF2BB279D7006C6EC1 /* AsyncExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncExtensions.swift; sourceTree = "<group>"; };
+		3CED15B12BB3A9BF006C6EC1 /* TransactionSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionSummaryView.swift; sourceTree = "<group>"; };
+		3CED15B52BB405CE006C6EC1 /* PagingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagingView.swift; sourceTree = "<group>"; };
 		7555FF7B242A565900829871 /* Wallet-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Wallet-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7555FF82242A565900829871 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		7555FF8C242A565B00829871 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B1B8F045D1C163FB6356081A /* Pods-Wallet-iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Wallet-iOS.debug.xcconfig"; path = "Target Support Files/Pods-Wallet-iOS/Pods-Wallet-iOS.debug.xcconfig"; sourceTree = "<group>"; };
+		E1964BC418A04471FF958614 /* Pods-Wallet-iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Wallet-iOS.release.xcconfig"; path = "Target Support Files/Pods-Wallet-iOS/Pods-Wallet-iOS.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,8 +72,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7AD2AF90D402E4E225A0BC88 /* Pods_Wallet_iOS.framework in Frameworks */,
-				3CED159B2BB14887006C6EC1 /* AsyncExtensions in Frameworks */,
+				7E8C56C9F6F8FC69B807AD81 /* Pods_Wallet_iOS.framework in Frameworks */,
+				3CED15AC2BB27484006C6EC1 /* AsyncAlgorithms in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -169,6 +179,8 @@
 		3CED159D2BB17AF5006C6EC1 /* Feature */ = {
 			isa = PBXGroup;
 			children = (
+				3CED15B32BB3CF27006C6EC1 /* settings */,
+				3CED159F2BB1CB90006C6EC1 /* tansactions */,
 				3CB939BB2AB58725008AF467 /* news */,
 				3C7565242A973C9C0032A653 /* home */,
 				3C7565252A973CA20032A653 /* marketplace */,
@@ -178,13 +190,54 @@
 			path = Feature;
 			sourceTree = "<group>";
 		};
+		3CED159F2BB1CB90006C6EC1 /* tansactions */ = {
+			isa = PBXGroup;
+			children = (
+				3CED15A02BB1CBA6006C6EC1 /* TransactionScreen.swift */,
+				3CED15A22BB1CBBB006C6EC1 /* TransactionViewModel.swift */,
+				3CED15B12BB3A9BF006C6EC1 /* TransactionSummaryView.swift */,
+			);
+			path = tansactions;
+			sourceTree = "<group>";
+		};
+		3CED15AE2BB279AA006C6EC1 /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				3CED15AF2BB279D7006C6EC1 /* AsyncExtensions.swift */,
+			);
+			path = Helper;
+			sourceTree = "<group>";
+		};
+		3CED15B32BB3CF27006C6EC1 /* settings */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = settings;
+			sourceTree = "<group>";
+		};
+		3CED15B42BB405BD006C6EC1 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				3CED15B52BB405CE006C6EC1 /* PagingView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		55C9D38FF2DAB165ED8FBA14 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				0D82E4E7CD70E0F0560D23E7 /* Pods_Wallet_iOS.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		7555FF72242A565900829871 = {
 			isa = PBXGroup;
 			children = (
 				7555FF7D242A565900829871 /* Wallet-iOS */,
 				7555FF7C242A565900829871 /* Products */,
 				C59C798115C41EAD0EE4ED1C /* Pods */,
-				9BA4E07B80BC8607D427D314 /* Frameworks */,
+				55C9D38FF2DAB165ED8FBA14 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -199,6 +252,8 @@
 		7555FF7D242A565900829871 /* Wallet-iOS */ = {
 			isa = PBXGroup;
 			children = (
+				3CED15B42BB405BD006C6EC1 /* View */,
+				3CED15AE2BB279AA006C6EC1 /* Helper */,
 				3CED159D2BB17AF5006C6EC1 /* Feature */,
 				3CC5B6832AB98443000B97CD /* theme */,
 				7555FF82242A565900829871 /* ContentView.swift */,
@@ -211,19 +266,11 @@
 			path = "Wallet-iOS";
 			sourceTree = "<group>";
 		};
-		9BA4E07B80BC8607D427D314 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				010E03C3B43D8120F7621271 /* Pods_Wallet_iOS.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		C59C798115C41EAD0EE4ED1C /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				B1B8F045D1C163FB6356081A /* Pods-Wallet-iOS.debug.xcconfig */,
-				21824F0A535F6CF18331A414 /* Pods-Wallet-iOS.release.xcconfig */,
+				1170E243CAC1ED71B700C0B7 /* Pods-Wallet-iOS.debug.xcconfig */,
+				E1964BC418A04471FF958614 /* Pods-Wallet-iOS.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -235,11 +282,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 7555FFA5242A565B00829871 /* Build configuration list for PBXNativeTarget "Wallet-iOS" */;
 			buildPhases = (
-				98934AC45667FEF466B0C209 /* [CP] Check Pods Manifest.lock */,
+				EB90F955DA6B2661CFD41B8E /* [CP] Check Pods Manifest.lock */,
 				7555FF77242A565900829871 /* Sources */,
 				7555FF79242A565900829871 /* Resources */,
 				EEA21AC469ABC5184BC2DFEA /* Frameworks */,
-				6B7AC370E9FFB69BEB55D6D1 /* [CP] Embed Pods Frameworks */,
+				4FD93EA54701B9AB16E6D142 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -247,7 +294,7 @@
 			);
 			name = "Wallet-iOS";
 			packageProductDependencies = (
-				3CED159A2BB14887006C6EC1 /* AsyncExtensions */,
+				3CED15AB2BB27484006C6EC1 /* AsyncAlgorithms */,
 			);
 			productName = "Wallet-iOS";
 			productReference = 7555FF7B242A565900829871 /* Wallet-iOS.app */;
@@ -278,8 +325,7 @@
 			);
 			mainGroup = 7555FF72242A565900829871;
 			packageReferences = (
-				3C89882B2B9428E400BB8551 /* XCRemoteSwiftPackageReference "ChartView" */,
-				3CED15952BB11987006C6EC1 /* XCRemoteSwiftPackageReference "AsyncExtensions" */,
+				3CED15AA2BB27484006C6EC1 /* XCRemoteSwiftPackageReference "swift-async-algorithms" */,
 			);
 			productRefGroup = 7555FF7C242A565900829871 /* Products */;
 			projectDirPath = "";
@@ -303,7 +349,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		6B7AC370E9FFB69BEB55D6D1 /* [CP] Embed Pods Frameworks */ = {
+		4FD93EA54701B9AB16E6D142 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -320,7 +366,7 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Wallet-iOS/Pods-Wallet-iOS-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		98934AC45667FEF466B0C209 /* [CP] Check Pods Manifest.lock */ = {
+		EB90F955DA6B2661CFD41B8E /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -349,20 +395,25 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3CED15B62BB405CE006C6EC1 /* PagingView.swift in Sources */,
 				3CB939BD2AB58754008AF467 /* NewsScreen.swift in Sources */,
 				2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */,
 				3CC5B6882ABA8BF0000B97CD /* ActionSheetView.swift in Sources */,
 				7555FF83242A565900829871 /* ContentView.swift in Sources */,
+				3CED15A12BB1CBA6006C6EC1 /* TransactionScreen.swift in Sources */,
 				3C75652E2A973FC90032A653 /* MarketplaceScreen.swift in Sources */,
 				3CC5B68F2ABABEF0000B97CD /* RestoreViewModel.swift in Sources */,
 				3CC5B6802AB89073000B97CD /* HomeUiState.swift in Sources */,
 				3CB6A4D42AB44EA500861D13 /* TokenItemView.swift in Sources */,
+				3CED15B22BB3A9BF006C6EC1 /* TransactionSummaryView.swift in Sources */,
 				3CED15942BB0810A006C6EC1 /* Koin.swift in Sources */,
 				3CB939BF2AB58777008AF467 /* NewsViewModel.swift in Sources */,
 				3C7565282A973CC80032A653 /* HomeScreen.swift in Sources */,
 				3CC5B68D2ABABED1000B97CD /* RestoreScreen.swift in Sources */,
 				3CC5B6822AB981CC000B97CD /* GuestUserView.swift in Sources */,
 				3CC5B6862AB9845A000B97CD /* DefaultStyle.swift in Sources */,
+				3CED15B02BB279D7006C6EC1 /* AsyncExtensions.swift in Sources */,
+				3CED15A32BB1CBBB006C6EC1 /* TransactionViewModel.swift in Sources */,
 				3CB939C22AB5E54A008AF467 /* NewsView.swift in Sources */,
 				3C7565302A973FDF0032A653 /* DiscoverScreen.swift in Sources */,
 				3C75652A2A973CDC0032A653 /* HomeViewModel.swift in Sources */,
@@ -490,7 +541,7 @@
 		};
 		7555FFA6242A565B00829871 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B1B8F045D1C163FB6356081A /* Pods-Wallet-iOS.debug.xcconfig */;
+			baseConfigurationReference = 1170E243CAC1ED71B700C0B7 /* Pods-Wallet-iOS.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -516,7 +567,7 @@
 		};
 		7555FFA7242A565B00829871 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 21824F0A535F6CF18331A414 /* Pods-Wallet-iOS.release.xcconfig */;
+			baseConfigurationReference = E1964BC418A04471FF958614 /* Pods-Wallet-iOS.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -564,29 +615,21 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		3C89882B2B9428E400BB8551 /* XCRemoteSwiftPackageReference "ChartView" */ = {
+		3CED15AA2BB27484006C6EC1 /* XCRemoteSwiftPackageReference "swift-async-algorithms" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/AppPear/ChartView";
+			repositoryURL = "https://github.com/apple/swift-async-algorithms.git";
 			requirement = {
 				kind = exactVersion;
-				version = "2.0.0-beta.2";
-			};
-		};
-		3CED15952BB11987006C6EC1 /* XCRemoteSwiftPackageReference "AsyncExtensions" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/sideeffect-io/AsyncExtensions";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.5.2;
+				version = 1.0.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		3CED159A2BB14887006C6EC1 /* AsyncExtensions */ = {
+		3CED15AB2BB27484006C6EC1 /* AsyncAlgorithms */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 3CED15952BB11987006C6EC1 /* XCRemoteSwiftPackageReference "AsyncExtensions" */;
-			productName = AsyncExtensions;
+			package = 3CED15AA2BB27484006C6EC1 /* XCRemoteSwiftPackageReference "swift-async-algorithms" */;
+			productName = AsyncAlgorithms;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

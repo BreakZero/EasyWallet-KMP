@@ -101,7 +101,7 @@ val networkModule = module {
             defaultRequest {
                 url {
                     protocol = URLProtocol.HTTPS
-                    host = "api.etherscan.io/"
+                    host = "api.etherscan.io"
                     path("api/")
                     parameters.append("apikey", BuildKonfig.ETHERSCAN_KEY)
                 }

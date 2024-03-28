@@ -6,22 +6,18 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.easy.wallet.android.core.BaseViewModel
 import com.easy.wallet.home.navigation.TokenArgs
-import com.easy.wallet.model.data.Transaction
-import com.easy.wallet.shared.data.repository.SupportedTokenRepository
 import com.easy.wallet.shared.domain.CoinTrendUseCase
 import com.easy.wallet.shared.domain.TokenAmountUseCase
 import com.easy.wallet.shared.domain.TransactionPagerUseCase
+import com.easy.wallet.shared.model.transaction.TransactionUiModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.filterNotNull
-import kotlinx.coroutines.flow.flatMapConcat
 import kotlinx.coroutines.flow.stateIn
 
 internal class TransactionsViewModel(
     savedStateHandle: SavedStateHandle,
-    supportedTokenRepository: SupportedTokenRepository,
     tokenAmountUseCase: TokenAmountUseCase,
     coinTrendUseCase: CoinTrendUseCase,
     tnxPagerUseCase: TransactionPagerUseCase
@@ -29,21 +25,17 @@ internal class TransactionsViewModel(
     private val tokenArgs: TokenArgs = TokenArgs(savedStateHandle)
     private val tokenId = tokenArgs.tokenId
 
-    private val _tokenFlow = supportedTokenRepository.findTokenByIdFlow(tokenId)
-
-    val dashboardUiState = _tokenFlow.filterNotNull().flatMapConcat { tokenInformation ->
-        combine(
-            tokenAmountUseCase(tokenInformation),
-            coinTrendUseCase(tokenInformation)
-        ) { amount, trends ->
-            TransactionDashboardUiState.Success(tokenInformation, amount, trends)
-        }
+    val dashboardUiState = combine(
+        tokenAmountUseCase(tokenId),
+        coinTrendUseCase(tokenId)
+    ) { amount, trends ->
+        TransactionDashboardUiState.Success(amount, trends)
+    }.catch {
+        emit(TransactionDashboardUiState.Success("hello world", emptyList()))
     }.stateIn(viewModelScope, SharingStarted.Lazily, TransactionDashboardUiState.Loading)
 
-    val transactionPager = _tokenFlow.filterNotNull().flatMapConcat {
-        tnxPagerUseCase(it).flow
-    }.distinctUntilChanged()
-        .catch { PagingData.empty<Transaction>() }
+    val transactionPager = tnxPagerUseCase(tokenId).distinctUntilChanged()
+        .catch { emit(PagingData.empty()) }
         .cachedIn(viewModelScope)
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), PagingData.empty())
 

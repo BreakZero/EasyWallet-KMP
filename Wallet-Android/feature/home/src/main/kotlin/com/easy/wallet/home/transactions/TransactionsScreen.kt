@@ -34,7 +34,7 @@ import com.easy.wallet.design.component.LoadingWheel
 import com.easy.wallet.home.component.CollapsingToolbarWithLazyList
 import com.easy.wallet.home.transactions.component.AmountHeaderView
 import com.easy.wallet.home.transactions.component.TransactionSummaryView
-import com.easy.wallet.model.data.Transaction
+import com.easy.wallet.shared.model.transaction.TransactionUiModel
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -49,7 +49,7 @@ internal fun TransactionsRoute() {
 @Composable
 internal fun TransactionsScreen(
     dashboardUiState: TransactionDashboardUiState,
-    transactionPaging: LazyPagingItems<Transaction>
+    transactionPaging: LazyPagingItems<TransactionUiModel>
 ) {
     Scaffold(
         topBar = {
@@ -101,7 +101,6 @@ internal fun TransactionsScreen(
                     is TransactionDashboardUiState.Success -> {
                         AmountHeaderView(
                             modifier = headerModifier.height(260.dp),
-                            tokenInformation = dashboardUiState.tokenInformation,
                             balance = dashboardUiState.amount,
                             trends = dashboardUiState.trends
                         )

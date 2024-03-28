@@ -1,8 +1,8 @@
 package com.easy.wallet.shared.data.repository
 
 import com.easy.wallet.model.TokenInformation
-import com.easy.wallet.model.data.Transaction
 import com.easy.wallet.shared.model.Balance
+import com.easy.wallet.shared.model.transaction.TransactionUiModel
 import kotlinx.coroutines.flow.Flow
 
 interface TokenRepository {
@@ -15,5 +15,5 @@ interface TokenRepository {
         token: TokenInformation,
         page: Int,
         offset: Int,
-    ): List<Transaction>
+    ): List<TransactionUiModel>
 }

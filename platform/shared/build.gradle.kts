@@ -6,7 +6,6 @@ import org.jetbrains.kotlin.gradle.plugin.mpp.BitcodeEmbeddingMode
 plugins {
     id("org.easy.multiplatform")
     alias(libs.plugins.kotlin.serialization)
-    id("kotlinx-atomicfu")
     alias(libs.plugins.skie)
 }
 
@@ -78,8 +77,8 @@ android {
 skie {
     features {
         group("co.touchlab.skie.types") {
-            SealedInterop.Enabled(false)
-            EnumInterop.Enabled(false)
+            SealedInterop.Enabled(true)
+            EnumInterop.Enabled(true)
         }
     }
 }

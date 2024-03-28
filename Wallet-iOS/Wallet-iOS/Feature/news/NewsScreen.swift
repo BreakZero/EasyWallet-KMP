@@ -31,19 +31,20 @@ struct NewsScreen: View {
                     // loading view
                 }
                 
-                if (viewModel.hasNextPage && !viewModel.newsResult.isEmpty) {
-                    VStack {
-                        ProgressView()
-                    }.onAppear {
-                        viewModel.loadNextPage()
-                    }
+                
+                if (!viewModel.newsResult.isEmpty) {
+                    VStack(alignment: .center) {
+                        if(viewModel.hasNextPage) {
+                            ProgressView().onAppear {
+                                viewModel.loadNextPage()
+                            }
+                        } else {
+                            Text("-- Not more --").foregroundColor(.gray)
+                        }
+                    }.frame(maxWidth: .infinity).listRowInsets(EdgeInsets())
+                        .listRowBackground(Color.clear)
                 }
                 
-                if (!viewModel.hasNextPage && !viewModel.newsResult.isEmpty) {
-                    VStack {
-                        Text("-- Not more --")
-                    }
-                }
             }.listStyle(.plain)
                 .toolbar {
                     ToolbarItem(placement: .navigationBarLeading) {

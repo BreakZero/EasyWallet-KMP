@@ -37,7 +37,14 @@ private func TokenListView(
                 header: Text(dashboard.user),
                 content: {
                     ForEach(dashboard.tokens,id: \.self.token.id) { token in
-                        TokenItemView(extraToken: token)
+                        ZStack {
+                            TokenItemView(extraToken: token)
+                            NavigationLink(destination: {
+                                TransactionScreen(tokenId: token.token.id)
+                            }) {
+                                EmptyView()
+                            }.opacity(0.0)
+                        }.listRowBackground(Color.clear)
                     }
                 }
             )
