@@ -1,6 +1,6 @@
 [![Android Release Build](https://github.com/BreakZero/EasyWallet-KMP/actions/workflows/android-build-release.yml/badge.svg)](https://github.com/BreakZero/EasyWallet-KMP/actions/workflows/android-build-release.yml)
 
-## 关于EasyWallet
+## 关于EasyWallet - (WIP)
 EasyWallet初衷是一个为CryptoDeFiWallet重构准备而实验的一个项目，同时也是为了学习Android新技术栈的练习项目。目前使用Kotlin Multiplatform进行Android
 和iOS开发，共享逻辑代码。UI分别使用Jetpack Compose和SwiftUI实现。
 
