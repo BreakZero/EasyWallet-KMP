@@ -14,7 +14,7 @@ fun NavController.toSettings(navOptions: NavOptions? = null) {
     this.navigate(settingsRoute, navOptions)
 }
 
-fun NavGraphBuilder.settingsGraph(
+fun NavGraphBuilder.attachSettingsModule(
     navigateChainManager: () -> Unit,
     navigateTokenManager: () -> Unit,
     popBack: () -> Unit

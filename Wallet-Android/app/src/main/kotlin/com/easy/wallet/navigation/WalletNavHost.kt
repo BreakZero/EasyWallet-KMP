@@ -8,12 +8,12 @@ import com.easy.wallet.home.navigation.HOME_GRAPH_ROUTE_PATTERN
 import com.easy.wallet.home.navigation.homeGraph
 import com.easy.wallet.home.navigation.toTransactionList
 import com.easy.wallet.marketplace.navigation.marketplaceTabScreen
-import com.easy.wallet.news.navigation.newsGraph
-import com.easy.wallet.onboard.create.navigation.createGraph
+import com.easy.wallet.news.navigation.attachNewsGraph
+import com.easy.wallet.onboard.create.navigation.attachCreateWalletGraph
 import com.easy.wallet.onboard.create.navigation.toCreateWallet
-import com.easy.wallet.onboard.restore.navigation.importWalletScreen
+import com.easy.wallet.onboard.restore.navigation.attachRestoreWallet
 import com.easy.wallet.onboard.restore.navigation.toImportWallet
-import com.easy.wallet.settings.navigation.settingsGraph
+import com.easy.wallet.settings.navigation.attachSettingsModule
 import com.easy.wallet.settings.navigation.toSettings
 import com.easy.wallet.token_manager.chain.navigation.attachChainManager
 import com.easy.wallet.token_manager.chain.navigation.navigateChainEditor
@@ -45,12 +45,12 @@ fun WalletNavHost(
             },
             nestedGraphs = {},
         )
-        createGraph(navController)
-        importWalletScreen(navController)
-        newsGraph()
+        attachCreateWalletGraph(navController)
+        attachRestoreWallet(navController)
+        attachNewsGraph()
         marketplaceTabScreen()
         discoverTabScreen()
-        settingsGraph(
+        attachSettingsModule(
             navigateChainManager = navController::navigateChainManager,
             navigateTokenManager = navController::navigateToTokenManager,
             popBack = navController::popBackStack

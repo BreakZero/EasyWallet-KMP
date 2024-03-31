@@ -12,7 +12,7 @@ fun NavController.toImportWallet(navOptions: NavOptions? = null) {
     this.navigate(importWalletRoute, navOptions)
 }
 
-fun NavGraphBuilder.importWalletScreen(navController: NavController) {
+fun NavGraphBuilder.attachRestoreWallet(navController: NavController) {
     composable(importWalletRoute) {
         RestoreWalletRoute(
             onImportSuccess = navController::popBackStack,

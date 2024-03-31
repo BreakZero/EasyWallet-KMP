@@ -27,7 +27,7 @@ internal fun NavController.toCheckSeed(navOptions: NavOptions? = null) {
     this.navigate(checkSeedRoute, navOptions)
 }
 
-fun NavGraphBuilder.createGraph(navController: NavController) {
+fun NavGraphBuilder.attachCreateWalletGraph(navController: NavController) {
     navigation(route = createWalletRoute, startDestination = createPasswordRoute) {
         composable(route = createPasswordRoute) {
             val viewModel: CreateWalletViewModel = it.sharedViewModel(navController = navController)
