@@ -2,6 +2,8 @@ package com.easy.wallet.home.transactions
 
 internal sealed interface TransactionDashboardUiState {
     data object Loading: TransactionDashboardUiState
+
+    data object Error: TransactionDashboardUiState
     data class Success(
         val amount: String,
         val trends: List<String>

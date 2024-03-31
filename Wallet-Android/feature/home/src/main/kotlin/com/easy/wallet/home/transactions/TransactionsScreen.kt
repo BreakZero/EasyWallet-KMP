@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.easy.wallet.android.core.extensions.ObserveAsEvents
 import com.easy.wallet.design.component.DefaultPagingStateColumn
 import com.easy.wallet.design.component.LoadingWheel
 import com.easy.wallet.home.component.CollapsingToolbarWithLazyList
@@ -42,6 +43,14 @@ internal fun TransactionsRoute() {
     val viewModel: TransactionsViewModel = koinViewModel()
     val transactionUiState = viewModel.transactionPager.collectAsLazyPagingItems()
     val dashboardUiState by viewModel.dashboardUiState.collectAsStateWithLifecycle()
+
+    ObserveAsEvents(flow = viewModel.navigationEvents) {
+        when (it) {
+            is TransactionEvent.ClickReceive -> TODO()
+            is TransactionEvent.ClickSend -> TODO()
+        }
+    }
+
     TransactionsScreen(dashboardUiState = dashboardUiState, transactionPaging = transactionUiState)
 }
 
@@ -89,12 +98,25 @@ internal fun TransactionsScreen(
                 .padding(it),
             header = { headerModifier ->
                 when (dashboardUiState) {
-                    is TransactionDashboardUiState.Loading -> {
+                    TransactionDashboardUiState.Loading -> {
                         Box(
                             modifier = headerModifier.height(260.dp),
                             contentAlignment = Alignment.Center
                         ) {
                             LoadingWheel(contentDesc = "")
+                        }
+                    }
+
+                    TransactionDashboardUiState.Error -> {
+                        Box(
+                            modifier = headerModifier.height(260.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Button(onClick = {
+                                // retry action
+                            }) {
+                                Text(text = "Oops... something went wrong! tap to retry")
+                            }
                         }
                     }
 

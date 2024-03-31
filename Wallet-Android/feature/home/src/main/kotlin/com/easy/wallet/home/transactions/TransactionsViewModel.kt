@@ -29,9 +29,9 @@ internal class TransactionsViewModel(
         tokenAmountUseCase(tokenId),
         coinTrendUseCase(tokenId)
     ) { amount, trends ->
-        TransactionDashboardUiState.Success(amount, trends)
+        TransactionDashboardUiState.Success(amount, trends) as TransactionDashboardUiState
     }.catch {
-        emit(TransactionDashboardUiState.Success("hello world", emptyList()))
+        emit(TransactionDashboardUiState.Error)
     }.stateIn(viewModelScope, SharingStarted.Lazily, TransactionDashboardUiState.Loading)
 
     val transactionPager = tnxPagerUseCase(tokenId).distinctUntilChanged()
@@ -41,8 +41,8 @@ internal class TransactionsViewModel(
 
     override fun handleEvent(event: TransactionEvent) {
         when(event) {
-            is TransactionEvent.ClickReceive -> TODO()
-            is TransactionEvent.ClickSend -> TODO()
+            is TransactionEvent.ClickReceive -> dispatchEvent(event)
+            is TransactionEvent.ClickSend -> dispatchEvent(event)
         }
     }
 }
