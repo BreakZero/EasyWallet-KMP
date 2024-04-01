@@ -15,6 +15,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AddCircleOutline
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ModeEditOutline
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -85,7 +86,7 @@ private fun TokenManagerScreen(
                 actions = {
                     IconButton(onClick = { onEvent(TokenManagerEvent.ClickEdit("")) }) {
                         Icon(
-                            imageVector = Icons.Default.ModeEditOutline,
+                            imageVector = Icons.Default.AddCircleOutline,
                             contentDescription = null
                         )
                     }

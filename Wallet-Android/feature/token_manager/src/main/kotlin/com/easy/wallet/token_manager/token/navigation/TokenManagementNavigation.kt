@@ -30,6 +30,6 @@ fun NavGraphBuilder.attachTokenManager(
     }
 
     composable(tokenEditorRoute) {
-        TokenEditorRoute()
+        TokenEditorRoute(navigateUp = navigateUp)
     }
 }

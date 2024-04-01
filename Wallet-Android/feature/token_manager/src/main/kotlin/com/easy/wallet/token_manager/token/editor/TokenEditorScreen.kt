@@ -2,6 +2,7 @@ package com.easy.wallet.token_manager.token.editor
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -18,11 +19,13 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -30,19 +33,24 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.easy.wallet.design.theme.ThemePreviews
 import com.easy.wallet.token_manager.chain.editor.EditorWithLabel
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-internal fun TokenEditorRoute() {
+internal fun TokenEditorRoute(
+    navigateUp: () -> Unit
+) {
     val viewModel: TokenEditorViewModel = koinViewModel()
     val editorUiState by viewModel.tokenEditorUiState.collectAsStateWithLifecycle()
     val editorFields by viewModel.tokenEditorFields.collectAsStateWithLifecycle()
     TokenEditorScreen(
         editorUiState = editorUiState,
         editorFields = editorFields,
+        navigateUp = navigateUp,
         onEvent = viewModel::handleEvent
     )
 }
@@ -52,18 +60,23 @@ internal fun TokenEditorRoute() {
 private fun TokenEditorScreen(
     editorUiState: TokenEditorUiState,
     editorFields: TokenEditorFields,
+    navigateUp: () -> Unit,
     onEvent: (TokenEditorEvent) -> Unit
 ) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
+        containerColor = Color.Transparent,
+        contentColor = MaterialTheme.colorScheme.onBackground,
         topBar = {
             TopAppBar(
                 title = { },
                 navigationIcon = {
-                    IconButton(onClick = {}) {
+                    IconButton(onClick = navigateUp) {
                         Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
                     }
-                }
+                },
+                colors = TopAppBarDefaults.topAppBarColors()
+                    .copy(containerColor = MaterialTheme.colorScheme.inverseOnSurface)
             )
         },
         bottomBar = {
@@ -84,11 +97,12 @@ private fun TokenEditorScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues)
-                .padding(horizontal = 16.dp)
+                .padding(paddingValues),
+            verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
             val modifier = Modifier
                 .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 4.dp)
             Row(modifier = modifier.clickable {
                 isShowChainSelector = true
             }) {
