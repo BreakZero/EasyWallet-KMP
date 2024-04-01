@@ -1,37 +1,33 @@
 package com.easy.wallet.token_manager.chain.manager
 
-import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AddCircleOutline
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SwipeToDismissBoxState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.easy.wallet.android.core.extensions.ObserveAsEvents
-import com.easy.wallet.design.component.SwipeToActions
+import com.easy.wallet.design.component.LoadingWheel
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -66,22 +62,22 @@ private fun ChainManagerScreen(
 ) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
+        containerColor = Color.Transparent,
+        contentColor = MaterialTheme.colorScheme.onBackground,
         topBar = {
             TopAppBar(
                 title = { },
                 navigationIcon = {
                     IconButton(onClick = navigateUp) {
-                        Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
-                    }
-                },
-                actions = {
-                    IconButton(onClick = { onEvent(ChainManagerEvent.ClickAdd) }) {
                         Icon(
-                            imageVector = Icons.Default.AddCircleOutline,
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = null
                         )
                     }
-                })
+                },
+                colors = TopAppBarDefaults.topAppBarColors()
+                    .copy(containerColor = MaterialTheme.colorScheme.inverseOnSurface)
+            )
         }
     ) { paddingValues ->
         val modifier = Modifier
@@ -90,67 +86,35 @@ private fun ChainManagerScreen(
         when (uiState) {
             is ChainUiState.Loading -> {
                 Box(modifier = modifier, contentAlignment = Alignment.Center) {
-
+                    LoadingWheel(contentDesc = "")
                 }
             }
 
             is ChainUiState.Success -> {
                 LazyColumn(
-                    modifier = modifier
+                    modifier = modifier,
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     items(uiState.chains, key = { it.id }) {
-                        SwipeToActions(
+                        Card(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .height(48.dp),
-                            content = {
-                                Text(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .height(48.dp),
-                                    textAlign = TextAlign.Center,
-                                    lineHeight = 48.sp,
-                                    text = it.name
-                                )
-                            },
-                            actions = {
-                                Row {
-                                    IconButton(
-                                        modifier = Modifier.background(MaterialTheme.colorScheme.error),
-                                        onClick = {
-                                            onEvent(ChainManagerEvent.ClickDeleted(it.id))
-                                        }
-                                    ) {
-                                        Icon(
-                                            imageVector = Icons.Filled.Delete,
-                                            contentDescription = null
-                                        )
-                                    }
-                                    IconButton(
-                                        modifier = Modifier.background(MaterialTheme.colorScheme.secondary),
-                                        onClick = {
-                                            onEvent(ChainManagerEvent.ClickEdit(it.id))
-                                        }
-                                    ) {
-                                        Icon(
-                                            imageVector = Icons.Filled.Edit,
-                                            contentDescription = null
-                                        )
-                                    }
+                                .padding(horizontal = 16.dp),
+                            onClick = { onEvent(ChainManagerEvent.ClickEdit(it.id)) }) {
+                            Column(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(vertical = 8.dp, horizontal = 12.dp)
+                            ) {
+                                Text(text = it.name, style = MaterialTheme.typography.titleLarge)
+                                it.explorer?.let { explorer ->
+                                    Text(text = explorer)
                                 }
-                            },
-                        )
+                            }
+                        }
                     }
                 }
             }
         }
     }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-private fun DeleteBackground(
-    swipeToDismissState: SwipeToDismissBoxState
-) {
-
 }

@@ -161,13 +161,15 @@ private fun TokenEditorScreen(
                 ) {
                     items(editorUiState.localChains, key = { it.id }) {
                         Text(
-                            text = it.name, modifier = Modifier
+                            text = it.name,
+                            modifier = Modifier
                                 .fillMaxWidth()
                                 .clickable {
                                     onEvent(TokenEditorEvent.OnChainChanged(it.id))
                                     isShowChainSelector = false
                                 }
-                                .padding(horizontal = 16.dp, vertical = 8.dp)
+                                .padding(horizontal = 16.dp, vertical = 8.dp),
+                            style = MaterialTheme.typography.titleMedium
                         )
                     }
                 }

@@ -17,7 +17,7 @@ import com.easy.wallet.settings.navigation.attachSettingsModule
 import com.easy.wallet.settings.navigation.toSettings
 import com.easy.wallet.token_manager.chain.navigation.attachChainManager
 import com.easy.wallet.token_manager.chain.navigation.navigateChainEditor
-import com.easy.wallet.token_manager.chain.navigation.navigateChainManager
+import com.easy.wallet.token_manager.chain.navigation.navigateToSupportedChains
 import com.easy.wallet.token_manager.token.navigation.attachTokenManager
 import com.easy.wallet.token_manager.token.navigation.navigateToTokenEditor
 import com.easy.wallet.token_manager.token.navigation.navigateToTokenManager
@@ -53,7 +53,7 @@ fun WalletNavHost(
         attachMarketplaceGraph()
         attachDiscoverGraph()
         attachSettingsModule(
-            navigateChainManager = navController::navigateChainManager,
+            navigateToSupportedChains = navController::navigateToSupportedChains,
             navigateTokenManager = navController::navigateToTokenManager,
             popBack = navController::popBackStack
         )

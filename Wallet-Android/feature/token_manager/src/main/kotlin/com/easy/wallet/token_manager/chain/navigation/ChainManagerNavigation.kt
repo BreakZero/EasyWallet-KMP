@@ -9,11 +9,11 @@ import androidx.navigation.navArgument
 import com.easy.wallet.token_manager.chain.editor.ChainEditorRoute
 import com.easy.wallet.token_manager.chain.manager.ChainManagerRoute
 
-internal const val chainManagerRouter = "chain_manager_route"
+internal const val viewSupportedChainsRoute = "supported_chains_route"
 internal const val chainEditorRouter = "chain_editor_route"
 
-fun NavController.navigateChainManager(navOptions: NavOptions? = null) {
-    navigate(chainManagerRouter, navOptions)
+fun NavController.navigateToSupportedChains(navOptions: NavOptions? = null) {
+    navigate(viewSupportedChainsRoute, navOptions)
 }
 
 fun NavController.navigateChainEditor(chainId: Long, navOptions: NavOptions? = null) {
@@ -24,7 +24,7 @@ fun NavGraphBuilder.attachChainManager(
     navigateToEditor: (Long) -> Unit,
     navigateUp: () -> Unit
 ) {
-    composable(chainManagerRouter) {
+    composable(viewSupportedChainsRoute) {
         ChainManagerRoute(
             navigateToEditor = navigateToEditor,
             navigateUp = navigateUp

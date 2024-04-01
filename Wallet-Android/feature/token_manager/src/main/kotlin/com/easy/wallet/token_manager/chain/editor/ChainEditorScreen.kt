@@ -22,10 +22,12 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -61,12 +63,16 @@ private fun ChainEditorScreen(
 ) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
+        containerColor = Color.Transparent,
+        contentColor = MaterialTheme.colorScheme.onBackground,
         topBar = {
             TopAppBar(title = { }, navigationIcon = {
                 IconButton(onClick = { onEvent(ChainEditorUiEvent.NavigateUp) }) {
                     Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
                 }
-            })
+            }, colors = TopAppBarDefaults.topAppBarColors()
+                .copy(containerColor = MaterialTheme.colorScheme.inverseOnSurface)
+            )
         },
         bottomBar = {
             Button(
@@ -84,10 +90,12 @@ private fun ChainEditorScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                .padding(horizontal = 16.dp)
+                .padding(horizontal = 16.dp),
+            verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
             val modifier = Modifier
                 .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 4.dp)
 
             EditorWithLabel(
                 modifier = modifier,
