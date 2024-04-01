@@ -3,11 +3,11 @@ package com.easy.wallet.navigation
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
-import com.easy.wallet.discover.navigation.discoverTabScreen
+import com.easy.wallet.discover.navigation.attachDiscoverGraph
 import com.easy.wallet.home.navigation.HOME_GRAPH_ROUTE_PATTERN
-import com.easy.wallet.home.navigation.homeGraph
+import com.easy.wallet.home.navigation.attachHomeGraph
 import com.easy.wallet.home.navigation.toTransactionList
-import com.easy.wallet.marketplace.navigation.marketplaceTabScreen
+import com.easy.wallet.marketplace.navigation.attachMarketplaceGraph
 import com.easy.wallet.news.navigation.attachNewsGraph
 import com.easy.wallet.onboard.create.navigation.attachCreateWalletGraph
 import com.easy.wallet.onboard.create.navigation.toCreateWallet
@@ -36,20 +36,22 @@ fun WalletNavHost(
         navController = navController,
         startDestination = startDestination,
     ) {
-        homeGraph(
+        attachHomeGraph(
             onCreateWallet = navController::toCreateWallet,
             onRestoreWallet = navController::toImportWallet,
             navigateToSettings = navController::toSettings,
             onTokenClick = {
                 navController.toTransactionList(it.id)
             },
-            nestedGraphs = {},
-        )
+            navigateUp = navController::navigateUp
+        ) {
+
+        }
         attachCreateWalletGraph(navController)
         attachRestoreWallet(navController)
         attachNewsGraph()
-        marketplaceTabScreen()
-        discoverTabScreen()
+        attachMarketplaceGraph()
+        attachDiscoverGraph()
         attachSettingsModule(
             navigateChainManager = navController::navigateChainManager,
             navigateTokenManager = navController::navigateToTokenManager,

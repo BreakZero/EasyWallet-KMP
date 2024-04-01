@@ -13,7 +13,7 @@ fun NavController.selectedDiscoverTab(navOptions: NavOptions? = null) {
     this.navigate(discoverTabRoute, navOptions)
 }
 
-fun NavGraphBuilder.discoverTabScreen() {
+fun NavGraphBuilder.attachDiscoverGraph() {
     composable(route = discoverTabRoute) {
         DiscoverRoute()
     }

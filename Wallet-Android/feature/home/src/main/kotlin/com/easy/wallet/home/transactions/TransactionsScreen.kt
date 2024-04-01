@@ -46,7 +46,9 @@ import com.easy.wallet.shared.model.transaction.TransactionUiModel
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-internal fun TransactionsRoute() {
+internal fun TransactionsRoute(
+    navigateUp: () -> Unit
+) {
     val viewModel: TransactionsViewModel = koinViewModel()
     val transactionUiState = viewModel.transactionPager.collectAsLazyPagingItems()
     val dashboardUiState by viewModel.dashboardUiState.collectAsStateWithLifecycle()
@@ -58,14 +60,15 @@ internal fun TransactionsRoute() {
         }
     }
 
-    TransactionsScreen(dashboardUiState = dashboardUiState, transactionPaging = transactionUiState)
+    TransactionsScreen(dashboardUiState = dashboardUiState, transactionPaging = transactionUiState, navigateUp = navigateUp)
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun TransactionsScreen(
     dashboardUiState: TransactionDashboardUiState,
-    transactionPaging: LazyPagingItems<TransactionUiModel>
+    transactionPaging: LazyPagingItems<TransactionUiModel>,
+    navigateUp: () -> Unit
 ) {
     var showReceiveSheet by remember {
         mutableStateOf(false)
@@ -77,7 +80,7 @@ internal fun TransactionsScreen(
             TopAppBar(
                 title = { Text(text = "Transactions") },
                 navigationIcon = {
-                    IconButton(onClick = { /*TODO*/ }) {
+                    IconButton(onClick = navigateUp) {
                         Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
                     }
                 },

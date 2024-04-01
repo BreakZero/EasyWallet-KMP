@@ -12,7 +12,7 @@ fun NavController.selectedMarketplaceTab(navOptions: NavOptions? = null) {
     this.navigate(marketplaceTabRoute, navOptions)
 }
 
-fun NavGraphBuilder.marketplaceTabScreen() {
+fun NavGraphBuilder.attachMarketplaceGraph() {
     composable(route = marketplaceTabRoute) {
         MarketplaceRoute()
     }
