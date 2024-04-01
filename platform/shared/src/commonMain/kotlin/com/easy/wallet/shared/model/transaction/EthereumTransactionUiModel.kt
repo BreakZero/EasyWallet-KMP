@@ -7,6 +7,8 @@ data class EthereumTransactionUiModel(
     override val sender: String,
     override val direction: Direction,
     override val symbol: String,
+    override val datetime: String,
+    override val status: TransactionStatus,
     val gas: String,
     val gasPrice: String,
     val gasUsed: String,

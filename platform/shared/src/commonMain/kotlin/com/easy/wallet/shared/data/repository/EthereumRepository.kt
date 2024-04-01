@@ -1,5 +1,6 @@
 package com.easy.wallet.shared.data.repository
 
+import com.easy.wallet.core.commom.DateTimeDecoder
 import com.easy.wallet.model.TokenInformation
 import com.easy.wallet.network.source.blockchair.BlockchairApi
 import com.easy.wallet.network.source.etherscan.EtherscanApi
@@ -7,6 +8,7 @@ import com.easy.wallet.network.source.etherscan.dto.EtherTransactionDto
 import com.easy.wallet.shared.model.Balance
 import com.easy.wallet.shared.model.transaction.Direction
 import com.easy.wallet.shared.model.transaction.EthereumTransactionUiModel
+import com.easy.wallet.shared.model.transaction.TransactionStatus
 import com.easy.wallet.shared.model.transaction.TransactionUiModel
 import com.ionspin.kotlin.bignum.decimal.RoundingMode
 import com.ionspin.kotlin.bignum.decimal.toBigDecimal
@@ -82,6 +84,8 @@ private fun EtherTransactionDto.asTransactionUiModel(
         gas = gas,
         gasUsed = gasUsed,
         symbol = token.symbol,
-        functionName = functionName
+        functionName = functionName,
+        datetime = timeStamp.toLongOrNull()?.let { DateTimeDecoder.decodeToDateTime(it.times(1000)).toString() } ?: "- -",
+        status = TransactionStatus.Confirmed
     )
 }

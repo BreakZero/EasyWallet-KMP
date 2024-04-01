@@ -18,7 +18,6 @@ import com.easy.wallet.design.component.DynamicAsyncImage
 import com.easy.wallet.home.HomeEvent
 import com.easy.wallet.shared.model.TokenUiModel
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun TokenItemView(
     modifier: Modifier = Modifier,
@@ -28,7 +27,7 @@ internal fun TokenItemView(
     val token = extraToken.token
     val balance = extraToken.balance
     Row(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .clickable {
                 onEvent(HomeEvent.TokenClicked(token))
