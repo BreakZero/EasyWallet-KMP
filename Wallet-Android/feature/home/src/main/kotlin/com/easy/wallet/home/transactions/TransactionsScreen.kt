@@ -21,6 +21,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -29,6 +30,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.compose.LazyPagingItems
@@ -69,12 +71,19 @@ internal fun TransactionsScreen(
         mutableStateOf(false)
     }
     Scaffold(
+        containerColor = Color.Transparent,
+        contentColor = MaterialTheme.colorScheme.onBackground,
         topBar = {
-            TopAppBar(title = { Text(text = "Transactions") }, navigationIcon = {
-                IconButton(onClick = { /*TODO*/ }) {
-                    Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
-                }
-            })
+            TopAppBar(
+                title = { Text(text = "Transactions") },
+                navigationIcon = {
+                    IconButton(onClick = { /*TODO*/ }) {
+                        Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
+                    }
+                },
+                colors = TopAppBarDefaults.topAppBarColors()
+                    .copy(containerColor = MaterialTheme.colorScheme.inverseOnSurface)
+            )
         },
         bottomBar = {
             if (dashboardUiState is TransactionDashboardUiState.Success) {
@@ -154,7 +163,7 @@ internal fun TransactionsScreen(
                         TransactionSummaryView(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(end = 16.dp, start = 8.dp),
+                                .padding(horizontal = 16.dp),
                             transaction = transaction,
                             itemClicked = {
                                 println(it.hash)

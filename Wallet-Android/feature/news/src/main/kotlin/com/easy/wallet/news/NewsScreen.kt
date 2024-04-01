@@ -10,8 +10,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
@@ -39,13 +41,19 @@ internal fun NewsScreen(
     val backgroundColor = MaterialTheme.colorScheme.surface.toArgb()
     Scaffold(
         modifier = Modifier.fillMaxSize(),
+        containerColor = Color.Transparent,
+        contentColor = MaterialTheme.colorScheme.onBackground,
         topBar = {
-            TopAppBar(title = {
-                Text(
-                    text = "Powered by BlockChair",
-                    style = MaterialTheme.typography.labelSmall
-                )
-            })
+            TopAppBar(
+                title = {
+                    Text(
+                        text = "Powered by BlockChair",
+                        style = MaterialTheme.typography.labelSmall
+                    )
+                },
+                colors = TopAppBarDefaults.topAppBarColors()
+                    .copy(containerColor = MaterialTheme.colorScheme.inverseOnSurface)
+            )
         }
     ) { paddingValues ->
         DefaultPagingStateColumn(

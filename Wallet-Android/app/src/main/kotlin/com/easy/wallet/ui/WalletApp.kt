@@ -32,7 +32,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
-import com.easy.wallet.design.component.EasyBackground
+import com.easy.wallet.design.component.EasyGradientBackground
+import com.easy.wallet.design.theme.LocalGradientColors
 import com.easy.wallet.navigation.TopLevelDestination
 import com.easy.wallet.navigation.WalletNavHost
 
@@ -42,7 +43,7 @@ fun WalletApp(
     windowSizeClass: WindowSizeClass,
     appState: WalletAppState = rememberAppState(windowSizeClass = windowSizeClass)
 ) {
-    EasyBackground {
+    EasyGradientBackground(gradientColors = LocalGradientColors.current) {
         val snackbarHostState = remember { SnackbarHostState() }
         Scaffold(
             containerColor = Color.Transparent,

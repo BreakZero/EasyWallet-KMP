@@ -8,12 +8,15 @@ import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.easy.wallet.android.core.extensions.ObserveAsEvents
@@ -57,15 +60,20 @@ internal fun HomeScreen(
 ) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
+        containerColor = Color.Transparent,
+        contentColor = MaterialTheme.colorScheme.onBackground,
         topBar = {
-            TopAppBar(title = { /*TODO*/ },
+            TopAppBar(
+                title = { /*TODO*/ },
                 navigationIcon = {
                     if (homeUiState is HomeUiState.WalletUiState) {
                         IconButton(onClick = { onEvent(HomeEvent.SettingsClicked) }) {
                             Icon(imageVector = Icons.Default.Settings, contentDescription = null)
                         }
                     }
-                }
+                },
+                colors = TopAppBarDefaults.topAppBarColors()
+                    .copy(containerColor = MaterialTheme.colorScheme.inverseOnSurface)
             )
         }
     ) { paddingValues ->
