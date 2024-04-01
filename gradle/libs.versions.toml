@@ -117,6 +117,8 @@ vico-core = { group = "com.patrykandpatrick.vico", name = "core", version.ref = 
 # For the view system.
 vico-views = { group = "com.patrykandpatrick.vico", name = "views", version.ref = "vico" }
 
+zxing = { group = "com.google.zxing", name = "core", version = "3.5.1" }
+
 # helper
 desugar_jdk_libs = { module = "com.android.tools:desugar_jdk_libs", version = "2.0.4" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
