@@ -36,7 +36,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.easy.wallet.design.theme.ThemePreviews
 import com.easy.wallet.token_manager.chain.editor.EditorWithLabel
 import org.koin.androidx.compose.koinViewModel
 
@@ -103,12 +102,18 @@ private fun TokenEditorScreen(
             val modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp, vertical = 4.dp)
-            Row(modifier = modifier.clickable {
-                isShowChainSelector = true
-            }) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable {
+                        isShowChainSelector = true
+                    }
+                    .padding(horizontal = 16.dp, vertical = 4.dp),
+                horizontalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
                 // chain id selector
                 Text(text = "In Chain")
-                Text(text = editorUiState.chainName)
+                Text(style = MaterialTheme.typography.titleMedium, text = editorUiState.chainName)
                 Spacer(modifier = Modifier.weight(1.0f))
                 Icon(imageVector = Icons.Default.KeyboardArrowRight, contentDescription = null)
             }
@@ -155,12 +160,14 @@ private fun TokenEditorScreen(
                         .height(480.dp)
                 ) {
                     items(editorUiState.localChains, key = { it.id }) {
-                        Text(text = it.name, modifier = Modifier
-                            .fillMaxWidth()
-                            .clickable {
-                                onEvent(TokenEditorEvent.OnChainChanged(it.id))
-                                isShowChainSelector = false
-                            }
+                        Text(
+                            text = it.name, modifier = Modifier
+                                .fillMaxWidth()
+                                .clickable {
+                                    onEvent(TokenEditorEvent.OnChainChanged(it.id))
+                                    isShowChainSelector = false
+                                }
+                                .padding(horizontal = 16.dp, vertical = 8.dp)
                         )
                     }
                 }
@@ -168,4 +175,3 @@ private fun TokenEditorScreen(
         }
     }
 }
-
