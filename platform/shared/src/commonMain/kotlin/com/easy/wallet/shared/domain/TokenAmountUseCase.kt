@@ -4,6 +4,7 @@ import com.easy.wallet.core.commom.Constants
 import com.easy.wallet.shared.data.multiwallet.MultiWalletRepository
 import com.easy.wallet.shared.data.repository.SupportedTokenRepository
 import com.easy.wallet.shared.data.repository.TokenRepository
+import com.ionspin.kotlin.bignum.decimal.RoundingMode
 import com.ionspin.kotlin.bignum.decimal.toBigDecimal
 import com.trustwallet.core.CoinType
 import com.trustwallet.core.HDWallet
@@ -38,6 +39,7 @@ class TokenAmountUseCase internal constructor(
                     if (token.contract.isNullOrBlank()) {
                         ethereumRepository.loadBalance(address).map {
                             val balance = it.toBigDecimal().moveDecimalPoint(-token.decimals)
+                                .roundToDigitPositionAfterDecimalPoint(8, RoundingMode.ROUND_HALF_CEILING)
                                 .toPlainString()
                             "$balance ${token.symbol}"
                         }

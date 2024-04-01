@@ -50,9 +50,9 @@ internal fun TransactionSummaryView(
                 horizontalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 val accentColor = when (transaction.status) {
-                    TransactionStatus.Confirmed -> Color.Green
-                    TransactionStatus.Pending -> Color.Cyan
-                    TransactionStatus.Failed -> Color.Red
+                    TransactionStatus.Confirmed -> MaterialTheme.colorScheme.primaryContainer
+                    TransactionStatus.Pending -> MaterialTheme.colorScheme.secondary
+                    TransactionStatus.Failed -> MaterialTheme.colorScheme.error
                 }
                 Icon(
                     modifier = Modifier
@@ -60,7 +60,6 @@ internal fun TransactionSummaryView(
                         .clip(CircleShape)
                         .background(MaterialTheme.colorScheme.primaryContainer)
                         .padding(8.dp),
-                    tint = accentColor,
                     imageVector = transaction.icon(), contentDescription = null
                 )
                 Column(modifier = Modifier) {

@@ -172,8 +172,8 @@ fun EasyWalletTheme(
             if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
         }
 
-        darkTheme -> DarkDefaultColorScheme
-        else -> LightDefaultColorScheme
+        darkTheme -> DarkAndroidColorScheme
+        else -> LightAndroidColorScheme
     }
 
     // Gradient colors
