@@ -2,7 +2,6 @@
 plugins {
     id("org.easy.multiplatform")
     id("app.cash.sqldelight") version libs.versions.sqldelight
-    id("kotlinx-atomicfu")
 }
 
 kotlin {

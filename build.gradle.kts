@@ -1,8 +1,7 @@
 @file:Suppress("DSL_SCOPE_VIOLATION")
 buildscript {
     dependencies {
-        classpath(libs.kotlinx.atomicfu)
-        classpath("com.codingfeline.buildkonfig:buildkonfig-gradle-plugin:0.15.1")
+        classpath(libs.buildkonfig.gradle.plugin)
     }
 }
 

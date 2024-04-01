@@ -17,7 +17,7 @@ fun NavController.selectedNewsTab(navOptions: NavOptions? = null) {
     this.navigate(newsTabRoute, navOptions)
 }
 
-fun NavGraphBuilder.newsGraph() {
+fun NavGraphBuilder.attachNewsGraph() {
     composable(route = newsTabRoute) {
         NewsRoute()
     }
