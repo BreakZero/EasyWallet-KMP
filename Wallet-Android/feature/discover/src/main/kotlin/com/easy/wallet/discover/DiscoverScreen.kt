@@ -20,6 +20,6 @@ fun DiscoverScreen() {
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center,
     ) {
-        Text(text = "Discover")
+        Text(text = "Discover(Coming soon...)")
     }
 }

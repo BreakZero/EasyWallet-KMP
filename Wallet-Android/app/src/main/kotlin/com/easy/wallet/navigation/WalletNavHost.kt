@@ -3,11 +3,11 @@ package com.easy.wallet.navigation
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
-import com.easy.wallet.discover.navigation.discoverTabScreen
+import com.easy.wallet.discover.navigation.attachDiscoverGraph
 import com.easy.wallet.home.navigation.HOME_GRAPH_ROUTE_PATTERN
-import com.easy.wallet.home.navigation.homeGraph
+import com.easy.wallet.home.navigation.attachHomeGraph
 import com.easy.wallet.home.navigation.toTransactionList
-import com.easy.wallet.marketplace.navigation.marketplaceTabScreen
+import com.easy.wallet.marketplace.navigation.attachMarketplaceGraph
 import com.easy.wallet.news.navigation.attachNewsGraph
 import com.easy.wallet.onboard.create.navigation.attachCreateWalletGraph
 import com.easy.wallet.onboard.create.navigation.toCreateWallet
@@ -16,8 +16,8 @@ import com.easy.wallet.onboard.restore.navigation.toImportWallet
 import com.easy.wallet.settings.navigation.attachSettingsModule
 import com.easy.wallet.settings.navigation.toSettings
 import com.easy.wallet.token_manager.chain.navigation.attachChainManager
-import com.easy.wallet.token_manager.chain.navigation.navigateChainEditor
-import com.easy.wallet.token_manager.chain.navigation.navigateChainManager
+import com.easy.wallet.token_manager.chain.navigation.navigateToChainDetail
+import com.easy.wallet.token_manager.chain.navigation.navigateToSupportedChains
 import com.easy.wallet.token_manager.token.navigation.attachTokenManager
 import com.easy.wallet.token_manager.token.navigation.navigateToTokenEditor
 import com.easy.wallet.token_manager.token.navigation.navigateToTokenManager
@@ -36,27 +36,29 @@ fun WalletNavHost(
         navController = navController,
         startDestination = startDestination,
     ) {
-        homeGraph(
+        attachHomeGraph(
             onCreateWallet = navController::toCreateWallet,
             onRestoreWallet = navController::toImportWallet,
             navigateToSettings = navController::toSettings,
             onTokenClick = {
                 navController.toTransactionList(it.id)
             },
-            nestedGraphs = {},
-        )
+            navigateUp = navController::navigateUp
+        ) {
+
+        }
         attachCreateWalletGraph(navController)
         attachRestoreWallet(navController)
         attachNewsGraph()
-        marketplaceTabScreen()
-        discoverTabScreen()
+        attachMarketplaceGraph()
+        attachDiscoverGraph()
         attachSettingsModule(
-            navigateChainManager = navController::navigateChainManager,
+            navigateToSupportedChains = navController::navigateToSupportedChains,
             navigateTokenManager = navController::navigateToTokenManager,
             popBack = navController::popBackStack
         )
         attachChainManager(
-            navigateToEditor = { navController.navigateChainEditor(it) },
+            navigateToDetail = { navController.navigateToChainDetail(it) },
             navigateUp = navController::navigateUp
         )
         attachTokenManager(

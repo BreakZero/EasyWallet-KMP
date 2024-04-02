@@ -1,26 +1,24 @@
 package com.easy.wallet.home.component
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
+import com.easy.wallet.design.component.EasyGradientBackground
 import com.easy.wallet.design.theme.ThemePreviews
 import com.easy.wallet.design.ui.EasyWalletTheme
 import com.easy.wallet.home.HomeEvent
 import com.easy.wallet.home.HomeUiState
-import com.patrykandpatrick.vico.core.entry.entryOf
-import kotlin.random.Random
 
 @Composable
 internal fun UserHomeContent(
@@ -39,20 +37,24 @@ internal fun UserHomeContent(
         header = { headerModifier ->
             DashboardView(
                 modifier = headerModifier
-                    .height(260.dp),
-                List(8) { entryOf(it, Random.nextInt(12)) }
+                    .height(200.dp)
             )
         },
         listContent = { contentModifier ->
             LazyColumn(
                 modifier = contentModifier
-                    .clip(RoundedCornerShape(topEnd = 20.dp, topStart = 20.dp))
-                    .background(MaterialTheme.colorScheme.surfaceVariant),
+                    .clip(RoundedCornerShape(topEnd = 20.dp, topStart = 20.dp)),
                 verticalArrangement = Arrangement.spacedBy(12.dp),
                 state = lazyListState
             ) {
                 items(walletUiState.tokens, key = { it.token.id }) {
-                    TokenItemView(extraToken = it, onEvent = onEvent)
+                    TokenItemView(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp),
+                        extraToken = it,
+                        onEvent = onEvent
+                    )
                 }
             }
         }
@@ -63,7 +65,7 @@ internal fun UserHomeContent(
 @Composable
 private fun UserHome_Preview() {
     EasyWalletTheme {
-        Surface(
+        EasyGradientBackground(
             modifier = Modifier
                 .fillMaxSize(),
         ) {

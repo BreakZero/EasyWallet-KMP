@@ -1,6 +1,5 @@
 package com.easy.wallet.home.transactions
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -13,6 +12,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -20,11 +21,16 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.compose.LazyPagingItems
@@ -33,13 +39,16 @@ import com.easy.wallet.android.core.extensions.ObserveAsEvents
 import com.easy.wallet.design.component.DefaultPagingStateColumn
 import com.easy.wallet.design.component.LoadingWheel
 import com.easy.wallet.home.component.CollapsingToolbarWithLazyList
+import com.easy.wallet.home.receive.ReceiveContentSheet
 import com.easy.wallet.home.transactions.component.AmountHeaderView
 import com.easy.wallet.home.transactions.component.TransactionSummaryView
 import com.easy.wallet.shared.model.transaction.TransactionUiModel
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-internal fun TransactionsRoute() {
+internal fun TransactionsRoute(
+    navigateUp: () -> Unit
+) {
     val viewModel: TransactionsViewModel = koinViewModel()
     val transactionUiState = viewModel.transactionPager.collectAsLazyPagingItems()
     val dashboardUiState by viewModel.dashboardUiState.collectAsStateWithLifecycle()
@@ -51,41 +60,56 @@ internal fun TransactionsRoute() {
         }
     }
 
-    TransactionsScreen(dashboardUiState = dashboardUiState, transactionPaging = transactionUiState)
+    TransactionsScreen(dashboardUiState = dashboardUiState, transactionPaging = transactionUiState, navigateUp = navigateUp)
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun TransactionsScreen(
     dashboardUiState: TransactionDashboardUiState,
-    transactionPaging: LazyPagingItems<TransactionUiModel>
+    transactionPaging: LazyPagingItems<TransactionUiModel>,
+    navigateUp: () -> Unit
 ) {
+    var showReceiveSheet by remember {
+        mutableStateOf(false)
+    }
     Scaffold(
+        containerColor = Color.Transparent,
+        contentColor = MaterialTheme.colorScheme.onBackground,
         topBar = {
-            TopAppBar(title = { Text(text = "Transactions") }, navigationIcon = {
-                IconButton(onClick = { /*TODO*/ }) {
-                    Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
-                }
-            })
+            TopAppBar(
+                title = { Text(text = "Transactions") },
+                navigationIcon = {
+                    IconButton(onClick = navigateUp) {
+                        Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
+                    }
+                },
+                colors = TopAppBarDefaults.topAppBarColors()
+                    .copy(containerColor = MaterialTheme.colorScheme.inverseOnSurface)
+            )
         },
         bottomBar = {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp),
-                horizontalArrangement = Arrangement.spacedBy(12.dp)
-            ) {
-                Button(
-                    modifier = Modifier.weight(1.0f),
-                    onClick = { /*TODO*/ }
+            if (dashboardUiState is TransactionDashboardUiState.Success) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp),
+                    horizontalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
-                    Text(text = "SEND")
-                }
-                Button(
-                    modifier = Modifier.weight(1.0f),
-                    onClick = { /*TODO*/ }
-                ) {
-                    Text(text = "RECEIVE")
+                    ElevatedButton(
+                        modifier = Modifier.weight(1.0f),
+                        onClick = { /*TODO*/ }
+                    ) {
+                        Text(text = "SEND")
+                    }
+                    ElevatedButton(
+                        modifier = Modifier.weight(1.0f),
+                        colors = ButtonDefaults.elevatedButtonColors()
+                            .copy(containerColor = MaterialTheme.colorScheme.onTertiaryContainer),
+                        onClick = { showReceiveSheet = true }
+                    ) {
+                        Text(text = "RECEIVE")
+                    }
                 }
             }
         },
@@ -133,8 +157,7 @@ internal fun TransactionsScreen(
             listContent = { contentModifier ->
                 DefaultPagingStateColumn(
                     modifier = contentModifier
-                        .clip(RoundedCornerShape(topEnd = 20.dp, topStart = 20.dp))
-                        .background(MaterialTheme.colorScheme.surfaceVariant),
+                        .clip(RoundedCornerShape(topEnd = 20.dp, topStart = 20.dp)),
                     state = lazyListState,
                     paging = transactionPaging,
                     verticalArrangement = Arrangement.spacedBy(12.dp),
@@ -143,7 +166,7 @@ internal fun TransactionsScreen(
                         TransactionSummaryView(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(end = 16.dp, start = 8.dp),
+                                .padding(horizontal = 16.dp),
                             transaction = transaction,
                             itemClicked = {
                                 println(it.hash)
@@ -153,5 +176,13 @@ internal fun TransactionsScreen(
                 )
             }
         )
+
+        if (dashboardUiState is TransactionDashboardUiState.Success && showReceiveSheet) {
+            ReceiveContentSheet(
+                basicResult = dashboardUiState.basicResult
+            ) {
+                showReceiveSheet = false
+            }
+        }
     }
 }

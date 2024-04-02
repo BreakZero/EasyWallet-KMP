@@ -11,9 +11,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.compose.LazyPagingItems
@@ -41,13 +43,19 @@ internal fun MarketplaceScreen(
 ) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
+        containerColor = Color.Transparent,
+        contentColor = MaterialTheme.colorScheme.onBackground,
         topBar = {
-            TopAppBar(title = {
-                Text(
-                    text = "Powered by CoinGecko",
-                    style = MaterialTheme.typography.labelSmall
-                )
-            })
+            TopAppBar(
+                title = {
+                    Text(
+                        text = "Powered by CoinGecko",
+                        style = MaterialTheme.typography.labelSmall
+                    )
+                },
+                colors = TopAppBarDefaults.topAppBarColors()
+                    .copy(containerColor = MaterialTheme.colorScheme.inverseOnSurface)
+            )
         }
     ) { paddingValues ->
         DefaultPagingStateColumn(

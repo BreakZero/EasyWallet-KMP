@@ -42,11 +42,12 @@ fun NavController.toTransactionList(tokenId: String, navOptions: NavOptions? = n
     this.navigate("$transactionListRoute/$encodeTokenId", navOptions)
 }
 
-fun NavGraphBuilder.homeGraph(
+fun NavGraphBuilder.attachHomeGraph(
     onCreateWallet: () -> Unit,
     onRestoreWallet: () -> Unit,
     navigateToSettings: () -> Unit,
     onTokenClick: (TokenInformation) -> Unit,
+    navigateUp: () -> Unit,
     nestedGraphs: NavGraphBuilder.() -> Unit
 ) {
     navigation(route = HOME_GRAPH_ROUTE_PATTERN, startDestination = homeEntryRoute) {
@@ -64,7 +65,7 @@ fun NavGraphBuilder.homeGraph(
                 navArgument(TOKEN_ID_ARG) { type = NavType.StringType }
             )
         ) {
-            TransactionsRoute()
+            TransactionsRoute(navigateUp)
         }
         nestedGraphs()
     }

@@ -4,11 +4,9 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text2.BasicTextField2
 import androidx.compose.foundation.text2.input.InputTransformation
 import androidx.compose.foundation.text2.input.TextFieldLineLimits
@@ -19,16 +17,17 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.LocalTextStyle
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -64,12 +63,16 @@ private fun ChainEditorScreen(
 ) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
+        containerColor = Color.Transparent,
+        contentColor = MaterialTheme.colorScheme.onBackground,
         topBar = {
             TopAppBar(title = { }, navigationIcon = {
                 IconButton(onClick = { onEvent(ChainEditorUiEvent.NavigateUp) }) {
                     Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
                 }
-            })
+            }, colors = TopAppBarDefaults.topAppBarColors()
+                .copy(containerColor = MaterialTheme.colorScheme.inverseOnSurface)
+            )
         },
         bottomBar = {
             Button(
@@ -87,10 +90,12 @@ private fun ChainEditorScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                .padding(horizontal = 16.dp)
+                .padding(horizontal = 16.dp),
+            verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
             val modifier = Modifier
                 .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 4.dp)
 
             EditorWithLabel(
                 modifier = modifier,
@@ -131,18 +136,15 @@ internal fun EditorWithLabel(
 ) {
     Row(
         modifier = modifier.padding(vertical = 8.dp),
-        horizontalArrangement = Arrangement.SpaceBetween,
+        horizontalArrangement = Arrangement.spacedBy(24.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Text(text = label)
-        Spacer(modifier = Modifier.width(12.dp))
+        Text(style = MaterialTheme.typography.labelMedium, text = label)
         BasicTextField2(
             modifier = Modifier
                 .weight(1.0f)
                 .padding(horizontal = 8.dp),
-            textStyle = LocalTextStyle.current.copy(
-                textAlign = TextAlign.End
-            ),
+            textStyle = MaterialTheme.typography.bodyLarge.copy(textAlign = TextAlign.End),
             inputTransformation = inputTransformation,
             lineLimits = TextFieldLineLimits.SingleLine,
             state = textFieldState

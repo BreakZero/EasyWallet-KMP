@@ -3,9 +3,10 @@ package com.easy.wallet.settings
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBackIos
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -18,9 +19,11 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.easy.wallet.android.core.extensions.ObserveAsEvents
 import com.easy.wallet.design.theme.ThemePreviews
 import com.easy.wallet.design.ui.EasyWalletTheme
@@ -30,7 +33,7 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 internal fun SettingsRoute(
-    navigateChainManager: () -> Unit,
+    navigateToSupportedChains: () -> Unit,
     navigateTokenManager: () -> Unit,
     popBack: () -> Unit
 ) {
@@ -38,16 +41,19 @@ internal fun SettingsRoute(
     ObserveAsEvents(flow = viewModel.navigationEvents) {
         when (it) {
             SettingsEvent.PopBack -> popBack()
-            SettingsEvent.ClickChainManager -> navigateChainManager()
+            SettingsEvent.ClickViewSupportedChains -> navigateToSupportedChains()
             SettingsEvent.ClickTokenManager -> navigateTokenManager()
+            else -> Unit
         }
     }
-    SettingsScreen(onEvent = viewModel::handleEvent)
+    val uiState by viewModel.settingsUiState.collectAsStateWithLifecycle()
+    SettingsScreen(onEvent = viewModel::handleEvent, settingsUiState = uiState)
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun SettingsScreen(
+    settingsUiState: SettingsUiState,
     onEvent: (SettingsEvent) -> Unit
 ) {
     Scaffold(
@@ -59,7 +65,10 @@ internal fun SettingsScreen(
                 title = { Text(text = "Settings") },
                 navigationIcon = {
                     IconButton(onClick = { onEvent(SettingsEvent.PopBack) }) {
-                        Icon(imageVector = Icons.Default.ArrowBackIos, contentDescription = "")
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = ""
+                        )
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent),
@@ -71,21 +80,25 @@ internal fun SettingsScreen(
                 .padding(it)
                 .padding(horizontal = 12.dp)
                 .padding(top = 12.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp),
+            verticalArrangement = Arrangement.spacedBy(4.dp),
         ) {
+            val modifier = Modifier.fillMaxWidth()
             ExtendSettingsItem(
+                modifier = modifier,
                 title = "General",
                 subtitle = "Currency conversion, primary currency, language and so on",
                 onClick = {}
             )
             HorizontalDivider()
             ExtendSettingsItem(
-                title = "Chain Manager",
+                modifier = modifier,
+                title = "View Supported Chains",
                 onClick = {
-                    onEvent(SettingsEvent.ClickChainManager)
+                    onEvent(SettingsEvent.ClickViewSupportedChains)
                 }
             )
             ExtendSettingsItem(
+                modifier = modifier,
                 title = "Token Manager",
                 onClick = {
                     onEvent(SettingsEvent.ClickTokenManager)
@@ -93,9 +106,15 @@ internal fun SettingsScreen(
             )
             HorizontalDivider()
             SettingsItem(
+                modifier = modifier,
                 title = "Enable Biometric",
                 suffix = {
-                    Switch(checked = false, onCheckedChange = {})
+                    Switch(
+                        checked = settingsUiState.biometricEnabled,
+                        onCheckedChange = {
+                            onEvent(SettingsEvent.BiometricCheckedChanged(it))
+                        }
+                    )
                 }
             )
         }
@@ -107,7 +126,7 @@ internal fun SettingsScreen(
 private fun Settings_Preview() {
     EasyWalletTheme {
         Surface(modifier = Modifier.fillMaxSize()) {
-            SettingsScreen {}
+            SettingsScreen(settingsUiState = SettingsUiState(biometricEnabled = false)) {}
         }
     }
 }
