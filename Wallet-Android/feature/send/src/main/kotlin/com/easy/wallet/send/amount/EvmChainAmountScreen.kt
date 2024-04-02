@@ -32,15 +32,17 @@ import com.easy.wallet.design.component.EasyGradientBackground
 import com.easy.wallet.design.theme.ThemePreviews
 import com.easy.wallet.design.ui.EasyWalletTheme
 
-@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun EvmChainSendAmountScreen() {
+internal fun EvmChainSendAmountScreen(
+    toNext: () -> Unit
+) {
     Scaffold(
         containerColor = Color.Transparent,
         contentColor = MaterialTheme.colorScheme.onBackground,
         topBar = {
             TopAppBar(
-                title = { Text(text = "Send To") },
+                title = { Text(text = "Send") },
                 navigationIcon = {
                     IconButton(onClick = { }) {
                         Icon(
@@ -57,7 +59,7 @@ internal fun EvmChainSendAmountScreen() {
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp, vertical = 8.dp),
-                onClick = { /*TODO*/ }) {
+                onClick = { toNext() }) {
                 Text(text = "Next")
             }
         }
@@ -92,7 +94,8 @@ internal fun EvmChainSendAmountScreen() {
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp, vertical = 8.dp),
-                columns = GridCells.Fixed(3)
+                columns = GridCells.Fixed(3),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 items((1..9).toList()) {
                     Button(onClick = { /*TODO*/ }) {
@@ -109,7 +112,7 @@ internal fun EvmChainSendAmountScreen() {
 private fun EvmChainSendAmount_Preview() {
     EasyWalletTheme {
         EasyGradientBackground {
-            EvmChainSendAmountScreen()
+            EvmChainSendAmountScreen() {}
         }
     }
 }

@@ -47,6 +47,7 @@ fun NavGraphBuilder.attachHomeGraph(
     onRestoreWallet: () -> Unit,
     navigateToSettings: () -> Unit,
     onTokenClick: (TokenInformation) -> Unit,
+    onStartSend: (String) -> Unit,
     navigateUp: () -> Unit,
     nestedGraphs: NavGraphBuilder.() -> Unit
 ) {
@@ -65,7 +66,7 @@ fun NavGraphBuilder.attachHomeGraph(
                 navArgument(TOKEN_ID_ARG) { type = NavType.StringType }
             )
         ) {
-            TransactionsRoute(navigateUp)
+            TransactionsRoute(startToSend = onStartSend, navigateUp = navigateUp)
         }
         nestedGraphs()
     }

@@ -31,7 +31,11 @@ internal class TransactionsViewModel(
         tokenAmountUseCase(tokenId),
         coinTrendUseCase(tokenId)
     ) { basicInfo, amount, trends ->
-        TransactionDashboardUiState.Success(basicInfo, amount, trends) as TransactionDashboardUiState
+        TransactionDashboardUiState.Success(
+            basicInfo,
+            amount,
+            trends
+        ) as TransactionDashboardUiState
     }.catch {
         emit(TransactionDashboardUiState.Error)
     }.stateIn(viewModelScope, SharingStarted.Lazily, TransactionDashboardUiState.Loading)
@@ -42,9 +46,10 @@ internal class TransactionsViewModel(
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), PagingData.empty())
 
     override fun handleEvent(event: TransactionEvent) {
-        when(event) {
+        when (event) {
             is TransactionEvent.ClickReceive -> dispatchEvent(event)
-            is TransactionEvent.ClickSend -> dispatchEvent(event)
+            is TransactionEvent.ClickSend -> dispatchEvent(TransactionEvent.ClickSend(tokenId))
+            is TransactionEvent.PopBack -> dispatchEvent(event)
         }
     }
 }

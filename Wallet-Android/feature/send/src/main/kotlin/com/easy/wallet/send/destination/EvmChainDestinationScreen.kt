@@ -12,6 +12,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.ContentCopy
 import androidx.compose.material.icons.filled.QrCodeScanner
+import androidx.compose.material3.Button
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -32,7 +33,9 @@ import com.easy.wallet.design.ui.EasyWalletTheme
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
-internal fun EvmChainDestinationScreen() {
+internal fun EvmChainDestinationScreen(
+    toNext: () -> Unit
+) {
     Scaffold(
         containerColor = Color.Transparent,
         contentColor = MaterialTheme.colorScheme.onBackground,
@@ -40,7 +43,7 @@ internal fun EvmChainDestinationScreen() {
             TopAppBar(
                 title = { Text(text = "Send To") },
                 navigationIcon = {
-                    IconButton(onClick = {  }) {
+                    IconButton(onClick = { }) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = ""
@@ -49,6 +52,15 @@ internal fun EvmChainDestinationScreen() {
                 },
                 colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent),
             )
+        },
+        bottomBar = {
+            Button(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 8.dp),
+                onClick = { toNext() }) {
+                Text(text = "Next")
+            }
         }
     ) { paddingValues ->
         val textFieldState = rememberTextFieldState()
@@ -62,7 +74,7 @@ internal fun EvmChainDestinationScreen() {
                     .padding(horizontal = 8.dp, vertical = 16.dp),
                 state = textFieldState,
                 textStyle = MaterialTheme.typography.displaySmall,
-                decorator = {
+                decorator = { innerTextField ->
                     if (textFieldState.text.isBlank()) {
                         Text(
                             text = "enter address",
@@ -70,10 +82,13 @@ internal fun EvmChainDestinationScreen() {
                             color = Color.LightGray
                         )
                     }
+                    innerTextField()
                 }
             )
             Row(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(12.dp, Alignment.End)
             ) {
@@ -105,7 +120,7 @@ internal fun EvmChainDestinationScreen() {
 private fun EvmChainDestination_Preview() {
     EasyWalletTheme {
         EasyGradientBackground {
-            EvmChainDestinationScreen()
+            EvmChainDestinationScreen {}
         }
     }
 }

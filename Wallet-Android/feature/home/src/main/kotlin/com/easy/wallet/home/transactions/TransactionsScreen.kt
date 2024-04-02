@@ -47,6 +47,7 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 internal fun TransactionsRoute(
+    startToSend: (String) -> Unit,
     navigateUp: () -> Unit
 ) {
     val viewModel: TransactionsViewModel = koinViewModel()
@@ -55,12 +56,17 @@ internal fun TransactionsRoute(
 
     ObserveAsEvents(flow = viewModel.navigationEvents) {
         when (it) {
+            TransactionEvent.PopBack -> navigateUp()
             is TransactionEvent.ClickReceive -> TODO()
-            is TransactionEvent.ClickSend -> TODO()
+            is TransactionEvent.ClickSend -> startToSend(it.tokenId)
         }
     }
 
-    TransactionsScreen(dashboardUiState = dashboardUiState, transactionPaging = transactionUiState, navigateUp = navigateUp)
+    TransactionsScreen(
+        dashboardUiState = dashboardUiState,
+        transactionPaging = transactionUiState,
+        onEvent = viewModel::handleEvent
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -68,7 +74,7 @@ internal fun TransactionsRoute(
 internal fun TransactionsScreen(
     dashboardUiState: TransactionDashboardUiState,
     transactionPaging: LazyPagingItems<TransactionUiModel>,
-    navigateUp: () -> Unit
+    onEvent: (TransactionEvent) -> Unit
 ) {
     var showReceiveSheet by remember {
         mutableStateOf(false)
@@ -80,7 +86,7 @@ internal fun TransactionsScreen(
             TopAppBar(
                 title = { Text(text = "Transactions") },
                 navigationIcon = {
-                    IconButton(onClick = navigateUp) {
+                    IconButton(onClick = { onEvent(TransactionEvent.PopBack) }) {
                         Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
                     }
                 },
@@ -98,7 +104,7 @@ internal fun TransactionsScreen(
                 ) {
                     ElevatedButton(
                         modifier = Modifier.weight(1.0f),
-                        onClick = { /*TODO*/ }
+                        onClick = { onEvent(TransactionEvent.ClickSend("")) }
                     ) {
                         Text(text = "SEND")
                     }
