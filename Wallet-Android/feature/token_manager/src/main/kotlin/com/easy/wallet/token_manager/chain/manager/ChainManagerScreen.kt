@@ -32,18 +32,18 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 internal fun ChainManagerRoute(
-    navigateToEditor: (Long) -> Unit,
+    navigateToDetail: (Long) -> Unit,
     navigateUp: () -> Unit
 ) {
     val viewModel: ChainManagerViewModel = koinViewModel()
     ObserveAsEvents(flow = viewModel.navigationEvents) {
         when (it) {
             is ChainManagerEvent.ClickEdit -> {
-                navigateToEditor(it.id)
+                navigateToDetail(it.id)
             }
 
             is ChainManagerEvent.ClickAdd -> {
-                navigateToEditor(-1L)
+                navigateToDetail(-1L)
             }
 
             else -> Unit
