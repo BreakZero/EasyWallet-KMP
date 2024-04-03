@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.util.UUID
 
 @OptIn(ExperimentalFoundationApi::class)
 internal class TokenEditorViewModel(
@@ -79,22 +80,24 @@ internal class TokenEditorViewModel(
 
     private fun onSaved() {
         log()
-
-        // check information if available before insert into database
-        /*viewModelScope.launch {
-            tokenManageRepository.addOne(
-                id = "ether_coin",
-                chainId = -1,
-                name = "Ethereum",
-                symbol = "ETH",
-                decimal = 18,
-                contractAddress = "",
-                iconUri = "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/info/logo.png",
-                isActive = true,
-                tags = ""
-            )
-        }*/
+        viewModelScope.launch {
+            with(tokenEditorFields.value) {
+                tokenManageRepository.addOne(
+                    id = UUID.randomUUID().toString(),
+                    chainId = _chainId.value,
+                    name = name.contentValue(),
+                    symbol = symbol.contentValue(),
+                    decimal = decimals.contentValue().toIntOrNull() ?: 18,
+                    contractAddress = contract.contentValue(),
+                    iconUri = iconUri.contentValue(),
+                    isActive = _isActive.value,
+                    tags = ""
+                )
+            }
+        }
     }
+
+    private fun TextFieldState.contentValue() = this.text.toString()
 
     private fun log() {
         val info = buildString {
