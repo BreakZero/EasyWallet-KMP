@@ -6,6 +6,6 @@ import org.koin.dsl.module
 
 val sendModule = module {
     viewModel {
-        SendSharedViewModel()
+        SendSharedViewModel(get(), get())
     }
 }

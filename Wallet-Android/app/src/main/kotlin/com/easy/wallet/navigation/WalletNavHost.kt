@@ -45,7 +45,7 @@ fun WalletNavHost(
             onTokenClick = {
                 navController.toTransactionList(it.id)
             },
-            onStartSend = { navController.startSendFlow() },
+            onStartSend = { navController.startSendFlow(it) },
             navigateUp = navController::navigateUp
         ) {
 
