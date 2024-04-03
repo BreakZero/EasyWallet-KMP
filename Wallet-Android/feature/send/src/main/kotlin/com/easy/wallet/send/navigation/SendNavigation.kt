@@ -9,9 +9,13 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
+import com.easy.wallet.send.SendSharedViewModel
 import com.easy.wallet.send.amount.EvmChainSendAmountScreen
+import com.easy.wallet.send.amount.SendAmountRoute
 import com.easy.wallet.send.destination.EvmChainDestinationScreen
+import com.easy.wallet.send.destination.SendDestinationRoute
 import com.easy.wallet.send.overview.EvmChainOverviewScreen
+import com.easy.wallet.send.overview.TransactionOverviewRoute
 import org.koin.androidx.compose.koinViewModel
 
 internal const val sendEnterRoute = "send_enter_route"
@@ -27,19 +31,22 @@ fun NavController.startSendFlow(navOptions: NavOptions? = null) {
 fun NavGraphBuilder.attachSendGraph(navController: NavController) {
     navigation(startDestination = sendDestinationRoute, route = sendEnterRoute) {
         composable(sendDestinationRoute) {
-            EvmChainDestinationScreen {
+            val sharedViewModel: SendSharedViewModel = it.sharedViewModel(navController = navController)
+            SendDestinationRoute(viewModel = sharedViewModel) {
                 navController.navigate(sendAmountRoute)
             }
         }
 
         composable(sendAmountRoute) {
-            EvmChainSendAmountScreen {
+            val sharedViewModel: SendSharedViewModel = it.sharedViewModel(navController = navController)
+            SendAmountRoute(viewModel = sharedViewModel) {
                 navController.navigate(sendOverviewRoute)
             }
         }
 
         composable(sendOverviewRoute) {
-            EvmChainOverviewScreen()
+            val sharedViewModel: SendSharedViewModel = it.sharedViewModel(navController = navController)
+            TransactionOverviewRoute(viewModel = sharedViewModel)
         }
     }
 }

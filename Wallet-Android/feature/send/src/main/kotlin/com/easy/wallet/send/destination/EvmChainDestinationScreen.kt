@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text2.BasicTextField2
+import androidx.compose.foundation.text2.input.TextFieldState
 import androidx.compose.foundation.text2.input.rememberTextFieldState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -30,11 +31,13 @@ import androidx.compose.ui.unit.dp
 import com.easy.wallet.design.component.EasyGradientBackground
 import com.easy.wallet.design.theme.ThemePreviews
 import com.easy.wallet.design.ui.EasyWalletTheme
+import com.easy.wallet.send.SendUiEvent
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 internal fun EvmChainDestinationScreen(
-    toNext: () -> Unit
+    textFieldState: TextFieldState,
+    onEvent: (SendUiEvent) -> Unit
 ) {
     Scaffold(
         containerColor = Color.Transparent,
@@ -58,12 +61,11 @@ internal fun EvmChainDestinationScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp, vertical = 8.dp),
-                onClick = { toNext() }) {
+                onClick = { onEvent(SendUiEvent.ClickNext) }) {
                 Text(text = "Next")
             }
         }
     ) { paddingValues ->
-        val textFieldState = rememberTextFieldState()
         Column(
             modifier = Modifier.padding(paddingValues),
             verticalArrangement = Arrangement.spacedBy(12.dp)
@@ -115,12 +117,13 @@ internal fun EvmChainDestinationScreen(
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @ThemePreviews
 @Composable
 private fun EvmChainDestination_Preview() {
     EasyWalletTheme {
         EasyGradientBackground {
-            EvmChainDestinationScreen {}
+            EvmChainDestinationScreen(TextFieldState("")) {}
         }
     }
 }

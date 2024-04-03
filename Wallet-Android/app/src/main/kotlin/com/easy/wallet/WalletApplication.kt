@@ -7,6 +7,7 @@ import com.easy.wallet.home.di.homeModule
 import com.easy.wallet.marketplace.di.marketModule
 import com.easy.wallet.news.di.newsModule
 import com.easy.wallet.onboard.di.onboardModule
+import com.easy.wallet.send.di.sendModule
 import com.easy.wallet.settings.di.settingsModule
 import com.easy.wallet.shared.di.initKoin
 import com.easy.wallet.shared.di.sharedModule
@@ -44,6 +45,7 @@ class WalletApplication : Application() {
             modules(marketModule)
             modules(settingsModule)
             modules(assetModule())
+            modules(sendModule)
         }
     }
 }

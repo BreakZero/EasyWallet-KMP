@@ -1,6 +1,5 @@
 package com.easy.wallet.send.amount
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -31,11 +30,13 @@ import androidx.compose.ui.unit.dp
 import com.easy.wallet.design.component.EasyGradientBackground
 import com.easy.wallet.design.theme.ThemePreviews
 import com.easy.wallet.design.ui.EasyWalletTheme
+import com.easy.wallet.send.SendUiEvent
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun EvmChainSendAmountScreen(
-    toNext: () -> Unit
+    amount: String,
+    onEvent: (SendUiEvent) -> Unit
 ) {
     Scaffold(
         containerColor = Color.Transparent,
@@ -59,7 +60,7 @@ internal fun EvmChainSendAmountScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp, vertical = 8.dp),
-                onClick = { toNext() }) {
+                onClick = { onEvent(SendUiEvent.ClickNext) }) {
                 Text(text = "Next")
             }
         }
@@ -67,7 +68,17 @@ internal fun EvmChainSendAmountScreen(
         Column(
             modifier = Modifier.padding(paddingValues)
         ) {
-            Box(modifier = Modifier.weight(1.0f))
+            Box(
+                modifier = Modifier
+                    .weight(1.0f)
+                    .fillMaxWidth(),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = amount,
+                    style = MaterialTheme.typography.displaySmall
+                )
+            }
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -85,7 +96,7 @@ internal fun EvmChainSendAmountScreen(
                         Text(text = "Balance")
                         Text(text = "14.88 CRO")
                     }
-                    Button(onClick = { /*TODO*/ }) {
+                    Button(onClick = { onEvent(SendUiEvent.MaxAmount) }) {
                         Text(text = "Max")
                     }
                 }
@@ -98,7 +109,9 @@ internal fun EvmChainSendAmountScreen(
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 items((1..9).toList()) {
-                    Button(onClick = { /*TODO*/ }) {
+                    Button(onClick = {
+                        onEvent(SendUiEvent.EnterDigital(it.toString()))
+                    }) {
                         Text(text = "$it")
                     }
                 }
@@ -112,7 +125,7 @@ internal fun EvmChainSendAmountScreen(
 private fun EvmChainSendAmount_Preview() {
     EasyWalletTheme {
         EasyGradientBackground {
-            EvmChainSendAmountScreen() {}
+            EvmChainSendAmountScreen("12.3") {}
         }
     }
 }
