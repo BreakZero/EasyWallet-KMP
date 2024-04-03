@@ -13,6 +13,8 @@ import com.easy.wallet.onboard.create.navigation.attachCreateWalletGraph
 import com.easy.wallet.onboard.create.navigation.toCreateWallet
 import com.easy.wallet.onboard.restore.navigation.attachRestoreWallet
 import com.easy.wallet.onboard.restore.navigation.toImportWallet
+import com.easy.wallet.send.navigation.attachSendGraph
+import com.easy.wallet.send.navigation.startSendFlow
 import com.easy.wallet.settings.navigation.attachSettingsModule
 import com.easy.wallet.settings.navigation.toSettings
 import com.easy.wallet.token_manager.chain.navigation.attachChainManager
@@ -43,6 +45,7 @@ fun WalletNavHost(
             onTokenClick = {
                 navController.toTransactionList(it.id)
             },
+            onStartSend = { navController.startSendFlow(it) },
             navigateUp = navController::navigateUp
         ) {
 
@@ -65,5 +68,6 @@ fun WalletNavHost(
             navigateToEditor = { navController.navigateToTokenEditor() },
             navigateUp = navController::navigateUp
         )
+        attachSendGraph(navController)
     }
 }

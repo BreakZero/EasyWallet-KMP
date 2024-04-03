@@ -10,6 +10,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -91,24 +92,35 @@ private fun ChainManagerScreen(
             }
 
             is ChainUiState.Success -> {
-                LazyColumn(
-                    modifier = modifier,
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    items(uiState.chains, key = { it.id }) {
-                        Card(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(horizontal = 16.dp),
-                            onClick = { onEvent(ChainManagerEvent.ClickEdit(it.id)) }) {
-                            Column(
+                if (uiState.chains.isEmpty()) {
+                    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                        Button(onClick = { onEvent(ChainManagerEvent.InitialDefaultData) }) {
+                            Text(text = "Initial Default Supported Chains")
+                        }
+                    }
+                } else {
+                    LazyColumn(
+                        modifier = modifier,
+                        verticalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        items(uiState.chains, key = { it.id }) {
+                            Card(
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .padding(vertical = 8.dp, horizontal = 12.dp)
-                            ) {
-                                Text(text = it.name, style = MaterialTheme.typography.titleLarge)
-                                it.explorer?.let { explorer ->
-                                    Text(text = explorer)
+                                    .padding(horizontal = 16.dp),
+                                onClick = { onEvent(ChainManagerEvent.ClickEdit(it.id)) }) {
+                                Column(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(vertical = 8.dp, horizontal = 12.dp)
+                                ) {
+                                    Text(
+                                        text = it.name,
+                                        style = MaterialTheme.typography.titleLarge
+                                    )
+                                    it.explorer?.let { explorer ->
+                                        Text(text = explorer)
+                                    }
                                 }
                             }
                         }

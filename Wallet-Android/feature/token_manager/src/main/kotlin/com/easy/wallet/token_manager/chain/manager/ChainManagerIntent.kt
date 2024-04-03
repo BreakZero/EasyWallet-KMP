@@ -11,4 +11,6 @@ internal sealed interface ChainManagerEvent {
     data object ClickAdd : ChainManagerEvent
     data class ClickEdit(val id: Long) : ChainManagerEvent
     data class ClickDeleted(val id: Long) : ChainManagerEvent
+
+    data object InitialDefaultData: ChainManagerEvent
 }
