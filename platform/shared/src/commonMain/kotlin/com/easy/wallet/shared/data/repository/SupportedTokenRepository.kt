@@ -16,7 +16,7 @@ class SupportedTokenRepository internal constructor(
 
     /**
      * Using for ios init default tokens
-     * look into database module migrations - 3.sqm
+     * look into database module migrations - 2.sqm
      *
      * Do not call before you sure you need add mock data
      */

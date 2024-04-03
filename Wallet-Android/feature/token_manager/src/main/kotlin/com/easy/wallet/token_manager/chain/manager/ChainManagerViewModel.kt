@@ -30,12 +30,27 @@ internal class ChainManagerViewModel(
             is ChainManagerEvent.ClickDeleted -> {
                 onDelete(event.id)
             }
+
+            ChainManagerEvent.InitialDefaultData -> initialDefaultChains()
         }
     }
 
     private fun onDelete(id: Long) {
         viewModelScope.launch {
             localChainRepository.deleteById(id)
+            isNeedFetch.update { !it }
+        }
+    }
+
+    private fun initialDefaultChains() {
+        viewModelScope.launch {
+            localChainRepository.addOne(
+                name = "Ethereum",
+                website = "https://ethereum.org/en/",
+                explorer = "https://etherscan.io",
+                rpcUrl = "https://eth.llamarpc.com",
+                chainId = "1"
+            )
             isNeedFetch.update { !it }
         }
     }

@@ -25,7 +25,7 @@ internal class HomeViewModel(
         it?.let {
             dashboardUseCase(it).map { HomeUiState.WalletUiState(it) }
         } ?: _guestUiState
-    }.stateIn(viewModelScope, SharingStarted.Lazily, HomeUiState.Loading)
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(3_000), HomeUiState.Loading)
 
     override fun handleEvent(event: HomeEvent) {
         when (event) {
