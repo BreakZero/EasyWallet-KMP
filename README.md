@@ -22,8 +22,8 @@ gpr.key=Your Github token
 ### 各链数据接口
 
 - 旧版本：
-  不同链的数据来源也不同，所以需要不同apikey，可以查看[NetworkModule.kt](platform%2Fnetwork%2Fsrc%2FcommonMain%2Fkotlin%2Fcom%2Feasy%2Fwallet%2Fnetwork%2Fdi%2FNetworkModule.kt)
-  中补上。
+  ~~不同链的数据来源也不同，所以需要不同apikey，可以查看[NetworkModule.kt](platform%2Fnetwork%2Fsrc%2FcommonMain%2Fkotlin%2Fcom%2Feasy%2Fwallet%2Fnetwork%2Fdi%2FNetworkModule.kt)
+  中补上。~~
 
 - 新版本：
   使用本地配置来存储apikey，需要在`keystore`文件夹下新建一个名为`apikey.properties`的文件
