@@ -2,9 +2,8 @@ package com.easy.wallet.send
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.text2.input.TextFieldState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
+import androidx.compose.foundation.text2.input.clearText
+import androidx.compose.foundation.text2.input.delete
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.easy.wallet.android.core.BaseViewModel
@@ -29,21 +28,35 @@ internal class SendSharedViewModel(
     }
 
     val destination = TextFieldState("")
-    var amount by mutableStateOf("")
+    var amount = TextFieldState("0")
 
     override fun handleEvent(event: SendUiEvent) {
         when (event) {
-            SendUiEvent.BackSpace -> {
-                amount = amount.dropLast(1)
+            SendUiEvent.Backspace -> {
+                amount.edit {
+                    delete(length - 1, length)
+                    if (length == 0) {
+                        append("0")
+                    }
+                }
             }
 
             SendUiEvent.ClickNext -> dispatchEvent(event)
             is SendUiEvent.EnterDigital -> {
-                amount += event.char
+                amount.edit {
+                    when {
+                        event.char == "." && amount.text.contains(".") -> return@edit
+                        event.char != "." && amount.text.contentEquals("0") -> replace(0,1, event.char)
+                        else -> append(event.char)
+                    }
+                }
             }
 
             SendUiEvent.MaxAmount -> {
-                amount = "88"
+                amount.clearText()
+                amount.edit {
+                    append("88")
+                }
             }
         }
     }

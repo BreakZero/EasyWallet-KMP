@@ -1,10 +1,12 @@
 package com.easy.wallet.send.amount
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.runtime.Composable
 import com.easy.wallet.android.core.extensions.ObserveAsEvents
 import com.easy.wallet.send.SendSharedViewModel
 import com.easy.wallet.send.SendUiEvent
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 internal fun SendAmountRoute(
     viewModel: SendSharedViewModel,
