@@ -59,15 +59,15 @@ opensea=008e**********91dd6564880a
 - Light Theme
   | | | |
   |:---------------------------------------------------------------------------------------------------------:|:-------------------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------------------------:|
-  |   ![Setup](https://github.com/BreakZero/EasyWallet-KMP/blob/main/screens/Screenshot_20240403_142430.png)   | ![Password](https://github.com/BreakZero/EasyWallet-KMP/blob/main/screens/Screenshot_20240403_142459.png) | ![Seed](https://github.com/BreakZero/EasyWallet-KMP/blob/main/screens/Screenshot_20240403_142539.png) |
-  | ![Seed Phrase](https://github.com/BreakZero/EasyWallet-KMP/blob/main/screens/Screenshot_20240403_142552.png) |  ![Tokens](https://github.com/BreakZero/EasyWallet-KMP/blob/main/screens/Screenshot_20240403_170909.png)  |  ![News](https://github.com/BreakZero/EasyWallet-KMP/blob/main/screens/Screenshot_20240403_170930.png)  |
-  | ![News Detail](https://github.com/BreakZero/EasyWallet-KMP/blob/main/screens/Screenshot_20240403_171051.png) |  ![Marketplace](https://github.com/BreakZero/EasyWallet-KMP/blob/main/screens/Screenshot_20240403_170946.png)  | ![Transactions](https://github.com/BreakZero/EasyWallet-KMP/blob/main/screens/Screenshot_20240403_171126.png) |
-  | ![Receive](https://github.com/BreakZero/EasyWallet-KMP/blob/main/screens/Screenshot_20240403_171142.png) |  ![Activated Tokens](https://github.com/BreakZero/EasyWallet-KMP/blob/main/screens/Screenshot_20240403_171200.png)  | | |
+  |   ![Setup](screens%2FScreenshot_20240403_142430.png)   | ![Password](screens%2FScreenshot_20240403_142459.png) | ![Seed](screens%2FScreenshot_20240403_142539.png) |
+  | ![Seed Phrase](screens%2FScreenshot_20240403_142552.png) |  ![Tokens](screens%2FScreenshot_20240403_170909.png)  |  ![News](screens%2FScreenshot_20240403_170930.png)  |
+  | ![News Detail](screens%2FScreenshot_20240403_171051.png) |  ![Marketplace](screens%2FScreenshot_20240403_170946.png)  | ![Transactions](screens%2FScreenshot_20240403_171126.png) |
+  | ![Receive](screens%2FScreenshot_20240403_171142.png) |  ![Activated Tokens](screens%2FScreenshot_20240403_171200.png)  | | |
 
 - Dark Theme
   | | | |
   |:---------------------------------------------------------------------------------------------------------:|:-------------------------------------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------------------------------:|
-  |   ![Home](https://github.com/BreakZero/EasyWallet-KMP/blob/main/screens/Screenshot_20240403_000608.png)   | ![Transactions](https://github.com/BreakZero/EasyWallet-KMP/blob/main/screens/Screenshot_20240403_000650.png) | ![Receive](https://github.com/BreakZero/EasyWallet-KMP/blob/main/screens/Screenshot_20240403_000723.png) |
+  |   ![Home](screens%2FScreenshot_20240403_000608.png)   | ![Transactions](screens%2FScreenshot_20240403_000650.png) | ![Receive](screens%2FScreenshot_20240403_000723.png) |
 
 ### 界面参考资源
 
