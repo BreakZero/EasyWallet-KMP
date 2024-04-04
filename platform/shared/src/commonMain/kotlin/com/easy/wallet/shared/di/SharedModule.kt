@@ -7,6 +7,7 @@ import com.easy.wallet.shared.data.okx.OKXDataRepository
 import com.easy.wallet.shared.data.repository.BitcoinRepository
 import com.easy.wallet.shared.data.repository.EthereumRepository
 import com.easy.wallet.shared.data.repository.MarketsRepository
+import com.easy.wallet.shared.data.repository.NoSupportedTokenRepository
 import com.easy.wallet.shared.data.repository.SupportedTokenRepository
 import com.easy.wallet.shared.data.repository.TokenRepository
 import com.easy.wallet.shared.data.repository.asset.ChainManageRepository
@@ -37,6 +38,7 @@ val sharedModule = module {
 
     single<TokenRepository>(named("Bitcoin")) { BitcoinRepository() }
     single<TokenRepository>(named("Ethereum")) { EthereumRepository(get(), get()) }
+    single<TokenRepository>(named("NotSupportedChain")) { NoSupportedTokenRepository() }
 
     single<ChainManageRepository>(named<LocalChainManageRepository>()) {
         LocalChainManageRepository(
@@ -57,6 +59,7 @@ val sharedModule = module {
         GetExactTokenRepositoryUseCase(
             ethereumRepository = get(named("Ethereum")),
             bitcoinRepository = get(named("Bitcoin")),
+            notSupportedTokenRepository = get(named("NotSupportedChain"))
         )
     }
 

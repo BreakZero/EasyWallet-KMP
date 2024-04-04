@@ -22,13 +22,7 @@ class GetToKenBasicInfoUseCase internal constructor(
                 ?: throw NoSuchElementException("No wallet had been set yet.")
             val foundToken =
                 token ?: throw NoSuchElementException("No token found, id is: $tokenId")
-            val address = when (token.chainName) {
-                Constants.ETH_CHAIN_NAME -> {
-                    hdWallet.getAddressForCoin(CoinType.Ethereum)
-                }
-
-                else -> ""
-            }
+            val address = getAddress(hdWallet, foundToken.chainName)
             TokenBasicResult(
                 symbol = foundToken.symbol,
                 name = foundToken.name,
@@ -40,4 +34,12 @@ class GetToKenBasicInfoUseCase internal constructor(
             )
         }
     }
+}
+
+private fun getAddress(hdWallet: HDWallet, chainName: String): String {
+    val coinType = when(chainName) {
+        Constants.ETH_CHAIN_NAME -> CoinType.Ethereum
+        else -> null
+    }
+    return coinType?.let { hdWallet.getAddressForCoin(it) } ?: ""
 }
