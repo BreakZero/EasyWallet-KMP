@@ -7,7 +7,7 @@ import androidx.paging.cachedIn
 import com.easy.wallet.android.core.BaseViewModel
 import com.easy.wallet.home.navigation.TokenArgs
 import com.easy.wallet.shared.domain.CoinTrendUseCase
-import com.easy.wallet.shared.domain.GetAddressUseCase
+import com.easy.wallet.shared.domain.GetToKenBasicInfoUseCase
 import com.easy.wallet.shared.domain.TokenAmountUseCase
 import com.easy.wallet.shared.domain.TransactionPagerUseCase
 import kotlinx.coroutines.flow.SharingStarted
@@ -18,7 +18,7 @@ import kotlinx.coroutines.flow.stateIn
 
 internal class TransactionsViewModel(
     savedStateHandle: SavedStateHandle,
-    basicInfoUseCase: GetAddressUseCase,
+    basicInfoUseCase: GetToKenBasicInfoUseCase,
     tokenAmountUseCase: TokenAmountUseCase,
     coinTrendUseCase: CoinTrendUseCase,
     tnxPagerUseCase: TransactionPagerUseCase

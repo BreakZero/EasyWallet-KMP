@@ -1,6 +1,6 @@
 package com.easy.wallet.shared.data.repository
 
-import com.easy.wallet.model.TokenInformation
+import com.easy.wallet.model.TokenBasicResult
 import com.easy.wallet.shared.model.Balance
 import com.easy.wallet.shared.model.transaction.TransactionUiModel
 import kotlinx.coroutines.flow.Flow
@@ -21,8 +21,7 @@ class BitcoinRepository : TokenRepository {
     }
 
     override suspend fun loadTransactions(
-        account: String,
-        token: TokenInformation,
+        token: TokenBasicResult,
         page: Int,
         offset: Int
     ): List<TransactionUiModel> {

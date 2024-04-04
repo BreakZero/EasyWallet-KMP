@@ -9,7 +9,7 @@ import com.trustwallet.core.HDWallet
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 
-class GetAddressUseCase internal constructor(
+class GetToKenBasicInfoUseCase internal constructor(
     private val walletRepository: MultiWalletRepository,
     private val supportedTokenRepository: SupportedTokenRepository
 ) {
@@ -30,11 +30,13 @@ class GetAddressUseCase internal constructor(
                 else -> ""
             }
             TokenBasicResult(
-                tokenId = tokenId,
                 symbol = foundToken.symbol,
                 name = foundToken.name,
                 decimals = foundToken.decimals,
-                address = address
+                address = address,
+                iconUri = foundToken.iconUri,
+                contract = foundToken.contract,
+                chainName = foundToken.chainName
             )
         }
     }
