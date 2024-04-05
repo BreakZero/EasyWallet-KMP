@@ -4,11 +4,13 @@ import kotlin.experimental.ExperimentalObjCName
 import kotlin.native.ObjCName
 
 @OptIn(ExperimentalObjCName::class)
-@ObjCName("TokenInformation")
+@ObjCName("TokenBasicResult")
 data class TokenBasicResult(
-    val tokenId: String,
     val symbol: String,
     val name: String,
     val decimals: Int,
-    val address: String
+    val address: String,
+    val iconUri: String,
+    val contract: String?,
+    val chainName: String
 )

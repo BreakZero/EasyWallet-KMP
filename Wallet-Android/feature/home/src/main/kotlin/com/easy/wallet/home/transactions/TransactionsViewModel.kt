@@ -7,8 +7,8 @@ import androidx.paging.cachedIn
 import com.easy.wallet.android.core.BaseViewModel
 import com.easy.wallet.home.navigation.TokenArgs
 import com.easy.wallet.shared.domain.CoinTrendUseCase
-import com.easy.wallet.shared.domain.GetAddressUseCase
-import com.easy.wallet.shared.domain.TokenAmountUseCase
+import com.easy.wallet.shared.domain.GetToKenBasicInfoUseCase
+import com.easy.wallet.shared.domain.TokenBalanceUseCase
 import com.easy.wallet.shared.domain.TransactionPagerUseCase
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.catch
@@ -18,8 +18,8 @@ import kotlinx.coroutines.flow.stateIn
 
 internal class TransactionsViewModel(
     savedStateHandle: SavedStateHandle,
-    basicInfoUseCase: GetAddressUseCase,
-    tokenAmountUseCase: TokenAmountUseCase,
+    basicInfoUseCase: GetToKenBasicInfoUseCase,
+    tokenBalanceUseCase: TokenBalanceUseCase,
     coinTrendUseCase: CoinTrendUseCase,
     tnxPagerUseCase: TransactionPagerUseCase
 ) : BaseViewModel<TransactionEvent>() {
@@ -28,7 +28,7 @@ internal class TransactionsViewModel(
 
     val dashboardUiState = combine(
         basicInfoUseCase(tokenId),
-        tokenAmountUseCase(tokenId),
+        tokenBalanceUseCase(tokenId),
         coinTrendUseCase(tokenId)
     ) { basicInfo, amount, trends ->
         TransactionDashboardUiState.Success(

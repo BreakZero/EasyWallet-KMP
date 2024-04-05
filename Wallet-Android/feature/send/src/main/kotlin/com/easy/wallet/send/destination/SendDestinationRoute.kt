@@ -2,6 +2,8 @@ package com.easy.wallet.send.destination
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.easy.wallet.android.core.extensions.ObserveAsEvents
 import com.easy.wallet.send.SendSharedViewModel
 import com.easy.wallet.send.SendUiEvent
@@ -21,5 +23,6 @@ internal fun SendDestinationRoute(
     }
 
     val destinationState = viewModel.destination
-    EvmChainDestinationScreen(textFieldState = destinationState, onEvent = viewModel::handleEvent)
+    val uiState by viewModel.sendUiState.collectAsStateWithLifecycle()
+    EvmChainDestinationScreen(uiState = uiState, textFieldState = destinationState, onEvent = viewModel::handleEvent)
 }

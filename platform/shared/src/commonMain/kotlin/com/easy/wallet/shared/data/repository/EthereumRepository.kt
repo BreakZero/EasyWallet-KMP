@@ -1,7 +1,7 @@
 package com.easy.wallet.shared.data.repository
 
 import com.easy.wallet.core.commom.DateTimeDecoder
-import com.easy.wallet.model.TokenInformation
+import com.easy.wallet.model.TokenBasicResult
 import com.easy.wallet.network.source.blockchair.BlockchairApi
 import com.easy.wallet.network.source.etherscan.EtherscanApi
 import com.easy.wallet.network.source.etherscan.dto.EtherTransactionDto
@@ -52,11 +52,11 @@ class EthereumRepository internal constructor(
     }
 
     override suspend fun loadTransactions(
-        account: String,
-        token: TokenInformation,
+        token: TokenBasicResult,
         page: Int,
         offset: Int
     ): List<TransactionUiModel> {
+        val account = token.address
         val isContract = !token.contract.isNullOrBlank()
         val tnxDto = if (isContract) {
             etherscanApi.getContractInternalTransactions(page, offset, account, token.contract.orEmpty())
@@ -68,7 +68,7 @@ class EthereumRepository internal constructor(
 }
 
 private fun EtherTransactionDto.asTransactionUiModel(
-    token: TokenInformation,
+    token: TokenBasicResult,
     account: String
 ): EthereumTransactionUiModel {
     val direction = if (from.equals(account, true)) Direction.SEND else Direction.RECEIVE

@@ -78,7 +78,7 @@ fun NavGraphBuilder.attachSendGraph(navController: NavController) {
 }
 
 @Composable
-inline fun <reified T : ViewModel> NavBackStackEntry.sharedViewModel(navController: NavController): T {
+internal inline fun <reified T : ViewModel> NavBackStackEntry.sharedViewModel(navController: NavController): T {
     val navGraphRoute = destination.parent?.route ?: return koinViewModel()
     val parentEntry = remember(key1 = this) {
         navController.getBackStackEntry(navGraphRoute)

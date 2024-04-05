@@ -9,7 +9,7 @@ import com.trustwallet.core.HDWallet
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 
-class GetAddressUseCase internal constructor(
+class GetToKenBasicInfoUseCase internal constructor(
     private val walletRepository: MultiWalletRepository,
     private val supportedTokenRepository: SupportedTokenRepository
 ) {
@@ -22,20 +22,24 @@ class GetAddressUseCase internal constructor(
                 ?: throw NoSuchElementException("No wallet had been set yet.")
             val foundToken =
                 token ?: throw NoSuchElementException("No token found, id is: $tokenId")
-            val address = when (token.chainName) {
-                Constants.ETH_CHAIN_NAME -> {
-                    hdWallet.getAddressForCoin(CoinType.Ethereum)
-                }
-
-                else -> ""
-            }
+            val address = getAddress(hdWallet, foundToken.chainName)
             TokenBasicResult(
-                tokenId = tokenId,
                 symbol = foundToken.symbol,
                 name = foundToken.name,
                 decimals = foundToken.decimals,
-                address = address
+                address = address,
+                iconUri = foundToken.iconUri,
+                contract = foundToken.contract,
+                chainName = foundToken.chainName
             )
         }
     }
+}
+
+private fun getAddress(hdWallet: HDWallet, chainName: String): String {
+    val coinType = when(chainName) {
+        Constants.ETH_CHAIN_NAME -> CoinType.Ethereum
+        else -> null
+    }
+    return coinType?.let { hdWallet.getAddressForCoin(it) } ?: ""
 }

@@ -4,20 +4,14 @@ import com.easy.wallet.model.TokenBasicResult
 import com.easy.wallet.shared.model.Balance
 import com.easy.wallet.shared.model.transaction.TransactionUiModel
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 
-class BitcoinRepository : TokenRepository {
+class NoSupportedTokenRepository internal constructor() : TokenRepository {
     override fun dashboard(account: String): Flow<List<Balance>> {
-//        println("===== Bitcoin Address $account")
-        return flow {
-            emit(emptyList())
-        }
+        throw NoSuchElementException("token not supported yet!!!")
     }
 
     override fun loadBalance(account: String): Flow<String> {
-        return flow {
-            emit("Bitcoin Balances")
-        }
+        throw NoSuchElementException("token not supported yet!!!")
     }
 
     override suspend fun loadTransactions(
@@ -25,6 +19,6 @@ class BitcoinRepository : TokenRepository {
         page: Int,
         offset: Int
     ): List<TransactionUiModel> {
-        TODO("Not yet implemented")
+        throw NoSuchElementException("token not supported yet!!!")
     }
 }

@@ -15,7 +15,7 @@ extension TransactionScreen {
 
         private var delegate = PagingCollectionViewController<TransactionUiModel>()
 
-        @LazyKoin private var tokenAmountUseCase: TokenAmountUseCase
+        @LazyKoin private var tokenAmountUseCase: TokenBalanceUseCase
         @LazyKoin private var coinTrendUseCase: CoinTrendUseCase
         @LazyKoin private var tnxPagerUseCase: TransactionPagerUseCase
 
@@ -26,7 +26,7 @@ extension TransactionScreen {
         @Published private(set) var dashboardDesc: String = ""
 
         func loading(tokenId: String) async {
-            await combineLatest(tokenAmountUseCase.invoke(tokenId: tokenId), coinTrendUseCase.invoke(tokenId: tokenId)).collect { balance, trends in
+            try? await combineLatest(tokenAmountUseCase.invoke(tokenId: tokenId), coinTrendUseCase.invoke(tokenId: tokenId)).collect { balance, trends in
                 print("====== \(balance), trends: \(trends)")
                 self.dashboardDesc = "====== \(balance), trends: \(trends)"
             }

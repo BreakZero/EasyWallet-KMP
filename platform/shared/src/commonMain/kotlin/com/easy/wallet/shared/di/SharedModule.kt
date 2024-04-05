@@ -7,6 +7,7 @@ import com.easy.wallet.shared.data.okx.OKXDataRepository
 import com.easy.wallet.shared.data.repository.BitcoinRepository
 import com.easy.wallet.shared.data.repository.EthereumRepository
 import com.easy.wallet.shared.data.repository.MarketsRepository
+import com.easy.wallet.shared.data.repository.NoSupportedTokenRepository
 import com.easy.wallet.shared.data.repository.SupportedTokenRepository
 import com.easy.wallet.shared.data.repository.TokenRepository
 import com.easy.wallet.shared.data.repository.asset.ChainManageRepository
@@ -18,19 +19,15 @@ import com.easy.wallet.shared.data.repository.news.NewsRepository
 import com.easy.wallet.shared.domain.CoinTrendUseCase
 import com.easy.wallet.shared.domain.CreateWalletUseCase
 import com.easy.wallet.shared.domain.DashboardUseCase
-import com.easy.wallet.shared.domain.GetAddressUseCase
-import com.easy.wallet.shared.domain.TokenAmountUseCase
+import com.easy.wallet.shared.domain.GetExactTokenRepositoryUseCase
+import com.easy.wallet.shared.domain.GetToKenBasicInfoUseCase
+import com.easy.wallet.shared.domain.TokenBalanceUseCase
 import com.easy.wallet.shared.domain.TransactionPagerUseCase
 import org.koin.core.module.dsl.singleOf
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 val sharedModule = module {
-//    includes(dispatcherModule)
-//    includes(userDefaultModule())
-//    includes(networkModule)
-//    includes(databaseModule)
-
     singleOf(::UserPasswordStorage)
     singleOf(::DatabaseKeyStorage)
     single {
@@ -41,6 +38,7 @@ val sharedModule = module {
 
     single<TokenRepository>(named("Bitcoin")) { BitcoinRepository() }
     single<TokenRepository>(named("Ethereum")) { EthereumRepository(get(), get()) }
+    single<TokenRepository>(named("NoSupportedChain")) { NoSupportedTokenRepository() }
 
     single<ChainManageRepository>(named<LocalChainManageRepository>()) {
         LocalChainManageRepository(
@@ -58,6 +56,13 @@ val sharedModule = module {
     single { OKXDataRepository(get()) }
 
     single {
+        GetExactTokenRepositoryUseCase(
+            ethereumRepository = get(named("Ethereum")),
+            bitcoinRepository = get(named("Bitcoin"))
+        )
+    }
+
+    single {
         DashboardUseCase(
             supportedTokenRepository = get(),
             ethereumRepository = get(named("Ethereum")),
@@ -67,23 +72,20 @@ val sharedModule = module {
 
     single {
         CoinTrendUseCase(
-            walletRepository = get(),
-            ethereumRepository = get(named("Ethereum")),
-            bitcoinRepository = get(named("Bitcoin")),
+            getToKenBasicInfoUseCase = get(),
+            getExactTokenRepositoryUseCase = get()
         )
     }
 
     single {
-        TokenAmountUseCase(
-            walletRepository = get(),
-            supportedTokenRepository = get(),
-            ethereumRepository = get(named("Ethereum")),
-            bitcoinRepository = get(named("Bitcoin")),
+        TokenBalanceUseCase(
+            getToKenBasicInfoUseCase = get(),
+            getExactTokenRepositoryUseCase = get()
         )
     }
 
     single {
-        GetAddressUseCase(
+        GetToKenBasicInfoUseCase(
             walletRepository = get(),
             supportedTokenRepository = get()
         )
@@ -93,9 +95,8 @@ val sharedModule = module {
 
     single {
         TransactionPagerUseCase(
-            walletRepository = get(),
-            supportedTokenRepository = get(),
-            ethereumRepository = get(named("Ethereum"))
+            getToKenBasicInfoUseCase = get(),
+            getExactTokenRepositoryUseCase = get()
         )
     }
 

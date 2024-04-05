@@ -1,5 +1,6 @@
 package com.easy.wallet.send.amount
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -9,8 +10,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.text2.input.TextFieldState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.outlined.Backspace
 import androidx.compose.material.icons.filled.Wallet
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
@@ -30,12 +33,14 @@ import androidx.compose.ui.unit.dp
 import com.easy.wallet.design.component.EasyGradientBackground
 import com.easy.wallet.design.theme.ThemePreviews
 import com.easy.wallet.design.ui.EasyWalletTheme
+import com.easy.wallet.model.TokenBasicResult
 import com.easy.wallet.send.SendUiEvent
+import com.easy.wallet.send.SendUiState
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 internal fun EvmChainSendAmountScreen(
-    amount: String,
+    uiState: SendUiState.Success,
     onEvent: (SendUiEvent) -> Unit
 ) {
     Scaffold(
@@ -75,7 +80,7 @@ internal fun EvmChainSendAmountScreen(
                 contentAlignment = Alignment.Center
             ) {
                 Text(
-                    text = amount,
+                    text = "${uiState.amount} ${uiState.tokenInfo.symbol}",
                     style = MaterialTheme.typography.displaySmall
                 )
             }
@@ -94,7 +99,7 @@ internal fun EvmChainSendAmountScreen(
                     Icon(imageVector = Icons.Default.Wallet, contentDescription = null)
                     Column(modifier = Modifier.weight(1.0f)) {
                         Text(text = "Balance")
-                        Text(text = "14.88 CRO")
+                        Text(text = "${uiState.balance} ${uiState.tokenInfo.symbol}")
                     }
                     Button(onClick = { onEvent(SendUiEvent.MaxAmount) }) {
                         Text(text = "Max")
@@ -108,11 +113,31 @@ internal fun EvmChainSendAmountScreen(
                 columns = GridCells.Fixed(3),
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                items((1..9).toList()) {
+                items((1..9).toList(), key = { it }) {
                     Button(onClick = {
                         onEvent(SendUiEvent.EnterDigital(it.toString()))
                     }) {
                         Text(text = "$it")
+                    }
+                }
+                item(key = ".") {
+                    Button(onClick = { onEvent(SendUiEvent.EnterDigital(".")) }) {
+                        Text(text = ".")
+                    }
+                }
+                item(key = "0") {
+                    Button(onClick = { onEvent(SendUiEvent.EnterDigital("0")) }) {
+                        Text(text = "0")
+                    }
+                }
+                item(key = "backspace") {
+                    Button(onClick = {
+                        onEvent(SendUiEvent.Backspace)
+                    }) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Outlined.Backspace,
+                            contentDescription = null
+                        )
                     }
                 }
             }
@@ -120,12 +145,20 @@ internal fun EvmChainSendAmountScreen(
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @ThemePreviews
 @Composable
 private fun EvmChainSendAmount_Preview() {
     EasyWalletTheme {
         EasyGradientBackground {
-            EvmChainSendAmountScreen("12.3") {}
+            EvmChainSendAmountScreen(
+                SendUiState.Success(
+                    tokenInfo = TokenBasicResult("", "", 18, "", "", null, "Ethereum"),
+                    balance = "8.00",
+                    recipient = "",
+                    amount = ""
+                )
+            ) {}
         }
     }
 }
