@@ -15,7 +15,7 @@ extension TransactionScreen {
 
         private var delegate = PagingCollectionViewController<TransactionUiModel>()
 
-        @LazyKoin private var tokenAmountUseCase: TokenAmountUseCase
+        @LazyKoin private var tokenAmountUseCase: TokenBalanceUseCase
         @LazyKoin private var coinTrendUseCase: CoinTrendUseCase
         @LazyKoin private var tnxPagerUseCase: TransactionPagerUseCase
 
