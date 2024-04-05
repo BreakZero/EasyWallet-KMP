@@ -7,13 +7,12 @@ import com.easy.wallet.shared.data.repository.TokenRepository
 
 internal class GetExactTokenRepositoryUseCase(
     private val ethereumRepository: TokenRepository,
-    private val bitcoinRepository: TokenRepository,
-    private val notSupportedTokenRepository: NoSupportedTokenRepository
+    private val bitcoinRepository: TokenRepository
 ) {
     operator fun invoke(tokenBasicResult: TokenBasicResult): TokenRepository {
         return when (tokenBasicResult.chainName) {
             Constants.ETH_CHAIN_NAME -> ethereumRepository
-            else -> notSupportedTokenRepository
+            else -> bitcoinRepository
         }
     }
 }

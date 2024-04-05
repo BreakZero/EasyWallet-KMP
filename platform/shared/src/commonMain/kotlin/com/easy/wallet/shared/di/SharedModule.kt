@@ -38,7 +38,7 @@ val sharedModule = module {
 
     single<TokenRepository>(named("Bitcoin")) { BitcoinRepository() }
     single<TokenRepository>(named("Ethereum")) { EthereumRepository(get(), get()) }
-    single<TokenRepository>(named("NotSupportedChain")) { NoSupportedTokenRepository() }
+    single<TokenRepository>(named("NoSupportedChain")) { NoSupportedTokenRepository() }
 
     single<ChainManageRepository>(named<LocalChainManageRepository>()) {
         LocalChainManageRepository(
@@ -58,8 +58,7 @@ val sharedModule = module {
     single {
         GetExactTokenRepositoryUseCase(
             ethereumRepository = get(named("Ethereum")),
-            bitcoinRepository = get(named("Bitcoin")),
-            notSupportedTokenRepository = get(named("NotSupportedChain"))
+            bitcoinRepository = get(named("Bitcoin"))
         )
     }
 

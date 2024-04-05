@@ -5,7 +5,7 @@ import com.easy.wallet.shared.model.Balance
 import com.easy.wallet.shared.model.transaction.TransactionUiModel
 import kotlinx.coroutines.flow.Flow
 
-class NoSupportedTokenRepository internal constructor(): TokenRepository {
+class NoSupportedTokenRepository internal constructor() : TokenRepository {
     override fun dashboard(account: String): Flow<List<Balance>> {
         throw NoSuchElementException("token not supported yet!!!")
     }

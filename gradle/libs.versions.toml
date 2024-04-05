@@ -11,12 +11,12 @@ vico = "1.14.0"
 skie = "0.6.2"
 
 buildkonfigGradlePlugin = "0.15.1"
-compose-bom = "2024.02.02"
+compose-bom = "2024.04.00"
 compose-compiler = "1.5.10"
 compose-activity = "1.8.2"
 compose-navigation = "2.7.7"
 
-kotlinx-coroutine = "1.7.3"
+kotlinx-coroutine = "1.8.0"
 
 # For plugins
 org-jetbrains-kotlin = "1.9.22"
