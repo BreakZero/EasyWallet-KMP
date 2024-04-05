@@ -27,17 +27,15 @@ import androidx.compose.ui.unit.dp
 import com.easy.wallet.design.theme.ThemePreviews
 import com.easy.wallet.design.ui.EasyWalletTheme
 import com.easy.wallet.home.HomeEvent
-import com.easy.wallet.home.HomeUiState
 import com.easy.wallet.home.R
 
 @Composable
 internal fun GuestContent(
     modifier: Modifier = Modifier,
-    guestUiState: HomeUiState.GuestUiState,
     onEvent: (HomeEvent) -> Unit
 ) {
-    var isShowActions by remember {
-        mutableStateOf(false)
+    var actionDestination by remember {
+        mutableStateOf(ActionDestination.None)
     }
     Column(
         modifier = modifier,
@@ -70,8 +68,7 @@ internal fun GuestContent(
         Button(
             modifier = Modifier.fillMaxWidth(),
             onClick = {
-                isShowActions = true
-                onEvent(HomeEvent.OpenCreateWalletActions)
+                actionDestination = ActionDestination.Create
             },
         ) {
             Text(text = stringResource(id = R.string.onboard_create_wallet))
@@ -79,21 +76,35 @@ internal fun GuestContent(
         OutlinedButton(
             modifier = Modifier.fillMaxWidth(),
             onClick = {
-                isShowActions = true
-                onEvent(HomeEvent.OpenRestoreWalletActions)
+                actionDestination = ActionDestination.Restore
             },
         ) {
             Text(text = stringResource(id = R.string.onboard_import_wallet))
         }
     }
-    if (isShowActions) {
-        WalletActionSheet(
-            modifier = Modifier.fillMaxHeight(0.5f),
-            menus = guestUiState.actions,
-            onDismiss = { isShowActions = false },
-            onEvent = onEvent,
-        )
+    when(actionDestination) {
+        ActionDestination.Create -> {
+            WalletActionSheet(
+                modifier = Modifier.fillMaxHeight(0.5f),
+                menus = listOf(ActionSheetMenu.CREATE_BY_SEED),
+                onDismiss = { actionDestination = ActionDestination.None },
+                onEvent = onEvent,
+            )
+        }
+        ActionDestination.Restore -> {
+            WalletActionSheet(
+                modifier = Modifier.fillMaxHeight(0.5f),
+                menus = listOf(ActionSheetMenu.RESTORE_BY_SEED),
+                onDismiss = { actionDestination = ActionDestination.None },
+                onEvent = onEvent,
+            )
+        }
+        ActionDestination.None -> Unit
     }
+}
+
+private enum class ActionDestination {
+    Create, Restore, None
 }
 
 @ThemePreviews
@@ -105,7 +116,6 @@ private fun GuestContent_Preview() {
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(horizontal = 16.dp),
-                guestUiState = HomeUiState.GuestUiState(),
                 onEvent = {},
             )
         }

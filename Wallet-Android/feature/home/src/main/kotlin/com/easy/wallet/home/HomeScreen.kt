@@ -35,6 +35,7 @@ internal fun HomeRoute(
     navigateToSettings: () -> Unit
 ) {
     val uiState by viewModel.homeUiState.collectAsStateWithLifecycle()
+    val isWalletExist by viewModel.isWalletExist.collectAsStateWithLifecycle()
 
     ObserveAsEvents(flow = viewModel.navigationEvents) { event ->
         when (event) {
@@ -42,11 +43,11 @@ internal fun HomeRoute(
             HomeEvent.RestoreWallet -> onRestoreWallet()
             HomeEvent.SettingsClicked -> navigateToSettings()
             is HomeEvent.TokenClicked -> onTokenClick(event.token)
-            else -> Unit
         }
     }
 
     HomeScreen(
+        isWalletExist = isWalletExist,
         homeUiState = uiState,
         onEvent = viewModel::handleEvent,
     )
@@ -55,6 +56,7 @@ internal fun HomeRoute(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun HomeScreen(
+    isWalletExist: Boolean,
     homeUiState: HomeUiState,
     onEvent: (HomeEvent) -> Unit
 ) {
@@ -77,39 +79,39 @@ internal fun HomeScreen(
             )
         }
     ) { paddingValues ->
-        when (homeUiState) {
-            is HomeUiState.Loading -> {
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(paddingValues),
-                    contentAlignment = Alignment.Center
-                ) {
-                    LoadingWheel(contentDesc = "")
+        if (isWalletExist) {
+            when (homeUiState) {
+                is HomeUiState.Loading -> {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(paddingValues),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        LoadingWheel(contentDesc = "")
+                    }
+                }
+
+                is HomeUiState.WalletUiState -> {
+                    UserHomeContent(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(paddingValues),
+                        walletUiState = homeUiState,
+                        onEvent = onEvent,
+                    )
                 }
             }
-
-            is HomeUiState.WalletUiState -> {
-                UserHomeContent(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(paddingValues),
-                    walletUiState = homeUiState,
-                    onEvent = onEvent,
-                )
-            }
-
-            is HomeUiState.GuestUiState -> {
-                GuestContent(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(paddingValues)
-                        .padding(horizontal = 16.dp)
-                        .padding(bottom = 16.dp),
-                    guestUiState = homeUiState,
-                    onEvent = onEvent
-                )
-            }
+        } else {
+            GuestContent(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues)
+                    .padding(horizontal = 16.dp)
+                    .padding(bottom = 16.dp),
+                onEvent = onEvent
+            )
         }
+
     }
 }
