@@ -21,7 +21,7 @@ import com.easy.wallet.shared.domain.CreateWalletUseCase
 import com.easy.wallet.shared.domain.DashboardUseCase
 import com.easy.wallet.shared.domain.GetExactTokenRepositoryUseCase
 import com.easy.wallet.shared.domain.GetToKenBasicInfoUseCase
-import com.easy.wallet.shared.domain.TokenAmountUseCase
+import com.easy.wallet.shared.domain.TokenBalanceUseCase
 import com.easy.wallet.shared.domain.TransactionPagerUseCase
 import org.koin.core.module.dsl.singleOf
 import org.koin.core.qualifier.named
@@ -78,7 +78,7 @@ val sharedModule = module {
     }
 
     single {
-        TokenAmountUseCase(
+        TokenBalanceUseCase(
             getToKenBasicInfoUseCase = get(),
             getExactTokenRepositoryUseCase = get()
         )

@@ -5,7 +5,7 @@ import com.easy.wallet.shared.data.repository.news.NewsPager
 import com.easy.wallet.shared.di.initKoin
 import com.easy.wallet.shared.domain.CoinTrendUseCase
 import com.easy.wallet.shared.domain.DashboardUseCase
-import com.easy.wallet.shared.domain.TokenAmountUseCase
+import com.easy.wallet.shared.domain.TokenBalanceUseCase
 import com.easy.wallet.shared.domain.TransactionPagerUseCase
 import org.koin.core.Koin
 import org.koin.core.KoinApplication
@@ -18,7 +18,7 @@ val Koin.dashboardUseCase: DashboardUseCase
 val Koin.coinTrendUseCase: CoinTrendUseCase
     get() = get()
 
-val Koin.tokenAmountUseCase: TokenAmountUseCase
+val Koin.tokenBalanceUseCase: TokenBalanceUseCase
     get() = get()
 
 val Koin.transactionPagerUseCase: TransactionPagerUseCase

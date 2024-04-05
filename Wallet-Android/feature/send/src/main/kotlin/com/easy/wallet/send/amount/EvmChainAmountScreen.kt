@@ -33,12 +33,14 @@ import androidx.compose.ui.unit.dp
 import com.easy.wallet.design.component.EasyGradientBackground
 import com.easy.wallet.design.theme.ThemePreviews
 import com.easy.wallet.design.ui.EasyWalletTheme
+import com.easy.wallet.model.TokenBasicResult
 import com.easy.wallet.send.SendUiEvent
+import com.easy.wallet.send.SendUiState
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 internal fun EvmChainSendAmountScreen(
-    amount: TextFieldState,
+    uiState: SendUiState.Success,
     onEvent: (SendUiEvent) -> Unit
 ) {
     Scaffold(
@@ -78,7 +80,7 @@ internal fun EvmChainSendAmountScreen(
                 contentAlignment = Alignment.Center
             ) {
                 Text(
-                    text = amount.text.toString(),
+                    text = "${uiState.amount} ${uiState.tokenInfo.symbol}",
                     style = MaterialTheme.typography.displaySmall
                 )
             }
@@ -97,7 +99,7 @@ internal fun EvmChainSendAmountScreen(
                     Icon(imageVector = Icons.Default.Wallet, contentDescription = null)
                     Column(modifier = Modifier.weight(1.0f)) {
                         Text(text = "Balance")
-                        Text(text = "14.88 CRO")
+                        Text(text = "${uiState.balance} ${uiState.tokenInfo.symbol}")
                     }
                     Button(onClick = { onEvent(SendUiEvent.MaxAmount) }) {
                         Text(text = "Max")
@@ -149,7 +151,14 @@ internal fun EvmChainSendAmountScreen(
 private fun EvmChainSendAmount_Preview() {
     EasyWalletTheme {
         EasyGradientBackground {
-            EvmChainSendAmountScreen(TextFieldState("12.3")) {}
+            EvmChainSendAmountScreen(
+                SendUiState.Success(
+                    tokenInfo = TokenBasicResult("", "", 18, "", "", null, "Ethereum"),
+                    balance = "8.00",
+                    recipient = "",
+                    amount = ""
+                )
+            ) {}
         }
     }
 }

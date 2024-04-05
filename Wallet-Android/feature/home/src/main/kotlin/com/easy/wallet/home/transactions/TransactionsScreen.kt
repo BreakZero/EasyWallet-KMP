@@ -153,6 +153,7 @@ internal fun TransactionsScreen(
                     is TransactionDashboardUiState.Success -> {
                         AmountHeaderView(
                             modifier = headerModifier.height(260.dp),
+                            tokenInfo = dashboardUiState.basicResult,
                             balance = dashboardUiState.amount,
                             trends = dashboardUiState.trends
                         )

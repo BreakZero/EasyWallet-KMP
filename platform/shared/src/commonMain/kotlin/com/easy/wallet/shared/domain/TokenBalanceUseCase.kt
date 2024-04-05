@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapConcat
 import kotlinx.coroutines.flow.map
 
-class TokenAmountUseCase internal constructor(
+class TokenBalanceUseCase internal constructor(
     private val getToKenBasicInfoUseCase: GetToKenBasicInfoUseCase,
     private val getExactTokenRepositoryUseCase: GetExactTokenRepositoryUseCase
 ) {
@@ -20,7 +20,7 @@ class TokenAmountUseCase internal constructor(
                 val balance = it.toBigDecimal().moveDecimalPoint(-basicInfo.decimals)
                     .roundToDigitPositionAfterDecimalPoint(8, RoundingMode.ROUND_HALF_CEILING)
                     .toPlainString()
-                "$balance ${basicInfo.symbol}"
+                balance
             }
         }
     }

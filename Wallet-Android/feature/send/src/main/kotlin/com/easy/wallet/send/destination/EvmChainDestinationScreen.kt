@@ -1,9 +1,12 @@
 package com.easy.wallet.send.destination
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text2.BasicTextField2
@@ -32,21 +35,27 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.easy.wallet.design.component.EasyGradientBackground
+import com.easy.wallet.design.component.LoadingWheel
 import com.easy.wallet.design.theme.ThemePreviews
 import com.easy.wallet.design.ui.EasyWalletTheme
 import com.easy.wallet.send.SendUiEvent
+import com.easy.wallet.send.SendUiState
 import com.trustwallet.core.AnyAddress
 import com.trustwallet.core.CoinType
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 internal fun EvmChainDestinationScreen(
+    uiState: SendUiState,
     textFieldState: TextFieldState,
     onEvent: (SendUiEvent) -> Unit
 ) {
     val isValid by remember {
         derivedStateOf {
-            AnyAddress.isValid(textFieldState.text.toString(), CoinType.Ethereum)
+            AnyAddress.isValid(
+                textFieldState.text.toString(),
+                CoinType.Ethereum
+            )
         }
     }
     Scaffold(
@@ -78,50 +87,75 @@ internal fun EvmChainDestinationScreen(
             }
         }
     ) { paddingValues ->
-        Column(
-            modifier = Modifier.padding(paddingValues),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            BasicTextField2(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp),
-                state = textFieldState,
-                textStyle = MaterialTheme.typography.displaySmall,
-                decorator = { innerTextField ->
-                    if (textFieldState.text.isBlank()) {
-                        Text(
-                            text = "enter address",
-                            style = MaterialTheme.typography.displaySmall,
-                            color = LocalContentColor.current.copy(alpha = 0.6f)
-                        )
-                    }
-                    innerTextField()
+        val modifier = Modifier
+            .fillMaxSize()
+            .padding(paddingValues)
+        when (uiState) {
+            SendUiState.Error -> {
+                Box(modifier = modifier.clickable {  }) {
+                    Text(text = "Tap to back...")
                 }
-            )
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(12.dp, Alignment.End)
-            ) {
-                ElevatedButton(onClick = { /*TODO*/ }) {
-                    Row(
-                        horizontalArrangement = Arrangement.spacedBy(4.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Icon(imageVector = Icons.Default.QrCodeScanner, contentDescription = null)
-                        Text(text = "Scan")
-                    }
+            }
+
+            SendUiState.Loading -> {
+                Box(modifier = modifier, contentAlignment = Alignment.Center) {
+                    LoadingWheel(contentDesc = "Loading")
                 }
-                ElevatedButton(onClick = { /*TODO*/ }) {
+            }
+
+            is SendUiState.Success -> {
+                Column(
+                    modifier = modifier,
+                    verticalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    BasicTextField2(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp),
+                        state = textFieldState,
+                        textStyle = MaterialTheme.typography.displaySmall,
+                        decorator = { innerTextField ->
+                            if (textFieldState.text.isBlank()) {
+                                Text(
+                                    text = "enter address",
+                                    style = MaterialTheme.typography.displaySmall,
+                                    color = LocalContentColor.current.copy(alpha = 0.6f)
+                                )
+                            }
+                            innerTextField()
+                        }
+                    )
                     Row(
-                        horizontalArrangement = Arrangement.spacedBy(4.dp),
-                        verticalAlignment = Alignment.CenterVertically
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(12.dp, Alignment.End)
                     ) {
-                        Icon(imageVector = Icons.Default.ContentCopy, contentDescription = null)
-                        Text(text = "Paste")
+                        ElevatedButton(onClick = { /*TODO*/ }) {
+                            Row(
+                                horizontalArrangement = Arrangement.spacedBy(4.dp),
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Default.QrCodeScanner,
+                                    contentDescription = null
+                                )
+                                Text(text = "Scan")
+                            }
+                        }
+                        ElevatedButton(onClick = { /*TODO*/ }) {
+                            Row(
+                                horizontalArrangement = Arrangement.spacedBy(4.dp),
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Default.ContentCopy,
+                                    contentDescription = null
+                                )
+                                Text(text = "Paste")
+                            }
+                        }
                     }
                 }
             }
@@ -135,7 +169,7 @@ internal fun EvmChainDestinationScreen(
 private fun EvmChainDestination_Preview() {
     EasyWalletTheme {
         EasyGradientBackground {
-            EvmChainDestinationScreen(TextFieldState("")) {}
+            EvmChainDestinationScreen(SendUiState.Loading, TextFieldState("")) {}
         }
     }
 }

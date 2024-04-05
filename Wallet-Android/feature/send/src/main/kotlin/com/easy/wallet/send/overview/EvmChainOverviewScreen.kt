@@ -6,10 +6,10 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.ContentCopy
-import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -25,13 +25,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.easy.wallet.design.component.DynamicAsyncImage
 import com.easy.wallet.design.component.EasyGradientBackground
 import com.easy.wallet.design.theme.ThemePreviews
 import com.easy.wallet.design.ui.EasyWalletTheme
+import com.easy.wallet.model.TokenBasicResult
+import com.easy.wallet.send.SendUiState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun EvmChainOverviewScreen() {
+internal fun EvmChainOverviewScreen(
+    uiState: SendUiState.Success
+) {
     Scaffold(
         containerColor = Color.Transparent,
         contentColor = MaterialTheme.colorScheme.onBackground,
@@ -69,10 +74,17 @@ internal fun EvmChainOverviewScreen() {
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(12.dp)
             ) {
-                Icon(imageVector = Icons.Default.Home, contentDescription = null)
+                DynamicAsyncImage(
+                    modifier = Modifier.size(48.dp),
+                    imageUrl = uiState.tokenInfo.iconUri, contentDescription = null
+                )
                 Column {
-                    Text(text = "0.00288 ETH", style = MaterialTheme.typography.headlineMedium)
-                    Text(text = "= $200")
+                    Text(
+                        text = "${uiState.amount} ${uiState.tokenInfo.symbol}",
+                        style = MaterialTheme.typography.headlineMedium
+                    )
+                    // waiting rate api
+                    Text(text = "= $--")
                 }
             }
 
@@ -86,7 +98,7 @@ internal fun EvmChainOverviewScreen() {
             Row(modifier = basicModifier) {
                 Text(
                     modifier = Modifier.fillMaxWidth(0.6f),
-                    text = "0x81080a7e991bcdddba8c2302a70f45d6bd369ab5",
+                    text = uiState.tokenInfo.address,
                     style = MaterialTheme.typography.bodyLarge
                 )
                 Spacer(modifier = Modifier.weight(1.0f))
@@ -107,7 +119,7 @@ internal fun EvmChainOverviewScreen() {
             Row(modifier = basicModifier) {
                 Text(
                     modifier = Modifier.fillMaxWidth(0.6f),
-                    text = "0x81080a7e991bcdddba8c2302a70f45d6bd369ab5"
+                    text = uiState.recipient
                 )
                 Spacer(modifier = Modifier.weight(1.0f))
                 Icon(
@@ -132,7 +144,14 @@ internal fun EvmChainOverviewScreen() {
 private fun Overview_Preview() {
     EasyWalletTheme {
         EasyGradientBackground {
-            EvmChainOverviewScreen()
+            EvmChainOverviewScreen(
+                SendUiState.Success(
+                    tokenInfo = TokenBasicResult("", "", 18, "", "", null, "Ethereum"),
+                    balance = "8.00",
+                    recipient = "",
+                    amount = ""
+                )
+            )
         }
     }
 }
