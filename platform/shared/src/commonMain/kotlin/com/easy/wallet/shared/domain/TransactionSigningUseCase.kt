@@ -4,6 +4,7 @@ import com.easy.wallet.core.commom.Constants
 import com.easy.wallet.model.TokenBasicResult
 import com.easy.wallet.shared.data.multiwallet.MultiWalletRepository
 import com.easy.wallet.shared.model.FeeLevel
+import com.ionspin.kotlin.bignum.decimal.toBigDecimal
 import com.trustwallet.core.CoinType
 import com.trustwallet.core.HDWallet
 import kotlinx.coroutines.flow.Flow
@@ -33,7 +34,8 @@ class TransactionSigningUseCase internal constructor(
                 privateKey = privateKey,
                 contractAddress = basicInfo.contract,
                 toAddress = toAddress,
-                amount = amount,
+                amount = amount.toBigDecimal().moveDecimalPoint(basicInfo.decimals).toBigInteger()
+                    .toString(16),
                 feeLevel = feeLevel
             )
         }

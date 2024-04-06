@@ -5,6 +5,7 @@ import com.easy.wallet.model.TokenBasicResult
 import com.easy.wallet.network.source.blockchair.BlockchairApi
 import com.easy.wallet.network.source.etherscan.EtherscanApi
 import com.easy.wallet.network.source.etherscan.dto.EtherTransactionDto
+import com.easy.wallet.shared.asHex
 import com.easy.wallet.shared.model.Balance
 import com.easy.wallet.shared.model.FeeLevel
 import com.easy.wallet.shared.model.transaction.Direction
@@ -21,7 +22,6 @@ import com.trustwallet.core.ethereum.SigningOutput
 import com.trustwallet.core.ethereum.Transaction
 import com.trustwallet.core.ethereum.TransactionMode
 import com.trustwallet.core.sign
-import io.ktor.utils.io.core.toByteArray
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.async
@@ -85,7 +85,6 @@ class EthereumRepository internal constructor(
         return tnxDto.map { it.asTransactionUiModel(token, account) }
     }
 
-    @OptIn(ExperimentalStdlibApi::class)
     override suspend fun signTransaction(
         chainId: String,
         privateKey: ByteArray,
@@ -105,27 +104,30 @@ class EthereumRepository internal constructor(
             calculateFee()
         }.await()
 
-
         val signingInput = SigningInput(
             private_key = ByteString.of(*privateKey),
             to_address = contractAddress?.ifBlank { toAddress } ?: toAddress,
             tx_mode = TransactionMode.Enveloped,
-            chain_id = ByteString.of(*chainId.toByteArray()),
-            nonce = ByteString.of(*nonce.toByteArray()),
-            max_fee_per_gas = ByteString.of(*maxFeePerGas.toByteArray()),
-            max_inclusion_fee_per_gas = ByteString.of(*inclusionFeePerGas.toByteArray()),
-            gas_limit = ByteString.of(*gasLimit.toByteArray()),
+            chain_id = chainId.asHex(),
+            nonce = nonce.asHex(),
+            max_fee_per_gas = maxFeePerGas.asHex(),
+            max_inclusion_fee_per_gas = inclusionFeePerGas.asHex(),
+            gas_limit = gasLimit.asHex(),
             transaction = if (contractAddress.isNullOrBlank()) {
                 Transaction(
                     erc20_transfer = Transaction.ERC20Transfer(
                         to = toAddress,
-                        amount = ByteString.of(*amount.toByteArray().toHexString().toByteArray())
+                        amount = amount.asHex()
                     )
                 )
-            } else Transaction(transfer = Transaction.Transfer())
+            } else Transaction(
+                transfer = Transaction.Transfer(
+                    amount = amount.asHex()
+                )
+            )
         )
         val output = AnySigner.sign(signingInput, CoinType.Ethereum, SigningOutput.ADAPTER)
-        output.encoded.toByteArray().toHexString()
+        output.encoded.hex().let { "0x$it" }
     }
 
     private suspend fun calculateFee(): Pair<String, String> {

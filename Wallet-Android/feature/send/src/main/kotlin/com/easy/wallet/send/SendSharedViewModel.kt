@@ -96,7 +96,6 @@ internal class SendSharedViewModel(
                     feeLevel = FeeLevel.Fast
                 ).onEach {
                     println("===== $it")
-                }.onCompletion {
                     dispatchEvent(SendUiEvent.ClickNext)
                 }.launchIn(viewModelScope)
             }
