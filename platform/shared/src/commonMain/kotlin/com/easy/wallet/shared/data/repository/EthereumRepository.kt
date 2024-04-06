@@ -93,35 +93,33 @@ class EthereumRepository internal constructor(
         amount: String,
         feeLevel: FeeLevel
     ): String = withContext(Dispatchers.IO) {
-
         val gasLimit = async { lastGasLimit() }.await()
-
         val nonce = async {
             fetchingNonce()
         }.await()
-
         val (maxFeePerGas, inclusionFeePerGas) = async {
             calculateFee()
         }.await()
 
+        val isEthNormalTransfer = contractAddress.isNullOrBlank()
         val signingInput = SigningInput(
             private_key = ByteString.of(*privateKey),
-            to_address = contractAddress?.ifBlank { toAddress } ?: toAddress,
+            to_address = if (isEthNormalTransfer) toAddress else contractAddress!!,
             tx_mode = TransactionMode.Enveloped,
             chain_id = chainId.asHex(),
             nonce = nonce.asHex(),
             max_fee_per_gas = maxFeePerGas.asHex(),
             max_inclusion_fee_per_gas = inclusionFeePerGas.asHex(),
             gas_limit = gasLimit.asHex(),
-            transaction = if (contractAddress.isNullOrBlank()) {
+            transaction = if (isEthNormalTransfer) {
                 Transaction(
-                    erc20_transfer = Transaction.ERC20Transfer(
-                        to = toAddress,
+                    transfer = Transaction.Transfer(
                         amount = amount.asHex()
                     )
                 )
             } else Transaction(
-                transfer = Transaction.Transfer(
+                erc20_transfer = Transaction.ERC20Transfer(
+                    to = toAddress,
                     amount = amount.asHex()
                 )
             )
