@@ -1,7 +1,7 @@
 package com.easy.wallet.network.source.evm_rpc
 
 import com.easy.wallet.network.source.evm_rpc.dto.BaseRpcResponseDto
-import com.easy.wallet.network.source.evm_rpc.parameter.EmptyParameter
+import com.easy.wallet.network.source.evm_rpc.parameter.RpcRequestBody
 import com.easy.wallet.network.tryPost
 import io.ktor.client.HttpClient
 import io.ktor.client.request.setBody
@@ -29,7 +29,7 @@ class EvmJsonRpcApiImpl internal constructor(
     override suspend fun gasPrice(): String {
         val result = httpClient.tryPost<BaseRpcResponseDto<String>>("", isThrows = true) {
             setBody(
-                EmptyParameter(
+                RpcRequestBody(
                     jsonrpc = "2.0",
                     id = 1,
                     method = "eth_gasPrice",
@@ -60,7 +60,7 @@ class EvmJsonRpcApiImpl internal constructor(
         value: Long?,
         data: String
     ) {
-        TODO("Not yet implemented")
+
     }
 }
 

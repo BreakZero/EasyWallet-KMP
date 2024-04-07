@@ -10,6 +10,8 @@ import com.easy.wallet.network.source.etherscan.EtherscanApi
 import com.easy.wallet.network.source.etherscan.EtherscanDataSource
 import com.easy.wallet.network.source.evm_rpc.EvmJsonRpcApiImpl
 import com.easy.wallet.network.source.evm_rpc.JsonRpcApi
+import com.easy.wallet.network.source.evm_rpc.parameter.Parameter
+import com.easy.wallet.network.source.evm_rpc.parameter.ParameterSerialize
 import com.easy.wallet.network.source.okx.OKXWebSocketManager
 import com.easy.wallet.network.source.opensea.OpenseaApi
 import com.easy.wallet.network.source.opensea.OpenseaDataSource
@@ -27,7 +29,10 @@ import io.ktor.http.URLProtocol
 import io.ktor.http.path
 import io.ktor.serialization.kotlinx.KotlinxWebsocketSerializationConverter
 import io.ktor.serialization.kotlinx.json.json
+import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.modules.SerializersModule
+import kotlinx.serialization.modules.polymorphic
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
@@ -35,7 +40,7 @@ enum class SourceQualifier {
     OPENSEA, BLOCK_CHAIR, ETHER_SCAN, OKX_WEBSOCKETS, COINGECKO, EVM_RPC
 }
 
-private fun httpClientWithDefault(special: HttpClientConfig<*>.() -> Unit = {}): HttpClient {
+private fun httpClientWithDefault(serializersModule: SerializersModule? = null, special: HttpClientConfig<*>.() -> Unit = {}): HttpClient {
     return httpClient {
         install(ContentNegotiation) {
             json(
@@ -43,6 +48,10 @@ private fun httpClientWithDefault(special: HttpClientConfig<*>.() -> Unit = {}):
                     prettyPrint = true
                     isLenient = true
                     ignoreUnknownKeys = true
+                    allowStructuredMapKeys = true
+                    serializersModule?.let {
+                        this.serializersModule = it
+                    }
                 },
             )
         }
@@ -112,7 +121,18 @@ val networkModule = module {
         }
     }
     single(qualifier = named(name = SourceQualifier.EVM_RPC.name)) {
-        httpClientWithDefault {
+        httpClientWithDefault(
+            serializersModule = SerializersModule {
+                polymorphic(List::class) {
+                    ListSerializer(ParameterSerialize)
+                }
+                polymorphic(Parameter::class) {
+                    subclass(Parameter.CallParameter::class, Parameter.CallParameter.serializer())
+                    subclass(Parameter.StringParameter::class, Parameter.StringParameter.serializer())
+                    subclass(Parameter.IntListParameter::class, Parameter.IntListParameter.serializer())
+                }
+            }
+        ) {
             defaultRequest {
                 url {
                     protocol = URLProtocol.HTTPS
