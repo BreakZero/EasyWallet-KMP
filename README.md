@@ -6,6 +6,17 @@ EasyWallet初衷是一个为CryptoDeFiWallet重构准备而实验的一个项目
 Multiplatform进行Android
 和iOS开发，共享逻辑代码。UI分别使用Jetpack Compose和SwiftUI实现。
 
+### 结构和架构
+这是一个Kotlin Multiplatform Project, 支持iOS和Android端。结构上由3大部分组成，分别是 _platform_, _Wallet-Android_, _Wallet-iOS_
+* #### platform
+  _platform_ 是双端共享业务逻辑处理代码，其主要职责是将服务端接口数据通过逻辑处理包装成业务领域Model给UI层使用或者接收用户操作后触发更改云端/本地存储数据.
+  在实现上符合Clean Architecture架构，主要包含Model、Data、Domain层
+* #### Wallet-Android
+  _Wallet-Android_ 是Android界面实现, 使用Jetpack Compose + ViewModel开发
+  实现上使用MVI架构模式，其中Model来自 _platform_ 拿到数据结果
+* #### Wallet-iOS (Planning)
+  _Wallet-iOS_ 是iOS端UI界面实现，使用SwiftUI开发，目前iOS只有简单的基础UI界面，支持功能不多，在架构上使用的是MVVM架构模式
+
 ### 配置
 
 由于项目中依赖[wallet-core](https://github.com/trustwallet/wallet-core)
