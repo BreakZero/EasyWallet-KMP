@@ -55,6 +55,12 @@ kotlin {
                 implementation("com.ionspin.kotlin:bignum:0.3.9")
             }
         }
+
+        commonTest.dependencies {
+            implementation(kotlin("test"))
+            api("com.trustwallet:wallet-core-kotlin:4.0.31")
+        }
+
         iosMain {
             dependencies {
                 implementation("app.cash.paging:paging-runtime-uikit:3.3.0-alpha02-0.5.1")

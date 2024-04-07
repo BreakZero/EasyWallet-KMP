@@ -2,6 +2,7 @@ package com.easy.wallet.shared.data.repository
 
 import com.easy.wallet.model.TokenBasicResult
 import com.easy.wallet.shared.model.Balance
+import com.easy.wallet.shared.model.FeeLevel
 import com.easy.wallet.shared.model.transaction.TransactionUiModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -27,4 +28,16 @@ class BitcoinRepository : TokenRepository {
     ): List<TransactionUiModel> {
         TODO("Not yet implemented")
     }
+
+    override suspend fun signTransaction(
+        chainId: String,
+        privateKey: ByteArray,
+        toAddress: String,
+        contractAddress: String?,
+        amount: String,
+        feeLevel: FeeLevel
+    ): String {
+        TODO("Not yet implemented")
+    }
+
 }

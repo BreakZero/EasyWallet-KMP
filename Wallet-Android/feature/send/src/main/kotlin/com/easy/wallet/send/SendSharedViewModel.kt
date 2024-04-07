@@ -11,16 +11,22 @@ import com.easy.wallet.android.core.BaseViewModel
 import com.easy.wallet.send.navigation.TokenArgs
 import com.easy.wallet.shared.domain.GetToKenBasicInfoUseCase
 import com.easy.wallet.shared.domain.TokenBalanceUseCase
+import com.easy.wallet.shared.domain.TransactionSigningUseCase
+import com.easy.wallet.shared.model.FeeLevel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onCompletion
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 
 @OptIn(ExperimentalFoundationApi::class)
 internal class SendSharedViewModel(
     savedStateHandle: SavedStateHandle,
     basicInfoUseCase: GetToKenBasicInfoUseCase,
-    tokenBalanceUseCase: TokenBalanceUseCase
+    tokenBalanceUseCase: TokenBalanceUseCase,
+    private val transactionSigningUseCase: TransactionSigningUseCase
 ) : BaseViewModel<SendUiEvent>() {
 
     private val tokenArgs: TokenArgs = TokenArgs(savedStateHandle)
@@ -79,6 +85,19 @@ internal class SendSharedViewModel(
                     val _state = sendUiState.value
                     if (_state is SendUiState.Success) append(_state.balance)
                 }
+            }
+
+            SendUiEvent.OnSigningTransaction -> {
+                transactionSigningUseCase(
+                    tokenId = tokenId,
+                    chainId = "0x1",
+                    toAddress = destination.text.toString(),
+                    amount = _amount.text.toString(),
+                    feeLevel = FeeLevel.Fast
+                ).onEach {
+                    println("===== $it")
+                    dispatchEvent(SendUiEvent.ClickNext)
+                }.launchIn(viewModelScope)
             }
         }
     }

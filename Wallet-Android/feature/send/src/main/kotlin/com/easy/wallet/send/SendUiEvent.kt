@@ -10,6 +10,8 @@ sealed interface SendUiEvent {
     data class EnterDigital(val char: String) : SendUiEvent
     data object MaxAmount : SendUiEvent
     data object ClickNext : SendUiEvent
+
+    data object OnSigningTransaction: SendUiEvent
 }
 
 internal sealed interface SendUiState {
