@@ -5,6 +5,7 @@ import com.easy.wallet.model.TokenBasicResult
 import com.easy.wallet.network.source.blockchair.BlockchairApi
 import com.easy.wallet.network.source.etherscan.EtherscanApi
 import com.easy.wallet.network.source.etherscan.dto.EtherTransactionDto
+import com.easy.wallet.network.source.evm_rpc.JsonRpcApi
 import com.easy.wallet.shared.asHex
 import com.easy.wallet.shared.model.Balance
 import com.easy.wallet.shared.model.FeeLevel
@@ -33,7 +34,8 @@ import okio.ByteString
 
 class EthereumRepository internal constructor(
     private val blockchairApi: BlockchairApi,
-    private val etherscanApi: EtherscanApi
+    private val etherscanApi: EtherscanApi,
+    private val jsonRpcApi: JsonRpcApi
 ) : TokenRepository {
     override fun dashboard(account: String): Flow<List<Balance>> {
         return flow {

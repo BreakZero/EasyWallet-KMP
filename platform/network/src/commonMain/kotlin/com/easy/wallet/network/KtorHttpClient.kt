@@ -40,6 +40,7 @@ internal suspend inline fun <reified T> HttpClient.tryPost(
         exception.debugLogging()
         if (isThrows) throw exception else null
     } catch (ioException: IOException) {
+        ioException.printStackTrace()
         if (isThrows) throw ioException else null
     }
 }

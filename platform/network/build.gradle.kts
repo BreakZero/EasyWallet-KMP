@@ -17,6 +17,7 @@ buildkonfig {
         buildConfigField(STRING, "ETHERSCAN_KEY", "${apiKeys["etherscan"]}")
         buildConfigField(STRING, "COINGECKO_KEY", "${apiKeys["coingecko"]}")
         buildConfigField(STRING, "OPENSEA_KEY", "${apiKeys["opensea"]}")
+        buildConfigField(STRING, "INFURA_KEY", "${apiKeys["infura"]}")
     }
 }
 

@@ -14,7 +14,7 @@ interface JsonRpcApi {
     )
 
     suspend fun feeHistory(blockCount: Int, percentiles: List<Int>)
-    suspend fun gasPrice()
+    suspend fun gasPrice(): String
     suspend fun getTransactionCount(account: String)
     suspend fun getBalance(account: String)
 

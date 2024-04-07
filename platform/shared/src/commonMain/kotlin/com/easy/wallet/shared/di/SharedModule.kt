@@ -38,7 +38,7 @@ val sharedModule = module {
     singleOf(::SupportedTokenRepository)
 
     single<TokenRepository>(named("Bitcoin")) { BitcoinRepository() }
-    single<TokenRepository>(named("Ethereum")) { EthereumRepository(get(), get()) }
+    single<TokenRepository>(named("Ethereum")) { EthereumRepository(get(), get(), get()) }
     single<TokenRepository>(named("NoSupportedChain")) { NoSupportedTokenRepository() }
 
     single<ChainManageRepository>(named<LocalChainManageRepository>()) {

@@ -8,6 +8,8 @@ import com.easy.wallet.network.source.coingecko.CoinGeckoApi
 import com.easy.wallet.network.source.coingecko.CoinGeckoDataSource
 import com.easy.wallet.network.source.etherscan.EtherscanApi
 import com.easy.wallet.network.source.etherscan.EtherscanDataSource
+import com.easy.wallet.network.source.evm_rpc.EvmJsonRpcApiImpl
+import com.easy.wallet.network.source.evm_rpc.JsonRpcApi
 import com.easy.wallet.network.source.okx.OKXWebSocketManager
 import com.easy.wallet.network.source.opensea.OpenseaApi
 import com.easy.wallet.network.source.opensea.OpenseaDataSource
@@ -30,7 +32,7 @@ import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 enum class SourceQualifier {
-    OPENSEA, BLOCK_CHAIR, ETHER_SCAN, OKX_WEBSOCKETS, COINGECKO
+    OPENSEA, BLOCK_CHAIR, ETHER_SCAN, OKX_WEBSOCKETS, COINGECKO, EVM_RPC
 }
 
 private fun httpClientWithDefault(special: HttpClientConfig<*>.() -> Unit = {}): HttpClient {
@@ -109,6 +111,18 @@ val networkModule = module {
             }
         }
     }
+    single(qualifier = named(name = SourceQualifier.EVM_RPC.name)) {
+        httpClientWithDefault {
+            defaultRequest {
+                url {
+                    protocol = URLProtocol.HTTPS
+                    host = "eth.llamarpc.com"
+                    path("/")
+                }
+                header("accept", "application/json")
+            }
+        }
+    }
     single(qualifier = named(name = SourceQualifier.COINGECKO.name)) {
         httpClientWithDefault {
             defaultRequest {
@@ -128,5 +142,7 @@ val networkModule = module {
     single<OpenseaApi> { OpenseaDataSource(get(qualifier = named(SourceQualifier.OPENSEA.name))) }
     single<EtherscanApi> { EtherscanDataSource(get(qualifier = named(SourceQualifier.ETHER_SCAN.name))) }
     single<CoinGeckoApi> { CoinGeckoDataSource(get(qualifier = named(SourceQualifier.COINGECKO.name))) }
+    single<JsonRpcApi> { EvmJsonRpcApiImpl(get(qualifier = named(SourceQualifier.EVM_RPC.name))) }
+
     single { OKXWebSocketManager(get(qualifier = named(SourceQualifier.OKX_WEBSOCKETS.name))) }
 }
