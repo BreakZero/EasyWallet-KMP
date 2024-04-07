@@ -30,6 +30,7 @@ class BitcoinRepository : TokenRepository {
     }
 
     override suspend fun signTransaction(
+        account: String,
         chainId: String,
         privateKey: ByteArray,
         toAddress: String,

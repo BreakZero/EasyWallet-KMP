@@ -19,6 +19,7 @@ interface TokenRepository {
     ): List<TransactionUiModel>
 
     suspend fun signTransaction(
+        account: String,
         chainId: String,
         privateKey: ByteArray,
         toAddress: String,

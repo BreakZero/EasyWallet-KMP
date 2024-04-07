@@ -88,6 +88,7 @@ class EthereumRepository internal constructor(
     }
 
     override suspend fun signTransaction(
+        account: String,
         chainId: String,
         privateKey: ByteArray,
         toAddress: String,
@@ -95,15 +96,23 @@ class EthereumRepository internal constructor(
         amount: String,
         feeLevel: FeeLevel
     ): String = withContext(Dispatchers.IO) {
-        val gasLimit = async { lastGasLimit() }.await()
+        val isEthNormalTransfer = contractAddress.isNullOrBlank()
+
+        val gasLimit = async {
+            lastGasLimit(
+                from = account,
+                to = if (isEthNormalTransfer) toAddress else contractAddress!!,
+                data = ""
+            )
+        }.await()
         val nonce = async {
-            fetchingNonce()
+            fetchingNonce(account)
         }.await()
         val (maxFeePerGas, inclusionFeePerGas) = async {
             calculateFee()
         }.await()
 
-        val isEthNormalTransfer = contractAddress.isNullOrBlank()
+
         val signingInput = SigningInput(
             private_key = ByteString.of(*privateKey),
             to_address = if (isEthNormalTransfer) toAddress else contractAddress!!,
@@ -131,15 +140,17 @@ class EthereumRepository internal constructor(
     }
 
     private suspend fun calculateFee(): Pair<String, String> {
-        return Pair("0xB2D05E00", "0x77359400")
+        return jsonRpcApi.feeHistory(5, listOf(20, 30))
     }
 
-    private suspend fun lastGasLimit(): String {
-        return "0x0130B9"
+    private suspend fun lastGasLimit(from: String, to: String, data: String): String {
+        val gas = jsonRpcApi.estimateGas(from = from, to = to, data = data, value = null)
+        return gas
     }
 
-    private suspend fun fetchingNonce(): String {
-        return "0x0"
+    private suspend fun fetchingNonce(account: String): String {
+        val tnxCount = jsonRpcApi.getTransactionCount(account)
+        return tnxCount
     }
 }
 

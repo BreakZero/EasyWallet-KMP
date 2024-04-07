@@ -24,6 +24,7 @@ class NoSupportedTokenRepository internal constructor() : TokenRepository {
     }
 
     override suspend fun signTransaction(
+        account: String,
         chainId: String,
         privateKey: ByteArray,
         toAddress: String,

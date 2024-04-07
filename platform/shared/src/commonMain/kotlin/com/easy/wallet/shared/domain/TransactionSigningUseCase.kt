@@ -30,6 +30,7 @@ class TransactionSigningUseCase internal constructor(
             val hdWallet = HDWallet(wallet.mnemonic, wallet.passphrase)
             val privateKey = getPrivateKeyFromChain(hdWallet, basicInfo)
             exactTokenRepositoryUseCase(basicInfo).signTransaction(
+                account = basicInfo.address,
                 chainId = chainId,
                 privateKey = privateKey,
                 contractAddress = basicInfo.contract,

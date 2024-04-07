@@ -89,7 +89,7 @@ val networkModule = module {
                     host = "api.blockchair.com"
                     path("/")
                 }
-                header("accept", "application/json")
+                header("Content-Type", "application/json")
             }
         }
     }
@@ -101,7 +101,7 @@ val networkModule = module {
                     host = "api.opensea.io"
                     path("v2/")
                 }
-                header("accept", "application/json")
+                header("Content-Type", "application/json")
                 // TODO move to backend, delegate forward
                 header("X-API-KEY", BuildKonfig.OPENSEA_KEY)
             }
@@ -116,7 +116,7 @@ val networkModule = module {
                     path("api/")
                     parameters.append("apikey", BuildKonfig.ETHERSCAN_KEY)
                 }
-                header("accept", "application/json")
+                header("Content-Type", "application/json")
             }
         }
     }
@@ -139,7 +139,7 @@ val networkModule = module {
                     host = "eth.llamarpc.com"
                     path("/")
                 }
-                header("accept", "application/json")
+                header("Content-Type", "application/json")
             }
         }
     }
@@ -152,7 +152,7 @@ val networkModule = module {
                     path("api/v3/")
                     parameters.append("x_cg_demo_api_key", BuildKonfig.COINGECKO_KEY)
                 }
-                header("accept", "application/json")
+                header("Content-Type", "application/json")
             }
         }
     }
