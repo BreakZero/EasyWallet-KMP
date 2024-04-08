@@ -4,14 +4,14 @@ import com.ionspin.kotlin.bignum.decimal.BigDecimal
 import com.ionspin.kotlin.bignum.integer.BigInteger
 
 data class Balance(
-    val address: String,
-    val decimal: Int,
+    val contract: String?,
+    val decimals: Int,
     val balance: BigInteger
 ) {
     companion object {
         val ZERO = Balance(
-            address = "",
-            decimal = 0,
+            contract = null,
+            decimals = 0,
             balance = BigInteger.ZERO,
         )
     }
@@ -21,7 +21,7 @@ data class Balance(
             "0.00"
         } else {
             BigDecimal.fromBigInteger(balance)
-                .moveDecimalPoint(-decimal).scale(scale)
+                .moveDecimalPoint(-decimals).scale(scale)
                 .toPlainString()
         }
     }

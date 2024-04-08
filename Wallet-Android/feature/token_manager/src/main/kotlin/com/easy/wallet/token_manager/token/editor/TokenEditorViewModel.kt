@@ -65,7 +65,7 @@ internal class TokenEditorViewModel(
     override fun handleEvent(event: TokenEditorEvent) {
         when (event) {
             is TokenEditorEvent.ClickSaved -> {
-                 onSaved()
+                onSaved()
             }
 
             is TokenEditorEvent.OnActiveChanged -> {
@@ -88,7 +88,7 @@ internal class TokenEditorViewModel(
                     name = name.contentValue(),
                     symbol = symbol.contentValue(),
                     decimal = decimals.contentValue().toIntOrNull() ?: 18,
-                    contractAddress = contract.contentValue(),
+                    contractAddress = contract.contentValue().ifBlank { null },
                     iconUri = iconUri.contentValue(),
                     isActive = _isActive.value,
                     tags = ""

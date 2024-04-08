@@ -1,18 +1,11 @@
 package com.easy.wallet.shared.data.repository
 
 import com.easy.wallet.model.TokenBasicResult
-import com.easy.wallet.shared.model.Balance
-import com.easy.wallet.shared.model.fees.FeeLevel
 import com.easy.wallet.shared.model.fees.FeeModel
 import com.easy.wallet.shared.model.transaction.TransactionUiModel
-import kotlinx.coroutines.flow.Flow
 
 class NoSupportedTokenRepository internal constructor() : TokenRepository {
-    override fun dashboard(account: String): Flow<List<Balance>> {
-        TODO("token not supported yet!!!")
-    }
-
-    override fun loadBalance(account: String): Flow<String> {
+    override suspend fun loadBalance(account: String, contract: String?): String {
         TODO("token not supported yet!!!")
     }
 

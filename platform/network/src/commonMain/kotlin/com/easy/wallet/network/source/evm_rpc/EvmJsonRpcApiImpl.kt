@@ -1,5 +1,6 @@
 package com.easy.wallet.network.source.evm_rpc
 
+import com.easy.wallet.core.commom.cleanHexPrefix
 import com.easy.wallet.network.source.evm_rpc.dto.BaseRpcResponseDto
 import com.easy.wallet.network.source.evm_rpc.dto.FeeHistoryDto
 import com.easy.wallet.network.source.evm_rpc.parameter.Parameter
@@ -91,8 +92,33 @@ class EvmJsonRpcApiImpl internal constructor(
         return response.result
     }
 
-    override suspend fun getBalance(account: String) {
-        TODO("Not yet implemented")
+    override suspend fun getBalance(account: String, contract: String?): String {
+        val finalBody = if (contract.isNullOrBlank()) {
+            defaultBody.copy(
+                method = "eth_getBalance", params = listOf(
+                    Parameter.StringParameter(account),
+                    Parameter.StringParameter("latest")
+                )
+            )
+        } else {
+            /**
+             * balanceOf input data format is `0x70a08231000000000000000000000000${address(without hex prefix)}`
+             */
+            defaultBody.copy(
+                method = "eth_call", params = listOf(
+                    Parameter.CallParameter(
+                        from = account,
+                        to = contract,
+                        data = "0x70a08231000000000000000000000000${account.cleanHexPrefix()}"
+                    ),
+                    Parameter.StringParameter("latest")
+                )
+            )
+        }
+        val balanceRes = httpClient.tryPost<BaseRpcResponseDto<String>> {
+            setBody(finalBody)
+        }
+        return balanceRes.result
     }
 
     override suspend fun sendRawTransaction(data: String): String {

@@ -8,8 +8,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface TokenRepository {
 
-    fun dashboard(account: String): Flow<List<Balance>>
-    fun loadBalance(account: String): Flow<String>
+    suspend fun loadBalance(account: String, contract: String?): String
 
     suspend fun loadTransactions(
         token: TokenBasicResult,
