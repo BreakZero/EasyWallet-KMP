@@ -1,7 +1,5 @@
 package com.easy.wallet.shared.di
 
-import com.easy.wallet.datastore.DatabaseKeyStorage
-import com.easy.wallet.datastore.UserPasswordStorage
 import com.easy.wallet.shared.data.multiwallet.MultiWalletRepository
 import com.easy.wallet.shared.data.okx.OKXDataRepository
 import com.easy.wallet.shared.data.repository.BitcoinRepository
@@ -30,8 +28,6 @@ import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 val sharedModule = module {
-    singleOf(::UserPasswordStorage)
-    singleOf(::DatabaseKeyStorage)
     single {
         MultiWalletRepository(get())
     }

@@ -111,7 +111,8 @@ val networkModule = module {
             defaultRequest {
                 url {
                     protocol = URLProtocol.HTTPS
-                    host = "api.etherscan.io"
+//                    host = "api.etherscan.io"
+                    host = "api-sepolia.etherscan.io"
                     path("api/")
                     parameters.append("apikey", BuildKonfig.ETHERSCAN_KEY)
                 }
@@ -135,7 +136,9 @@ val networkModule = module {
             defaultRequest {
                 url {
                     protocol = URLProtocol.HTTPS
-                    host = "eth.llamarpc.com"
+//                    host = "https://eth.llamarpc.com"
+                    host = "sepolia.infura.io"
+                    path("v3/${BuildKonfig.INFURA_KEY}")
                     path("/")
                 }
                 header("Content-Type", "application/json")
