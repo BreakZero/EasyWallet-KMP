@@ -17,6 +17,9 @@ Multiplatform进行Android
 * #### Wallet-iOS (Planning)
   _Wallet-iOS_ 是iOS端UI界面实现，使用SwiftUI开发，目前iOS只有简单的基础UI界面，支持功能不多，在架构上使用的是MVVM架构模式
 
+基本架构图如下：
+![architecture.png](screens%2Farchitecture.png)
+
 ### 配置
 
 由于项目中依赖[wallet-core](https://github.com/trustwallet/wallet-core)
