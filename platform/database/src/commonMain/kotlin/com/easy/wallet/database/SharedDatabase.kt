@@ -77,7 +77,7 @@ private fun initDefaultData(driver: SqlDriver) {
         null,
         """
             INSERT OR ABORT INTO TokenEntity(id, chain_id, name, symbol, decimals, contract_address, icon_uri, is_active, tags)
-            VALUES ("ether_coin", -1, "Ethereum","ETH",18, "", "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/info/logo.png",1, "");
+            VALUES ("ether_coin", -1, "Ethereum","ETH",18, null, "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/info/logo.png",1, "");
         """.trimIndent(),
         0
     )

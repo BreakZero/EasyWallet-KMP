@@ -11,7 +11,6 @@ import com.easy.wallet.network.source.etherscan.EtherscanDataSource
 import com.easy.wallet.network.source.evm_rpc.EvmJsonRpcApiImpl
 import com.easy.wallet.network.source.evm_rpc.JsonRpcApi
 import com.easy.wallet.network.source.evm_rpc.parameter.Parameter
-import com.easy.wallet.network.source.evm_rpc.parameter.ParameterSerialize
 import com.easy.wallet.network.source.okx.OKXWebSocketManager
 import com.easy.wallet.network.source.opensea.OpenseaApi
 import com.easy.wallet.network.source.opensea.OpenseaDataSource
@@ -89,7 +88,7 @@ val networkModule = module {
                     host = "api.blockchair.com"
                     path("/")
                 }
-                header("accept", "application/json")
+                header("Content-Type", "application/json")
             }
         }
     }
@@ -101,7 +100,7 @@ val networkModule = module {
                     host = "api.opensea.io"
                     path("v2/")
                 }
-                header("accept", "application/json")
+                header("Content-Type", "application/json")
                 // TODO move to backend, delegate forward
                 header("X-API-KEY", BuildKonfig.OPENSEA_KEY)
             }
@@ -116,7 +115,7 @@ val networkModule = module {
                     path("api/")
                     parameters.append("apikey", BuildKonfig.ETHERSCAN_KEY)
                 }
-                header("accept", "application/json")
+                header("Content-Type", "application/json")
             }
         }
     }
@@ -124,7 +123,7 @@ val networkModule = module {
         httpClientWithDefault(
             serializersModule = SerializersModule {
                 polymorphic(List::class) {
-                    ListSerializer(ParameterSerialize)
+                    ListSerializer(Parameter.serializer())
                 }
                 polymorphic(Parameter::class) {
                     subclass(Parameter.CallParameter::class, Parameter.CallParameter.serializer())
@@ -139,7 +138,7 @@ val networkModule = module {
                     host = "eth.llamarpc.com"
                     path("/")
                 }
-                header("accept", "application/json")
+                header("Content-Type", "application/json")
             }
         }
     }
@@ -152,7 +151,7 @@ val networkModule = module {
                     path("api/v3/")
                     parameters.append("x_cg_demo_api_key", BuildKonfig.COINGECKO_KEY)
                 }
-                header("accept", "application/json")
+                header("Content-Type", "application/json")
             }
         }
     }

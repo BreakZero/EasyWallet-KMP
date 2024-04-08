@@ -31,11 +31,14 @@ import com.easy.wallet.design.theme.ThemePreviews
 import com.easy.wallet.design.ui.EasyWalletTheme
 import com.easy.wallet.model.TokenBasicResult
 import com.easy.wallet.send.SendUiState
+import com.easy.wallet.shared.model.fees.EthereumFee
+import com.easy.wallet.shared.model.fees.FeeModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun EvmChainOverviewScreen(
-    uiState: SendUiState.Success
+    uiState: SendUiState.Success,
+    fees: List<FeeModel>
 ) {
     Scaffold(
         containerColor = Color.Transparent,
@@ -150,7 +153,8 @@ private fun Overview_Preview() {
                     balance = "8.00",
                     recipient = "",
                     amount = ""
-                )
+                ),
+                fees = emptyList()
             )
         }
     }

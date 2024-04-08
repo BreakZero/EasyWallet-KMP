@@ -1,14 +1,17 @@
 package com.easy.wallet.shared.data.repository
 
 import com.easy.wallet.core.commom.DateTimeDecoder
+import com.easy.wallet.core.commom.cleanHexPrefix
+import com.easy.wallet.core.commom.ifNullOrBlank
 import com.easy.wallet.model.TokenBasicResult
 import com.easy.wallet.network.source.blockchair.BlockchairApi
 import com.easy.wallet.network.source.etherscan.EtherscanApi
 import com.easy.wallet.network.source.etherscan.dto.EtherTransactionDto
 import com.easy.wallet.network.source.evm_rpc.JsonRpcApi
 import com.easy.wallet.shared.asHex
-import com.easy.wallet.shared.model.Balance
-import com.easy.wallet.shared.model.FeeLevel
+import com.easy.wallet.shared.model.fees.EthereumFee
+import com.easy.wallet.shared.model.fees.FeeLevel
+import com.easy.wallet.shared.model.fees.FeeModel
 import com.easy.wallet.shared.model.transaction.Direction
 import com.easy.wallet.shared.model.transaction.EthereumTransactionUiModel
 import com.easy.wallet.shared.model.transaction.TransactionStatus
@@ -26,9 +29,6 @@ import com.trustwallet.core.sign
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.async
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withContext
 import okio.ByteString
 
@@ -37,34 +37,9 @@ class EthereumRepository internal constructor(
     private val etherscanApi: EtherscanApi,
     private val jsonRpcApi: JsonRpcApi
 ) : TokenRepository {
-    override fun dashboard(account: String): Flow<List<Balance>> {
-        return flow {
-            val dashboard = blockchairApi.getDashboardByAccount("ethereum", account)
-            val result = dashboard?.let {
-                val coinBalance = Balance(
-                    address = "",
-                    decimal = 18,
-                    balance = dashboard.dashboardInfo.balance.toBigInteger(),
-                )
-
-                val tokenBalances = dashboard.layer2Dto?.ethTokens?.map {
-                    Balance(
-                        address = it.tokenAddress,
-                        decimal = it.tokenDecimals,
-                        balance = it.balance.toBigInteger(),
-                    )
-                }
-                listOf(coinBalance) + (tokenBalances ?: emptyList())
-            } ?: emptyList()
-            emit(result)
-        }.catch { emptyList<Balance>() }
-    }
-
-    override fun loadBalance(account: String): Flow<String> {
-        return flow {
-            val dashboard = blockchairApi.getDashboardByAccount("ethereum", account)
-            emit(dashboard?.dashboardInfo?.balance ?: "0.00")
-        }
+    override suspend fun loadBalance(account: String, contract: String?): String {
+        val balance = jsonRpcApi.getBalance(account, contract)
+        return balance.cleanHexPrefix().toBigInteger(16).toString()
     }
 
     override suspend fun loadTransactions(
@@ -87,26 +62,53 @@ class EthereumRepository internal constructor(
         return tnxDto.map { it.asTransactionUiModel(token, account) }
     }
 
+    override suspend fun prepFees(
+        account: String,
+        toAddress: String,
+        contractAddress: String?,
+        amount: String
+    ): List<FeeModel> = withContext(Dispatchers.IO) {
+        val estimateGasDeferred = async { estimateGas(account, toAddress, contractAddress, amount) }
+        val feeDeferred = async {
+            calculateFee()
+        }
+
+        val estimateGas = estimateGasDeferred.await()
+        val (maxFeePerGas, inclusionFeePerGas) = feeDeferred.await()
+
+        listOf(
+            EthereumFee(feeLevel = FeeLevel.Low, gas = estimateGas, maxFeePerGas = maxFeePerGas, priorityFeeGas = inclusionFeePerGas),
+            EthereumFee(feeLevel = FeeLevel.Average, gas = estimateGas, maxFeePerGas = maxFeePerGas, priorityFeeGas = inclusionFeePerGas),
+            EthereumFee(feeLevel = FeeLevel.Fast, gas = estimateGas, maxFeePerGas = maxFeePerGas, priorityFeeGas = inclusionFeePerGas)
+        )
+    }
+
     override suspend fun signTransaction(
+        account: String,
         chainId: String,
         privateKey: ByteArray,
         toAddress: String,
         contractAddress: String?,
         amount: String,
-        feeLevel: FeeLevel
+        fee: FeeModel
     ): String = withContext(Dispatchers.IO) {
-        val gasLimit = async { lastGasLimit() }.await()
-        val nonce = async {
-            fetchingNonce()
-        }.await()
-        val (maxFeePerGas, inclusionFeePerGas) = async {
-            calculateFee()
-        }.await()
-
+        if (fee !is EthereumFee) throw IllegalArgumentException("fee model is incorrect")
         val isEthNormalTransfer = contractAddress.isNullOrBlank()
+
+        val nonceDeferred = async {
+            fetchingNonce(account)
+        }
+        val nonce = nonceDeferred.await()
+
+        val maxFeePerGas = fee.maxFeePerGas
+        val inclusionFeePerGas = fee.priorityFeeGas
+        val gasLimit = fee.gas
+
+        // double check balance if enough to send for fee
+
         val signingInput = SigningInput(
             private_key = ByteString.of(*privateKey),
-            to_address = if (isEthNormalTransfer) toAddress else contractAddress!!,
+            to_address = contractAddress.ifNullOrBlank { toAddress },
             tx_mode = TransactionMode.Enveloped,
             chain_id = chainId.asHex(),
             nonce = nonce.asHex(),
@@ -130,16 +132,36 @@ class EthereumRepository internal constructor(
         output.encoded.hex().let { "0x$it" }
     }
 
+    private suspend fun estimateGas(
+        account: String,
+        toAddress: String,
+        contractAddress: String?,
+        amount: String
+    ): String {
+        val data = if (contractAddress.isNullOrBlank()) {
+            ""
+        } else {
+            Transaction.ERC20Transfer(
+                to = toAddress,
+                amount = amount.asHex()
+            ).encode().decodeToString()
+        }
+        val estimateGas = jsonRpcApi.estimateGas(
+            from = account,
+            to = contractAddress.ifNullOrBlank { toAddress },
+            value = null,
+            data = data
+        )
+        return estimateGas
+    }
+
     private suspend fun calculateFee(): Pair<String, String> {
-        return Pair("0xB2D05E00", "0x77359400")
+        return jsonRpcApi.feeHistory(5, listOf(20, 30))
     }
 
-    private suspend fun lastGasLimit(): String {
-        return "0x0130B9"
-    }
-
-    private suspend fun fetchingNonce(): String {
-        return "0x0"
+    private suspend fun fetchingNonce(account: String): String {
+        val tnxCount = jsonRpcApi.getTransactionCount(account)
+        return tnxCount
     }
 }
 

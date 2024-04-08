@@ -6,10 +6,14 @@ import com.easy.wallet.shared.data.repository.SupportedTokenRepository
 import com.easy.wallet.shared.data.repository.TokenRepository
 import com.easy.wallet.shared.model.Balance
 import com.easy.wallet.shared.model.TokenUiModel
+import com.ionspin.kotlin.bignum.integer.toBigInteger
 import com.trustwallet.core.CoinType
 import com.trustwallet.core.HDWallet
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 
 class DashboardUseCase internal constructor(
@@ -19,18 +23,24 @@ class DashboardUseCase internal constructor(
 ) {
     operator fun invoke(wallet: Wallet): Flow<List<TokenUiModel>> {
         val hdWallet = HDWallet(wallet.mnemonic, wallet.passphrase)
-        return combine(
-            supportedTokenRepository.allSupportedTokenStream(),
-            ethereumRepository.dashboard(hdWallet.getAddressForCoin(CoinType.Ethereum)),
-            bitcoinRepository.dashboard(hdWallet.getAddressForCoin(CoinType.Bitcoin)),
-        ) { tokens, ethBalances, _ ->
+        return supportedTokenRepository.allSupportedTokenStream().map { tokens ->
+            val ethereumAddress = hdWallet.getAddressForCoin(CoinType.Ethereum)
             val ethereumTokens = tokens.filter { it.chainName == Constants.ETH_CHAIN_NAME }
             ethereumTokens.map { token ->
-                val balance = ethBalances.find {
-                    token.contract.equals(it.address, ignoreCase = true)
-                } ?: Balance.ZERO
-                TokenUiModel(token, balance)
-            }
+                coroutineScope {
+                    async {
+                        val balance =
+                            ethereumRepository.loadBalance(ethereumAddress, token.contract)
+                        TokenUiModel(
+                            token, Balance(
+                                contract = token.contract,
+                                decimals = token.decimals,
+                                balance = balance.toBigInteger(),
+                            )
+                        )
+                    }
+                }
+            }.awaitAll()
         }.onStart {
             val emptyBalance = supportedTokenRepository.allSupportedToken().map {
                 TokenUiModel(it, Balance.ZERO)

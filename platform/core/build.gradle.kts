@@ -4,16 +4,13 @@ plugins {
 
 kotlin {
     sourceSets {
-        androidMain {
-            dependencies {
-                implementation(libs.androidx.lifecycle)
-            }
+        androidMain.dependencies {
+            implementation(libs.androidx.lifecycle)
         }
-        commonMain {
-            dependencies {
-                implementation(libs.kotlinx.datetime)
-                implementation(libs.kotlinx.coroutines.core)
-            }
+
+        commonMain.dependencies {
+            implementation(libs.kotlinx.datetime)
+            implementation(libs.kotlinx.coroutines.core)
         }
     }
 }

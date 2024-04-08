@@ -30,18 +30,16 @@ internal suspend inline fun <reified T> HttpClient.tryGet(
 }
 
 internal suspend inline fun <reified T> HttpClient.tryPost(
-    urlString: String,
-    isThrows: Boolean = false,
+    urlString: String = "",
     block: HttpRequestBuilder.() -> Unit = {}
-): T? {
+): T {
     return try {
         post(urlString, block).body<T>()
     } catch (exception: ResponseException) {
         exception.debugLogging()
-        if (isThrows) throw exception else null
+        throw exception
     } catch (ioException: IOException) {
-        ioException.printStackTrace()
-        if (isThrows) throw ioException else null
+        throw ioException
     }
 }
 

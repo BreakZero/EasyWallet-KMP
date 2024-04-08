@@ -3,7 +3,8 @@ package com.easy.wallet.shared.domain
 import com.easy.wallet.core.commom.Constants
 import com.easy.wallet.model.TokenBasicResult
 import com.easy.wallet.shared.data.multiwallet.MultiWalletRepository
-import com.easy.wallet.shared.model.FeeLevel
+import com.easy.wallet.shared.model.fees.FeeLevel
+import com.easy.wallet.shared.model.fees.FeeModel
 import com.ionspin.kotlin.bignum.decimal.toBigDecimal
 import com.trustwallet.core.CoinType
 import com.trustwallet.core.HDWallet
@@ -21,7 +22,7 @@ class TransactionSigningUseCase internal constructor(
         chainId: String,
         toAddress: String,
         amount: String,
-        feeLevel: FeeLevel
+        fee: FeeModel
     ): Flow<String> {
         return combine(
             walletRepository.forActivatedOne().filterNotNull(),
@@ -30,13 +31,14 @@ class TransactionSigningUseCase internal constructor(
             val hdWallet = HDWallet(wallet.mnemonic, wallet.passphrase)
             val privateKey = getPrivateKeyFromChain(hdWallet, basicInfo)
             exactTokenRepositoryUseCase(basicInfo).signTransaction(
+                account = basicInfo.address,
                 chainId = chainId,
                 privateKey = privateKey,
                 contractAddress = basicInfo.contract,
                 toAddress = toAddress,
                 amount = amount.toBigDecimal().moveDecimalPoint(basicInfo.decimals).toBigInteger()
                     .toString(16),
-                feeLevel = feeLevel
+                fee = fee
             )
         }
     }

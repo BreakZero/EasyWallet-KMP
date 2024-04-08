@@ -2,6 +2,7 @@ package com.easy.wallet.network.source.evm_rpc.parameter
 
 import kotlinx.serialization.Serializable
 
+@Serializable(with = ParameterSerialize::class)
 internal sealed interface Parameter {
     @Serializable
     data class CallParameter(
