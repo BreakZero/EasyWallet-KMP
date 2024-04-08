@@ -44,6 +44,7 @@ struct TokenItemView: View {
             decimals: 18,
             contract: "",
             iconUri: "https://hws.dev/paul.jpg",
+            chainIdHex: nil,
             isActive: true
         ), balance: Balance.companion.ZERO)
     )
