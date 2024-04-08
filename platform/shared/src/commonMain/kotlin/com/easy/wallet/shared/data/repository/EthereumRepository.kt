@@ -1,6 +1,7 @@
 package com.easy.wallet.shared.data.repository
 
 import com.easy.wallet.core.commom.DateTimeDecoder
+import com.easy.wallet.core.commom.ifNullOrBlank
 import com.easy.wallet.model.TokenBasicResult
 import com.easy.wallet.network.source.blockchair.BlockchairApi
 import com.easy.wallet.network.source.etherscan.EtherscanApi
@@ -8,7 +9,9 @@ import com.easy.wallet.network.source.etherscan.dto.EtherTransactionDto
 import com.easy.wallet.network.source.evm_rpc.JsonRpcApi
 import com.easy.wallet.shared.asHex
 import com.easy.wallet.shared.model.Balance
-import com.easy.wallet.shared.model.FeeLevel
+import com.easy.wallet.shared.model.fees.FeeLevel
+import com.easy.wallet.shared.model.fees.EthereumFee
+import com.easy.wallet.shared.model.fees.FeeModel
 import com.easy.wallet.shared.model.transaction.Direction
 import com.easy.wallet.shared.model.transaction.EthereumTransactionUiModel
 import com.easy.wallet.shared.model.transaction.TransactionStatus
@@ -87,6 +90,23 @@ class EthereumRepository internal constructor(
         return tnxDto.map { it.asTransactionUiModel(token, account) }
     }
 
+    override suspend fun prepFees(
+        account: String,
+        toAddress: String,
+        contractAddress: String?,
+        amount: String
+    ): List<FeeModel> = withContext(Dispatchers.IO) {
+        val estimateGas = async { estimateGas(account, toAddress, contractAddress, amount) }.await()
+        val (maxFeePerGas, inclusionFeePerGas) = async {
+            calculateFee()
+        }.await()
+        listOf(
+            EthereumFee(feeLevel = FeeLevel.Low, gas = estimateGas, maxFeePerGas = maxFeePerGas, priorityFeeGas = inclusionFeePerGas),
+            EthereumFee(feeLevel = FeeLevel.Average, gas = estimateGas, maxFeePerGas = maxFeePerGas, priorityFeeGas = inclusionFeePerGas),
+            EthereumFee(feeLevel = FeeLevel.Fast, gas = estimateGas, maxFeePerGas = maxFeePerGas, priorityFeeGas = inclusionFeePerGas)
+        )
+    }
+
     override suspend fun signTransaction(
         account: String,
         chainId: String,
@@ -94,28 +114,23 @@ class EthereumRepository internal constructor(
         toAddress: String,
         contractAddress: String?,
         amount: String,
-        feeLevel: FeeLevel
+        fee: FeeModel
     ): String = withContext(Dispatchers.IO) {
+        if (fee !is EthereumFee) throw IllegalArgumentException("fee model is incorrect")
         val isEthNormalTransfer = contractAddress.isNullOrBlank()
 
-        val gasLimit = async {
-            lastGasLimit(
-                from = account,
-                to = if (isEthNormalTransfer) toAddress else contractAddress!!,
-                data = ""
-            )
-        }.await()
         val nonce = async {
             fetchingNonce(account)
         }.await()
-        val (maxFeePerGas, inclusionFeePerGas) = async {
-            calculateFee()
-        }.await()
+        val maxFeePerGas = fee.maxFeePerGas
+        val inclusionFeePerGas = fee.priorityFeeGas
+        val gasLimit = fee.gas
 
+        // double check balance if enough to send for fee
 
         val signingInput = SigningInput(
             private_key = ByteString.of(*privateKey),
-            to_address = if (isEthNormalTransfer) toAddress else contractAddress!!,
+            to_address = contractAddress.ifNullOrBlank { toAddress },
             tx_mode = TransactionMode.Enveloped,
             chain_id = chainId.asHex(),
             nonce = nonce.asHex(),
@@ -139,13 +154,31 @@ class EthereumRepository internal constructor(
         output.encoded.hex().let { "0x$it" }
     }
 
-    private suspend fun calculateFee(): Pair<String, String> {
-        return jsonRpcApi.feeHistory(5, listOf(20, 30))
+    private suspend fun estimateGas(
+        account: String,
+        toAddress: String,
+        contractAddress: String?,
+        amount: String
+    ): String {
+        val data = if (contractAddress.isNullOrBlank()) {
+            ""
+        } else {
+            Transaction.ERC20Transfer(
+                to = toAddress,
+                amount = amount.asHex()
+            ).encode().decodeToString()
+        }
+        val estimateGas = jsonRpcApi.estimateGas(
+            from = account,
+            to = contractAddress.ifNullOrBlank { toAddress },
+            value = null,
+            data = data
+        )
+        return estimateGas
     }
 
-    private suspend fun lastGasLimit(from: String, to: String, data: String): String {
-        val gas = jsonRpcApi.estimateGas(from = from, to = to, data = data, value = null)
-        return gas
+    private suspend fun calculateFee(): Pair<String, String> {
+        return jsonRpcApi.feeHistory(5, listOf(20, 30))
     }
 
     private suspend fun fetchingNonce(account: String): String {

@@ -1,7 +1,5 @@
 package com.easy.wallet.send
 
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.text2.input.TextFieldState
 import androidx.compose.runtime.Stable
 import com.easy.wallet.model.TokenBasicResult
 
@@ -10,6 +8,8 @@ sealed interface SendUiEvent {
     data class EnterDigital(val char: String) : SendUiEvent
     data object MaxAmount : SendUiEvent
     data object ClickNext : SendUiEvent
+
+    data object OnPrepTransactionFee: SendUiEvent
 
     data object OnSigningTransaction: SendUiEvent
 }

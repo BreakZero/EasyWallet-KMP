@@ -11,21 +11,28 @@ import com.easy.wallet.android.core.BaseViewModel
 import com.easy.wallet.send.navigation.TokenArgs
 import com.easy.wallet.shared.domain.GetToKenBasicInfoUseCase
 import com.easy.wallet.shared.domain.TokenBalanceUseCase
+import com.easy.wallet.shared.domain.TransactionPlanUseCase
 import com.easy.wallet.shared.domain.TransactionSigningUseCase
-import com.easy.wallet.shared.model.FeeLevel
+import com.easy.wallet.shared.model.fees.EthereumFee
+import com.easy.wallet.shared.model.fees.FeeLevel
+import com.easy.wallet.shared.model.fees.FeeModel
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 
 @OptIn(ExperimentalFoundationApi::class)
 internal class SendSharedViewModel(
     savedStateHandle: SavedStateHandle,
     basicInfoUseCase: GetToKenBasicInfoUseCase,
     tokenBalanceUseCase: TokenBalanceUseCase,
+    private val transactionPlanUseCase: TransactionPlanUseCase,
     private val transactionSigningUseCase: TransactionSigningUseCase
 ) : BaseViewModel<SendUiEvent>() {
 
@@ -34,6 +41,9 @@ internal class SendSharedViewModel(
 
     val destination = TextFieldState("")
     private val _amount = TextFieldState("0")
+
+    private val _fees = MutableStateFlow(emptyList<FeeModel>())
+    val fees = _fees.asStateFlow()
 
     val sendUiState = combine(
         basicInfoUseCase(tokenId),
@@ -49,7 +59,7 @@ internal class SendSharedViewModel(
         ) as SendUiState
     }.catch {
         emit(SendUiState.Error)
-    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(3_000), SendUiState.Loading)
+    }.stateIn(viewModelScope, SharingStarted.Lazily, SendUiState.Loading)
 
 
     override fun handleEvent(event: SendUiEvent) {
@@ -87,18 +97,41 @@ internal class SendSharedViewModel(
                 }
             }
 
+            SendUiEvent.OnPrepTransactionFee -> {
+                prepFee(
+                    tokenId = tokenId,
+                    toAddress = destination.text.toString(),
+                    amount = _amount.text.toString()
+                ) {
+                    println("-==== onCompletion")
+                    dispatchEvent(SendUiEvent.ClickNext)
+                }
+            }
+
             SendUiEvent.OnSigningTransaction -> {
                 transactionSigningUseCase(
                     tokenId = tokenId,
                     chainId = "0x1",
                     toAddress = destination.text.toString(),
                     amount = _amount.text.toString(),
-                    feeLevel = FeeLevel.Fast
+                    fee = EthereumFee(FeeLevel.Average, "0x100", "0x100", "0x122")
                 ).onEach {
                     println("===== $it")
                     dispatchEvent(SendUiEvent.ClickNext)
                 }.launchIn(viewModelScope)
             }
         }
+    }
+
+    private fun prepFee(
+        tokenId: String,
+        toAddress: String,
+        amount: String,
+        onCompleted: () -> Unit
+    ) {
+        transactionPlanUseCase(tokenId, toAddress, amount).onEach {
+            println("===== $it")
+            _fees.update { it }
+        }.onCompletion { onCompleted() }.launchIn(viewModelScope)
     }
 }

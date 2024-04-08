@@ -16,6 +16,7 @@ internal fun TransactionOverviewRoute(
 
     }
     val uiState by viewModel.sendUiState.collectAsStateWithLifecycle()
-    EvmChainOverviewScreen(uiState = uiState as SendUiState.Success)
+    val fees by viewModel.fees.collectAsStateWithLifecycle()
+    EvmChainOverviewScreen(uiState = uiState as SendUiState.Success, fees = fees)
 }
 
