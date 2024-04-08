@@ -13,5 +13,6 @@ data class TokenInformation(
     val decimals: Int,
     val contract: String?,
     val iconUri: String,
+    val chainIdHex: String?,
     val isActive: Boolean
 )

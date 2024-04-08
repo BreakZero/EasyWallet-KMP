@@ -29,10 +29,19 @@ private fun initDefaultData(driver: SqlDriver) {
         null,
         """
             INSERT OR IGNORE INTO ChainEntity(id, name, website, explorer, rpc_url, chain_id)
-            VALUES (-1, "Ethereum","https://ethereum.org/en/","https://etherscan.io","https://eth.llamarpc.com","1");
+            VALUES (-1, "Ethereum","https://ethereum.org/en/","https://etherscan.io","https://eth.llamarpc.com","0x1");
         """.trimIndent(),
         0
     )
+    driver.execute(
+        null,
+        """
+            INSERT OR IGNORE INTO ChainEntity(id, name, website, explorer, rpc_url, chain_id)
+            VALUES (-2, "Ethereum","https://ethereum.org/en/","https://sepolia.etherscan.io/","https://sepolia.infura.io","0xaa36a7");
+        """.trimIndent(),
+        0
+    )
+
     driver.execute(
         null,
         """
@@ -81,6 +90,15 @@ private fun initDefaultData(driver: SqlDriver) {
         """.trimIndent(),
         0
     )
+
+    /*driver.execute(
+        null,
+        """
+            INSERT OR ABORT INTO TokenEntity(id, chain_id, name, symbol, decimals, contract_address, icon_uri, is_active, tags)
+            VALUES ("ether_coin_sepolia", -2, "Ethereum","ETH",18, null, "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/info/logo.png",1, "");
+        """.trimIndent(),
+        0
+    )*/
 }
 
 class SharedDatabase internal constructor(

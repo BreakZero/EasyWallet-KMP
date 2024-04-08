@@ -104,10 +104,10 @@ internal class SendSharedViewModel(
                 }
             }
 
-            SendUiEvent.OnSigningTransaction -> {
+            is SendUiEvent.OnSigningTransaction -> {
                 transactionSigningUseCase(
                     tokenId = tokenId,
-                    chainId = "0xaa36a7",
+                    chainId = event.chainIdHex ?: "0x1",
                     toAddress = destination.text.toString(),
                     amount = _amount.text.toString(),
                     fee = _fees.value[1]

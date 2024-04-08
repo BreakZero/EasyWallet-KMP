@@ -25,13 +25,13 @@ FROM TokenEntity WHERE chain_id = :chainId;
 
 getAll:
 SELECT TokenEntity.id, TokenEntity.name, TokenEntity.symbol, TokenEntity.decimals, TokenEntity.contract_address, TokenEntity.icon_uri, TokenEntity.is_active,
-ChainEntity.name AS chain_name
+ChainEntity.name AS chain_name, ChainEntity.chain_id AS chain_id_hex
 FROM TokenEntity
 LEFT JOIN ChainEntity ON TokenEntity.chain_id = ChainEntity.id;
 
 findById:
 SELECT TokenEntity.id, TokenEntity.name, TokenEntity.symbol, TokenEntity.decimals, TokenEntity.contract_address, TokenEntity.icon_uri, TokenEntity.is_active,
-ChainEntity.name AS chain_name
+ChainEntity.name AS chain_name, ChainEntity.chain_id AS chain_id_hex
 FROM TokenEntity
 LEFT JOIN ChainEntity ON TokenEntity.chain_id = ChainEntity.id
 WHERE TokenEntity.id = :id;

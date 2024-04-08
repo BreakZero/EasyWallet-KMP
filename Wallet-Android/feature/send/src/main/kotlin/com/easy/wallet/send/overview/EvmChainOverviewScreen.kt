@@ -75,7 +75,7 @@ internal fun EvmChainOverviewScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp, vertical = 8.dp),
-                onClick = { onEvent(SendUiEvent.OnSigningTransaction) }
+                onClick = { onEvent(SendUiEvent.OnSigningTransaction(uiState.tokenInfo.chainIdHex)) }
             ) {
                 Text(text = "Next")
             }
@@ -209,7 +209,7 @@ private fun Overview_Preview() {
         EasyGradientBackground {
             EvmChainOverviewScreen(
                 SendUiState.Success(
-                    tokenInfo = TokenBasicResult("", "", 18, "", "", null, "Ethereum"),
+                    tokenInfo = TokenBasicResult("", "", 18, "", "", null, "Ethereum", ""),
                     balance = "8.00",
                     recipient = "",
                     amount = ""

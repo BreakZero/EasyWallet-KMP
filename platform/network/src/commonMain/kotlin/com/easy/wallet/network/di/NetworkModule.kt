@@ -139,7 +139,6 @@ val networkModule = module {
 //                    host = "https://eth.llamarpc.com"
                     host = "sepolia.infura.io"
                     path("v3/${BuildKonfig.INFURA_KEY}")
-                    path("/")
                 }
                 header("Content-Type", "application/json")
             }

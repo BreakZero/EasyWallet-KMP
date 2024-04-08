@@ -46,6 +46,7 @@ class LocalTokenDaoImpl internal constructor(
                 decimals = it.decimals ?: 8,
                 contract = it.contract_address,
                 iconUri = it.icon_uri.orEmpty(),
+                chainIdHex = it.chain_id_hex,
                 isActive = it.is_active ?: false
             )
         }
@@ -62,7 +63,8 @@ class LocalTokenDaoImpl internal constructor(
             decimals = entity.decimals ?: 8,
             contract = entity.contract_address,
             iconUri = entity.icon_uri.orEmpty(),
-            isActive = entity.is_active ?: false
+            isActive = entity.is_active ?: false,
+            chainIdHex = entity.chain_id_hex
         )
     }
 
