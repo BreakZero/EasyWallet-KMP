@@ -7,7 +7,7 @@ Multiplatform进行Android
 和iOS开发，共享逻辑代码。UI分别使用Jetpack Compose和SwiftUI实现。
 
 ### 结构和架构
-这是一个Kotlin Multiplatform Project, 支持iOS和Android端。结构上由3大部分组成，分别是 _platform_, _Wallet-Android_, _Wallet-iOS_
+这是一个Kotlin Multiplatform Project, 支持iOS和Android端。结构上由3大部分组成，分别是 _**platform**_, _**Wallet-Android**_, _**Wallet-iOS**_
 * #### platform
   _platform_ 是双端共享业务逻辑处理代码，其主要职责是将服务端接口数据通过逻辑处理包装成业务领域Model给UI层使用或者接收用户操作后触发更改云端/本地存储数据.
   在实现上符合Clean Architecture架构，主要包含Model、Data、Domain层
