@@ -37,7 +37,7 @@ private fun initDefaultData(driver: SqlDriver) {
         null,
         """
             INSERT OR IGNORE INTO ChainEntity(id, name, website, explorer, rpc_url, chain_id)
-            VALUES (-2, "Ethereum","https://ethereum.org/en/","https://sepolia.etherscan.io/","https://sepolia.infura.io","0xaa36a7");
+            VALUES (-2, "Ethereum(sepolia)","https://ethereum.org/en/","https://sepolia.etherscan.io/","https://sepolia.infura.io","0xaa36a7");
         """.trimIndent(),
         0
     )
