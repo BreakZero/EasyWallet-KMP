@@ -4,6 +4,7 @@ import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToOneOrNull
 import com.easy.wallet.database.SharedDatabase
 import com.easy.wallet.model.Wallet
+import com.rickclephas.kmp.nativecoroutines.NativeCoroutines
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
@@ -22,6 +23,7 @@ class MultiWalletRepository internal constructor(
 ) {
     private val queries = sharedDatabase.database.walletQueries
 
+    @NativeCoroutines
     suspend fun insertOne(
         mnemonic: String,
         passphrase: String,
@@ -43,6 +45,7 @@ class MultiWalletRepository internal constructor(
         }
     }
 
+    @NativeCoroutines
     fun forActivatedOne(): Flow<Wallet?> {
         return queries.forActivatedOne().asFlow().mapToOneOrNull(dispatcher).map {
             it?.let {

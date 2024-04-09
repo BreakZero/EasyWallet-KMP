@@ -12,6 +12,6 @@ import kotlinx.coroutines.flow.stateIn
 internal class NewsViewModel(
     newsPager: NewsPager
 ) : ViewModel() {
-    val newsUiState = newsPager().flow.distinctUntilChanged().cachedIn(viewModelScope)
+    val newsUiState = newsPager().distinctUntilChanged().cachedIn(viewModelScope)
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), PagingData.empty())
 }

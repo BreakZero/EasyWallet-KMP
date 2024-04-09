@@ -3,9 +3,9 @@ package com.easy.wallet.shared.domain
 import com.easy.wallet.core.commom.Constants
 import com.easy.wallet.model.TokenBasicResult
 import com.easy.wallet.shared.data.multiwallet.MultiWalletRepository
-import com.easy.wallet.shared.model.fees.FeeLevel
 import com.easy.wallet.shared.model.fees.FeeModel
 import com.ionspin.kotlin.bignum.decimal.toBigDecimal
+import com.rickclephas.kmp.nativecoroutines.NativeCoroutines
 import com.trustwallet.core.CoinType
 import com.trustwallet.core.HDWallet
 import kotlinx.coroutines.flow.Flow
@@ -17,6 +17,8 @@ class TransactionSigningUseCase internal constructor(
     private val basicInfoUseCase: GetToKenBasicInfoUseCase,
     private val exactTokenRepositoryUseCase: GetExactTokenRepositoryUseCase
 ) {
+
+    @NativeCoroutines
     operator fun invoke(
         tokenId: String,
         chainId: String,

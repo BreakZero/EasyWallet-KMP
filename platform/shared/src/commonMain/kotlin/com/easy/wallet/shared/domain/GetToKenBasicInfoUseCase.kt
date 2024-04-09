@@ -4,6 +4,7 @@ import com.easy.wallet.core.commom.Constants
 import com.easy.wallet.model.TokenBasicResult
 import com.easy.wallet.shared.data.multiwallet.MultiWalletRepository
 import com.easy.wallet.shared.data.repository.SupportedTokenRepository
+import com.rickclephas.kmp.nativecoroutines.NativeCoroutines
 import com.trustwallet.core.CoinType
 import com.trustwallet.core.HDWallet
 import kotlinx.coroutines.flow.Flow
@@ -13,6 +14,7 @@ class GetToKenBasicInfoUseCase internal constructor(
     private val walletRepository: MultiWalletRepository,
     private val supportedTokenRepository: SupportedTokenRepository
 ) {
+    @NativeCoroutines
     operator fun invoke(tokenId: String): Flow<TokenBasicResult> {
         return combine(
             supportedTokenRepository.findTokenByIdFlow(tokenId),

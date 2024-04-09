@@ -1,11 +1,15 @@
 import co.touchlab.skie.configuration.EnumInterop
+import co.touchlab.skie.configuration.FlowInterop
 import co.touchlab.skie.configuration.SealedInterop
+import co.touchlab.skie.configuration.SuspendInterop
 import org.jetbrains.kotlin.gradle.plugin.mpp.BitcodeEmbeddingMode
 
 @Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
 plugins {
     id("org.easy.multiplatform")
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.nativecoroutines)
     alias(libs.plugins.skie)
 }
 
@@ -32,6 +36,9 @@ kotlin {
         }
     }
     sourceSets {
+        all {
+            languageSettings.optIn("kotlin.experimental.ExperimentalObjCName")
+        }
         commonMain {
             dependencies {
                 api(project(":platform:core"))
@@ -83,9 +90,12 @@ android {
 
 skie {
     features {
-        group("co.touchlab.skie.types") {
+        group {
             SealedInterop.Enabled(true)
             EnumInterop.Enabled(true)
+            coroutinesInterop.set(false)
+            SuspendInterop.Enabled(false)
+            FlowInterop.Enabled(false)
         }
     }
 }

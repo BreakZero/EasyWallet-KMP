@@ -6,6 +6,7 @@ import androidx.paging.CombinedLoadStates
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListUpdateCallback
+import com.rickclephas.kmp.nativecoroutines.NativeCoroutines
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -75,8 +76,10 @@ class PagingCollectionViewController<T : Any> {
 
     fun getItems() = differ.snapshot().items
 
+    @NativeCoroutines
     val loadStateFlow: Flow<CombinedLoadStates> = differ.loadStateFlow
 
+    @NativeCoroutines
     val onPagesUpdatedFlow: Flow<Unit> = differ.onPagesUpdatedFlow
 
 }

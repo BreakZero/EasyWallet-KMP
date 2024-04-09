@@ -8,6 +8,7 @@
 
 import Foundation
 import shared
+import KMPNativeCoroutinesAsync
 
 extension NewsScreen {
     @MainActor final class ViewModel: ObservableObject {
@@ -21,17 +22,18 @@ extension NewsScreen {
         @Published private(set) var showLoding: Bool = false
 
         func startLoadNews() async {
-            let newsStream = newsPager.invoke().flow
-            await newsStream.collect { pagingData in
+            try? await asyncSequence(for: newsPager.invoke()).collect { pagingData in
                 print(pagingData.description)
-                try? await skie(delegate).submitData(pagingData: pagingData)
+                try? await delegate.submitData(pagingData: pagingData)
             }
         }
         
         func subscribeDataChanged() async {
-            for await _ in delegate.onPagesUpdatedFlow {
-                self.newsResult = delegate.getItems()
-            }
+            do {
+                for try await _ in asyncSequence(for: delegate.onPagesUpdatedFlow) {
+                    self.newsResult = delegate.getItems()
+                }
+            } catch {}
         }
         
         func loadNextPage() {
@@ -39,28 +41,32 @@ extension NewsScreen {
         }
         
         func subscribeLoadState() async {
-            for await loadState in delegate.loadStateFlow {
-                switch onEnum(of: loadState.append) {
-                case .error(let errorState):
-                    print(errorState.error.message?.description ?? "append error...")
-                    break
-                case .loading(_):
-                    break
-                case .notLoading(let notLoading):
-                    self.hasNextPage = !notLoading.endOfPaginationReached
-                    break
+            do {
+                for try await loadState in asyncSequence(for: delegate.loadStateFlow) {
+                    switch onEnum(of: loadState.append) {
+                    case .error(let errorState):
+                        print(errorState.error.message?.description ?? "append error...")
+                        break
+                    case .loading(_):
+                        break
+                    case .notLoading(let notLoading):
+                        self.hasNextPage = !notLoading.endOfPaginationReached
+                        break
+                    }
+                    
+                    switch onEnum(of: loadState.refresh) {
+                    case .error(_):
+                        break
+                    case .loading(_):
+                        self.showLoding = true
+                        break
+                    case .notLoading(_):
+                        self.showLoding = false
+                        break
+                    }
                 }
+            } catch {
                 
-                switch onEnum(of: loadState.refresh) {
-                case .error(_):
-                    break
-                case .loading(_):
-                    self.showLoding = true
-                    break
-                case .notLoading(_):
-                    self.showLoding = false
-                    break
-                }
             }
         }
     }

@@ -8,6 +8,7 @@ import com.easy.wallet.shared.data.repository.TokenRepository
 import com.easy.wallet.shared.model.Balance
 import com.easy.wallet.shared.model.TokenUiModel
 import com.ionspin.kotlin.bignum.integer.toBigInteger
+import com.rickclephas.kmp.nativecoroutines.NativeCoroutines
 import com.trustwallet.core.CoinType
 import com.trustwallet.core.HDWallet
 import kotlinx.coroutines.async
@@ -22,6 +23,7 @@ class DashboardUseCase internal constructor(
     private val ethereumRepository: TokenRepository,
     private val bitcoinRepository: TokenRepository
 ) {
+    @NativeCoroutines
     operator fun invoke(wallet: Wallet): Flow<List<TokenUiModel>> {
         val hdWallet = HDWallet(wallet.mnemonic, wallet.passphrase)
         return supportedTokenRepository.allSupportedTokenStream().map { tokens ->

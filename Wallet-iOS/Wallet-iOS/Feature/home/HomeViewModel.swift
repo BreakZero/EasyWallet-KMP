@@ -9,6 +9,7 @@
 import Foundation
 import Combine
 import shared
+import KMPNativeCoroutinesAsync
 
 extension HomeScreen {
     @MainActor final class HomeViewModel: ObservableObject {
@@ -20,7 +21,7 @@ extension HomeScreen {
         @Published private(set) var homeUiState: HomeUiState = HomeUiState.Fetching
         
         func fetching() async {
-            await multiWalletRepository.forActivatedOne().collect { wallet in
+            try? await asyncSequence(for: multiWalletRepository.forActivatedOne()).collect { wallet in
                 print("wallet \(wallet?.mnemonic ?? "empty...")")
                 if wallet != nil {
                     homeUiState = HomeUiState.Fetching
@@ -32,7 +33,7 @@ extension HomeScreen {
         }
         
         private func startLoadToken(wallet: ModelWallet) async {
-            await dashboardUseCase.invoke(wallet: wallet).collect { tokens in
+            try? await asyncSequence(for: dashboardUseCase.invoke(wallet: wallet)).collect { tokens in
                 print("token size: \(tokens.count.description)")
                 self.homeUiState = HomeUiState.WalletUiState(HomeUiState.Dashboard(user: "User Name", moneyTrend: self.moneyTrend, tokens: tokens))
             }

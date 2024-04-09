@@ -20,6 +20,8 @@ struct TransactionSummaryView: View {
             "Receive"
         case .send:
             "Send"
+        default:
+            "Send"
         }
     }
     

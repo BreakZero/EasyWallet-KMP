@@ -12,14 +12,14 @@ skie = "0.6.2"
 
 buildkonfigGradlePlugin = "0.15.1"
 compose-bom = "2024.04.00"
-compose-compiler = "1.5.10"
+compose-compiler = "1.5.11"
 compose-activity = "1.8.2"
 compose-navigation = "2.7.7"
 
 kotlinx-coroutine = "1.8.0"
 
 # For plugins
-org-jetbrains-kotlin = "1.9.22"
+org-jetbrains-kotlin = "1.9.23"
 android-gradle-plugin = "8.2.2"
 
 # For testing
@@ -36,6 +36,7 @@ ktor = "2.3.3"
 material = "1.11.0"
 ksp = "1.9.22-1.0.17"
 hilt = "2.48"
+native-coroutines = "1.0.0-ALPHA-27"
 
 
 [libraries]
@@ -131,6 +132,7 @@ kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "org-jetbr
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "org-jetbrains-kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 skie = { id = "co.touchlab.skie", version.ref = "skie" }
+nativecoroutines = { id = "com.rickclephas.kmp.nativecoroutines", version.ref = "native-coroutines" }
 
 [bundles]
 compose-android-bundle = [
