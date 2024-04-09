@@ -90,6 +90,7 @@ private fun AmountHeader_Preview() {
                     "",
                     null,
                     "",
+                    ""
                 ),
                 balance = "12345678",
                 trends = List(8) { Random.nextInt(12).toString() }

@@ -152,7 +152,7 @@ private fun EvmChainSendAmount_Preview() {
         EasyGradientBackground {
             EvmChainSendAmountScreen(
                 SendUiState.Success(
-                    tokenInfo = TokenBasicResult("", "", 18, "", "", null, "Ethereum"),
+                    tokenInfo = TokenBasicResult("", "", 18, "", "", null, "Ethereum", "1"),
                     balance = "8.00",
                     recipient = "",
                     amount = ""

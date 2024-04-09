@@ -12,5 +12,6 @@ data class TokenBasicResult(
     val address: String,
     val iconUri: String,
     val contract: String?,
-    val chainName: String
+    val chainName: String,
+    val chainIdHex: String?
 )

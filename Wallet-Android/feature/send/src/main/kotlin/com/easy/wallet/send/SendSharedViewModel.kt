@@ -13,8 +13,6 @@ import com.easy.wallet.shared.domain.GetToKenBasicInfoUseCase
 import com.easy.wallet.shared.domain.TokenBalanceUseCase
 import com.easy.wallet.shared.domain.TransactionPlanUseCase
 import com.easy.wallet.shared.domain.TransactionSigningUseCase
-import com.easy.wallet.shared.model.fees.EthereumFee
-import com.easy.wallet.shared.model.fees.FeeLevel
 import com.easy.wallet.shared.model.fees.FeeModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -22,7 +20,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
@@ -103,21 +100,21 @@ internal class SendSharedViewModel(
                     toAddress = destination.text.toString(),
                     amount = _amount.text.toString()
                 ) {
-                    println("-==== onCompletion")
                     dispatchEvent(SendUiEvent.ClickNext)
                 }
             }
 
-            SendUiEvent.OnSigningTransaction -> {
+            is SendUiEvent.OnSigningTransaction -> {
                 transactionSigningUseCase(
                     tokenId = tokenId,
-                    chainId = "0x1",
+                    chainId = event.chainIdHex ?: "0x1",
                     toAddress = destination.text.toString(),
                     amount = _amount.text.toString(),
-                    fee = EthereumFee(FeeLevel.Average, "0x100", "0x100", "0x122")
+                    fee = _fees.value[1]
                 ).onEach {
                     println("===== $it")
-                    dispatchEvent(SendUiEvent.ClickNext)
+                }.catch {
+                    it.printStackTrace()
                 }.launchIn(viewModelScope)
             }
         }
@@ -129,9 +126,11 @@ internal class SendSharedViewModel(
         amount: String,
         onCompleted: () -> Unit
     ) {
-        transactionPlanUseCase(tokenId, toAddress, amount).onEach {
-            println("===== $it")
-            _fees.update { it }
-        }.onCompletion { onCompleted() }.launchIn(viewModelScope)
+        transactionPlanUseCase(tokenId, toAddress, amount).onEach { fees ->
+            _fees.update { fees }
+            onCompleted()
+        }.catch {
+            println("===== ${it.message}")
+        }.launchIn(viewModelScope)
     }
 }

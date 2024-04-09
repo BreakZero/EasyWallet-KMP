@@ -129,7 +129,11 @@ class EthereumRepository internal constructor(
             )
         )
         val output = AnySigner.sign(signingInput, CoinType.Ethereum, SigningOutput.ADAPTER)
-        output.encoded.hex().let { "0x$it" }
+//        output.encoded.hex().let { "0x$it" }.also {
+//            jsonRpcApi.sendRawTransaction(it)
+//        }
+        val encoded = "0x${output.encoded.hex()}"
+        jsonRpcApi.sendRawTransaction(encoded)
     }
 
     private suspend fun estimateGas(

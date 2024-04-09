@@ -166,6 +166,7 @@ private fun TokenInformation_Preview() {
                     decimals = 18,
                     contract = null,
                     iconUri = "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/info/logo.png",
+                    chainIdHex = "",
                     isActive = true
                 )
             ) {}

@@ -27,7 +27,7 @@ data class TrendingItemDto(
     @SerialName("large")
     val large: String,
     @SerialName("market_cap_rank")
-    val marketCapRank: Int,
+    val marketCapRank: Int? = null,
     @SerialName("name")
     val name: String,
     @SerialName("price_btc")

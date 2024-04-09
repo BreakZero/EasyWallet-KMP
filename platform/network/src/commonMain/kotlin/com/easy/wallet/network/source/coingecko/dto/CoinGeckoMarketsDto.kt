@@ -41,7 +41,7 @@ data class CoinGeckoMarketsDto(
     @SerialName("market_cap_change_percentage_24h")
     val marketCapChangePercentage24h: Double,
     @SerialName("market_cap_rank")
-    val marketCapRank: Int,
+    val marketCapRank: Int? = null,
     @SerialName("max_supply")
     val maxSupply: Double? = null,
     @SerialName("name")

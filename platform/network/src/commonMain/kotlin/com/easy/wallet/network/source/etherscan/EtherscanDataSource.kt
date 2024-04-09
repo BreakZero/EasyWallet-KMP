@@ -20,7 +20,7 @@ class EtherscanDataSource internal constructor(
             parameter("address", account)
             parameter("page", page)
             parameter("offset", offset)
-            parameter("sort", "asc")
+            parameter("sort", "desc")
         }?.result ?: emptyList()
     }
 
@@ -36,7 +36,7 @@ class EtherscanDataSource internal constructor(
             parameter("address", account)
             parameter("page", page)
             parameter("offset", offset)
-            parameter("sort", "asc")
+            parameter("sort", "desc")
             parameter("contractaddress", contract)
         }?.result ?: emptyList()
     }

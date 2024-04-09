@@ -30,7 +30,8 @@ class GetToKenBasicInfoUseCase internal constructor(
                 address = address,
                 iconUri = foundToken.iconUri,
                 contract = foundToken.contract,
-                chainName = foundToken.chainName
+                chainName = foundToken.chainName,
+                chainIdHex = foundToken.chainIdHex
             )
         }
     }

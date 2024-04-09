@@ -11,7 +11,7 @@ sealed interface SendUiEvent {
 
     data object OnPrepTransactionFee: SendUiEvent
 
-    data object OnSigningTransaction: SendUiEvent
+    data class OnSigningTransaction(val chainIdHex: String?): SendUiEvent
 }
 
 internal sealed interface SendUiState {

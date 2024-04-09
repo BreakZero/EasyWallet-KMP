@@ -1,5 +1,6 @@
 package com.easy.wallet.shared.domain
 
+import co.touchlab.kermit.Logger
 import com.easy.wallet.core.commom.Constants
 import com.easy.wallet.model.Wallet
 import com.easy.wallet.shared.data.repository.SupportedTokenRepository
@@ -29,8 +30,15 @@ class DashboardUseCase internal constructor(
             ethereumTokens.map { token ->
                 coroutineScope {
                     async {
-                        val balance =
+                        val balance = try {
                             ethereumRepository.loadBalance(ethereumAddress, token.contract)
+                        } catch (e: Exception) {
+                            Logger.w("DashboardUseCase: ") {
+                                e.message ?: "unknown error"
+                            }
+                            "0.00"
+                        }
+
                         TokenUiModel(
                             token, Balance(
                                 contract = token.contract,

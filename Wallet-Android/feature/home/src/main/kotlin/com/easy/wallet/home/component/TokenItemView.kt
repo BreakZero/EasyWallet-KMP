@@ -63,7 +63,7 @@ private fun TokenItem_Preview() {
             TokenItemView(
                 modifier = Modifier.fillMaxWidth(),
                 extraToken = TokenUiModel(
-                    token = TokenInformation("", "", "Ethereum", "ETY", 18, null, "", true),
+                    token = TokenInformation("", "", "Ethereum", "ETY", 18, null, "", "", true),
                     Balance.ZERO
                 )
             ) {

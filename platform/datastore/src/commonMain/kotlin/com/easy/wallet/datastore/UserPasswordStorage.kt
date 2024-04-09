@@ -10,11 +10,12 @@ import kotlinx.coroutines.withContext
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
-class UserPasswordStorage : KoinComponent {
+class UserPasswordStorage: KoinComponent {
     private val userDefaults: SharedUserDefaults by inject()
 
     companion object {
         private const val PASSWORD_KEY = "password_key"
+        private const val KEY_BIOMETRIC_ENABLED = ""
     }
 
     suspend fun putPassword(
