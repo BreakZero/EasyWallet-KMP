@@ -1,7 +1,6 @@
 package com.easy.wallet.marketplace
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
@@ -20,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
-import com.easy.wallet.design.component.DefaultPagingStateColumn
+import com.easy.wallet.design.component.DefaultPagingLazyColumn
 import com.easy.wallet.marketplace.component.MarketCoinItem
 import com.easy.wallet.marketplace.component.TrendingItem
 import com.easy.wallet.shared.model.CoinTrend
@@ -58,18 +57,22 @@ internal fun MarketplaceScreen(
             )
         }
     ) { paddingValues ->
-        DefaultPagingStateColumn(
+        DefaultPagingLazyColumn(
             modifier = Modifier
                 .padding(paddingValues),
             verticalArrangement = Arrangement.spacedBy(12.dp),
-            paging = topCoinsPaging,
-            header = {
+            pagingItems = topCoinsPaging,
+            headerContainer = {
                 if (trendingCoins.isNotEmpty()) {
                     item {
-                        Text(text = "Trending Coins")
+                        Text(
+                            modifier = Modifier.padding(horizontal = 16.dp),
+                            text = "Trending Coins"
+                        )
                     }
                     item {
                         LazyRow(
+                            modifier = Modifier.padding(horizontal = 16.dp),
                             horizontalArrangement = Arrangement.spacedBy(8.dp),
                         ) {
                             items(items = trendingCoins, key = { it.coinId }) {
@@ -79,11 +82,14 @@ internal fun MarketplaceScreen(
                     }
                 }
                 item {
-                    Text(text = "Top Coins")
+                    Text(
+                        modifier = Modifier.padding(horizontal = 16.dp),
+                        text = "Top Coins"
+                    )
                 }
             },
             itemKey = { index -> topCoinsPaging[index]!!.id },
-            itemView = {
+            itemContainer = {
                 MarketCoinItem(
                     modifier = Modifier.padding(horizontal = 16.dp),
                     marketCoin = it

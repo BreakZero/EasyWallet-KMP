@@ -31,8 +31,8 @@ fun <T : Any> PullToRefreshPagingColumn(
     modifier: Modifier = Modifier,
     lazyListState: LazyListState = rememberLazyListState(),
     pagingItems: LazyPagingItems<T>,
-    headerItem: LazyListScope.() -> Unit = {},
-    footerItem: LazyListScope.() -> Unit = {},
+    headerContainer: LazyListScope.() -> Unit = {},
+    footerContainer: LazyListScope.() -> Unit = {},
     itemKey: ((index: Int) -> Any)? = {
         pagingItems[it].hashCode()
     },
@@ -64,7 +64,7 @@ fun <T : Any> PullToRefreshPagingColumn(
             state = lazyListState,
             verticalArrangement = verticalArrangement
         ) {
-            headerItem()
+            headerContainer()
             items(count = pagingItems.itemCount, key = itemKey) {
                 itemContainer(pagingItems[it]!!)
             }
@@ -108,7 +108,7 @@ fun <T : Any> PullToRefreshPagingColumn(
                     }
                 }
             }
-            footerItem()
+            footerContainer()
         }
         PullToRefreshContainer(
             modifier = Modifier

@@ -2,7 +2,6 @@ package com.easy.wallet.design.component
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.foundation.lazy.LazyListScope
@@ -18,31 +17,31 @@ import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 
 @Composable
-fun <T : Any> DefaultPagingStateColumn(
+fun <T : Any> DefaultPagingLazyColumn(
     modifier: Modifier = Modifier,
     state: LazyListState = rememberLazyListState(),
     verticalArrangement: Arrangement.Vertical = Arrangement.spacedBy(0.dp),
-    paging: LazyPagingItems<T>,
-    header: LazyListScope.() -> Unit = {},
-    footer: LazyListScope.() -> Unit = {},
+    pagingItems: LazyPagingItems<T>,
+    headerContainer: LazyListScope.() -> Unit = {},
+    footerContainer: LazyListScope.() -> Unit = {},
     itemKey: ((index: Int) -> Any)? = {
-        paging[it].hashCode()
+        pagingItems[it].hashCode()
     },
-    itemView: @Composable LazyItemScope.(T) -> Unit
+    itemContainer: @Composable LazyItemScope.(T) -> Unit
 ) {
     LazyColumn(
         modifier,
         state = state,
         verticalArrangement = verticalArrangement,
     ) {
-        header()
+        headerContainer()
         items(
             key = itemKey,
-            count = paging.itemCount
+            count = pagingItems.itemCount
         ) {
-            itemView(paging[it]!!)
+            itemContainer(pagingItems[it]!!)
         }
-        paging.apply {
+        pagingItems.apply {
             when {
                 loadState.refresh is LoadState.Loading -> {
                     item {
@@ -93,6 +92,6 @@ fun <T : Any> DefaultPagingStateColumn(
                 }
             }
         }
-        footer()
+        footerContainer()
     }
 }

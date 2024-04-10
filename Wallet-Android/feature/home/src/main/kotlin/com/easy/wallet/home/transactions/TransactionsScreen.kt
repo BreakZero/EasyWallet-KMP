@@ -36,7 +36,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.easy.wallet.android.core.extensions.ObserveAsEvents
-import com.easy.wallet.design.component.DefaultPagingStateColumn
 import com.easy.wallet.design.component.LoadingWheel
 import com.easy.wallet.design.component.PullToRefreshPagingColumn
 import com.easy.wallet.home.component.CollapsingToolbarWithLazyList
