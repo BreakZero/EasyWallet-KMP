@@ -10,11 +10,13 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import com.easy.wallet.design.component.EasyGradientBackground
+import com.easy.wallet.design.component.PullToRefreshBox
 import com.easy.wallet.design.theme.ThemePreviews
 import com.easy.wallet.design.ui.EasyWalletTheme
 import com.easy.wallet.home.HomeEvent
@@ -23,6 +25,7 @@ import com.easy.wallet.home.HomeUiState
 @Composable
 internal fun UserHomeContent(
     modifier: Modifier = Modifier,
+    isRefreshing: Boolean,
     walletUiState: HomeUiState.WalletUiState,
     onEvent: (HomeEvent) -> Unit
 ) {
@@ -30,35 +33,43 @@ internal fun UserHomeContent(
         0.dp.roundToPx()..248.dp.roundToPx()
     }
     val lazyListState = rememberLazyListState()
-    CollapsingToolbarWithLazyList(
+    PullToRefreshBox(
         modifier = modifier,
-        listState = lazyListState,
-        toolbarHeightRange = toolbarHeightRange,
-        header = { headerModifier ->
-            DashboardView(
-                modifier = headerModifier
-                    .height(200.dp)
-            )
-        },
-        listContent = { contentModifier ->
-            LazyColumn(
-                modifier = contentModifier
-                    .clip(RoundedCornerShape(topEnd = 20.dp, topStart = 20.dp)),
-                verticalArrangement = Arrangement.spacedBy(12.dp),
-                state = lazyListState
-            ) {
-                items(walletUiState.tokens, key = { it.token.id }) {
-                    TokenItemView(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 16.dp),
-                        extraToken = it,
-                        onEvent = onEvent
-                    )
+        isRefreshing = isRefreshing,
+        onRefresh = {
+            onEvent(HomeEvent.OnRefreshing)
+        }
+    ) {
+        CollapsingToolbarWithLazyList(
+            modifier = Modifier.fillMaxSize(),
+            listState = lazyListState,
+            toolbarHeightRange = toolbarHeightRange,
+            header = { headerModifier ->
+                DashboardView(
+                    modifier = headerModifier
+                        .height(200.dp)
+                )
+            },
+            listContent = { contentModifier ->
+                LazyColumn(
+                    modifier = contentModifier
+                        .clip(RoundedCornerShape(topEnd = 20.dp, topStart = 20.dp)),
+                    verticalArrangement = Arrangement.spacedBy(12.dp),
+                    state = lazyListState
+                ) {
+                    items(walletUiState.tokens, key = { it.token.id }) {
+                        TokenItemView(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp),
+                            extraToken = it,
+                            onEvent = onEvent
+                        )
+                    }
                 }
             }
-        }
-    )
+        )
+    }
 }
 
 @ThemePreviews
@@ -69,7 +80,10 @@ private fun UserHome_Preview() {
             modifier = Modifier
                 .fillMaxSize(),
         ) {
-            UserHomeContent(walletUiState = HomeUiState.WalletUiState(emptyList())) {}
+            UserHomeContent(
+                isRefreshing = false,
+                walletUiState = HomeUiState.WalletUiState(emptyList())
+            ) {}
         }
     }
 }

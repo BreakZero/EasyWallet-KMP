@@ -35,7 +35,7 @@ internal fun HomeRoute(
     navigateToSettings: () -> Unit
 ) {
     val uiState by viewModel.homeUiState.collectAsStateWithLifecycle()
-    val isWalletExist by viewModel.isWalletExist.collectAsStateWithLifecycle()
+    val isRefreshing by viewModel.isRefreshing.collectAsStateWithLifecycle()
 
     ObserveAsEvents(flow = viewModel.navigationEvents) { event ->
         when (event) {
@@ -43,12 +43,13 @@ internal fun HomeRoute(
             HomeEvent.RestoreWallet -> onRestoreWallet()
             HomeEvent.SettingsClicked -> navigateToSettings()
             is HomeEvent.TokenClicked -> onTokenClick(event.token)
+            else -> Unit
         }
     }
 
     HomeScreen(
-        isWalletExist = isWalletExist,
         homeUiState = uiState,
+        isRefreshing = isRefreshing,
         onEvent = viewModel::handleEvent,
     )
 }
@@ -56,7 +57,7 @@ internal fun HomeRoute(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun HomeScreen(
-    isWalletExist: Boolean,
+    isRefreshing: Boolean,
     homeUiState: HomeUiState,
     onEvent: (HomeEvent) -> Unit
 ) {
@@ -79,39 +80,37 @@ internal fun HomeScreen(
             )
         }
     ) { paddingValues ->
-        if (isWalletExist) {
-            when (homeUiState) {
-                is HomeUiState.Loading -> {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(paddingValues),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        LoadingWheel(contentDesc = "")
-                    }
-                }
-
-                is HomeUiState.WalletUiState -> {
-                    UserHomeContent(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(paddingValues),
-                        walletUiState = homeUiState,
-                        onEvent = onEvent,
-                    )
+        when (homeUiState) {
+            is HomeUiState.Initial -> {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(paddingValues),
+                    contentAlignment = Alignment.Center
+                ) {
+                    LoadingWheel(contentDesc = "")
                 }
             }
-        } else {
-            GuestContent(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(paddingValues)
-                    .padding(horizontal = 16.dp)
-                    .padding(bottom = 16.dp),
-                onEvent = onEvent
-            )
+            is HomeUiState.WalletUiState -> {
+                UserHomeContent(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(paddingValues),
+                    isRefreshing = isRefreshing,
+                    walletUiState = homeUiState,
+                    onEvent = onEvent,
+                )
+            }
+            is HomeUiState.GuestUserUiState -> {
+                GuestContent(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(paddingValues)
+                        .padding(horizontal = 16.dp)
+                        .padding(bottom = 16.dp),
+                    onEvent = onEvent
+                )
+            }
         }
-
     }
 }
