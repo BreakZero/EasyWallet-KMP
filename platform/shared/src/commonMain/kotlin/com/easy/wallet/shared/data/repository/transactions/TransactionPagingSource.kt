@@ -13,7 +13,10 @@ internal class TransactionPagingSource(
     private val tokenRepository: TokenRepository
 ) : PagingSource<Int, TransactionUiModel>() {
     override fun getRefreshKey(state: PagingState<Int, TransactionUiModel>): Int? {
-        return state.anchorPosition ?: 1
+        return state.anchorPosition?.let { anchorPosition->
+            state.closestPageToPosition(anchorPosition)?.prevKey?.plus(1) ?:
+            state.closestPageToPosition(anchorPosition)?.nextKey?.minus(1)
+        }
     }
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, TransactionUiModel> {
@@ -26,7 +29,7 @@ internal class TransactionPagingSource(
             )
             LoadResult.Page(
                 data = transactions,
-                prevKey = if (currPage == 1) null else currPage - 1,
+                prevKey = if (currPage <= 1) null else currPage - 1,
                 nextKey = if (transactions.isEmpty()) null else currPage + 1
             )
         } catch (e: Exception) {

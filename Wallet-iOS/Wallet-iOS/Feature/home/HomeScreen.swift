@@ -21,8 +21,8 @@ struct HomeScreen: View {
             case .WalletUiState(let dashboard):
                 TokenListView(dashboard: dashboard)
             }
-        }.task {
-            await viewModel.fetching()
+        }.onAppear {
+            viewModel.fetching()
         }
     }
 }

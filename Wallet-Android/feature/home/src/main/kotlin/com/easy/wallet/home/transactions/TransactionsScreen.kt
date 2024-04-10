@@ -38,6 +38,7 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import com.easy.wallet.android.core.extensions.ObserveAsEvents
 import com.easy.wallet.design.component.DefaultPagingStateColumn
 import com.easy.wallet.design.component.LoadingWheel
+import com.easy.wallet.design.component.PullToRefreshPagingColumn
 import com.easy.wallet.home.component.CollapsingToolbarWithLazyList
 import com.easy.wallet.home.receive.ReceiveContentSheet
 import com.easy.wallet.home.transactions.component.AmountHeaderView
@@ -162,14 +163,13 @@ internal fun TransactionsScreen(
             },
             listState = lazyListState,
             listContent = { contentModifier ->
-                DefaultPagingStateColumn(
-                    modifier = contentModifier
-                        .clip(RoundedCornerShape(topEnd = 20.dp, topStart = 20.dp)),
-                    state = lazyListState,
-                    paging = transactionPaging,
+                PullToRefreshPagingColumn(
+                    modifier = contentModifier.clip(RoundedCornerShape(topEnd = 20.dp, topStart = 20.dp)),
+                    lazyListState = lazyListState,
+                    pagingItems = transactionPaging,
                     verticalArrangement = Arrangement.spacedBy(12.dp),
                     itemKey = { index -> transactionPaging[index]!!.hash },
-                    itemView = { transaction ->
+                    itemContainer = { transaction ->
                         TransactionSummaryView(
                             modifier = Modifier
                                 .fillMaxWidth()

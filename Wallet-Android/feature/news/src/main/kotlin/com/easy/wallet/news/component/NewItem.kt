@@ -13,7 +13,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.easy.wallet.model.news.News
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun NewsItemView(
     modifier: Modifier = Modifier,

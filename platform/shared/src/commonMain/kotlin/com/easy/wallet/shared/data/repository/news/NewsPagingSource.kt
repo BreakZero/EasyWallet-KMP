@@ -10,7 +10,10 @@ internal class NewsPagingSource(
     private val newsRepository: NewsRepository
 ): PagingSource<Int, News>() {
     override fun getRefreshKey(state: PagingState<Int, News>): Int? {
-        return state.anchorPosition ?: 1
+        return state.anchorPosition?.let { anchorPosition->
+            state.closestPageToPosition(anchorPosition)?.prevKey?.plus(1) ?:
+            state.closestPageToPosition(anchorPosition)?.nextKey?.minus(1)
+        }
     }
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, News> {
         return try {
@@ -18,7 +21,7 @@ internal class NewsPagingSource(
             val news = newsRepository.loadNews(NEWS_PAGER_LIMIT, currentOffset)
             LoadResult.Page(
                 data = news,
-                prevKey = if (currentOffset == 0) null else currentOffset - NEWS_PAGER_LIMIT,
+                prevKey = if (currentOffset <= 0) null else currentOffset - NEWS_PAGER_LIMIT,
                 nextKey = if (news.isEmpty()) null else currentOffset + NEWS_PAGER_LIMIT,
             )
         } catch (e: Exception) {

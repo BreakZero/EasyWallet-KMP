@@ -61,7 +61,6 @@ internal fun MarketplaceScreen(
         DefaultPagingStateColumn(
             modifier = Modifier
                 .padding(paddingValues),
-            contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp),
             paging = topCoinsPaging,
             header = {
@@ -84,7 +83,12 @@ internal fun MarketplaceScreen(
                 }
             },
             itemKey = { index -> topCoinsPaging[index]!!.id },
-            itemView = { MarketCoinItem(marketCoin = it) }
+            itemView = {
+                MarketCoinItem(
+                    modifier = Modifier.padding(horizontal = 16.dp),
+                    marketCoin = it
+                )
+            }
         )
     }
 }

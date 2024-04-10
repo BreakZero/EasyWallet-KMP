@@ -19,15 +19,18 @@ extension HomeScreen {
         private let moneyTrend: [Double] = [8,2,4,6,12,9,2]
         
         @Published private(set) var homeUiState: HomeUiState = HomeUiState.Fetching
+        @Published private(set) var walletExist: Bool = false
         
-        func fetching() async {
-            try? await asyncSequence(for: multiWalletRepository.forActivatedOne()).collect { wallet in
-                print("wallet \(wallet?.mnemonic ?? "empty...")")
-                if wallet != nil {
-                    homeUiState = HomeUiState.Fetching
-                    await startLoadToken(wallet: wallet!)
-                } else {
-                    homeUiState = HomeUiState.GuestUiState("Guest User")
+        func fetching() {
+            Task {
+                try? await asyncSequence(for: multiWalletRepository.forActivatedOne()).collect { wallet in
+                    print("wallet \(wallet?.mnemonic ?? "empty...")")
+                    if wallet != nil {
+                        homeUiState = HomeUiState.Fetching
+                        await startLoadToken(wallet: wallet!)
+                    } else {
+                        homeUiState = HomeUiState.GuestUiState("Guest User")
+                    }
                 }
             }
         }

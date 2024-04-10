@@ -2,7 +2,6 @@ package com.easy.wallet.news
 
 import android.net.Uri
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -19,7 +18,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
-import com.easy.wallet.design.component.DefaultPagingStateColumn
+import com.easy.wallet.design.component.PullToRefreshPagingColumn
 import com.easy.wallet.model.news.News
 import com.easy.wallet.news.component.NewsItemView
 import com.easy.wallet.news.navigation.launchCustomChromeTab
@@ -28,14 +27,14 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 internal fun NewsRoute() {
     val viewModel: NewsViewModel = koinViewModel()
-    val newsPaging = viewModel.newsUiState.collectAsLazyPagingItems()
-    NewsScreen(newsPaging = newsPaging)
+    val newsPagingItems = viewModel.newsUiState.collectAsLazyPagingItems()
+    NewsScreen(newsPagingItems = newsPagingItems)
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun NewsScreen(
-    newsPaging: LazyPagingItems<News>
+    newsPagingItems: LazyPagingItems<News>
 ) {
     val context = LocalContext.current
     val backgroundColor = MaterialTheme.colorScheme.surface.toArgb()
@@ -56,13 +55,16 @@ internal fun NewsScreen(
             )
         }
     ) { paddingValues ->
-        DefaultPagingStateColumn(
-            modifier = Modifier.padding(paddingValues),
-            paging = newsPaging, contentPadding = PaddingValues(16.dp),
+        PullToRefreshPagingColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues),
+            pagingItems = newsPagingItems,
             verticalArrangement = Arrangement.spacedBy(12.dp),
-            itemKey = { index -> newsPaging[index]!!.hash },
-            itemView = { news ->
+            itemKey = { index -> newsPagingItems[index]!!.hash },
+            itemContainer = { news ->
                 NewsItemView(
+                    modifier = Modifier.padding(horizontal = 16.dp),
                     news = news,
                     itemClick = {
                         launchCustomChromeTab(context, Uri.parse(it.link), backgroundColor)

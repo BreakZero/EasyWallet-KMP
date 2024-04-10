@@ -21,7 +21,6 @@ import androidx.paging.compose.LazyPagingItems
 fun <T : Any> DefaultPagingStateColumn(
     modifier: Modifier = Modifier,
     state: LazyListState = rememberLazyListState(),
-    contentPadding: PaddingValues = PaddingValues(0.dp),
     verticalArrangement: Arrangement.Vertical = Arrangement.spacedBy(0.dp),
     paging: LazyPagingItems<T>,
     header: LazyListScope.() -> Unit = {},
@@ -34,7 +33,6 @@ fun <T : Any> DefaultPagingStateColumn(
     LazyColumn(
         modifier,
         state = state,
-        contentPadding = contentPadding,
         verticalArrangement = verticalArrangement,
     ) {
         header()
