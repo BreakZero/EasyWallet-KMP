@@ -19,9 +19,11 @@ struct HomeScreen: View {
             case .GuestUiState(_):
                 GuestUserView()
             case .WalletUiState(let dashboard):
-                TokenListView(dashboard: dashboard)
+                TokenListView(dashboard: dashboard).refreshable {
+                    viewModel.fetching()
+                }
             }
-        }.onAppear {
+        }.onFirstAppear {
             viewModel.fetching()
         }
     }

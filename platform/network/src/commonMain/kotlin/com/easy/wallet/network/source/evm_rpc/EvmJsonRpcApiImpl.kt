@@ -3,12 +3,17 @@ package com.easy.wallet.network.source.evm_rpc
 import com.easy.wallet.core.commom.cleanHexPrefix
 import com.easy.wallet.network.source.evm_rpc.dto.BaseRpcResponseDto
 import com.easy.wallet.network.source.evm_rpc.dto.FeeHistoryDto
-import com.easy.wallet.network.source.evm_rpc.error.RpcErrorException
+import com.easy.wallet.network.source.evm_rpc.dto.RpcErrorResponse
+import com.easy.wallet.network.source.evm_rpc.error.NetworkErrorException
 import com.easy.wallet.network.source.evm_rpc.parameter.Parameter
 import com.easy.wallet.network.source.evm_rpc.parameter.RpcRequestBody
-import com.easy.wallet.network.tryPost
 import io.ktor.client.HttpClient
+import io.ktor.client.call.body
+import io.ktor.client.request.post
 import io.ktor.client.request.setBody
+import io.ktor.client.statement.HttpResponse
+import io.ktor.client.statement.bodyAsText
+import kotlinx.serialization.json.Json
 
 class EvmJsonRpcApiImpl internal constructor(
     private val httpClient: HttpClient
@@ -35,12 +40,12 @@ class EvmJsonRpcApiImpl internal constructor(
                 )
             )
         )
-        val response = httpClient.tryPost<BaseRpcResponseDto<String>> {
+        val response = httpClient.post {
             setBody(body)
-        }
-        return response.result ?: throw RpcErrorException(
-            response.error?.message ?: "estimate api call failed!!!"
-        )
+        }.also {
+            validateResponse(it)
+        }.body<BaseRpcResponseDto<String>>()
+        return response.result
     }
 
     override suspend fun feeHistory(blockCount: Int, percentiles: List<Int>): Pair<String, String> {
@@ -52,11 +57,13 @@ class EvmJsonRpcApiImpl internal constructor(
                 Parameter.IntListParameter(percentiles)
             )
         )
-        val response = httpClient.tryPost<BaseRpcResponseDto<FeeHistoryDto>> {
+        val response = httpClient.post {
             setBody(body)
-        }
+        }.also {
+            validateResponse(it)
+        }.body<BaseRpcResponseDto<FeeHistoryDto>>()
         return calculatedFee(
-            response.result ?: throw RpcErrorException("get fee history failed")
+            response.result
         )
     }
 
@@ -75,14 +82,16 @@ class EvmJsonRpcApiImpl internal constructor(
     }
 
     override suspend fun gasPrice(): String {
-        val response = httpClient.tryPost<BaseRpcResponseDto<String>> {
+        val response = httpClient.post {
             setBody(defaultBody.copy(method = "eth_gasPrice"))
-        }
-        return response.result ?: throw RpcErrorException(response.error?.message ?: "get gas price failed")
+        }.also {
+            validateResponse(it)
+        }.body<BaseRpcResponseDto<String>>()
+        return response.result
     }
 
     override suspend fun getTransactionCount(account: String): String {
-        val response = httpClient.tryPost<BaseRpcResponseDto<String>> {
+        val response = httpClient.post {
             setBody(
                 defaultBody.copy(
                     method = "eth_getTransactionCount",
@@ -92,8 +101,10 @@ class EvmJsonRpcApiImpl internal constructor(
                     )
                 )
             )
-        }
-        return response.result ?: throw RpcErrorException(response.error?.message ?: "get nonce failed")
+        }.also {
+            validateResponse(it)
+        }.body<BaseRpcResponseDto<String>>()
+        return response.result
     }
 
     override suspend fun getBalance(account: String, contract: String?): String {
@@ -119,23 +130,27 @@ class EvmJsonRpcApiImpl internal constructor(
                 )
             )
         }
-        val balanceRes = httpClient.tryPost<BaseRpcResponseDto<String>> {
+        val balanceRes = httpClient.post {
             setBody(finalBody)
-        }
+        }.also {
+            validateResponse(it)
+        }.body<BaseRpcResponseDto<String>>()
 
-        return balanceRes.result ?: throw RpcErrorException(balanceRes.error?.message ?: "get balance failed")
+        return balanceRes.result
     }
 
     override suspend fun sendRawTransaction(data: String): String {
-        val hashResponse = httpClient.tryPost<BaseRpcResponseDto<String>> {
+        val hashResponse = httpClient.post {
             setBody(
                 defaultBody.copy(
                     method = "eth_sendRawTransaction",
                     params = listOf(Parameter.StringParameter(data))
                 )
             )
-        }
-        return hashResponse.result ?: throw RpcErrorException(hashResponse.error?.message ?: "broadcast transaction failed")
+        }.also {
+            validateResponse(it)
+        }.body<BaseRpcResponseDto<String>>()
+        return hashResponse.result
     }
 
     override suspend fun methodCall(
@@ -148,6 +163,24 @@ class EvmJsonRpcApiImpl internal constructor(
     ) {
 
     }
+
+    private suspend fun validateResponse(response: HttpResponse) {
+        val text = response.bodyAsText()
+        val message = try {
+            JSON.decodeFromString<RpcErrorResponse>(text).error?.message
+        } catch (e: Throwable) {
+            println("Unexpected Response:\n$text")
+            null
+        }
+        if (!message.isNullOrBlank()) {
+            println("===== $message")
+            throw NetworkErrorException(message)
+        }
+    }
 }
 
-
+internal val JSON = Json {
+    prettyPrint = true
+    ignoreUnknownKeys = true
+    isLenient = true
+}

@@ -51,8 +51,8 @@ struct NewsScreen: View {
                         Text("Powered by BlockChair")
                     }
                 }
-        }.task {
-            await viewModel.startLoadNews()
+        }.onFirstAppear {
+            viewModel.startLoadNews()
         }.task {
             await viewModel.subscribeDataChanged()
         }.task {

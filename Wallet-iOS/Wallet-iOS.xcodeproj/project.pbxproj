@@ -13,6 +13,7 @@
 		3C0CA2102BC51C6300E43D9F /* AsyncAlgorithms in Frameworks */ = {isa = PBXBuildFile; productRef = 3C0CA20F2BC51C6300E43D9F /* AsyncAlgorithms */; };
 		3C0CA2132BC51E6D00E43D9F /* KMPNativeCoroutinesAsync in Frameworks */ = {isa = PBXBuildFile; productRef = 3C0CA2122BC51E6D00E43D9F /* KMPNativeCoroutinesAsync */; };
 		3C0CA2152BC51E6D00E43D9F /* KMPNativeCoroutinesCore in Frameworks */ = {isa = PBXBuildFile; productRef = 3C0CA2142BC51E6D00E43D9F /* KMPNativeCoroutinesCore */; };
+		3C0CA2172BC68D3000E43D9F /* OnFirstAppearModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C0CA2162BC68D3000E43D9F /* OnFirstAppearModifier.swift */; };
 		3C7565282A973CC80032A653 /* HomeScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7565272A973CC80032A653 /* HomeScreen.swift */; };
 		3C75652A2A973CDC0032A653 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7565292A973CDC0032A653 /* HomeViewModel.swift */; };
 		3C75652E2A973FC90032A653 /* MarketplaceScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C75652D2A973FC90032A653 /* MarketplaceScreen.swift */; };
@@ -43,6 +44,7 @@
 		0D82E4E7CD70E0F0560D23E7 /* Pods_Wallet_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Wallet_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1170E243CAC1ED71B700C0B7 /* Pods-Wallet-iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Wallet-iOS.debug.xcconfig"; path = "Target Support Files/Pods-Wallet-iOS/Pods-Wallet-iOS.debug.xcconfig"; sourceTree = "<group>"; };
 		2152FB032600AC8F00CF470E /* iOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSApp.swift; sourceTree = "<group>"; };
+		3C0CA2162BC68D3000E43D9F /* OnFirstAppearModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnFirstAppearModifier.swift; sourceTree = "<group>"; };
 		3C7565272A973CC80032A653 /* HomeScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreen.swift; sourceTree = "<group>"; };
 		3C7565292A973CDC0032A653 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		3C75652D2A973FC90032A653 /* MarketplaceScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketplaceScreen.swift; sourceTree = "<group>"; };
@@ -208,6 +210,7 @@
 			isa = PBXGroup;
 			children = (
 				3CED15AF2BB279D7006C6EC1 /* AsyncExtensions.swift */,
+				3C0CA2162BC68D3000E43D9F /* OnFirstAppearModifier.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -413,6 +416,7 @@
 				3CC5B6802AB89073000B97CD /* HomeUiState.swift in Sources */,
 				3CB6A4D42AB44EA500861D13 /* TokenItemView.swift in Sources */,
 				3CED15B22BB3A9BF006C6EC1 /* TransactionSummaryView.swift in Sources */,
+				3C0CA2172BC68D3000E43D9F /* OnFirstAppearModifier.swift in Sources */,
 				3CED15942BB0810A006C6EC1 /* Koin.swift in Sources */,
 				3CB939BF2AB58777008AF467 /* NewsViewModel.swift in Sources */,
 				3C7565282A973CC80032A653 /* HomeScreen.swift in Sources */,

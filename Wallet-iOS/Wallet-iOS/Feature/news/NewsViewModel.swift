@@ -21,10 +21,12 @@ extension NewsScreen {
         @Published private(set) var hasNextPage: Bool = false
         @Published private(set) var showLoding: Bool = false
 
-        func startLoadNews() async {
-            try? await asyncSequence(for: newsPager.invoke()).collect { pagingData in
-                print(pagingData.description)
-                try? await delegate.submitData(pagingData: pagingData)
+        func startLoadNews() {
+            Task {
+                try? await asyncSequence(for: newsPager.invoke()).collect { pagingData in
+                    print(pagingData.description)
+                    try? await delegate.submitData(pagingData: pagingData)
+                }
             }
         }
         
