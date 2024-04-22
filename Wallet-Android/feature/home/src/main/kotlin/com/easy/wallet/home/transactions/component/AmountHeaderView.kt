@@ -3,7 +3,6 @@ package com.easy.wallet.home.transactions.component
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -12,8 +11,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -21,11 +18,15 @@ import androidx.compose.ui.unit.dp
 import com.easy.wallet.design.theme.ThemePreviews
 import com.easy.wallet.design.ui.EasyWalletTheme
 import com.easy.wallet.model.TokenBasicResult
-import com.patrykandpatrick.vico.compose.chart.Chart
-import com.patrykandpatrick.vico.compose.chart.line.lineChart
-import com.patrykandpatrick.vico.core.chart.scale.AutoScaleUp
-import com.patrykandpatrick.vico.core.entry.ChartEntryModelProducer
-import com.patrykandpatrick.vico.core.entry.entryOf
+import com.patrykandpatrick.vico.compose.cartesian.CartesianChartHost
+import com.patrykandpatrick.vico.compose.cartesian.axis.rememberBottomAxis
+import com.patrykandpatrick.vico.compose.cartesian.axis.rememberStartAxis
+import com.patrykandpatrick.vico.compose.cartesian.fullWidth
+import com.patrykandpatrick.vico.compose.cartesian.layer.rememberLineCartesianLayer
+import com.patrykandpatrick.vico.compose.cartesian.rememberCartesianChart
+import com.patrykandpatrick.vico.core.cartesian.HorizontalLayout
+import com.patrykandpatrick.vico.core.cartesian.data.CartesianChartModelProducer
+import com.patrykandpatrick.vico.core.cartesian.data.lineSeries
 import java.math.BigDecimal
 import kotlin.random.Random
 
@@ -37,22 +38,35 @@ internal fun AmountHeaderView(
     rate: BigDecimal = BigDecimal.ONE,
     trends: List<String>
 ) {
-    val chartEntryModelProducer by remember(trends) {
-        val trendValues = trends.map { it.toFloatOrNull() ?: 0.0f }
-        mutableStateOf(ChartEntryModelProducer(trendValues.mapIndexed { index, value -> entryOf(index, value) }))
+    val modelProducer = remember {
+        CartesianChartModelProducer.build {
+            lineSeries {
+                series(trends.map { it.toFloat() })
+            }
+        }
     }
     Box(
         modifier = modifier,
         contentAlignment = Alignment.TopStart
     ) {
-        Chart(
-            modifier = Modifier
-                .fillMaxHeight(1.0f)
-                .align(Alignment.CenterStart),
-            chart = lineChart(),
-            chartModelProducer = chartEntryModelProducer,
-            isZoomEnabled = false,
-            autoScaleUp = AutoScaleUp.Full
+        CartesianChartHost(
+            rememberCartesianChart(
+                rememberLineCartesianLayer(),
+                startAxis = rememberStartAxis(
+                    label = null,
+                    axis = null,
+                    tick = null,
+                    guideline = null
+                ),
+                bottomAxis = rememberBottomAxis(
+                    label = null,
+                    axis = null,
+                    tick = null,
+                    guideline = null
+                ),
+            ),
+            modelProducer,
+            horizontalLayout = HorizontalLayout.fullWidth()
         )
         Column(
             modifier = Modifier

@@ -7,7 +7,7 @@ androidx-paging = "3.3.0-alpha02"
 androidxTracing = "1.2.0"
 androidxWindowManager = "1.2.0"
 androidxWork = "2.9.0"
-vico = "1.14.0"
+vico = "2.0.0-alpha.16"
 skie = "0.6.2"
 
 buildkonfigGradlePlugin = "0.15.1"
@@ -109,14 +109,10 @@ skie-annotations = { module = "co.touchlab.skie:configuration-annotations", vers
 # vico
 # For Jetpack Compose.
 vico-compose = { group = "com.patrykandpatrick.vico", name = "compose", version.ref = "vico" }
-# For `compose`. Creates a `ChartStyle` based on an M2 Material Theme.
-vico-compose-m2 = { group = "com.patrykandpatrick.vico", name = "compose-m2", version.ref = "vico" }
 # For `compose`. Creates a `ChartStyle` based on an M3 Material Theme.
 vico-compose-m3 = { group = "com.patrykandpatrick.vico", name = "compose-m3", version.ref = "vico" }
 # Houses the core logic for charts and other elements. Included in all other modules.
 vico-core = { group = "com.patrykandpatrick.vico", name = "core", version.ref = "vico" }
-# For the view system.
-vico-views = { group = "com.patrykandpatrick.vico", name = "views", version.ref = "vico" }
 
 zxing = { group = "com.google.zxing", name = "core", version = "3.5.1" }
 
