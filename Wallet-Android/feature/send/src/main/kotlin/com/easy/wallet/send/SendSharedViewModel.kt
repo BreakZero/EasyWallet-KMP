@@ -94,7 +94,7 @@ internal class SendSharedViewModel(
                 }
             }
 
-            SendUiEvent.OnPrepTransactionFee -> {
+            SendUiEvent.TransactionPrep -> {
                 prepFee(
                     tokenId = tokenId,
                     toAddress = destination.text.toString(),
@@ -116,6 +116,13 @@ internal class SendSharedViewModel(
                 }.catch {
                     it.printStackTrace()
                 }.launchIn(viewModelScope)
+            }
+
+            is SendUiEvent.DestinationChanged -> {
+                destination.clearText()
+                destination.edit {
+                    append(event.text)
+                }
             }
         }
     }

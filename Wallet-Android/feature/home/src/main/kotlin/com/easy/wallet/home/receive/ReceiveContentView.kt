@@ -1,5 +1,6 @@
 package com.easy.wallet.home.receive
 
+import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -8,10 +9,8 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowUpward
 import androidx.compose.material.icons.filled.ContentCopy
 import androidx.compose.material.icons.filled.Share
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -23,7 +22,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.BitmapPainter
+import androidx.compose.ui.platform.LocalClipboardManager
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat
 import com.easy.wallet.home.utils.rememberQrBitmapPainter
 import com.easy.wallet.model.TokenBasicResult
 
@@ -42,6 +45,9 @@ internal fun ReceiveContentSheet(
     painter: BitmapPainter = rememberQrBitmapPainter(content = basicResult.address, padding = 1.dp),
     onDismissRequest: () -> Unit
 ) {
+    val clipboardManager = LocalClipboardManager.current
+    val context = LocalContext.current
+
     val bottomSheetState = rememberModalBottomSheetState(
         skipPartiallyExpanded = true
     )
@@ -79,23 +85,25 @@ internal fun ReceiveContentSheet(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(12.dp)
             ) {
-                ElevatedButton(modifier = Modifier.weight(1.0f), onClick = { /*TODO*/ }) {
+                ElevatedButton(modifier = Modifier.weight(1.0f), onClick = {
+                    clipboardManager.setText(AnnotatedString(basicResult.address))
+                }) {
                     Icon(imageVector = Icons.Default.ContentCopy, contentDescription = null)
                     Text(text = basicResult.address.ellipsize(4))
                 }
-                ElevatedButton(modifier = Modifier.weight(1.0f), onClick = { /*TODO*/ }) {
+                ElevatedButton(modifier = Modifier.weight(1.0f), onClick = {
+                    val sendIntent: Intent = Intent().apply {
+                        action = Intent.ACTION_SEND
+                        putExtra(Intent.EXTRA_TEXT, basicResult.address)
+                        type = "text/plain"
+                    }
+
+                    val shareIntent = Intent.createChooser(sendIntent, null)
+                    ContextCompat.startActivity(context, shareIntent, null)
+                }) {
                     Icon(imageVector = Icons.Default.Share, contentDescription = null)
                     Text(text = "Share")
                 }
-            }
-            ElevatedButton(
-                modifier = Modifier.fillMaxWidth(),
-                onClick = { /*TODO*/ },
-                colors = ButtonDefaults.elevatedButtonColors()
-                    .copy(containerColor = MaterialTheme.colorScheme.surfaceContainer)
-            ) {
-                Icon(imageVector = Icons.Default.ArrowUpward, contentDescription = null)
-                Text(text = "Send Link")
             }
         }
     }

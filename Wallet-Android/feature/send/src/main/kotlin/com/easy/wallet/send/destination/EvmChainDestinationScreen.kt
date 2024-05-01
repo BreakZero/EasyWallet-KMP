@@ -33,6 +33,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.unit.dp
 import com.easy.wallet.design.component.EasyGradientBackground
 import com.easy.wallet.design.component.LoadingWheel
@@ -50,6 +51,7 @@ internal fun EvmChainDestinationScreen(
     textFieldState: TextFieldState,
     onEvent: (SendUiEvent) -> Unit
 ) {
+    val clipboardManager = LocalClipboardManager.current
     val isValid by remember {
         derivedStateOf {
             AnyAddress.isValid(
@@ -92,7 +94,7 @@ internal fun EvmChainDestinationScreen(
             .padding(paddingValues)
         when (uiState) {
             SendUiState.Error -> {
-                Box(modifier = modifier.clickable {  }) {
+                Box(modifier = modifier.clickable { }) {
                     Text(text = "Tap to back...")
                 }
             }
@@ -144,7 +146,11 @@ internal fun EvmChainDestinationScreen(
                                 Text(text = "Scan")
                             }
                         }
-                        ElevatedButton(onClick = { /*TODO*/ }) {
+                        ElevatedButton(onClick = {
+                            clipboardManager.getText()?.let {
+                                onEvent(SendUiEvent.DestinationChanged(it.text))
+                            }
+                        }) {
                             Row(
                                 horizontalArrangement = Arrangement.spacedBy(4.dp),
                                 verticalAlignment = Alignment.CenterVertically

@@ -46,7 +46,7 @@ extension TransactionScreen {
                 try? await delegate.submitData(pagingData: pagingData)
             }
         }
-        
+
         func loadNextPage() {
             delegate.loadNextPage()
         }
@@ -57,7 +57,7 @@ extension TransactionScreen {
                     self.transactions = delegate.getItems()
                 }
             } catch {
-                
+
             }
         }
 
@@ -74,7 +74,7 @@ extension TransactionScreen {
                         self.hasNextPage = !notLoading.endOfPaginationReached
                         break
                     }
-                    
+
                     switch onEnum(of: loadState.refresh) {
                     case .error(_):
                         break
@@ -87,7 +87,7 @@ extension TransactionScreen {
                     }
                 }
             } catch {
-                
+
             }
         }
     }

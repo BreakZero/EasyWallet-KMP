@@ -9,9 +9,10 @@ sealed interface SendUiEvent {
     data object MaxAmount : SendUiEvent
     data object ClickNext : SendUiEvent
 
-    data object OnPrepTransactionFee: SendUiEvent
+    data object TransactionPrep: SendUiEvent
 
     data class OnSigningTransaction(val chainIdHex: String?): SendUiEvent
+    data class DestinationChanged(val text: String): SendUiEvent
 }
 
 internal sealed interface SendUiState {

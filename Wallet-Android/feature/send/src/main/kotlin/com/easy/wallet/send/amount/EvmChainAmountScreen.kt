@@ -64,7 +64,7 @@ internal fun EvmChainSendAmountScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp, vertical = 8.dp),
-                onClick = { onEvent(SendUiEvent.OnPrepTransactionFee) }) {
+                onClick = { onEvent(SendUiEvent.TransactionPrep) }) {
                 Text(text = "Next")
             }
         }
