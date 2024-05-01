@@ -16,13 +16,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
-import com.easy.wallet.design.component.DataPoint
 import com.easy.wallet.design.component.DynamicAsyncImage
-import com.easy.wallet.design.component.LineChart
 import com.easy.wallet.design.theme.ThemePreviews
 import com.easy.wallet.design.ui.EasyWalletTheme
 import com.easy.wallet.shared.model.MarketCoin
@@ -34,7 +33,11 @@ internal fun MarketCoinItem(
     modifier: Modifier = Modifier,
     marketCoin: MarketCoin
 ) {
-
+    val prices = remember(key1 = marketCoin) {
+        marketCoin.price.windowed(5, 5, transform = {
+            it.average()
+        }).toImmutableList()
+    }
     Card(modifier = modifier, onClick = { /*TODO*/ }) {
         Row(
             modifier = Modifier
@@ -62,9 +65,8 @@ internal fun MarketCoinItem(
                 modifier = Modifier
                     .height(32.dp)
                     .aspectRatio(2.0f),
-                data = marketCoin.price.map { DataPoint(it) }.toImmutableList(),
-                graphColor = graphColor,
-                showDashedLine = false
+                data = prices,
+                graphColor = graphColor
             )
             Spacer(modifier = Modifier.width(8.dp))
             Column(horizontalAlignment = Alignment.End) {

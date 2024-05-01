@@ -7,7 +7,7 @@ androidx-paging = "3.3.0-alpha02"
 androidxTracing = "1.2.0"
 androidxWindowManager = "1.2.0"
 androidxWork = "2.9.0"
-vico = "2.0.0-alpha.16"
+vico = "2.0.0-alpha.19"
 skie = "0.6.2"
 
 buildkonfigGradlePlugin = "0.15.1"
