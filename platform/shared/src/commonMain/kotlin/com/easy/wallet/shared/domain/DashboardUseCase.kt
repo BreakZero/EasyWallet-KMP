@@ -6,6 +6,7 @@ import com.easy.wallet.model.Wallet
 import com.easy.wallet.shared.data.repository.SupportedTokenRepository
 import com.easy.wallet.shared.data.repository.TokenRepository
 import com.easy.wallet.shared.model.Balance
+import com.easy.wallet.shared.model.DashboardInformation
 import com.easy.wallet.shared.model.TokenUiModel
 import com.ionspin.kotlin.bignum.integer.toBigInteger
 import com.rickclephas.kmp.nativecoroutines.NativeCoroutines
@@ -24,12 +25,12 @@ class DashboardUseCase internal constructor(
     private val bitcoinRepository: TokenRepository
 ) {
     @NativeCoroutines
-    operator fun invoke(wallet: Wallet): Flow<List<TokenUiModel>> {
+    operator fun invoke(wallet: Wallet): Flow<DashboardInformation> {
         val hdWallet = HDWallet(wallet.mnemonic, wallet.passphrase)
         return supportedTokenRepository.allSupportedTokenStream().map { tokens ->
             val ethereumAddress = hdWallet.getAddressForCoin(CoinType.Ethereum)
             val ethereumTokens = tokens.filter { it.chainName == Constants.ETH_CHAIN_NAME }
-            ethereumTokens.map { token ->
+            val tokens = ethereumTokens.map { token ->
                 coroutineScope {
                     async {
                         val balance = try {
@@ -51,11 +52,23 @@ class DashboardUseCase internal constructor(
                     }
                 }
             }.awaitAll()
+            DashboardInformation(
+                fiatBalance = "888.88",
+                fiatSymbol = "USD",
+                tokens = tokens
+            )
         }.onStart {
             val emptyBalance = supportedTokenRepository.allSupportedToken().map {
                 TokenUiModel(it, Balance.ZERO)
             }
-            emit(emptyBalance)
+
+            emit(
+                DashboardInformation(
+                    fiatBalance = "888.88",
+                    fiatSymbol = "USD",
+                    tokens = emptyBalance
+                )
+            )
         }
     }
 }

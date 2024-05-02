@@ -2,6 +2,7 @@ package com.easy.wallet.home
 
 import androidx.compose.runtime.Stable
 import com.easy.wallet.model.TokenInformation
+import com.easy.wallet.shared.model.DashboardInformation
 import com.easy.wallet.shared.model.TokenUiModel
 
 internal sealed interface HomeEvent {
@@ -20,6 +21,6 @@ internal sealed interface HomeUiState {
 
     @Stable
     data class WalletUiState(
-        val tokens: List<TokenUiModel>
+        val dashboard: DashboardInformation
     ) : HomeUiState
 }

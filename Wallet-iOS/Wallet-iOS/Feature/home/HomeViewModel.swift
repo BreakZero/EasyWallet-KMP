@@ -36,9 +36,9 @@ extension HomeScreen {
         }
         
         private func startLoadToken(wallet: ModelWallet) async {
-            try? await asyncSequence(for: dashboardUseCase.invoke(wallet: wallet)).collect { tokens in
-                print("token size: \(tokens.count.description)")
-                self.homeUiState = HomeUiState.WalletUiState(HomeUiState.Dashboard(user: "User Name", moneyTrend: self.moneyTrend, tokens: tokens))
+            try? await asyncSequence(for: dashboardUseCase.invoke(wallet: wallet)).collect { dashboard in
+                print("token size: \(dashboard.fiatBalance)")
+                self.homeUiState = HomeUiState.WalletUiState(dashboard)
             }
         }
     }

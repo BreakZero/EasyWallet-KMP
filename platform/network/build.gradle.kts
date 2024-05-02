@@ -44,6 +44,7 @@ kotlin {
                 implementation(libs.kotlinx.coroutines.core)
 
                 implementation(libs.bignum)
+                implementation(libs.kermit)
 
                 implementation(libs.ktor.client.core)
                 implementation(libs.ktor.client.websockets)

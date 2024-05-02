@@ -8,7 +8,7 @@
 
 import Foundation
 import shared
-
+import KMPNativeCoroutinesAsync
 
 extension RestoreScreen {
     @MainActor final class ViewModel: ObservableObject {
@@ -25,9 +25,11 @@ extension RestoreScreen {
             onCompletion: @escaping () -> Void
         ) {
             insertTask = Task {
-                try? await multiWalletRepository.insertOne(mnemonic: seedPhrase, passphrase: "", onCompleted: {
-                    onCompletion()
-                })
+                do {
+                    let _ = try await asyncFunction(for: multiWalletRepository.insertOne(mnemonic: seedPhrase, passphrase: "", onCompleted: onCompletion))
+                } catch {
+                    print("Failed with error: \(error)")
+                }
             }
         }
         func onCleaned() {

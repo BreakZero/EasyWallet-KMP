@@ -31,7 +31,9 @@ import com.easy.wallet.design.ui.EasyWalletTheme
 
 @Composable
 internal fun DashboardView(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    fiatBalance: String,
+    fiatSymbol: String
 ) {
     Box(modifier = modifier.padding(vertical = 16.dp)) {
         Column(
@@ -43,7 +45,7 @@ internal fun DashboardView(
             horizontalAlignment = Alignment.Start,
             verticalArrangement = Arrangement.spacedBy(24.dp)
         ) {
-            Text(text = "999.99 USD(Mock)", style = MaterialTheme.typography.headlineLarge)
+            Text(text = "$fiatBalance $fiatSymbol", style = MaterialTheme.typography.headlineLarge)
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -118,7 +120,9 @@ private fun DashboardView_Preview() {
             DashboardView(
                 modifier = Modifier
                     .height(200.dp)
-                    .fillMaxWidth()
+                    .fillMaxWidth(),
+                fiatBalance = "999",
+                fiatSymbol = "USD"
             )
         }
     }

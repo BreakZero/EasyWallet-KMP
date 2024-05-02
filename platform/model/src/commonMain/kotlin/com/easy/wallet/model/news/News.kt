@@ -1,6 +1,5 @@
 package com.easy.wallet.model.news
 
-import kotlin.experimental.ExperimentalObjCName
 import kotlin.native.ObjCName
 
 /**
@@ -17,7 +16,6 @@ import kotlin.native.ObjCName
  * "file": "binances-asiapacific-head-departs-amidst-market-share-decline-and-regulatory-pressures",
  * "permalink": "https://blockchair.com/news/binances-asiapacific-head-departs-amidst-market-share-decline-and-regulatory-pressures--0063723b0b"
  */
-@OptIn(ExperimentalObjCName::class)
 @ObjCName("News")
 data class News(
     val title: String,

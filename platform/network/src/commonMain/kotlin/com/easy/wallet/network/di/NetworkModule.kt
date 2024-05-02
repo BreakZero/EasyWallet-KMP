@@ -1,5 +1,6 @@
 package com.easy.wallet.network.di
 
+import co.touchlab.kermit.Logger as KLogger
 import com.easy.wallet.network.httpClient
 import com.easy.wallet.network.key.BuildKonfig
 import com.easy.wallet.network.source.blockchair.BlockchairApi
@@ -39,7 +40,10 @@ enum class SourceQualifier {
     OPENSEA, BLOCK_CHAIR, ETHER_SCAN, OKX_WEBSOCKETS, COINGECKO, EVM_RPC
 }
 
-private fun httpClientWithDefault(serializersModule: SerializersModule? = null, special: HttpClientConfig<*>.() -> Unit = {}): HttpClient {
+private fun httpClientWithDefault(
+    serializersModule: SerializersModule? = null,
+    special: HttpClientConfig<*>.() -> Unit = {}
+): HttpClient {
     return httpClient {
         install(ContentNegotiation) {
             json(
@@ -55,7 +59,11 @@ private fun httpClientWithDefault(serializersModule: SerializersModule? = null, 
             )
         }
         install(Logging) {
-            logger = Logger.SIMPLE
+            logger = object : Logger {
+                override fun log(message: String) {
+                    KLogger.i("HttpClient") { message }
+                }
+            }
             level = LogLevel.BODY
         }
         special()
@@ -72,7 +80,11 @@ private fun webSocketClient(config: HttpClientConfig<*>.() -> Unit = {}): HttpCl
             })
         }
         install(Logging) {
-            logger = Logger.SIMPLE
+            logger = object : Logger {
+                override fun log(message: String) {
+                    KLogger.i("HttpClient") { message }
+                }
+            }
             level = LogLevel.BODY
         }
         config()
@@ -128,8 +140,14 @@ val networkModule = module {
                 }
                 polymorphic(Parameter::class) {
                     subclass(Parameter.CallParameter::class, Parameter.CallParameter.serializer())
-                    subclass(Parameter.StringParameter::class, Parameter.StringParameter.serializer())
-                    subclass(Parameter.IntListParameter::class, Parameter.IntListParameter.serializer())
+                    subclass(
+                        Parameter.StringParameter::class,
+                        Parameter.StringParameter.serializer()
+                    )
+                    subclass(
+                        Parameter.IntListParameter::class,
+                        Parameter.IntListParameter.serializer()
+                    )
                 }
             }
         ) {

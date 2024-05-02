@@ -1,14 +1,8 @@
 package com.easy.wallet.network.source.okx
 
-import com.easy.wallet.network.source.okx.dto.MessageOption
-import com.easy.wallet.network.source.okx.dto.OptionArg
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.websocket.DefaultClientWebSocketSession
-import io.ktor.client.plugins.websocket.sendSerialized
 import io.ktor.client.plugins.websocket.wss
-import io.ktor.websocket.Frame
-import io.ktor.websocket.readText
-import kotlinx.coroutines.channels.ClosedReceiveChannelException
 
 class OKXWebSocketManager internal constructor(
     private val httpClient: HttpClient

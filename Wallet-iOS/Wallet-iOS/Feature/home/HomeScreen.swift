@@ -31,12 +31,12 @@ struct HomeScreen: View {
 
 @ViewBuilder
 private func TokenListView(
-    dashboard: HomeUiState.Dashboard
+    dashboard: DashboardInformation
 ) -> some View {
     NavigationStack {
         List {
             Section(
-                header: Text(dashboard.user),
+                header: Text("\(dashboard.fiatBalance) \(dashboard.fiatSymbol)"),
                 content: {
                     ForEach(dashboard.tokens,id: \.self.token.id) { token in
                         ZStack {
@@ -59,5 +59,5 @@ private func TokenListView(
 }
 
 #Preview {
-    TokenListView(dashboard: HomeUiState.Dashboard(user: "Dougie", moneyTrend: [], tokens: []))
+    TokenListView(dashboard: DashboardInformation(fiatSymbol: "USD", fiatBalance: "8.88", tokens: []))
 }

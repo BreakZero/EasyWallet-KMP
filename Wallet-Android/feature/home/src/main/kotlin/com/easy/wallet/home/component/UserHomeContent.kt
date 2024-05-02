@@ -10,7 +10,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalDensity
@@ -21,6 +20,7 @@ import com.easy.wallet.design.theme.ThemePreviews
 import com.easy.wallet.design.ui.EasyWalletTheme
 import com.easy.wallet.home.HomeEvent
 import com.easy.wallet.home.HomeUiState
+import com.easy.wallet.shared.model.DashboardInformation
 
 @Composable
 internal fun UserHomeContent(
@@ -47,7 +47,9 @@ internal fun UserHomeContent(
             header = { headerModifier ->
                 DashboardView(
                     modifier = headerModifier
-                        .height(200.dp)
+                        .height(200.dp),
+                    fiatBalance = walletUiState.dashboard.fiatBalance,
+                    fiatSymbol = walletUiState.dashboard.fiatSymbol
                 )
             },
             listContent = { contentModifier ->
@@ -57,7 +59,7 @@ internal fun UserHomeContent(
                     verticalArrangement = Arrangement.spacedBy(12.dp),
                     state = lazyListState
                 ) {
-                    items(walletUiState.tokens, key = { it.token.id }) {
+                    items(walletUiState.dashboard.tokens, key = { it.token.id }) {
                         TokenItemView(
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -82,8 +84,15 @@ private fun UserHome_Preview() {
         ) {
             UserHomeContent(
                 isRefreshing = false,
-                walletUiState = HomeUiState.WalletUiState(emptyList())
-            ) {}
+                walletUiState = HomeUiState.WalletUiState(
+                    DashboardInformation(
+                        fiatSymbol = "USD",
+                        fiatBalance = "888.88",
+                        tokens = emptyList()
+                    )
+                ),
+                onEvent = {}
+            )
         }
     }
 }

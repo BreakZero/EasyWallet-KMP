@@ -10,14 +10,7 @@ import Foundation
 import shared
 
 enum HomeUiState {
-    
-    struct Dashboard {
-        let user: String
-        let moneyTrend: [Double]
-        let tokens: [TokenUiModel]
-    }
-    
     case Fetching
     case GuestUiState(String)
-    case WalletUiState(Dashboard)
+    case WalletUiState(DashboardInformation)
 }
