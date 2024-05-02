@@ -1,19 +1,20 @@
 package com.easy.wallet.network.source.etherscan
 
-import com.easy.wallet.network.tryGet
+import com.easy.wallet.model.transaction.EthereumTransactionBasic
 import com.easy.wallet.network.source.etherscan.dto.EtherTransactionDto
 import com.easy.wallet.network.source.etherscan.dto.EtherTransactionsResponseDto
+import com.easy.wallet.network.tryGet
 import io.ktor.client.HttpClient
 import io.ktor.client.request.parameter
 
-class EtherscanDataSource internal constructor(
+class EtherscanApiController internal constructor(
     private val httpClient: HttpClient
 ) : EtherscanApi {
     override suspend fun getTransactions(
         page: Int,
         offset: Int,
         account: String
-    ): List<EtherTransactionDto> {
+    ): List<EthereumTransactionBasic> {
         return httpClient.tryGet<EtherTransactionsResponseDto>("") {
             parameter("module", "account")
             parameter("action", "txlist")
@@ -21,7 +22,7 @@ class EtherscanDataSource internal constructor(
             parameter("page", page)
             parameter("offset", offset)
             parameter("sort", "desc")
-        }?.result ?: emptyList()
+        }?.result?.map { it.basic() } ?: emptyList()
     }
 
     override suspend fun getContractInternalTransactions(
@@ -29,7 +30,7 @@ class EtherscanDataSource internal constructor(
         offset: Int,
         account: String,
         contract: String
-    ): List<EtherTransactionDto> {
+    ): List<EthereumTransactionBasic> {
         return httpClient.tryGet<EtherTransactionsResponseDto>("") {
             parameter("module", "account")
             parameter("action", "tokentx")
@@ -38,6 +39,20 @@ class EtherscanDataSource internal constructor(
             parameter("offset", offset)
             parameter("sort", "desc")
             parameter("contractaddress", contract)
-        }?.result ?: emptyList()
+        }?.result?.map { it.basic() } ?: emptyList()
     }
+}
+
+private fun EtherTransactionDto.basic(): EthereumTransactionBasic {
+    return EthereumTransactionBasic(
+        hash = hash,
+        amount = value,
+        recipient = to,
+        sender = from,
+        gasPrice = gasPrice,
+        gas = gas,
+        gasUsed = gasUsed,
+        functionName = functionName,
+        datetime = timeStamp
+    )
 }

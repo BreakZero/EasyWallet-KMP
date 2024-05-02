@@ -106,6 +106,9 @@ ktor-serialization-kotlinx-json = { group = "io.ktor", name = "ktor-serializatio
 
 skie-annotations = { module = "co.touchlab.skie:configuration-annotations", version.ref = "skie" }
 
+kermit = { module = "co.touchlab:kermit", version = "2.0.3" }
+bignum = { module = "com.ionspin.kotlin:bignum", version = "0.3.9" }
+
 # vico
 # For Jetpack Compose.
 vico-compose = { group = "com.patrykandpatrick.vico", name = "compose", version.ref = "vico" }

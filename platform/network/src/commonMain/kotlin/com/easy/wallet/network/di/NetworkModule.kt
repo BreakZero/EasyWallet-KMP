@@ -3,17 +3,17 @@ package com.easy.wallet.network.di
 import com.easy.wallet.network.httpClient
 import com.easy.wallet.network.key.BuildKonfig
 import com.easy.wallet.network.source.blockchair.BlockchairApi
-import com.easy.wallet.network.source.blockchair.BlockchairDataSource
+import com.easy.wallet.network.source.blockchair.BlockchairApiController
 import com.easy.wallet.network.source.coingecko.CoinGeckoApi
-import com.easy.wallet.network.source.coingecko.CoinGeckoDataSource
+import com.easy.wallet.network.source.coingecko.CoinGeckoApiController
 import com.easy.wallet.network.source.etherscan.EtherscanApi
-import com.easy.wallet.network.source.etherscan.EtherscanDataSource
+import com.easy.wallet.network.source.etherscan.EtherscanApiController
 import com.easy.wallet.network.source.evm_rpc.EvmJsonRpcApiImpl
 import com.easy.wallet.network.source.evm_rpc.JsonRpcApi
 import com.easy.wallet.network.source.evm_rpc.parameter.Parameter
 import com.easy.wallet.network.source.okx.OKXWebSocketManager
 import com.easy.wallet.network.source.opensea.OpenseaApi
-import com.easy.wallet.network.source.opensea.OpenseaDataSource
+import com.easy.wallet.network.source.opensea.OpenseaApiController
 import io.ktor.client.HttpClient
 import io.ktor.client.HttpClientConfig
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
@@ -159,10 +159,10 @@ val networkModule = module {
     }
     single(qualifier = named(name = SourceQualifier.OKX_WEBSOCKETS.name)) { webSocketClient() }
 
-    single<BlockchairApi> { BlockchairDataSource(get(qualifier = named(SourceQualifier.BLOCK_CHAIR.name))) }
-    single<OpenseaApi> { OpenseaDataSource(get(qualifier = named(SourceQualifier.OPENSEA.name))) }
-    single<EtherscanApi> { EtherscanDataSource(get(qualifier = named(SourceQualifier.ETHER_SCAN.name))) }
-    single<CoinGeckoApi> { CoinGeckoDataSource(get(qualifier = named(SourceQualifier.COINGECKO.name))) }
+    single<BlockchairApi> { BlockchairApiController(get(qualifier = named(SourceQualifier.BLOCK_CHAIR.name))) }
+    single<OpenseaApi> { OpenseaApiController(get(qualifier = named(SourceQualifier.OPENSEA.name))) }
+    single<EtherscanApi> { EtherscanApiController(get(qualifier = named(SourceQualifier.ETHER_SCAN.name))) }
+    single<CoinGeckoApi> { CoinGeckoApiController(get(qualifier = named(SourceQualifier.COINGECKO.name))) }
     single<JsonRpcApi> { EvmJsonRpcApiImpl(get(qualifier = named(SourceQualifier.EVM_RPC.name))) }
 
     single { OKXWebSocketManager(get(qualifier = named(SourceQualifier.OKX_WEBSOCKETS.name))) }

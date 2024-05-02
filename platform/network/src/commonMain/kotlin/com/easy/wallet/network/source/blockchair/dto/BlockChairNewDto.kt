@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class BlockChairNewsRootResponse(
+internal data class BlockChairNewsRootResponse(
     @SerialName("data")
     val data: List<BlockChairNewDto>?,
     @SerialName("context")
@@ -12,7 +12,7 @@ data class BlockChairNewsRootResponse(
 )
 
 @Serializable
-data class BlockChairNewDto(
+internal data class BlockChairNewDto(
     @SerialName("description")
     val description: String,
     @SerialName("file")

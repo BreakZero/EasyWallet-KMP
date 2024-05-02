@@ -6,7 +6,6 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.easy.wallet.shared.data.repository.MarketsRepository
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.stateIn
 

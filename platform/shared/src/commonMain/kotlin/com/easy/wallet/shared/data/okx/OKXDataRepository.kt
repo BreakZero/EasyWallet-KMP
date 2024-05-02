@@ -1,7 +1,6 @@
 package com.easy.wallet.shared.data.okx
 
 import com.easy.wallet.network.source.okx.OKXWebSocketManager
-import com.easy.wallet.network.source.okx.dto.OptionArg
 
 class OKXDataRepository internal constructor(
     private val okxWebSocketManager: OKXWebSocketManager
@@ -10,16 +9,16 @@ class OKXDataRepository internal constructor(
         okxWebSocketManager.connect(path, callback)
     }
 
-    suspend fun subscribe(
-        args: List<OptionArg>,
-        onReceive: (String) -> Unit
-    ) {
-        okxWebSocketManager.subscribe(args, onReceive)
-    }
-
-    suspend fun unsubscribe(
-        args: List<OptionArg>
-    ) {
-        okxWebSocketManager.unsubscribe(args)
-    }
+//    suspend fun subscribe(
+//        args: List<OptionArg>,
+//        onReceive: (String) -> Unit
+//    ) {
+//        okxWebSocketManager.subscribe(args, onReceive)
+//    }
+//
+//    suspend fun unsubscribe(
+//        args: List<OptionArg>
+//    ) {
+//        okxWebSocketManager.unsubscribe(args)
+//    }
 }

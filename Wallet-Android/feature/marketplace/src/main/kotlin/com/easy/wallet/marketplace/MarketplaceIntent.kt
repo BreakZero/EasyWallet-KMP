@@ -1,7 +1,7 @@
 package com.easy.wallet.marketplace
 
-import com.easy.wallet.shared.model.MarketCoin
-import com.easy.wallet.shared.model.CoinTrend
+import com.easy.wallet.model.CoinInformation
+import com.easy.wallet.model.CoinMarketInformation
 
 internal sealed interface MarketplaceUiState {
     data object Loading: MarketplaceUiState
@@ -9,8 +9,8 @@ internal sealed interface MarketplaceUiState {
     data object Error: MarketplaceUiState
 
     data class Success(
-        val trends: List<CoinTrend>,
-        val topCoins: List<MarketCoin>
+        val trends: List<CoinInformation>,
+        val topCoins: List<CoinMarketInformation>
     ): MarketplaceUiState
 }
 

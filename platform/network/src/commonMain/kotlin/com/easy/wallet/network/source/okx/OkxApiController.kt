@@ -1,12 +1,11 @@
 package com.easy.wallet.network.source.okx
 
-import com.easy.wallet.network.source.okx.dto.InstrumentDto
 import io.ktor.client.HttpClient
 
-class OkxDataSource internal constructor(
+class OkxApiController internal constructor(
     private val httpClient: HttpClient
 ) : OkxApi {
-    override suspend fun instruments(): List<InstrumentDto> {
+    override suspend fun instruments(): List<Any> {
         TODO("Not yet implemented")
     }
 }

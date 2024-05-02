@@ -5,7 +5,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class CoinGeckoMarketsDto(
+internal data class CoinGeckoMarketsDto(
     @SerialName("ath")
     val ath: Double,
     @SerialName("ath_change_percentage")

@@ -4,11 +4,10 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
+import com.easy.wallet.model.CoinInformation
+import com.easy.wallet.model.CoinMarketInformation
 import com.easy.wallet.network.source.coingecko.CoinGeckoApi
-import com.easy.wallet.shared.model.CoinTrend
-import com.easy.wallet.shared.model.MarketCoin
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 
 class MarketsRepository internal constructor(
@@ -16,7 +15,7 @@ class MarketsRepository internal constructor(
 ) {
     fun topCoinsByPaging(
         currency: String = "usd"
-    ): Pager<Int, MarketCoin> {
+    ): Pager<Int, CoinMarketInformation> {
         return Pager(
             config = PagingConfig(pageSize = Int.MAX_VALUE, prefetchDistance = 2),
             pagingSourceFactory = {
@@ -25,21 +24,10 @@ class MarketsRepository internal constructor(
         )
     }
 
-    fun searchTrends(): Flow<List<CoinTrend>> {
+    fun searchTrends(): Flow<List<CoinInformation>> {
         return flow {
-            val trends = coinGeckoApi.getSearchTrending()?.coins?.map { it.item } ?: emptyList()
-            emit(
-                trends.map {
-                    CoinTrend(
-                        id = it.id,
-                        coinId = it.coinId,
-                        name = it.name,
-                        symbol = it.symbol,
-                        thumb = it.thumb,
-                        largeImage = it.large
-                    )
-                }
-            )
+            val trends = coinGeckoApi.getSearchTrending()
+            emit(trends)
         }
     }
 }
@@ -47,12 +35,12 @@ class MarketsRepository internal constructor(
 internal class MarketDataPagingSource(
     private val currency: String,
     private val coinGeckoApi: CoinGeckoApi
-) : PagingSource<Int, MarketCoin>() {
-    override fun getRefreshKey(state: PagingState<Int, MarketCoin>): Int? {
+) : PagingSource<Int, CoinMarketInformation>() {
+    override fun getRefreshKey(state: PagingState<Int, CoinMarketInformation>): Int? {
         return state.anchorPosition ?: 1
     }
 
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, MarketCoin> {
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, CoinMarketInformation> {
         return try {
             val currentPage = params.key ?: 1
             val topCoins = coinGeckoApi.getCoinsMarkets(
@@ -63,17 +51,7 @@ internal class MarketDataPagingSource(
                 includeSparkline7dData = true,
                 priceChangePercentageIntervals = "",
                 coinIds = null
-            ).map {
-                MarketCoin(
-                    id = it.id,
-                    symbol = it.symbol,
-                    name = it.name,
-                    image = it.image,
-                    currentPrice = it.currentPrice,
-                    priceChangePercentage24h = it.priceChangePercentage24h,
-                    price = it.sparklineIn7d?.price ?: emptyList()
-                )
-            }
+            )
             LoadResult.Page(
                 data = topCoins,
                 prevKey = if (currentPage == 1) null else currentPage - 1,

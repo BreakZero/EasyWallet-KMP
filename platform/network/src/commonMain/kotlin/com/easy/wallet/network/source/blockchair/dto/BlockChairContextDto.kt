@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class BlockChairContextDto(
+internal data class BlockChairContextDto(
     @SerialName("api")
     val api: ApiDto = ApiDto(),
     @SerialName("cache")
@@ -35,7 +35,7 @@ data class BlockChairContextDto(
     val totalRows: Long? = null
 ) {
     @Serializable
-    data class ApiDto(
+    internal data class ApiDto(
         @SerialName("documentation")
         val documentation: String = "",
         @SerialName("last_major_update")
@@ -49,7 +49,7 @@ data class BlockChairContextDto(
     )
 
     @Serializable
-    data class CacheDto(
+    internal data class CacheDto(
         @SerialName("duration")
         val duration: Int = 0,
         @SerialName("live")

@@ -24,17 +24,17 @@ import androidx.compose.ui.unit.dp
 import com.easy.wallet.design.component.DynamicAsyncImage
 import com.easy.wallet.design.theme.ThemePreviews
 import com.easy.wallet.design.ui.EasyWalletTheme
-import com.easy.wallet.shared.model.MarketCoin
+import com.easy.wallet.model.CoinMarketInformation
 import kotlinx.collections.immutable.toImmutableList
 
 
 @Composable
 internal fun MarketCoinItem(
     modifier: Modifier = Modifier,
-    marketCoin: MarketCoin
+    marketInfo: CoinMarketInformation
 ) {
-    val prices = remember(key1 = marketCoin) {
-        marketCoin.price.windowed(5, 5, transform = {
+    val prices = remember(key1 = marketInfo) {
+        marketInfo.price.windowed(5, 5, transform = {
             it.average()
         }).toImmutableList()
     }
@@ -50,15 +50,15 @@ internal fun MarketCoinItem(
                 modifier = Modifier
                     .size(48.dp)
                     .clip(CircleShape),
-                imageUrl = marketCoin.image, contentDescription = null
+                imageUrl = marketInfo.image, contentDescription = null
             )
             Spacer(modifier = Modifier.width(12.dp))
             Column {
-                Text(text = marketCoin.name)
-                Text(text = marketCoin.symbol.uppercase())
+                Text(text = marketInfo.name)
+                Text(text = marketInfo.symbol.uppercase())
             }
             Spacer(modifier = Modifier.weight(1.0f))
-            val graphColor = if (marketCoin.priceChangePercentage24h > 0.0) {
+            val graphColor = if (marketInfo.priceChangePercentage24h > 0.0) {
                 MaterialTheme.colorScheme.error
             } else MaterialTheme.colorScheme.tertiary
             LineChart(
@@ -70,8 +70,8 @@ internal fun MarketCoinItem(
             )
             Spacer(modifier = Modifier.width(8.dp))
             Column(horizontalAlignment = Alignment.End) {
-                Text(text = marketCoin.currentPrice.toString())
-                Text(text = "${marketCoin.priceChangePercentage24h} %", color = graphColor)
+                Text(text = marketInfo.currentPrice.toString())
+                Text(text = "${marketInfo.priceChangePercentage24h} %", color = graphColor)
             }
         }
     }
@@ -83,7 +83,7 @@ private fun MarketCoinItem_Preview() {
     EasyWalletTheme {
         Surface {
             MarketCoinItem(
-                marketCoin = MarketCoin(
+                marketInfo = CoinMarketInformation(
                     id = "",
                     symbol = "BTC",
                     name = "Bitcoin",

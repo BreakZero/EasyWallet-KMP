@@ -4,13 +4,13 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class NftListDto(
+internal data class NftListDto(
     @SerialName("nfts")
     val nfts: List<OpenSeaNftDto>
 )
 
 @Serializable
-data class OpenSeaNftDto(
+internal data class OpenSeaNftDto(
     @SerialName("collection")
     val collection: String,
     @SerialName("contract")

@@ -5,7 +5,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class InstrumentDto(
+internal data class InstrumentDto(
     @SerialName("alias")
     val alias: String,
     @SerialName("baseCcy")

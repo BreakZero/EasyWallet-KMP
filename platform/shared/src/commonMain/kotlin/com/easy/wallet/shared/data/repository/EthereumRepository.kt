@@ -1,23 +1,17 @@
 package com.easy.wallet.shared.data.repository
 
-import com.easy.wallet.core.commom.DateTimeDecoder
 import com.easy.wallet.core.commom.cleanHexPrefix
 import com.easy.wallet.core.commom.ifNullOrBlank
 import com.easy.wallet.model.TokenBasicResult
 import com.easy.wallet.network.source.blockchair.BlockchairApi
 import com.easy.wallet.network.source.etherscan.EtherscanApi
-import com.easy.wallet.network.source.etherscan.dto.EtherTransactionDto
 import com.easy.wallet.network.source.evm_rpc.JsonRpcApi
 import com.easy.wallet.shared.asHex
 import com.easy.wallet.shared.model.fees.EthereumFee
 import com.easy.wallet.shared.model.fees.FeeLevel
 import com.easy.wallet.shared.model.fees.FeeModel
-import com.easy.wallet.shared.model.transaction.Direction
-import com.easy.wallet.shared.model.transaction.EthereumTransactionUiModel
-import com.easy.wallet.shared.model.transaction.TransactionStatus
 import com.easy.wallet.shared.model.transaction.TransactionUiModel
-import com.ionspin.kotlin.bignum.decimal.RoundingMode
-import com.ionspin.kotlin.bignum.decimal.toBigDecimal
+import com.easy.wallet.shared.model.transaction.asTransactionUiModel
 import com.ionspin.kotlin.bignum.integer.toBigInteger
 import com.trustwallet.core.AnySigner
 import com.trustwallet.core.CoinType
@@ -49,7 +43,7 @@ class EthereumRepository internal constructor(
     ): List<TransactionUiModel> {
         val account = token.address
         val isContract = !token.contract.isNullOrBlank()
-        val tnxDto = if (isContract) {
+        val basicTransactions = if (isContract) {
             etherscanApi.getContractInternalTransactions(
                 page,
                 offset,
@@ -59,7 +53,7 @@ class EthereumRepository internal constructor(
         } else {
             etherscanApi.getTransactions(page, offset, account)
         }
-        return tnxDto.map { it.asTransactionUiModel(token, account) }
+        return basicTransactions.map { it.asTransactionUiModel(token, account) }
     }
 
     override suspend fun prepFees(
@@ -77,9 +71,24 @@ class EthereumRepository internal constructor(
         val (maxFeePerGas, inclusionFeePerGas) = feeDeferred.await()
 
         listOf(
-            EthereumFee(feeLevel = FeeLevel.Low, gas = estimateGas, maxFeePerGas = maxFeePerGas, priorityFeeGas = inclusionFeePerGas),
-            EthereumFee(feeLevel = FeeLevel.Average, gas = estimateGas, maxFeePerGas = maxFeePerGas, priorityFeeGas = inclusionFeePerGas),
-            EthereumFee(feeLevel = FeeLevel.Fast, gas = estimateGas, maxFeePerGas = maxFeePerGas, priorityFeeGas = inclusionFeePerGas)
+            EthereumFee(
+                feeLevel = FeeLevel.Low,
+                gas = estimateGas,
+                maxFeePerGas = maxFeePerGas,
+                priorityFeeGas = inclusionFeePerGas
+            ),
+            EthereumFee(
+                feeLevel = FeeLevel.Average,
+                gas = estimateGas,
+                maxFeePerGas = maxFeePerGas,
+                priorityFeeGas = inclusionFeePerGas
+            ),
+            EthereumFee(
+                feeLevel = FeeLevel.Fast,
+                gas = estimateGas,
+                maxFeePerGas = maxFeePerGas,
+                priorityFeeGas = inclusionFeePerGas
+            )
         )
     }
 
@@ -167,28 +176,4 @@ class EthereumRepository internal constructor(
         val tnxCount = jsonRpcApi.getTransactionCount(account)
         return tnxCount
     }
-}
-
-private fun EtherTransactionDto.asTransactionUiModel(
-    token: TokenBasicResult,
-    account: String
-): EthereumTransactionUiModel {
-    val direction = if (from.equals(account, true)) Direction.SEND else Direction.RECEIVE
-    return EthereumTransactionUiModel(
-        hash = hash,
-        amount = value.toBigDecimal().moveDecimalPoint(-token.decimals)
-            .roundToDigitPositionAfterDecimalPoint(8, RoundingMode.ROUND_HALF_CEILING)
-            .toPlainString(),
-        recipient = to,
-        sender = from,
-        direction = direction,
-        gasPrice = gasPrice,
-        gas = gas,
-        gasUsed = gasUsed,
-        symbol = token.symbol,
-        functionName = functionName,
-        datetime = timeStamp.toLongOrNull()
-            ?.let { DateTimeDecoder.decodeToDateTime(it.times(1000)).toString() } ?: "- -",
-        status = TransactionStatus.Confirmed
-    )
 }

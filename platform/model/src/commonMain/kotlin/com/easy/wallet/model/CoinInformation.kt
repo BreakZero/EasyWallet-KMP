@@ -1,6 +1,9 @@
-package com.easy.wallet.shared.model
+package com.easy.wallet.model
 
-data class CoinTrend(
+import kotlin.native.ObjCName
+
+@ObjCName("CoinInformation")
+data class CoinInformation(
     val id: String,
     val coinId: Long,
     val name: String,

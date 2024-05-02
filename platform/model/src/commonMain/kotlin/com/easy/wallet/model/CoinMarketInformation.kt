@@ -1,6 +1,9 @@
-package com.easy.wallet.shared.model
+package com.easy.wallet.model
 
-data class MarketCoin(
+import kotlin.native.ObjCName
+
+@ObjCName("CoinMarketInformation")
+data class CoinMarketInformation(
     val id: String,
     val symbol: String,
     val name: String,

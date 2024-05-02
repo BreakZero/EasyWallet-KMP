@@ -1,8 +1,7 @@
 package com.easy.wallet.network.source.coingecko
 
-import com.easy.wallet.network.source.coingecko.dto.CoinGeckoMarketChartDto
-import com.easy.wallet.network.source.coingecko.dto.CoinGeckoMarketsDto
-import com.easy.wallet.network.source.coingecko.dto.CoinGeckoSearchTrendingDto
+import com.easy.wallet.model.CoinInformation
+import com.easy.wallet.model.CoinMarketInformation
 
 interface CoinGeckoApi {
     suspend fun getCoinsMarkets(
@@ -13,12 +12,13 @@ interface CoinGeckoApi {
         includeSparkline7dData: Boolean = false,
         priceChangePercentageIntervals: String = "",
         coinIds: String? = null
-    ): List<CoinGeckoMarketsDto>
+    ): List<CoinMarketInformation>
+
     suspend fun getCoinMarketChart(
         coinId: String,
         currency: String = "usd",
         days: String = "1"
-    ): CoinGeckoMarketChartDto?
+    ): Any?
 
-    suspend fun getSearchTrending(): CoinGeckoSearchTrendingDto?
+    suspend fun getSearchTrending(): List<CoinInformation>
 }

@@ -5,19 +5,19 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class CoinGeckoSearchTrendingDto(
+internal data class CoinGeckoSearchTrendingDto(
     @SerialName("coins")
     val coins: List<TrendingCoinDto>
 )
 
 @Serializable
-data class TrendingCoinDto(
+internal data class TrendingCoinDto(
     @SerialName("item")
     val item: TrendingItemDto
 )
 
 @Serializable
-data class TrendingItemDto(
+internal data class TrendingItemDto(
     @SerialName("coin_id")
     val coinId: Long,
     @SerialName("data")
@@ -45,7 +45,7 @@ data class TrendingItemDto(
 )
 
 @Serializable
-data class TrendingDataDto(
+internal data class TrendingDataDto(
     @SerialName("market_cap")
     val marketCap: String,
     @SerialName("market_cap_btc")

@@ -43,6 +43,8 @@ kotlin {
                 implementation(libs.kotlinx.datetime)
                 implementation(libs.kotlinx.coroutines.core)
 
+                implementation(libs.bignum)
+
                 implementation(libs.ktor.client.core)
                 implementation(libs.ktor.client.websockets)
                 implementation(libs.ktor.client.logging)

@@ -144,7 +144,6 @@ internal fun EvmChainSendAmountScreen(
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @ThemePreviews
 @Composable
 private fun EvmChainSendAmount_Preview() {

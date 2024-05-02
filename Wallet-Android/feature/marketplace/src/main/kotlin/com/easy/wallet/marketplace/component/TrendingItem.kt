@@ -16,12 +16,12 @@ import androidx.compose.ui.unit.dp
 import com.easy.wallet.design.component.DynamicAsyncImage
 import com.easy.wallet.design.theme.ThemePreviews
 import com.easy.wallet.design.ui.EasyWalletTheme
-import com.easy.wallet.shared.model.CoinTrend
+import com.easy.wallet.model.CoinInformation
 
 @Composable
 internal fun TrendingItem(
     modifier: Modifier = Modifier,
-    trending: CoinTrend
+    trending: CoinInformation
 ) {
     Card(modifier = modifier, onClick = { /*TODO*/ }) {
         Column(
@@ -48,7 +48,7 @@ private fun TrendingItem_Preview() {
     EasyWalletTheme {
         Surface {
             TrendingItem(
-                trending = CoinTrend(
+                trending = CoinInformation(
                     id = "",
                     coinId = 1,
                     name = "Bitcoin",

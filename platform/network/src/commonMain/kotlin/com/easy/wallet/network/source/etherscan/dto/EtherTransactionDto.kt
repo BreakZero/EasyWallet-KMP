@@ -14,7 +14,7 @@ internal data class EtherTransactionsResponseDto(
 )
 
 @Serializable
-data class EtherTransactionDto(
+internal data class EtherTransactionDto(
     @SerialName("blockHash")
     val blockHash: String,
     @SerialName("blockNumber")

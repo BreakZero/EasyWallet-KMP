@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class CoinGeckoMarketChartDto(
+internal data class CoinGeckoMarketChartDto(
     val prices: List<List<Double>>,
     @SerialName("market_caps")
     val marketCaps: List<List<Double>>,

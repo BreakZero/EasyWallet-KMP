@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class DashboardRootResponse(
+internal data class DashboardRootResponse(
     @SerialName("data")
     val data: Map<String, DashboardResponse>,
     @SerialName("context")
@@ -12,7 +12,7 @@ data class DashboardRootResponse(
 )
 
 @Serializable
-data class DashboardResponse(
+internal data class DashboardResponse(
     @SerialName("address")
     val dashboardInfo: DashboardDto,
     @SerialName("layer_2")
@@ -20,13 +20,13 @@ data class DashboardResponse(
 )
 
 @Serializable
-data class Layer2Dto(
+internal data class Layer2Dto(
     @SerialName("erc_20")
     val ethTokens: List<TokenInfoDto>
 )
 
 @Serializable
-data class DashboardDto(
+internal data class DashboardDto(
     @SerialName("balance")
     val balance: String,
     @SerialName("balance_usd")

@@ -22,8 +22,8 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import com.easy.wallet.design.component.DefaultPagingLazyColumn
 import com.easy.wallet.marketplace.component.MarketCoinItem
 import com.easy.wallet.marketplace.component.TrendingItem
-import com.easy.wallet.shared.model.CoinTrend
-import com.easy.wallet.shared.model.MarketCoin
+import com.easy.wallet.model.CoinInformation
+import com.easy.wallet.model.CoinMarketInformation
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -37,8 +37,8 @@ internal fun MarketplaceRoute() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun MarketplaceScreen(
-    trendingCoins: List<CoinTrend>,
-    topCoinsPaging: LazyPagingItems<MarketCoin>
+    trendingCoins: List<CoinInformation>,
+    topCoinsPaging: LazyPagingItems<CoinMarketInformation>
 ) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -92,7 +92,7 @@ internal fun MarketplaceScreen(
             itemContainer = {
                 MarketCoinItem(
                     modifier = Modifier.padding(horizontal = 16.dp),
-                    marketCoin = it
+                    marketInfo = it
                 )
             }
         )

@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class TokenInfoDto(
+internal data class TokenInfoDto(
     @SerialName("balance")
     val balance: String,
     @SerialName("balance_approximate")

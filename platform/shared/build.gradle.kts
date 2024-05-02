@@ -59,8 +59,8 @@ kotlin {
                 implementation(libs.skie.annotations)
 
                 api("com.trustwallet:wallet-core-kotlin:4.0.31")
-                implementation("com.ionspin.kotlin:bignum:0.3.9")
-                implementation("co.touchlab:kermit:2.0.3")
+                implementation(libs.bignum)
+                implementation(libs.kermit)
             }
         }
 
