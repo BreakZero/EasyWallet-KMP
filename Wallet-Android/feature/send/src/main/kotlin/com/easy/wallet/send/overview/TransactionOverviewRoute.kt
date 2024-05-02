@@ -15,11 +15,11 @@ internal fun TransactionOverviewRoute(
     ObserveAsEvents(flow = viewModel.navigationEvents) {
 
     }
-    val uiState by viewModel.sendUiState.collectAsStateWithLifecycle()
-    val fees by viewModel.fees.collectAsStateWithLifecycle()
+    val basicInfo by viewModel.basicInfoState.collectAsStateWithLifecycle()
+    val overviewUiState by viewModel.overviewUiState.collectAsStateWithLifecycle()
     EvmChainOverviewScreen(
-        uiState = uiState as SendUiState.Success,
-        fees = fees,
+        basicInfo = basicInfo as SendUiState.PrepBasicInfo,
+        overviewUiState = overviewUiState,
         onEvent = viewModel::handleEvent
     )
 }

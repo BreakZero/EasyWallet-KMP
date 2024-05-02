@@ -10,8 +10,8 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.NavType
-import androidx.navigation.compose.navigation
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.navigation
 import androidx.navigation.navArgument
 import com.easy.wallet.send.SendSharedViewModel
 import com.easy.wallet.send.amount.SendAmountRoute
@@ -56,17 +56,21 @@ fun NavGraphBuilder.attachSendGraph(navController: NavController) {
         composable(sendDestinationRoute) {
             val sharedViewModel: SendSharedViewModel =
                 it.sharedViewModel(navController = navController)
-            SendDestinationRoute(viewModel = sharedViewModel) {
-                navController.navigate(sendAmountRoute)
-            }
+            SendDestinationRoute(
+                viewModel = sharedViewModel,
+                navigateTo = navController::navigate,
+                popBack = navController::popBackStack
+            )
         }
 
         composable(sendAmountRoute) {
             val sharedViewModel: SendSharedViewModel =
                 it.sharedViewModel(navController = navController)
-            SendAmountRoute(viewModel = sharedViewModel) {
-                navController.navigate(sendOverviewRoute)
-            }
+            SendAmountRoute(
+                viewModel = sharedViewModel,
+                navigateTo = navController::navigate,
+                popBack = navController::popBackStack
+            )
         }
 
         composable(sendOverviewRoute) {

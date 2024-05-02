@@ -27,9 +27,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -39,27 +36,20 @@ import com.easy.wallet.design.component.EasyGradientBackground
 import com.easy.wallet.design.component.LoadingWheel
 import com.easy.wallet.design.theme.ThemePreviews
 import com.easy.wallet.design.ui.EasyWalletTheme
+import com.easy.wallet.send.DestinationUiState
 import com.easy.wallet.send.SendUiEvent
 import com.easy.wallet.send.SendUiState
-import com.trustwallet.core.AnyAddress
-import com.trustwallet.core.CoinType
+import com.easy.wallet.send.navigation.sendAmountRoute
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 internal fun EvmChainDestinationScreen(
     uiState: SendUiState,
+    destinationUiState: DestinationUiState,
     textFieldState: TextFieldState,
     onEvent: (SendUiEvent) -> Unit
 ) {
     val clipboardManager = LocalClipboardManager.current
-    val isValid by remember {
-        derivedStateOf {
-            AnyAddress.isValid(
-                textFieldState.text.toString(),
-                CoinType.Ethereum
-            )
-        }
-    }
     Scaffold(
         containerColor = Color.Transparent,
         contentColor = MaterialTheme.colorScheme.onBackground,
@@ -67,7 +57,7 @@ internal fun EvmChainDestinationScreen(
             TopAppBar(
                 title = { Text(text = "Send To") },
                 navigationIcon = {
-                    IconButton(onClick = { }) {
+                    IconButton(onClick = { onEvent(SendUiEvent.NavigateBack) }) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = ""
@@ -82,8 +72,8 @@ internal fun EvmChainDestinationScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp, vertical = 8.dp),
-                enabled = isValid,
-                onClick = { onEvent(SendUiEvent.ClickNext) }
+                enabled = destinationUiState == DestinationUiState.Success,
+                onClick = { onEvent(SendUiEvent.NavigateTo(sendAmountRoute)) }
             ) {
                 Text(text = "Next")
             }
@@ -94,7 +84,7 @@ internal fun EvmChainDestinationScreen(
             .padding(paddingValues)
         when (uiState) {
             SendUiState.Error -> {
-                Box(modifier = modifier.clickable { }) {
+                Box(modifier = modifier.clickable { onEvent(SendUiEvent.NavigateBack) }) {
                     Text(text = "Tap to back...")
                 }
             }
@@ -105,7 +95,7 @@ internal fun EvmChainDestinationScreen(
                 }
             }
 
-            is SendUiState.Success -> {
+            is SendUiState.PrepBasicInfo -> {
                 Column(
                     modifier = modifier,
                     verticalArrangement = Arrangement.spacedBy(12.dp)
@@ -134,7 +124,7 @@ internal fun EvmChainDestinationScreen(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(12.dp, Alignment.End)
                     ) {
-                        ElevatedButton(onClick = { /*TODO*/ }) {
+                        ElevatedButton(onClick = {  }) {
                             Row(
                                 horizontalArrangement = Arrangement.spacedBy(4.dp),
                                 verticalAlignment = Alignment.CenterVertically
@@ -175,7 +165,12 @@ internal fun EvmChainDestinationScreen(
 private fun EvmChainDestination_Preview() {
     EasyWalletTheme {
         EasyGradientBackground {
-            EvmChainDestinationScreen(SendUiState.Loading, TextFieldState("")) {}
+            EvmChainDestinationScreen(
+                SendUiState.Loading,
+                DestinationUiState.Success,
+                TextFieldState(""),
+                {}
+            )
         }
     }
 }

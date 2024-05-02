@@ -1,5 +1,6 @@
 package com.easy.wallet.network.source.evm_rpc
 
+import co.touchlab.kermit.Logger
 import com.easy.wallet.core.commom.cleanHexPrefix
 import com.easy.wallet.network.source.evm_rpc.dto.BaseRpcResponseDto
 import com.easy.wallet.network.source.evm_rpc.dto.FeeHistoryDto
@@ -164,16 +165,20 @@ class EvmJsonRpcApiImpl internal constructor(
 
     }
 
+    companion object {
+        private const val Tag = "Rpc Call"
+    }
+
     private suspend fun validateResponse(response: HttpResponse) {
         val text = response.bodyAsText()
         val message = try {
             JSON.decodeFromString<RpcErrorResponse>(text).error?.message
         } catch (e: Throwable) {
-            println("Unexpected Response:\n$text")
+            Logger.e(Tag) { text }
             null
         }
         if (!message.isNullOrBlank()) {
-            println("===== $message")
+            Logger.e(Tag) { message }
             throw NetworkErrorException(message)
         }
     }

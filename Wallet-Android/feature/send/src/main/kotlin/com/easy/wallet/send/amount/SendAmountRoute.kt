@@ -1,6 +1,5 @@
 package com.easy.wallet.send.amount
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -9,19 +8,25 @@ import com.easy.wallet.send.SendSharedViewModel
 import com.easy.wallet.send.SendUiEvent
 import com.easy.wallet.send.SendUiState
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 internal fun SendAmountRoute(
     viewModel: SendSharedViewModel,
-    onNext: () -> Unit
+    navigateTo: (String) -> Unit,
+    popBack: () -> Unit
 ) {
     ObserveAsEvents(flow = viewModel.navigationEvents) {
         when (it) {
-            SendUiEvent.ClickNext -> onNext()
+            is SendUiEvent.NavigateTo -> navigateTo(it.destination)
+            SendUiEvent.NavigateBack -> popBack()
             else -> Unit
         }
     }
-    val uiState by viewModel.sendUiState.collectAsStateWithLifecycle()
+    val uiState by viewModel.basicInfoState.collectAsStateWithLifecycle()
+    val amountUiState by viewModel.amountUiState.collectAsStateWithLifecycle()
 
-    EvmChainSendAmountScreen(uiState = uiState as SendUiState.Success, onEvent = viewModel::handleEvent)
+    EvmChainSendAmountScreen(
+        basicInfo = uiState as SendUiState.PrepBasicInfo,
+        amountUiState = amountUiState,
+        onEvent = viewModel::handleEvent
+    )
 }

@@ -12,17 +12,24 @@ import com.easy.wallet.send.SendUiEvent
 @Composable
 internal fun SendDestinationRoute(
     viewModel: SendSharedViewModel,
-    onNext: () -> Unit
+    navigateTo: (String) -> Unit,
+    popBack: () -> Unit
 ) {
 
     ObserveAsEvents(flow = viewModel.navigationEvents) {
-        when(it) {
-            SendUiEvent.ClickNext -> onNext()
+        when (it) {
+            is SendUiEvent.NavigateTo -> navigateTo(it.destination)
+            SendUiEvent.NavigateBack -> popBack()
             else -> Unit
         }
     }
 
-    val destinationState = viewModel.destination
-    val uiState by viewModel.sendUiState.collectAsStateWithLifecycle()
-    EvmChainDestinationScreen(uiState = uiState, textFieldState = destinationState, onEvent = viewModel::handleEvent)
+    val prepUiState by viewModel.basicInfoState.collectAsStateWithLifecycle()
+    val destinationUiState by viewModel.destinationUiState.collectAsStateWithLifecycle()
+    EvmChainDestinationScreen(
+        uiState = prepUiState,
+        textFieldState = viewModel.destination,
+        destinationUiState = destinationUiState,
+        onEvent = viewModel::handleEvent
+    )
 }

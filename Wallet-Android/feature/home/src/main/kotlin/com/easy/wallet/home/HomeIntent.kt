@@ -3,7 +3,6 @@ package com.easy.wallet.home
 import androidx.compose.runtime.Stable
 import com.easy.wallet.model.TokenInformation
 import com.easy.wallet.shared.model.DashboardInformation
-import com.easy.wallet.shared.model.TokenUiModel
 
 internal sealed interface HomeEvent {
     data object CreateWallet : HomeEvent

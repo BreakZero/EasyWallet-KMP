@@ -40,6 +40,7 @@ import com.easy.wallet.design.component.EasyGradientBackground
 import com.easy.wallet.design.theme.ThemePreviews
 import com.easy.wallet.design.ui.EasyWalletTheme
 import com.easy.wallet.model.TokenBasicResult
+import com.easy.wallet.send.OverviewUiState
 import com.easy.wallet.send.SendUiEvent
 import com.easy.wallet.send.SendUiState
 import com.easy.wallet.shared.model.fees.EthereumFee
@@ -49,8 +50,8 @@ import com.easy.wallet.shared.model.fees.FeeModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun EvmChainOverviewScreen(
-    uiState: SendUiState.Success,
-    fees: List<FeeModel>,
+    basicInfo: SendUiState.PrepBasicInfo,
+    overviewUiState: OverviewUiState,
     onEvent: (SendUiEvent) -> Unit
 ) {
     Scaffold(
@@ -75,16 +76,16 @@ internal fun EvmChainOverviewScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp, vertical = 8.dp),
-                onClick = { onEvent(SendUiEvent.OnSigningTransaction(uiState.tokenInfo.chainIdHex)) }
+                onClick = { onEvent(SendUiEvent.OnSigningTransaction(basicInfo.tokenInfo.chainIdHex)) }
             ) {
                 Text(text = "Next")
             }
         }
     ) {
+
         var showFeeTiers by remember {
             mutableStateOf(false)
         }
-
         val labelColor = LocalContentColor.current.copy(alpha = 0.5f)
         Column(
             modifier = Modifier.padding(it),
@@ -106,11 +107,11 @@ internal fun EvmChainOverviewScreen(
             ) {
                 DynamicAsyncImage(
                     modifier = Modifier.size(48.dp),
-                    imageUrl = uiState.tokenInfo.iconUri, contentDescription = null
+                    imageUrl = basicInfo.tokenInfo.iconUri, contentDescription = null
                 )
                 Column {
                     Text(
-                        text = "${uiState.amount} ${uiState.tokenInfo.symbol}",
+                        text = "${overviewUiState.amount} ${basicInfo.tokenInfo.symbol}",
                         style = MaterialTheme.typography.headlineMedium
                     )
                     // waiting rate api
@@ -128,7 +129,7 @@ internal fun EvmChainOverviewScreen(
             Row(modifier = basicModifier) {
                 Text(
                     modifier = Modifier.fillMaxWidth(0.6f),
-                    text = uiState.tokenInfo.address,
+                    text = basicInfo.tokenInfo.address,
                     style = MaterialTheme.typography.bodyLarge
                 )
                 Spacer(modifier = Modifier.weight(1.0f))
@@ -149,7 +150,7 @@ internal fun EvmChainOverviewScreen(
             Row(modifier = basicModifier) {
                 Text(
                     modifier = Modifier.fillMaxWidth(0.6f),
-                    text = uiState.recipient
+                    text = overviewUiState.destination
                 )
                 Spacer(modifier = Modifier.weight(1.0f))
                 Icon(
@@ -166,8 +167,8 @@ internal fun EvmChainOverviewScreen(
                 color = labelColor
             )
         }
-        if (fees.isNotEmpty() && showFeeTiers) {
-            FeeTierBottomSheet(fees = fees) {
+        if (overviewUiState.fees.isNotEmpty() && showFeeTiers) {
+            FeeTierBottomSheet(fees = overviewUiState.fees) {
                 showFeeTiers = false
             }
         }
@@ -208,15 +209,15 @@ private fun Overview_Preview() {
     EasyWalletTheme {
         EasyGradientBackground {
             EvmChainOverviewScreen(
-                SendUiState.Success(
+                SendUiState.PrepBasicInfo(
                     tokenInfo = TokenBasicResult("", "", 18, "", "", null, "Ethereum", ""),
-                    balance = "8.00",
-                    recipient = "",
-                    amount = ""
+                    balance = "8.00"
                 ),
-                fees = listOf(
-                    EthereumFee(FeeLevel.Low, "", "", ""),
-                    EthereumFee(FeeLevel.Fast, "", "", "")
+                overviewUiState = OverviewUiState(
+                    "", "", fees = listOf(
+                        EthereumFee(FeeLevel.Low, "", "", ""),
+                        EthereumFee(FeeLevel.Fast, "", "", "")
+                    )
                 ),
                 onEvent = {}
             )

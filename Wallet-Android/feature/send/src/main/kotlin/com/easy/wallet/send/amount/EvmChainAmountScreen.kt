@@ -1,6 +1,5 @@
 package com.easy.wallet.send.amount
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -33,13 +32,15 @@ import com.easy.wallet.design.component.EasyGradientBackground
 import com.easy.wallet.design.theme.ThemePreviews
 import com.easy.wallet.design.ui.EasyWalletTheme
 import com.easy.wallet.model.TokenBasicResult
+import com.easy.wallet.send.AmountUiState
 import com.easy.wallet.send.SendUiEvent
 import com.easy.wallet.send.SendUiState
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun EvmChainSendAmountScreen(
-    uiState: SendUiState.Success,
+    basicInfo: SendUiState.PrepBasicInfo,
+    amountUiState: AmountUiState,
     onEvent: (SendUiEvent) -> Unit
 ) {
     Scaffold(
@@ -49,7 +50,7 @@ internal fun EvmChainSendAmountScreen(
             TopAppBar(
                 title = { Text(text = "Send") },
                 navigationIcon = {
-                    IconButton(onClick = { }) {
+                    IconButton(onClick = { onEvent(SendUiEvent.NavigateBack) }) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = ""
@@ -64,7 +65,8 @@ internal fun EvmChainSendAmountScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp, vertical = 8.dp),
-                onClick = { onEvent(SendUiEvent.TransactionPrep) }) {
+                onClick = { onEvent(SendUiEvent.BuildTransactionPlan) }
+            ) {
                 Text(text = "Next")
             }
         }
@@ -79,7 +81,7 @@ internal fun EvmChainSendAmountScreen(
                 contentAlignment = Alignment.Center
             ) {
                 Text(
-                    text = "${uiState.amount} ${uiState.tokenInfo.symbol}",
+                    text = "${amountUiState.enterAmount} ${basicInfo.tokenInfo.symbol}",
                     style = MaterialTheme.typography.displaySmall
                 )
             }
@@ -98,7 +100,7 @@ internal fun EvmChainSendAmountScreen(
                     Icon(imageVector = Icons.Default.Wallet, contentDescription = null)
                     Column(modifier = Modifier.weight(1.0f)) {
                         Text(text = "Balance")
-                        Text(text = "${uiState.balance} ${uiState.tokenInfo.symbol}")
+                        Text(text = "${basicInfo.balance} ${basicInfo.tokenInfo.symbol}")
                     }
                     Button(onClick = { onEvent(SendUiEvent.MaxAmount) }) {
                         Text(text = "Max")
@@ -150,13 +152,13 @@ private fun EvmChainSendAmount_Preview() {
     EasyWalletTheme {
         EasyGradientBackground {
             EvmChainSendAmountScreen(
-                SendUiState.Success(
+                SendUiState.PrepBasicInfo(
                     tokenInfo = TokenBasicResult("", "", 18, "", "", null, "Ethereum", "1"),
-                    balance = "8.00",
-                    recipient = "",
-                    amount = ""
-                )
-            ) {}
+                    balance = "8.00"
+                ),
+                amountUiState = AmountUiState(""),
+                {}
+            )
         }
     }
 }

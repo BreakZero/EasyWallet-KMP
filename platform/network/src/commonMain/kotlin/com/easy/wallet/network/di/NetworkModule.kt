@@ -1,6 +1,5 @@
 package com.easy.wallet.network.di
 
-import co.touchlab.kermit.Logger as KLogger
 import com.easy.wallet.network.httpClient
 import com.easy.wallet.network.key.BuildKonfig
 import com.easy.wallet.network.source.blockchair.BlockchairApi
@@ -22,7 +21,6 @@ import io.ktor.client.plugins.defaultRequest
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
-import io.ktor.client.plugins.logging.SIMPLE
 import io.ktor.client.plugins.websocket.WebSockets
 import io.ktor.client.request.header
 import io.ktor.http.URLProtocol
@@ -35,6 +33,7 @@ import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.polymorphic
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
+import co.touchlab.kermit.Logger as KLogger
 
 enum class SourceQualifier {
     OPENSEA, BLOCK_CHAIR, ETHER_SCAN, OKX_WEBSOCKETS, COINGECKO, EVM_RPC
