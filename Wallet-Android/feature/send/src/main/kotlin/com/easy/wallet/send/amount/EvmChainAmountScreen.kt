@@ -65,12 +65,14 @@ internal fun EvmChainSendAmountScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp, vertical = 8.dp),
+                enabled = !amountUiState.insufficientBalance,
                 onClick = { onEvent(SendUiEvent.BuildTransactionPlan) }
             ) {
                 Text(text = "Next")
             }
         }
     ) { paddingValues ->
+        val color = if (amountUiState.insufficientBalance) MaterialTheme.colorScheme.error else Color.Unspecified
         Column(
             modifier = Modifier.padding(paddingValues)
         ) {
@@ -82,6 +84,7 @@ internal fun EvmChainSendAmountScreen(
             ) {
                 Text(
                     text = "${amountUiState.enterAmount} ${basicInfo.tokenInfo.symbol}",
+                    color = color,
                     style = MaterialTheme.typography.displaySmall
                 )
             }

@@ -64,7 +64,7 @@ internal class SendSharedViewModel(
     val amountUiState =
         combine(_amount.textAsFlow(), tokenBalanceUseCase(tokenId)) { amount, balance ->
             val insufficientBalance =
-                balance.toDouble() > (amount.toString().toDoubleOrNull() ?: 0.0)
+                balance.toDouble() < (amount.toString().toDoubleOrNull() ?: 0.0)
             AmountUiState(
                 enterAmount = amount.toString(),
                 insufficientBalance = insufficientBalance
