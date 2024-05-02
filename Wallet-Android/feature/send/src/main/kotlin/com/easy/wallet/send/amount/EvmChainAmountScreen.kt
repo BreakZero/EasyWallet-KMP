@@ -34,12 +34,12 @@ import com.easy.wallet.design.ui.EasyWalletTheme
 import com.easy.wallet.model.TokenBasicResult
 import com.easy.wallet.send.AmountUiState
 import com.easy.wallet.send.SendUiEvent
-import com.easy.wallet.send.SendUiState
+import com.easy.wallet.send.SendingBasicUiState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun EvmChainSendAmountScreen(
-    basicInfo: SendUiState.PrepBasicInfo,
+    basicInfo: SendingBasicUiState.PrepBasicInfo,
     amountUiState: AmountUiState,
     onEvent: (SendUiEvent) -> Unit
 ) {
@@ -155,7 +155,7 @@ private fun EvmChainSendAmount_Preview() {
     EasyWalletTheme {
         EasyGradientBackground {
             EvmChainSendAmountScreen(
-                SendUiState.PrepBasicInfo(
+                SendingBasicUiState.PrepBasicInfo(
                     tokenInfo = TokenBasicResult("", "", 18, "", "", null, "Ethereum", "1"),
                     balance = "8.00"
                 ),

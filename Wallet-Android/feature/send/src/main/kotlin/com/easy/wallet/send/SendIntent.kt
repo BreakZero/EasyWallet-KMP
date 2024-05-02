@@ -39,14 +39,14 @@ internal data class OverviewUiState(
     val selectedFee: FeeModel? = fees.firstOrNull()
 )
 
-internal sealed interface SendUiState {
-    data object Loading : SendUiState
+internal sealed interface SendingBasicUiState {
+    data object Loading : SendingBasicUiState
 
-    data object Error : SendUiState
+    data object Error : SendingBasicUiState
 
     @Immutable
     data class PrepBasicInfo(
         val tokenInfo: TokenBasicResult,
         val balance: String
-    ) : SendUiState
+    ) : SendingBasicUiState
 }

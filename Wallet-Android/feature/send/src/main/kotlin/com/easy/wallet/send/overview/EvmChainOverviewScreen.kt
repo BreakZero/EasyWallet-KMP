@@ -40,7 +40,7 @@ import com.easy.wallet.design.ui.EasyWalletTheme
 import com.easy.wallet.model.TokenBasicResult
 import com.easy.wallet.send.OverviewUiState
 import com.easy.wallet.send.SendUiEvent
-import com.easy.wallet.send.SendUiState
+import com.easy.wallet.send.SendingBasicUiState
 import com.easy.wallet.send.component.FeeTierBottomSheet
 import com.easy.wallet.send.component.FeeTierItem
 import com.easy.wallet.shared.model.fees.EthereumFee
@@ -49,7 +49,7 @@ import com.easy.wallet.shared.model.fees.FeeLevel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun EvmChainOverviewScreen(
-    basicInfo: SendUiState.PrepBasicInfo,
+    basicInfo: SendingBasicUiState.PrepBasicInfo,
     overviewUiState: OverviewUiState,
     onEvent: (SendUiEvent) -> Unit
 ) {
@@ -188,7 +188,7 @@ private fun Overview_Preview() {
     EasyWalletTheme {
         EasyGradientBackground {
             EvmChainOverviewScreen(
-                SendUiState.PrepBasicInfo(
+                SendingBasicUiState.PrepBasicInfo(
                     tokenInfo = TokenBasicResult("", "", 18, "", "", null, "Ethereum", ""),
                     balance = "8.00"
                 ),

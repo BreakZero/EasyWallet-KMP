@@ -38,13 +38,13 @@ import com.easy.wallet.design.theme.ThemePreviews
 import com.easy.wallet.design.ui.EasyWalletTheme
 import com.easy.wallet.send.DestinationUiState
 import com.easy.wallet.send.SendUiEvent
-import com.easy.wallet.send.SendUiState
+import com.easy.wallet.send.SendingBasicUiState
 import com.easy.wallet.send.navigation.sendAmountRoute
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 internal fun EvmChainDestinationScreen(
-    uiState: SendUiState,
+    uiState: SendingBasicUiState,
     destinationUiState: DestinationUiState,
     textFieldState: TextFieldState,
     onEvent: (SendUiEvent) -> Unit
@@ -83,19 +83,19 @@ internal fun EvmChainDestinationScreen(
             .fillMaxSize()
             .padding(paddingValues)
         when (uiState) {
-            SendUiState.Error -> {
+            SendingBasicUiState.Error -> {
                 Box(modifier = modifier.clickable { onEvent(SendUiEvent.NavigateBack) }) {
                     Text(text = "Tap to back...")
                 }
             }
 
-            SendUiState.Loading -> {
+            SendingBasicUiState.Loading -> {
                 Box(modifier = modifier, contentAlignment = Alignment.Center) {
                     LoadingWheel(contentDesc = "Loading")
                 }
             }
 
-            is SendUiState.PrepBasicInfo -> {
+            is SendingBasicUiState.PrepBasicInfo -> {
                 Column(
                     modifier = modifier,
                     verticalArrangement = Arrangement.spacedBy(12.dp)
@@ -166,7 +166,7 @@ private fun EvmChainDestination_Preview() {
     EasyWalletTheme {
         EasyGradientBackground {
             EvmChainDestinationScreen(
-                SendUiState.Loading,
+                SendingBasicUiState.Loading,
                 DestinationUiState.Success,
                 TextFieldState(""),
                 {}

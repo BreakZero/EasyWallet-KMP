@@ -43,34 +43,44 @@ internal class SendSharedViewModel(
     val destination = TextFieldState("")
     private val _amount = TextFieldState("0")
 
-    val basicInfoState =
-        combine(basicInfoUseCase(tokenId), tokenBalanceUseCase(tokenId)) { basicInfo, balance ->
-            SendUiState.PrepBasicInfo(basicInfo, balance)
-        }.stateIn(viewModelScope, SharingStarted.Lazily, SendUiState.Loading)
+    // prep information for sending coin
+    val basicInfoUiState = combine(
+        basicInfoUseCase(tokenId),
+        tokenBalanceUseCase(tokenId)
+    ) { basicInfo, balance ->
+        SendingBasicUiState.PrepBasicInfo(basicInfo, balance)
+    }.stateIn(viewModelScope, SharingStarted.Lazily, SendingBasicUiState.Loading)
 
-    val destinationUiState =
-        combine(destination.textAsFlow(), basicInfoUseCase(tokenId)) { address, basicInfo ->
-            val coinType = when (basicInfo.chainName) {
-                Constants.ETH_CHAIN_NAME -> CoinType.Ethereum
-                else -> CoinType.Bitcoin
-            }
-            val isAddressValid = AnyAddress.isValid(
-                address.toString(),
-                coinType
-            )
-            if (isAddressValid) DestinationUiState.Success else DestinationUiState.Error
-        }.stateIn(viewModelScope, SharingStarted.Lazily, DestinationUiState.Empty)
+    // enter destination page ui state, check enter address is valid or not
+    val destinationUiState = combine(
+        destination.textAsFlow(),
+        basicInfoUseCase(tokenId)
+    ) { address, basicInfo ->
+        val coinType = when (basicInfo.chainName) {
+            Constants.ETH_CHAIN_NAME -> CoinType.Ethereum
+            else -> CoinType.Bitcoin
+        }
+        val isAddressValid = AnyAddress.isValid(
+            address.toString(),
+            coinType
+        )
+        if (isAddressValid) DestinationUiState.Success else DestinationUiState.Error
+    }.stateIn(viewModelScope, SharingStarted.Lazily, DestinationUiState.Empty)
 
-    val amountUiState =
-        combine(_amount.textAsFlow(), tokenBalanceUseCase(tokenId)) { amount, balance ->
-            val insufficientBalance =
-                balance.toDouble() < (amount.toString().toDoubleOrNull() ?: 0.0)
-            AmountUiState(
-                enterAmount = amount.toString(),
-                insufficientBalance = insufficientBalance
-            )
-        }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(3_000), AmountUiState("0"))
+    // enter amount page ui state, check balance is enough or not
+    val amountUiState = combine(
+        _amount.textAsFlow(),
+        tokenBalanceUseCase(tokenId)
+    ) { amount, balance ->
+        val insufficientBalance =
+            balance.toDouble() < (amount.toString().toDoubleOrNull() ?: 0.0)
+        AmountUiState(
+            enterAmount = amount.toString(),
+            insufficientBalance = insufficientBalance
+        )
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(3_000), AmountUiState("0"))
 
+    // overview ui state, generate from build transaction plan, then sign transaction plan with selected fee to broadcast
     private val _overviewUiState = MutableStateFlow(OverviewUiState())
     val overviewUiState = _overviewUiState.asStateFlow()
     private fun buildPlan(onCompletion: () -> Unit) {
@@ -142,8 +152,8 @@ internal class SendSharedViewModel(
             SendUiEvent.MaxAmount -> {
                 _amount.clearText()
                 _amount.edit {
-                    if (basicInfoState.value is SendUiState.PrepBasicInfo) {
-                        append((basicInfoState.value as SendUiState.PrepBasicInfo).balance)
+                    if (basicInfoUiState.value is SendingBasicUiState.PrepBasicInfo) {
+                        append((basicInfoUiState.value as SendingBasicUiState.PrepBasicInfo).balance)
                     }
                 }
             }

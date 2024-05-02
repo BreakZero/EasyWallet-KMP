@@ -24,7 +24,7 @@ internal fun SendDestinationRoute(
         }
     }
 
-    val prepUiState by viewModel.basicInfoState.collectAsStateWithLifecycle()
+    val prepUiState by viewModel.basicInfoUiState.collectAsStateWithLifecycle()
     val destinationUiState by viewModel.destinationUiState.collectAsStateWithLifecycle()
     EvmChainDestinationScreen(
         uiState = prepUiState,

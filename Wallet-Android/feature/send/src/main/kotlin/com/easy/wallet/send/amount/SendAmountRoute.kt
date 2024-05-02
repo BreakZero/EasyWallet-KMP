@@ -6,7 +6,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.easy.wallet.android.core.extensions.ObserveAsEvents
 import com.easy.wallet.send.SendSharedViewModel
 import com.easy.wallet.send.SendUiEvent
-import com.easy.wallet.send.SendUiState
+import com.easy.wallet.send.SendingBasicUiState
 
 @Composable
 internal fun SendAmountRoute(
@@ -21,11 +21,11 @@ internal fun SendAmountRoute(
             else -> Unit
         }
     }
-    val uiState by viewModel.basicInfoState.collectAsStateWithLifecycle()
+    val uiState by viewModel.basicInfoUiState.collectAsStateWithLifecycle()
     val amountUiState by viewModel.amountUiState.collectAsStateWithLifecycle()
 
     EvmChainSendAmountScreen(
-        basicInfo = uiState as SendUiState.PrepBasicInfo,
+        basicInfo = uiState as SendingBasicUiState.PrepBasicInfo,
         amountUiState = amountUiState,
         onEvent = viewModel::handleEvent
     )
