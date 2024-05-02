@@ -11,6 +11,17 @@ import shared
 import AsyncAlgorithms
 import KMPNativeCoroutinesAsync
 
+struct TransactionDashboard {
+    let balance: String
+    let marketPrices: [MarketPrice]
+}
+
+struct MarketPrice: Identifiable {
+    let index: Int
+    let price: Float
+    var id: Int { index }
+}
+
 extension TransactionScreen {
     @MainActor final class ViewModel: ObservableObject {
 
@@ -24,7 +35,7 @@ extension TransactionScreen {
         @Published private(set) var hasNextPage: Bool = false
         @Published private(set) var showLoading: Bool = false
 
-        @Published private(set) var dashboardDesc: String = ""
+        @Published private(set) var transactionDashboard: TransactionDashboard = TransactionDashboard(balance: "0.0", marketPrices: [])
 
         func loading(tokenId: String) async {
             let balanceSequence = asyncSequence(for: tokenBalanceUseCase.invoke(tokenId: tokenId))
@@ -32,7 +43,9 @@ extension TransactionScreen {
             do {
                 try await combineLatest(balanceSequence, trendsSequence).collect { balance, trends in
                     print("====== \(balance), trends: \(trends)")
-                    self.dashboardDesc = "====== \(balance), trends: \(trends)"
+                    self.transactionDashboard = TransactionDashboard(balance: balance, marketPrices: trends.enumerated().map({ (index, trend) in
+                        MarketPrice(index: index, price: Float(trend) ?? 0.0)
+                    }))
                 }
             } catch {
                 print(error)

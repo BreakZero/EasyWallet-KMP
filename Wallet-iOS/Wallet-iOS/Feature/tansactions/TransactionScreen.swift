@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import Charts
 
 struct TransactionScreen: View {
     @ObservedObject private var viewModel = ViewModel()
@@ -23,7 +24,7 @@ struct TransactionScreen: View {
                 ProgressView()
             } else {
                 List {
-                    Dashboard(dashboard: viewModel.dashboardDesc)
+                    Dashboard(dashboard: viewModel.transactionDashboard)
                         .frame(height: 200)
                         .listRowInsets(EdgeInsets())
                         .listRowBackground(Color.clear)
@@ -61,9 +62,13 @@ struct TransactionScreen: View {
 }
 
 @ViewBuilder
-private func Dashboard(dashboard: String) -> some View {
+private func Dashboard(dashboard: TransactionDashboard) -> some View {
     ZStack(alignment: .top) {
-        Text(dashboard)
+        Chart {
+            ForEach(dashboard.marketPrices, id: \.id) { item in
+                LineMark(x: .value("index", item.index), y: .value("value", item.price))
+            }
+        }
     }.padding().frame(maxWidth: .infinity).background(Color.blue.opacity(0.5))
         .clipShape(RoundedRectangle(cornerSize: CGSize(width: 20, height: 10)))
 }
