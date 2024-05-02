@@ -8,8 +8,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.ContentCopy
@@ -20,12 +19,10 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -33,6 +30,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.easy.wallet.design.component.DynamicAsyncImage
@@ -43,9 +41,10 @@ import com.easy.wallet.model.TokenBasicResult
 import com.easy.wallet.send.OverviewUiState
 import com.easy.wallet.send.SendUiEvent
 import com.easy.wallet.send.SendUiState
+import com.easy.wallet.send.component.FeeTierBottomSheet
+import com.easy.wallet.send.component.FeeTierItem
 import com.easy.wallet.shared.model.fees.EthereumFee
 import com.easy.wallet.shared.model.fees.FeeLevel
-import com.easy.wallet.shared.model.fees.FeeModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -161,44 +160,24 @@ internal fun EvmChainOverviewScreen(
             }
 
             HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
-            Text(
-                modifier = basicModifier.clickable { showFeeTiers = true }, text = "Fees",
-                style = MaterialTheme.typography.labelMedium,
-                color = labelColor
-            )
+            overviewUiState.selectedFee?.let {
+                FeeTierItem(
+                    modifier = basicModifier
+                        .clip(RoundedCornerShape(12.dp))
+                        .clickable { showFeeTiers = true },
+                    data = it,
+                    onClick = { showFeeTiers = true }
+                )
+            }
         }
         if (overviewUiState.fees.isNotEmpty() && showFeeTiers) {
-            FeeTierBottomSheet(fees = overviewUiState.fees) {
-                showFeeTiers = false
-            }
-        }
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-private fun FeeTierBottomSheet(
-    modifier: Modifier = Modifier,
-    fees: List<FeeModel>,
-    onDismissRequest: () -> Unit
-) {
-    val bottomSheetState = rememberModalBottomSheetState(
-        skipPartiallyExpanded = true
-    )
-    ModalBottomSheet(
-        modifier = modifier,
-        sheetState = bottomSheetState,
-        onDismissRequest = onDismissRequest
-    ) {
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp)
-                .padding(bottom = 24.dp)
-        ) {
-            items(fees, key = { it.feeLevel }) {
-                Text(text = "fee: ${it.feeLevel}")
-            }
+            FeeTierBottomSheet(
+                fees = overviewUiState.fees,
+                onItemClick = {
+                    onEvent(SendUiEvent.OnFeeChanged(it))
+                },
+                dismiss = { showFeeTiers = false }
+            )
         }
     }
 }

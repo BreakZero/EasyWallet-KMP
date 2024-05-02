@@ -2,7 +2,6 @@ package com.easy.wallet.shared.domain
 
 import com.easy.wallet.core.commom.Constants
 import com.easy.wallet.model.TokenBasicResult
-import com.easy.wallet.shared.data.repository.NoSupportedTokenRepository
 import com.easy.wallet.shared.data.repository.TokenRepository
 
 internal class GetExactTokenRepositoryUseCase(

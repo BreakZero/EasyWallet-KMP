@@ -9,8 +9,9 @@ import com.rickclephas.kmp.nativecoroutines.NativeCoroutines
 import com.trustwallet.core.CoinType
 import com.trustwallet.core.HDWallet
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 
 class TransactionSigningUseCase internal constructor(
     private val walletRepository: MultiWalletRepository,
@@ -26,10 +27,10 @@ class TransactionSigningUseCase internal constructor(
         amount: String,
         fee: FeeModel
     ): Flow<String> {
-        return combine(
-            walletRepository.forActivatedOne().filterNotNull(),
-            basicInfoUseCase(tokenId)
-        ) { wallet, basicInfo ->
+        return basicInfoUseCase(tokenId).map { basicInfo ->
+            // active wallet flow never stop, we need the first one when signing is OK
+            val wallet = walletRepository.forActivatedOne().filterNotNull().first()
+
             val hdWallet = HDWallet(wallet.mnemonic, wallet.passphrase)
             val privateKey = getPrivateKeyFromChain(hdWallet, basicInfo)
             exactTokenRepositoryUseCase(basicInfo).signTransaction(

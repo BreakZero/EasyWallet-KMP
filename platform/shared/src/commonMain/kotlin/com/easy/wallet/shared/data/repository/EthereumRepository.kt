@@ -63,9 +63,7 @@ class EthereumRepository internal constructor(
         amount: String
     ): List<FeeModel> = withContext(Dispatchers.IO) {
         val estimateGasDeferred = async { estimateGas(account, toAddress, contractAddress, amount) }
-        val feeDeferred = async {
-            calculateFee()
-        }
+        val feeDeferred = async { calculateFee() }
 
         val estimateGas = estimateGasDeferred.await()
         val (maxFeePerGas, inclusionFeePerGas) = feeDeferred.await()
@@ -104,9 +102,7 @@ class EthereumRepository internal constructor(
         if (fee !is EthereumFee) throw IllegalArgumentException("fee model is incorrect")
         val isEthNormalTransfer = contractAddress.isNullOrBlank()
 
-        val nonceDeferred = async {
-            fetchingNonce(account)
-        }
+        val nonceDeferred = async { fetchingNonce(account) }
         val nonce = nonceDeferred.await()
 
         val maxFeePerGas = fee.maxFeePerGas
@@ -138,9 +134,6 @@ class EthereumRepository internal constructor(
             )
         )
         val output = AnySigner.sign(signingInput, CoinType.Ethereum, SigningOutput.ADAPTER)
-//        output.encoded.hex().let { "0x$it" }.also {
-//            jsonRpcApi.sendRawTransaction(it)
-//        }
         val encoded = "0x${output.encoded.hex()}"
         jsonRpcApi.sendRawTransaction(encoded)
     }
@@ -173,7 +166,6 @@ class EthereumRepository internal constructor(
     }
 
     private suspend fun fetchingNonce(account: String): String {
-        val tnxCount = jsonRpcApi.getTransactionCount(account)
-        return tnxCount
+        return jsonRpcApi.getTransactionCount(account)
     }
 }

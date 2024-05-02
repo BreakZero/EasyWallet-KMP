@@ -73,9 +73,7 @@ internal class SendSharedViewModel(
 
     private val _overviewUiState = MutableStateFlow(OverviewUiState())
     val overviewUiState = _overviewUiState.asStateFlow()
-    private fun buildPlan(
-        onCompletion: () -> Unit
-    ) {
+    private fun buildPlan(onCompletion: () -> Unit) {
         transactionPlanUseCase(
             tokenId = tokenId,
             toAddress = destination.text.toString(),
@@ -88,6 +86,7 @@ internal class SendSharedViewModel(
                     fees = fees
                 )
             }
+        }.onCompletion { _ ->
             onCompletion()
         }.catch {
             // handle error
@@ -95,17 +94,19 @@ internal class SendSharedViewModel(
         }.launchIn(viewModelScope)
     }
 
-    private fun signAndPush(chainId: String) {
+    private fun signAndPush(chainId: String, onCompletion: () -> Unit) {
         with(_overviewUiState.value) {
             transactionSigningUseCase(
                 tokenId = tokenId,
                 chainId = chainId,
                 toAddress = destination,
                 amount = _amount.text.toString(),
-                // will do
                 fee = selectedFee!!
             ).onEach {
                 println("===== $it")
+            }.onCompletion { cause ->
+                println("===== onCompletion with $cause")
+                onCompletion()
             }.catch {
                 it.printStackTrace()
             }.launchIn(viewModelScope)
@@ -154,7 +155,9 @@ internal class SendSharedViewModel(
             }
 
             is SendUiEvent.OnSigningTransaction -> {
-                signAndPush(event.chainIdHex ?: "0x1")
+                signAndPush(event.chainIdHex ?: "0x1") {
+
+                }
             }
 
             is SendUiEvent.DestinationChanged -> {
@@ -162,6 +165,10 @@ internal class SendSharedViewModel(
                 destination.edit {
                     append(event.text)
                 }
+            }
+
+            is SendUiEvent.OnFeeChanged -> {
+                _overviewUiState.update { it.copy(selectedFee = event.fee) }
             }
 
             is SendUiEvent.NavigateTo, SendUiEvent.NavigateBack -> dispatchEvent(event)

@@ -9,24 +9,26 @@ import kotlin.experimental.ExperimentalObjCRefinement
 import kotlin.native.HiddenFromObjC
 
 @OptIn(ExperimentalObjCRefinement::class)
+@HiddenFromObjC
 class SupportedTokenRepository internal constructor(
     private val blockChainDao: ChainDao,
     private val tokenDao: LocalTokenDao
 ) {
-    @HiddenFromObjC
     fun allSupportedTokenStream(): Flow<List<TokenInformation>> {
         return flow {
             emit(allSupportedToken())
         }
     }
 
-    @HiddenFromObjC
     suspend fun allSupportedToken(): List<TokenInformation> {
         return tokenDao.allTokens()
     }
 
-    @HiddenFromObjC
-    fun findTokenByIdFlow(tokenId: String): Flow<TokenInformation?> {
-        return flow { emit(tokenDao.findById(tokenId)) }
+    suspend fun findTokenById(tokenId: String): TokenInformation? {
+        return try {
+            tokenDao.findById(tokenId)
+        } catch (e: Exception) {
+            null
+        }
     }
 }

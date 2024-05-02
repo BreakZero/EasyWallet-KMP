@@ -5,7 +5,7 @@ import com.easy.wallet.core.commom.cleanHexPrefix
 import com.easy.wallet.network.source.evm_rpc.dto.BaseRpcResponseDto
 import com.easy.wallet.network.source.evm_rpc.dto.FeeHistoryDto
 import com.easy.wallet.network.source.evm_rpc.dto.RpcErrorResponse
-import com.easy.wallet.network.source.evm_rpc.error.NetworkErrorException
+import com.easy.wallet.network.source.evm_rpc.error.RpcResponseErrorException
 import com.easy.wallet.network.source.evm_rpc.parameter.Parameter
 import com.easy.wallet.network.source.evm_rpc.parameter.RpcRequestBody
 import io.ktor.client.HttpClient
@@ -166,7 +166,7 @@ class EvmJsonRpcApiImpl internal constructor(
     }
 
     companion object {
-        private const val Tag = "Rpc Call"
+        private const val TAG = "RPC_API_INFO"
     }
 
     private suspend fun validateResponse(response: HttpResponse) {
@@ -174,12 +174,11 @@ class EvmJsonRpcApiImpl internal constructor(
         val message = try {
             JSON.decodeFromString<RpcErrorResponse>(text).error?.message
         } catch (e: Throwable) {
-            Logger.e(Tag) { text }
             null
         }
         if (!message.isNullOrBlank()) {
-            Logger.e(Tag) { message }
-            throw NetworkErrorException(message)
+            Logger.e(TAG) { message }
+            throw RpcResponseErrorException(message)
         }
     }
 }
