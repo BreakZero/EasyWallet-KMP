@@ -9,6 +9,8 @@ sealed interface SendUiEvent {
     data class NavigateTo(val destination: String) : SendUiEvent
     data object NavigateBack: SendUiEvent
 
+    data class ShowErrorMessage(val message: String): SendUiEvent
+
     data object Backspace : SendUiEvent
     data class EnterDigital(val char: String) : SendUiEvent
     data object MaxAmount : SendUiEvent

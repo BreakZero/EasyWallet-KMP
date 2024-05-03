@@ -90,7 +90,7 @@ class EthereumRepository internal constructor(
         )
     }
 
-    override suspend fun signTransaction(
+    override suspend fun signAndBroadcast(
         account: String,
         chainId: String,
         privateKey: ByteArray,

@@ -60,7 +60,7 @@ internal fun EvmChainOverviewScreen(
             TopAppBar(
                 title = { Text(text = "Overview") },
                 navigationIcon = {
-                    IconButton(onClick = { }) {
+                    IconButton(onClick = { onEvent(SendUiEvent.NavigateBack) }) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = ""
@@ -75,7 +75,7 @@ internal fun EvmChainOverviewScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp, vertical = 8.dp),
-                onClick = { onEvent(SendUiEvent.OnSigningTransaction(basicInfo.tokenInfo.chainIdHex)) }
+                onClick = { onEvent(SendUiEvent.OnSigningTransaction(null)) }
             ) {
                 Text(text = "Next")
             }

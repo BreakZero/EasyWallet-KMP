@@ -46,7 +46,7 @@ internal class MarketDataPagingSource(
             val topCoins = coinGeckoApi.getCoinsMarkets(
                 currency = currency,
                 page = currentPage,
-                numCoinsPerPage = 20,
+                numCoinsPerPage = 100,
                 order = "market_cap_desc",
                 includeSparkline7dData = true,
                 priceChangePercentageIntervals = "",

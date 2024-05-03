@@ -26,7 +26,7 @@ class BitcoinRepository : TokenRepository {
         TODO("Not yet implemented")
     }
 
-    override suspend fun signTransaction(
+    override suspend fun signAndBroadcast(
         account: String,
         chainId: String,
         privateKey: ByteArray,

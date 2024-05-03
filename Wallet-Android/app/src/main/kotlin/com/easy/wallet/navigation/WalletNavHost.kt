@@ -1,6 +1,7 @@
 package com.easy.wallet.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import com.easy.wallet.discover.navigation.attachDiscoverGraph
@@ -24,6 +25,7 @@ import com.easy.wallet.token_manager.token.navigation.attachTokenManager
 import com.easy.wallet.token_manager.token.navigation.navigateToTokenEditor
 import com.easy.wallet.token_manager.token.navigation.navigateToTokenManager
 import com.easy.wallet.ui.WalletAppState
+import kotlinx.coroutines.launch
 
 @Composable
 fun WalletNavHost(
@@ -33,6 +35,7 @@ fun WalletNavHost(
     startDestination: String = HOME_GRAPH_ROUTE_PATTERN
 ) {
     val navController = appState.navController
+    val scope = rememberCoroutineScope()
     NavHost(
         modifier = modifier,
         navController = navController,
@@ -46,6 +49,7 @@ fun WalletNavHost(
                 navController.toTransactionList(it.id)
             },
             onStartSend = { navController.startSendFlow(it) },
+            showSnackbar = { scope.launch { onShowSnackbar(it, null) } },
             navigateUp = navController::navigateUp
         ) {
 
@@ -68,6 +72,6 @@ fun WalletNavHost(
             navigateToEditor = { navController.navigateToTokenEditor() },
             navigateUp = navController::navigateUp
         )
-        attachSendGraph(navController)
+        attachSendGraph(navController, onShowSnackbar = { scope.launch { onShowSnackbar(it, null) } })
     }
 }
