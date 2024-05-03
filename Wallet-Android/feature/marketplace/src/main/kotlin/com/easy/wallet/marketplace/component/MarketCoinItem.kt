@@ -34,9 +34,7 @@ internal fun MarketCoinItem(
     marketInfo: CoinMarketInformation
 ) {
     val prices = remember(key1 = marketInfo) {
-        marketInfo.price.windowed(5, 5, transform = {
-            it.average()
-        }).toImmutableList()
+        marketInfo.price.takeLast(24).toImmutableList()
     }
     Card(modifier = modifier, onClick = { /*TODO*/ }) {
         Row(
