@@ -1,7 +1,9 @@
 package com.easy.wallet.shared.data.multiwallet
 
 import app.cash.sqldelight.coroutines.asFlow
+import app.cash.sqldelight.coroutines.mapToList
 import app.cash.sqldelight.coroutines.mapToOneOrNull
+import co.touchlab.kermit.Logger
 import com.easy.wallet.database.SharedDatabase
 import com.easy.wallet.model.Wallet
 import com.rickclephas.kmp.nativecoroutines.NativeCoroutines
@@ -20,6 +22,8 @@ class MultiWalletRepository internal constructor(
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) {
     private val queries = sharedDatabase.database.walletQueries
+    private val platformQueries = sharedDatabase.database.assetPlatformEntityQueries
+    private val coinQueries = sharedDatabase.database.coinEntityQueries
 
     @NativeCoroutines
     suspend fun insertOne(
@@ -58,8 +62,15 @@ class MultiWalletRepository internal constructor(
     }
 
     @NativeCoroutines
-    fun forActiveOne(): Wallet? {
-        return queries.forActivatedOne().executeAsOneOrNull()?.let {
+    suspend fun forActiveOne(): Wallet? = withContext(dispatcher) {
+        try {
+            coinQueries.findAll().executeAsList().onEach {
+                Logger.i("COIN") { it.toString() }
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        queries.forActivatedOne().executeAsOneOrNull()?.let {
             Wallet(
                 mnemonic = it.mnemonic,
                 passphrase = it.passphrase,

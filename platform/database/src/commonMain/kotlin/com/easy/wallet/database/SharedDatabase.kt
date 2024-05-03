@@ -18,6 +18,10 @@ object Schema : SqlSchema<QueryResult.Value<Unit>> by WalletDatabase.Schema {
             newVersion = WalletDatabase.Schema.version,
             AfterVersion(2) { mDriver ->
                 initDefaultData(mDriver)
+            },
+            AfterVersion(3) {
+                initSupportedPlatform(it)
+                initDefaultCoins(it)
             }
         )
         return QueryResult.Unit
@@ -99,6 +103,69 @@ private fun initDefaultData(driver: SqlDriver) {
         """.trimIndent(),
         0
     )*/
+}
+
+private fun initSupportedPlatform(driver: SqlDriver) {
+    driver.execute(
+        identifier = null,
+        """
+            INSERT OR IGNORE INTO AssetPlatform(id, chain_identifier, short_name, evm_network_info)
+            VALUES('ethereum', '1', 'Ethereum', '{"networkName":"ethereum","rpcUrl":"https://mainnet.infura.io/","decimalPlace":18,"explorerUrl":null}');
+        """.trimIndent(),
+        parameters = 0
+    )
+    driver.execute(
+        identifier = null,
+        """
+            INSERT OR IGNORE INTO AssetPlatform(id, chain_identifier, short_name, evm_network_info)
+            VALUES('ethereum_sepolia', '11155111', 'Ethereum(Sepolia)', '{"networkName":"ethereum(sepolia)","rpcUrl":"https://sepolia.infura.io/","decimalPlace":18,"explorerUrl":null}');
+        """.trimIndent(),
+        parameters = 0
+    )
+}
+
+private fun initDefaultCoins(driver: SqlDriver) {
+    driver.execute(
+        identifier = null,
+        """
+            INSERT OR IGNORE INTO CoinEntity(id, platform_id, symbol, name, logo_uri, contract, is_active)
+            VALUES('ethereum','ethereum','ETH','Ethereum','https://assets.coingecko.com/coins/images/279/small/ethereum.png',NULL ,1);
+        """.trimIndent(),
+        parameters = 0
+    )
+    driver.execute(
+        identifier = null,
+        """
+            INSERT OR IGNORE INTO CoinEntity(id, platform_id, symbol, name, logo_uri, contract, is_active)
+            VALUES('dai','ethereum','DAI','Dai','https://assets.coingecko.com/coins/images/9956/small/Badge_Dai.png', '0x6b175474e89094c44da98b954eedeac495271d0f' ,1);
+        """.trimIndent(),
+        parameters = 0
+    )
+    driver.execute(
+        identifier = null,
+        sql = """
+            INSERT OR IGNORE INTO CoinEntity(id, platform_id, symbol, name, logo_uri, contract, is_active)
+            VALUES('uniswap','ethereum','UNI','Uniswap','https://assets.coingecko.com/coins/images/12504/small/uni.jpg', '0x1f9840a85d5af5bf1d1762f925bdaddc4201f984' ,1);
+        """.trimIndent(),
+        parameters = 0
+    )
+    driver.execute(
+        identifier = null,
+        """
+            INSERT OR IGNORE INTO CoinEntity(id, platform_id, symbol, name, logo_uri, contract, is_active)
+            VALUES('compound-governance-token','ethereum','COMP','Compound','https://assets.coingecko.com/coins/images/10775/small/COMP.png', '0xc00e94cb662c3520282e6f5717214004a7f26888' ,1);
+        """.trimIndent(),
+        parameters = 0
+    )
+    driver.execute(
+        identifier = null,
+        """
+            INSERT OR IGNORE INTO CoinEntity(id, platform_id, symbol, name, logo_uri, contract, is_active)
+            VALUES('binancecoin','ethereum','BNB','Binance Coin','https://assets.coingecko.com/coins/images/825/small/bnb-icon2_2x.png', '0xb8c77482e45f1f44de1745f52c74426c631bdd52' ,1);
+        """.trimIndent(),
+        parameters = 0
+    )
+    /** --------------------------- ------------------------------- **/
 }
 
 class SharedDatabase internal constructor(

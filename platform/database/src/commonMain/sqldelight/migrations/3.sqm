@@ -1,3 +1,5 @@
+import kotlin.Boolean;
+
 CREATE TABLE IF NOT EXISTS AssetPlatform(
     id TEXT PRIMARY KEY,
     chain_identifier TEXT,
@@ -10,7 +12,15 @@ CREATE TABLE IF NOT EXISTS CoinEntity(
     platform_id TEXT NOT NULL,
     symbol TEXT NOT NULL,
     name TEXT NOT NULL,
-    decimal INTEGER NOT NULL,
+    logo_uri TEXT NOT NULL,
     contract TEXT,
+    is_active INTEGER AS Boolean,
     FOREIGN KEY(platform_id) REFERENCES AssetPlatform(id)
 );
+
+
+-- INSERT OR IGNORE INTO AssetPlatform(id, chain_identifier, short_name, evm_network_info)
+-- VALUES("ethereum", "1", "Ethereum", NULl);
+
+-- INSERT OR IGNORE INTO CoinEntity(id, platform_id, symbol, name, logo_uri, contract, is_active)
+-- VALUES('','','','','',NULL ,1);

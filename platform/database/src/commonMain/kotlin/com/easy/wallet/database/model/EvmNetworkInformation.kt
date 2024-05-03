@@ -6,6 +6,6 @@ import kotlinx.serialization.Serializable
 data class EvmNetworkInformation(
     val networkName: String,
     val rpcUrl: String,
-    val symbol: String,
+    val decimalPlace: Int,
     val explorerUrl: String?
 )

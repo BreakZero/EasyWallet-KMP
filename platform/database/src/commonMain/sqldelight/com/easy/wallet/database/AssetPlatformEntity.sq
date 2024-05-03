@@ -1,10 +1,7 @@
-import kotlin.Boolean;
-
 CREATE TABLE IF NOT EXISTS AssetPlatform(
     id TEXT PRIMARY KEY,
     chain_identifier TEXT,
     short_name TEXT NOT NULL,
-    is_test_network INTEGER AS Boolean,
     evm_network_info TEXT
 );
 
