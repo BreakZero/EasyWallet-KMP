@@ -1,5 +1,6 @@
 package com.easy.wallet.network.di
 
+import com.easy.wallet.network.HostConstant
 import com.easy.wallet.network.httpClient
 import com.easy.wallet.network.key.BuildKonfig
 import com.easy.wallet.network.source.blockchair.BlockchairApi
@@ -96,7 +97,7 @@ val networkModule = module {
             defaultRequest {
                 url {
                     protocol = URLProtocol.HTTPS
-                    host = "api.blockchair.com"
+                    host = HostConstant.BLOCK_CHAIR
                     path("/")
                 }
                 header("Content-Type", "application/json")
