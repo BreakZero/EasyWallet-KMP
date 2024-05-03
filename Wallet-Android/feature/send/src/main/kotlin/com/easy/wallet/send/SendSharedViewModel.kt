@@ -11,6 +11,7 @@ import com.easy.wallet.android.core.BaseViewModel
 import com.easy.wallet.core.commom.Constants
 import com.easy.wallet.send.navigation.TokenArgs
 import com.easy.wallet.send.navigation.sendOverviewRoute
+import com.easy.wallet.send.navigation.sendPendingRoute
 import com.easy.wallet.shared.domain.GetToKenBasicInfoUseCase
 import com.easy.wallet.shared.domain.TokenBalanceUseCase
 import com.easy.wallet.shared.domain.TransactionPlanUseCase
@@ -104,7 +105,7 @@ internal class SendSharedViewModel(
         }.launchIn(viewModelScope)
     }
 
-    private fun signAndPush(chainId: String, onCompletion: () -> Unit) {
+    private fun signAndPush(chainId: String, onCompletion: (Throwable?) -> Unit) {
         with(_overviewUiState.value) {
             transactionSigningUseCase(
                 tokenId = tokenId,
@@ -115,8 +116,8 @@ internal class SendSharedViewModel(
             ).onEach {
                 println("===== $it")
             }.onCompletion { cause ->
-                println("===== onCompletion with $cause")
-                onCompletion()
+                println("====== onCompletion")
+                onCompletion(cause)
             }.catch {
                 it.printStackTrace()
             }.launchIn(viewModelScope)
@@ -165,8 +166,17 @@ internal class SendSharedViewModel(
             }
 
             is SendUiEvent.OnSigningTransaction -> {
-                signAndPush(event.chainIdHex ?: "0x1") {
-
+                // Sepolia as default
+                signAndPush(event.chainIdHex ?: "0xaa36a7") {
+                    if (it == null) {
+                        dispatchEvent(SendUiEvent.NavigateTo(sendPendingRoute))
+                    } else {
+                        dispatchEvent(
+                            SendUiEvent.ShowErrorMessage(
+                                it.message ?: "broadcast transaction failed"
+                            )
+                        )
+                    }
                 }
             }
 
@@ -181,7 +191,8 @@ internal class SendSharedViewModel(
                 _overviewUiState.update { it.copy(selectedFee = event.fee) }
             }
 
-            is SendUiEvent.NavigateTo, SendUiEvent.NavigateBack -> dispatchEvent(event)
+            is SendUiEvent.NavigateTo, SendUiEvent.NavigateBack,
+            is SendUiEvent.ShowErrorMessage -> dispatchEvent(event)
         }
     }
 }

@@ -48,6 +48,7 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 internal fun TransactionsRoute(
     startToSend: (String) -> Unit,
+    showSnackbar: (String) -> Unit,
     navigateUp: () -> Unit
 ) {
     val viewModel: TransactionsViewModel = koinViewModel()
@@ -57,8 +58,9 @@ internal fun TransactionsRoute(
     ObserveAsEvents(flow = viewModel.navigationEvents) {
         when (it) {
             TransactionEvent.PopBack -> navigateUp()
-            is TransactionEvent.ClickReceive -> TODO()
             is TransactionEvent.ClickSend -> startToSend(it.tokenId)
+            is TransactionEvent.ShowSnackbar -> showSnackbar(it.message)
+            else -> Unit
         }
     }
 
@@ -163,7 +165,12 @@ internal fun TransactionsScreen(
             listState = lazyListState,
             listContent = { contentModifier ->
                 PullToRefreshPagingColumn(
-                    modifier = contentModifier.clip(RoundedCornerShape(topEnd = 20.dp, topStart = 20.dp)),
+                    modifier = contentModifier.clip(
+                        RoundedCornerShape(
+                            topEnd = 20.dp,
+                            topStart = 20.dp
+                        )
+                    ),
                     lazyListState = lazyListState,
                     pagingItems = transactionPaging,
                     verticalArrangement = Arrangement.spacedBy(12.dp),
@@ -185,10 +192,10 @@ internal fun TransactionsScreen(
 
         if (dashboardUiState is TransactionDashboardUiState.Success && showReceiveSheet) {
             ReceiveContentSheet(
-                basicResult = dashboardUiState.basicResult
-            ) {
-                showReceiveSheet = false
-            }
+                basicResult = dashboardUiState.basicResult,
+                onCopy = { onEvent(TransactionEvent.ShowSnackbar(it)) },
+                onDismissRequest = { showReceiveSheet = false }
+            )
         }
     }
 }

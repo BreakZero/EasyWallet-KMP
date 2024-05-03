@@ -17,6 +17,7 @@ import com.easy.wallet.send.SendSharedViewModel
 import com.easy.wallet.send.amount.SendAmountRoute
 import com.easy.wallet.send.destination.SendDestinationRoute
 import com.easy.wallet.send.overview.TransactionOverviewRoute
+import com.easy.wallet.send.pending.PendingRoute
 import org.koin.androidx.compose.koinViewModel
 import java.net.URLDecoder
 import java.net.URLEncoder
@@ -27,6 +28,7 @@ internal const val sendEnterRoute = "send_enter_route"
 internal const val sendAmountRoute = "send_amount_route"
 internal const val sendDestinationRoute = "send_destination_route"
 internal const val sendOverviewRoute = "send_overview_route"
+internal const val sendPendingRoute = "send_pending_route"
 
 @VisibleForTesting
 internal const val TOKEN_ID_ARG = "tokenId"
@@ -45,7 +47,10 @@ fun NavController.startSendFlow(tokenId: String, navOptions: NavOptions? = null)
     navigate("$sendEnterRoute/$encodeTokenId", navOptions)
 }
 
-fun NavGraphBuilder.attachSendGraph(navController: NavController) {
+fun NavGraphBuilder.attachSendGraph(
+    navController: NavController,
+    onShowSnackbar: (String) -> Unit
+) {
     navigation(
         route = "$sendEnterRoute/{$TOKEN_ID_ARG}",
         startDestination = sendDestinationRoute,
@@ -76,7 +81,20 @@ fun NavGraphBuilder.attachSendGraph(navController: NavController) {
         composable(sendOverviewRoute) {
             val sharedViewModel: SendSharedViewModel =
                 it.sharedViewModel(navController = navController)
-            TransactionOverviewRoute(viewModel = sharedViewModel)
+            TransactionOverviewRoute(
+                viewModel = sharedViewModel,
+                showErrorMessage = onShowSnackbar,
+                navigateTo = navController::navigate,
+                popBack = navController::popBackStack
+            )
+        }
+
+        composable(sendPendingRoute) {
+            val sharedViewModel: SendSharedViewModel =
+                it.sharedViewModel(navController = navController)
+            PendingRoute(viewModel = sharedViewModel) {
+                navController.popBackStack(sendDestinationRoute, true)
+            }
         }
     }
 }

@@ -49,6 +49,7 @@ fun NavGraphBuilder.attachHomeGraph(
     onTokenClick: (TokenInformation) -> Unit,
     onStartSend: (String) -> Unit,
     navigateUp: () -> Unit,
+    showSnackbar: (String) -> Unit,
     nestedGraphs: NavGraphBuilder.() -> Unit
 ) {
     navigation(route = HOME_GRAPH_ROUTE_PATTERN, startDestination = homeEntryRoute) {
@@ -66,7 +67,11 @@ fun NavGraphBuilder.attachHomeGraph(
                 navArgument(TOKEN_ID_ARG) { type = NavType.StringType }
             )
         ) {
-            TransactionsRoute(startToSend = onStartSend, navigateUp = navigateUp)
+            TransactionsRoute(
+                startToSend = onStartSend,
+                showSnackbar = showSnackbar,
+                navigateUp = navigateUp
+            )
         }
         nestedGraphs()
     }

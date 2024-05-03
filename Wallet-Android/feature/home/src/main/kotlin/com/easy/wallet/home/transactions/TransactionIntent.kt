@@ -16,6 +16,8 @@ internal sealed interface TransactionDashboardUiState {
 
 internal sealed interface TransactionEvent {
 
+    data class ShowSnackbar(val message: String): TransactionEvent
+
     data object PopBack: TransactionEvent
     data class ClickSend(val tokenId: String): TransactionEvent
     data class ClickReceive(val tokenId: String): TransactionEvent

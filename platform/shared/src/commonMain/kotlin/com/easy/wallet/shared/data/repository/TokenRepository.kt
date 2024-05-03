@@ -23,7 +23,7 @@ interface TokenRepository {
         amount: String
     ): List<FeeModel>
 
-    suspend fun signTransaction(
+    suspend fun signAndBroadcast(
         account: String,
         chainId: String,
         privateKey: ByteArray,

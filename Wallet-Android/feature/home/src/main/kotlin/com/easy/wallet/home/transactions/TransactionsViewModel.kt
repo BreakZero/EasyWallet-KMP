@@ -47,9 +47,8 @@ internal class TransactionsViewModel(
 
     override fun handleEvent(event: TransactionEvent) {
         when (event) {
-            is TransactionEvent.ClickReceive -> dispatchEvent(event)
             is TransactionEvent.ClickSend -> dispatchEvent(TransactionEvent.ClickSend(tokenId))
-            is TransactionEvent.PopBack -> dispatchEvent(event)
+            else -> dispatchEvent(event)
         }
     }
 }

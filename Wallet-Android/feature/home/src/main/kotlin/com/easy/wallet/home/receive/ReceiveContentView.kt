@@ -43,6 +43,7 @@ internal fun ReceiveContentSheet(
     modifier: Modifier = Modifier,
     basicResult: TokenBasicResult,
     painter: BitmapPainter = rememberQrBitmapPainter(content = basicResult.address, padding = 1.dp),
+    onCopy: (String) -> Unit,
     onDismissRequest: () -> Unit
 ) {
     val clipboardManager = LocalClipboardManager.current
@@ -87,6 +88,7 @@ internal fun ReceiveContentSheet(
             ) {
                 ElevatedButton(modifier = Modifier.weight(1.0f), onClick = {
                     clipboardManager.setText(AnnotatedString(basicResult.address))
+                    onCopy("copied")
                 }) {
                     Icon(imageVector = Icons.Default.ContentCopy, contentDescription = null)
                     Text(text = basicResult.address.ellipsize(4))
