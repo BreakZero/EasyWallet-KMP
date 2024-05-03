@@ -1,0 +1,29 @@
+CREATE TABLE IF NOT EXISTS CoinEntity(
+    id TEXT PRIMARY KEY,
+    platform_id TEXT NOT NULL,
+    symbol TEXT NOT NULL,
+    name TEXT NOT NULL,
+    decimal INTEGER NOT NULL,
+    contract TEXT,
+    FOREIGN KEY(platform_id) REFERENCES AssetPlatform(id)
+);
+
+findAllCoinsInPlatform:
+SELECT CoinEntity.id, CoinEntity.symbol, CoinEntity.name, CoinEntity.decimal, CoinEntity.contract, AssetPlatform.short_name AS platform_name
+FROM CoinEntity
+LEFT JOIN AssetPlatform ON CoinEntity.platform_id = AssetPlatform.id
+WHERE platform_id = :platformId;
+
+findAllCoins:
+SELECT CoinEntity.id, CoinEntity.symbol, CoinEntity.name, CoinEntity.decimal, CoinEntity.contract, AssetPlatform.short_name AS platform_name
+FROM CoinEntity
+LEFT JOIN AssetPlatform ON CoinEntity.platform_id = AssetPlatform.id;
+
+findCoinById:
+SELECT CoinEntity.id, CoinEntity.symbol, CoinEntity.name, CoinEntity.decimal, CoinEntity.contract, AssetPlatform.short_name AS platform_name
+FROM CoinEntity
+LEFT JOIN AssetPlatform ON CoinEntity.platform_id = AssetPlatform.id
+WHERE CoinEntity.id = :id;
+
+deleteRows:
+DELETE FROM CoinEntity WHERE id IN :ids;

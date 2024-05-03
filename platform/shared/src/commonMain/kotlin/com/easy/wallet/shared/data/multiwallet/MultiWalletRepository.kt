@@ -44,7 +44,7 @@ class MultiWalletRepository internal constructor(
     }
 
     @NativeCoroutines
-    fun forActivatedOne(): Flow<Wallet?> {
+    fun forActiveOneStream(): Flow<Wallet?> {
         return queries.forActivatedOne().asFlow().mapToOneOrNull(dispatcher).map {
             it?.let {
                 Wallet(
@@ -54,6 +54,18 @@ class MultiWalletRepository internal constructor(
                     createAt = it.createAt,
                 )
             }
+        }
+    }
+
+    @NativeCoroutines
+    fun forActiveOne(): Wallet? {
+        return queries.forActivatedOne().executeAsOneOrNull()?.let {
+            Wallet(
+                mnemonic = it.mnemonic,
+                passphrase = it.passphrase,
+                isActivated = it.isActivated ?: false,
+                createAt = it.createAt,
+            )
         }
     }
 }

@@ -2,6 +2,7 @@
 plugins {
     id("org.easy.multiplatform")
     id("app.cash.sqldelight") version libs.versions.sqldelight
+    alias(libs.plugins.kotlin.serialization)
 }
 
 kotlin {
@@ -13,6 +14,7 @@ kotlin {
                 implementation(project(":platform:core"))
                 implementation(project(":platform:model"))
                 implementation(project(":platform:datastore"))
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
             }
         }
         getByName("androidMain") {

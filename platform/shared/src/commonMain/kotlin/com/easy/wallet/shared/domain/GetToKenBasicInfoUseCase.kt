@@ -18,7 +18,7 @@ class GetToKenBasicInfoUseCase internal constructor(
     @NativeCoroutines
     operator fun invoke(tokenId: String): Flow<TokenBasicResult> {
         return channelFlow {
-            val wallet = walletRepository.forActivatedOne().firstOrNull()
+            val wallet = walletRepository.forActiveOne()
             val foundToken = supportedTokenRepository.findTokenById(tokenId)
                 ?: throw NoSuchElementException("No token found, id is: $tokenId")
             val hdWallet = wallet?.let { HDWallet(it.mnemonic, it.passphrase) }

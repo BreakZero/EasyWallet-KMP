@@ -1,8 +1,12 @@
 package com.easy.wallet.database.di
 
 import com.easy.wallet.database.SharedDatabase
+import com.easy.wallet.database.dao.AssetPlatformDao
+import com.easy.wallet.database.dao.AssetPlatformDaoImpl
 import com.easy.wallet.database.dao.ChainDao
 import com.easy.wallet.database.dao.ChainDaoImpl
+import com.easy.wallet.database.dao.CoinDao
+import com.easy.wallet.database.dao.CoinDaoImpl
 import com.easy.wallet.database.dao.LocalTokenDao
 import com.easy.wallet.database.dao.LocalTokenDaoImpl
 import kotlinx.coroutines.Dispatchers
@@ -31,4 +35,18 @@ val databaseModule = module {
             dispatcher = Dispatchers.IO
         )
     } bind LocalTokenDao::class
+
+    single {
+        AssetPlatformDaoImpl(
+            get<SharedDatabase>().database.assetPlatformEntityQueries,
+            dispatcher = Dispatchers.IO
+        )
+    } bind AssetPlatformDao::class
+
+    single {
+        CoinDaoImpl(
+            get<SharedDatabase>().database.coinEntityQueries,
+            dispatcher = Dispatchers.IO
+        )
+    } bind CoinDao::class
 }

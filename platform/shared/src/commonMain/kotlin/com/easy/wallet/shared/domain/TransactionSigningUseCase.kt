@@ -29,7 +29,7 @@ class TransactionSigningUseCase internal constructor(
     ): Flow<String> {
         return basicInfoUseCase(tokenId).map { basicInfo ->
             // active wallet flow never stop, we need the first one when signing is OK
-            val wallet = walletRepository.forActivatedOne().filterNotNull().first()
+            val wallet = walletRepository.forActiveOne() ?: throw NoSuchElementException("No wallet had been set yet.")
 
             val hdWallet = HDWallet(wallet.mnemonic, wallet.passphrase)
             val privateKey = getPrivateKeyFromChain(hdWallet, basicInfo)

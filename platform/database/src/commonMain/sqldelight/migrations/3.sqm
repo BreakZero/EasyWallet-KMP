@@ -1,0 +1,16 @@
+CREATE TABLE IF NOT EXISTS AssetPlatform(
+    id TEXT PRIMARY KEY,
+    chain_identifier TEXT,
+    short_name TEXT NOT NULL,
+    evm_network_info TEXT
+);
+
+CREATE TABLE IF NOT EXISTS CoinEntity(
+    id TEXT PRIMARY KEY,
+    platform_id TEXT NOT NULL,
+    symbol TEXT NOT NULL,
+    name TEXT NOT NULL,
+    decimal INTEGER NOT NULL,
+    contract TEXT,
+    FOREIGN KEY(platform_id) REFERENCES AssetPlatform(id)
+);
