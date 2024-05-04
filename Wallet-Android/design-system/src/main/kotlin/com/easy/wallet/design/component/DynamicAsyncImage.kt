@@ -2,6 +2,7 @@ package com.easy.wallet.design.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -53,6 +54,7 @@ fun DynamicAsyncImage(
             )
         }
         Image(
+            modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.FillBounds,
             painter = if (isError.not() && !isLocalInspection) imageLoader else placeholder,
             contentDescription = contentDescription,

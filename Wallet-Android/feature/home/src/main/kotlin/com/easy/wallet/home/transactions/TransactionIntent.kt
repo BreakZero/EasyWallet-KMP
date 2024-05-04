@@ -1,14 +1,13 @@
 package com.easy.wallet.home.transactions
 
-import com.easy.wallet.model.TokenBasicResult
+import com.easy.wallet.model.asset.AssetBalance
 
 internal sealed interface TransactionDashboardUiState {
     data object Loading: TransactionDashboardUiState
 
     data object Error: TransactionDashboardUiState
     data class Success(
-        val basicResult: TokenBasicResult,
-        val amount: String,
+        val assetBalance: AssetBalance,
         val trends: List<String>
     ): TransactionDashboardUiState
 }

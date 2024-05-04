@@ -9,4 +9,12 @@ data class AssetBalance(
     override val platform: AssetPlatform,
     val address: String,
     val balance: String
-): CoinModel
+) : CoinModel {
+    companion object {
+        val mockForPreview = AssetBalance(
+            "_id", "_symbol", "_name",
+            "_logo", null, AssetPlatform("", "", null, null),
+            "_address", "0.0"
+        )
+    }
+}

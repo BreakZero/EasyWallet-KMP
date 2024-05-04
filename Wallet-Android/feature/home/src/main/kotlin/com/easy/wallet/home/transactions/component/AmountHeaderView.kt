@@ -18,7 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.easy.wallet.design.theme.ThemePreviews
 import com.easy.wallet.design.ui.EasyWalletTheme
-import com.easy.wallet.model.TokenBasicResult
+import com.easy.wallet.model.asset.AssetBalance
 import com.patrykandpatrick.vico.compose.cartesian.CartesianChartHost
 import com.patrykandpatrick.vico.compose.cartesian.axis.rememberBottomAxis
 import com.patrykandpatrick.vico.compose.cartesian.axis.rememberStartAxis
@@ -34,8 +34,7 @@ import kotlin.random.Random
 @Composable
 internal fun AmountHeaderView(
     modifier: Modifier = Modifier,
-    tokenInfo: TokenBasicResult,
-    balance: String,
+    assetBalance: AssetBalance,
     rate: BigDecimal = BigDecimal.ONE,
     trends: List<String>
 ) {
@@ -79,7 +78,7 @@ internal fun AmountHeaderView(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "$balance ${tokenInfo.symbol}",
+                text = "${assetBalance.balance} ${assetBalance.symbol}",
                 style = MaterialTheme.typography.headlineLarge
             )
 //            Text(text = "¥ ${balance.toBigDecimal().times(rate)}")
@@ -96,17 +95,7 @@ private fun AmountHeader_Preview() {
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(260.dp),
-                tokenInfo = TokenBasicResult(
-                    "ETH",
-                    "Ethereum",
-                    18,
-                    "",
-                    "",
-                    null,
-                    "",
-                    ""
-                ),
-                balance = "12345678",
+                assetBalance = AssetBalance.mockForPreview,
                 trends = List(8) { Random.nextInt(12).toString() }
             )
         }

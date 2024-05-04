@@ -28,7 +28,7 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import com.easy.wallet.home.utils.rememberQrBitmapPainter
-import com.easy.wallet.model.TokenBasicResult
+import com.easy.wallet.model.asset.AssetBalance
 
 private fun String.ellipsize(len: Int): String {
     if (this.length > 2 * len) {
@@ -41,8 +41,8 @@ private fun String.ellipsize(len: Int): String {
 @Composable
 internal fun ReceiveContentSheet(
     modifier: Modifier = Modifier,
-    basicResult: TokenBasicResult,
-    painter: BitmapPainter = rememberQrBitmapPainter(content = basicResult.address, padding = 1.dp),
+    asset: AssetBalance,
+    painter: BitmapPainter = rememberQrBitmapPainter(content = asset.address, padding = 1.dp),
     onCopy: (String) -> Unit,
     onDismissRequest: () -> Unit
 ) {
@@ -69,7 +69,7 @@ internal fun ReceiveContentSheet(
             Text(
                 modifier = Modifier,
                 style = MaterialTheme.typography.headlineMedium,
-                text = "Received ${basicResult.symbol}"
+                text = "Received ${asset.symbol}"
             )
 
             Image(
@@ -87,16 +87,16 @@ internal fun ReceiveContentSheet(
                 horizontalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 ElevatedButton(modifier = Modifier.weight(1.0f), onClick = {
-                    clipboardManager.setText(AnnotatedString(basicResult.address))
+                    clipboardManager.setText(AnnotatedString(asset.address))
                     onCopy("copied")
                 }) {
                     Icon(imageVector = Icons.Default.ContentCopy, contentDescription = null)
-                    Text(text = basicResult.address.ellipsize(4))
+                    Text(text = asset.address.ellipsize(4))
                 }
                 ElevatedButton(modifier = Modifier.weight(1.0f), onClick = {
                     val sendIntent: Intent = Intent().apply {
                         action = Intent.ACTION_SEND
-                        putExtra(Intent.EXTRA_TEXT, basicResult.address)
+                        putExtra(Intent.EXTRA_TEXT, asset.address)
                         type = "text/plain"
                     }
 

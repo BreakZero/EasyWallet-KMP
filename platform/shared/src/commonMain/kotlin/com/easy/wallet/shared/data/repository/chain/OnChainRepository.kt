@@ -1,7 +1,6 @@
 package com.easy.wallet.shared.data.repository.chain
 
 import com.easy.wallet.model.asset.AssetCoin
-import com.easy.wallet.model.asset.BasicCoin
 import com.easy.wallet.shared.model.fees.FeeModel
 import com.easy.wallet.shared.model.transaction.TransactionUiModel
 

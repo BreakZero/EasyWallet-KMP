@@ -155,8 +155,7 @@ internal fun TransactionsScreen(
                     is TransactionDashboardUiState.Success -> {
                         AmountHeaderView(
                             modifier = headerModifier.height(260.dp),
-                            tokenInfo = dashboardUiState.basicResult,
-                            balance = dashboardUiState.amount,
+                            dashboardUiState.assetBalance,
                             trends = dashboardUiState.trends
                         )
                     }
@@ -192,7 +191,7 @@ internal fun TransactionsScreen(
 
         if (dashboardUiState is TransactionDashboardUiState.Success && showReceiveSheet) {
             ReceiveContentSheet(
-                basicResult = dashboardUiState.basicResult,
+                asset = dashboardUiState.assetBalance,
                 onCopy = { onEvent(TransactionEvent.ShowSnackbar(it)) },
                 onDismissRequest = { showReceiveSheet = false }
             )

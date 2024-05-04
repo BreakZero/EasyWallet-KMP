@@ -20,6 +20,7 @@ import com.easy.wallet.design.theme.ThemePreviews
 import com.easy.wallet.design.ui.EasyWalletTheme
 import com.easy.wallet.home.HomeEvent
 import com.easy.wallet.home.HomeUiState
+import com.easy.wallet.shared.model.AllAssetDashboardInformation
 import com.easy.wallet.shared.model.DashboardInformation
 
 @Composable
@@ -59,12 +60,12 @@ internal fun UserHomeContent(
                     verticalArrangement = Arrangement.spacedBy(12.dp),
                     state = lazyListState
                 ) {
-                    items(walletUiState.dashboard.tokens, key = { it.token.id }) {
+                    items(walletUiState.dashboard.assetBalances, key = { it.id }) {
                         TokenItemView(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(horizontal = 16.dp),
-                            extraToken = it,
+                            assetBalance = it,
                             onEvent = onEvent
                         )
                     }
@@ -85,10 +86,10 @@ private fun UserHome_Preview() {
             UserHomeContent(
                 isRefreshing = false,
                 walletUiState = HomeUiState.WalletUiState(
-                    DashboardInformation(
+                    AllAssetDashboardInformation(
                         fiatSymbol = "USD",
                         fiatBalance = "888.88",
-                        tokens = emptyList()
+                        assetBalances = emptyList()
                     )
                 ),
                 onEvent = {}

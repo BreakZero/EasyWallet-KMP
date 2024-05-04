@@ -23,7 +23,7 @@ import com.easy.wallet.android.core.extensions.ObserveAsEvents
 import com.easy.wallet.design.component.LoadingWheel
 import com.easy.wallet.home.component.GuestContent
 import com.easy.wallet.home.component.UserHomeContent
-import com.easy.wallet.model.TokenInformation
+import com.easy.wallet.model.asset.CoinModel
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -31,7 +31,7 @@ internal fun HomeRoute(
     viewModel: HomeViewModel = koinViewModel(),
     onCreateWallet: () -> Unit,
     onRestoreWallet: () -> Unit,
-    onTokenClick: (TokenInformation) -> Unit,
+    onTokenClick: (CoinModel) -> Unit,
     navigateToSettings: () -> Unit
 ) {
     val uiState by viewModel.homeUiState.collectAsStateWithLifecycle()
@@ -42,7 +42,7 @@ internal fun HomeRoute(
             HomeEvent.CreateWallet -> onCreateWallet()
             HomeEvent.RestoreWallet -> onRestoreWallet()
             HomeEvent.SettingsClicked -> navigateToSettings()
-            is HomeEvent.TokenClicked -> onTokenClick(event.token)
+            is HomeEvent.OnCoinClicked -> onTokenClick(event.coin)
             else -> Unit
         }
     }

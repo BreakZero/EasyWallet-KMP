@@ -8,7 +8,7 @@ import com.rickclephas.kmp.nativecoroutines.NativeCoroutines
 import com.trustwallet.core.CoinType
 import com.trustwallet.core.HDWallet
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.channelFlow
+import kotlinx.coroutines.flow.flow
 
 class GetAssetCoinInfoUseCase internal constructor(
     private val walletRepository: MultiWalletRepository,
@@ -16,7 +16,7 @@ class GetAssetCoinInfoUseCase internal constructor(
 ) {
     @NativeCoroutines
     operator fun invoke(coinId: String): Flow<AssetCoin> {
-        return channelFlow {
+        return flow {
             val wallet = walletRepository.findWallet()
                 ?: throw NoSuchElementException("No wallet had been set yet.")
             val coin = coinRepository.findCoinById(coinId)
@@ -24,7 +24,7 @@ class GetAssetCoinInfoUseCase internal constructor(
 
             val hdWallet = HDWallet(wallet.mnemonic, wallet.passphrase)
             val address = getAddress(hdWallet, coin.platform.id)
-            send(
+            emit(
                 AssetCoin(
                     id = coin.id,
                     symbol = coin.symbol,

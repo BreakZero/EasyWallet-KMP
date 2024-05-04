@@ -21,6 +21,7 @@ import com.easy.wallet.shared.data.repository.chain.OnChainRepository
 import com.easy.wallet.shared.data.repository.news.NewsPager
 import com.easy.wallet.shared.data.repository.news.NewsRepository
 import com.easy.wallet.shared.domain.AllAssetDashboardUseCase
+import com.easy.wallet.shared.domain.CoinBalanceUseCase
 import com.easy.wallet.shared.domain.CoinTrendUseCase
 import com.easy.wallet.shared.domain.CreateWalletUseCase
 import com.easy.wallet.shared.domain.DashboardUseCase
@@ -93,12 +94,7 @@ val sharedModule = module {
 
     singleOf(::AllAssetDashboardUseCase)
 
-    single {
-        CoinTrendUseCase(
-            getToKenBasicInfoUseCase = get(),
-            getExactTokenRepositoryUseCase = get()
-        )
-    }
+    singleOf(::CoinTrendUseCase)
 
     single {
         TokenBalanceUseCase(
@@ -106,6 +102,7 @@ val sharedModule = module {
             getExactTokenRepositoryUseCase = get()
         )
     }
+    singleOf(::CoinBalanceUseCase)
 
     single {
         GetToKenBasicInfoUseCase(
@@ -114,36 +111,15 @@ val sharedModule = module {
         )
     }
 
-    single {
-        GetAssetCoinInfoUseCase(
-            walletRepository = get(),
-            coinRepository = get()
-        )
-    }
+    singleOf(::GetAssetCoinInfoUseCase)
 
-    single {
-        TransactionPlanUseCase(
-            basicInfoUseCase = get(),
-            exactTokenRepositoryUseCase = get()
-        )
-    }
+    singleOf(::TransactionPlanUseCase)
 
-    single {
-        TransactionSigningUseCase(
-            walletRepository = get(),
-            basicInfoUseCase = get(),
-            exactTokenRepositoryUseCase = get()
-        )
-    }
+    singleOf(::TransactionSigningUseCase)
 
     single { NewsPager(get()) }
 
-    single {
-        TransactionPagerUseCase(
-            getToKenBasicInfoUseCase = get(),
-            getExactTokenRepositoryUseCase = get()
-        )
-    }
+    singleOf(::TransactionPagerUseCase)
 
     singleOf(::CreateWalletUseCase)
 }

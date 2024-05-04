@@ -4,10 +4,8 @@ import androidx.lifecycle.viewModelScope
 import com.easy.wallet.android.core.BaseViewModel
 import com.easy.wallet.shared.data.multiwallet.MultiWalletRepository
 import com.easy.wallet.shared.domain.AllAssetDashboardUseCase
-import com.easy.wallet.shared.domain.DashboardUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flatMapConcat
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.launchIn
@@ -19,7 +17,6 @@ import kotlinx.coroutines.flow.update
 
 internal class HomeViewModel(
     private val multiWalletRepository: MultiWalletRepository,
-    private val dashboardUseCase: DashboardUseCase,
     private val assetDashboardUseCase: AllAssetDashboardUseCase
 ) : BaseViewModel<HomeEvent>() {
     private val _isRefreshing = MutableStateFlow(true)
@@ -37,13 +34,7 @@ internal class HomeViewModel(
         multiWalletRepository.forActiveOneStream().flatMapConcat { wallet ->
             if (wallet != null) {
 
-                assetDashboardUseCase(wallet).onEach {
-                    it.assetBalances.onEach {
-                        println("===== ${it.address}, ${it.balance}, ${it.name}")
-                    }
-                }.collect()
-
-                dashboardUseCase(wallet).onStart {
+                assetDashboardUseCase(wallet).onStart {
                     _isRefreshing.update { true }
                 }.onCompletion {
                     _isRefreshing.update { false }
