@@ -8,12 +8,12 @@ import androidx.compose.foundation.text2.input.textAsFlow
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.easy.wallet.android.core.BaseViewModel
-import com.easy.wallet.core.commom.Constants
-import com.easy.wallet.send.navigation.TokenArgs
+import com.easy.wallet.core.commom.AssetPlatformIdConstant
+import com.easy.wallet.send.navigation.CoinArgs
 import com.easy.wallet.send.navigation.sendOverviewRoute
 import com.easy.wallet.send.navigation.sendPendingRoute
-import com.easy.wallet.shared.domain.GetToKenBasicInfoUseCase
-import com.easy.wallet.shared.domain.TokenBalanceUseCase
+import com.easy.wallet.shared.domain.CoinBalanceUseCase
+import com.easy.wallet.shared.domain.GetAssetCoinInfoUseCase
 import com.easy.wallet.shared.domain.TransactionPlanUseCase
 import com.easy.wallet.shared.domain.TransactionSigningUseCase
 import com.trustwallet.core.AnyAddress
@@ -24,6 +24,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
@@ -32,33 +33,32 @@ import kotlinx.coroutines.flow.update
 @OptIn(ExperimentalFoundationApi::class)
 internal class SendSharedViewModel(
     savedStateHandle: SavedStateHandle,
-    basicInfoUseCase: GetToKenBasicInfoUseCase,
-    tokenBalanceUseCase: TokenBalanceUseCase,
+    getAssetCoinInfoUseCase: GetAssetCoinInfoUseCase,
+    coinBalanceUseCase: CoinBalanceUseCase,
     private val transactionPlanUseCase: TransactionPlanUseCase,
     private val transactionSigningUseCase: TransactionSigningUseCase
 ) : BaseViewModel<SendUiEvent>() {
 
-    private val tokenArgs: TokenArgs = TokenArgs(savedStateHandle)
-    private val tokenId = tokenArgs.tokenId
+    private val coinArgs: CoinArgs = CoinArgs(savedStateHandle)
+    private val coinId = coinArgs.coinId
 
     val destination = TextFieldState("")
     private val _amount = TextFieldState("0")
 
     // prep information for sending coin
-    val basicInfoUiState = combine(
-        basicInfoUseCase(tokenId),
-        tokenBalanceUseCase(tokenId)
-    ) { basicInfo, balance ->
-        SendingBasicUiState.PrepBasicInfo(basicInfo, balance)
+    val basicInfoUiState = coinBalanceUseCase(coinId).map { assetBalance ->
+        SendingBasicUiState.PrepBasicInfo(assetBalance)
     }.stateIn(viewModelScope, SharingStarted.Lazily, SendingBasicUiState.Loading)
 
     // enter destination page ui state, check enter address is valid or not
     val destinationUiState = combine(
         destination.textAsFlow(),
-        basicInfoUseCase(tokenId)
-    ) { address, basicInfo ->
-        val coinType = when (basicInfo.chainName) {
-            Constants.ETH_CHAIN_NAME -> CoinType.Ethereum
+        getAssetCoinInfoUseCase(coinId)
+    ) { address, assetCoin ->
+        val coinType = when (assetCoin.platform.id) {
+            AssetPlatformIdConstant.PLATFORM_ETHEREUM,
+            AssetPlatformIdConstant.PLATFORM_ETHEREUM_SEPOLIA -> CoinType.Ethereum
+
             else -> CoinType.Bitcoin
         }
         val isAddressValid = AnyAddress.isValid(
@@ -71,10 +71,10 @@ internal class SendSharedViewModel(
     // enter amount page ui state, check balance is enough or not
     val amountUiState = combine(
         _amount.textAsFlow(),
-        tokenBalanceUseCase(tokenId)
-    ) { amount, balance ->
+        coinBalanceUseCase(coinId)
+    ) { amount, assetBalance ->
         val insufficientBalance =
-            balance.toDouble() < (amount.toString().toDoubleOrNull() ?: 0.0)
+            assetBalance.balance.toDouble() < (amount.toString().toDoubleOrNull() ?: 0.0)
         AmountUiState(
             enterAmount = amount.toString(),
             insufficientBalance = insufficientBalance
@@ -86,7 +86,7 @@ internal class SendSharedViewModel(
     val overviewUiState = _overviewUiState.asStateFlow()
     private fun buildPlan(onCompletion: () -> Unit) {
         transactionPlanUseCase(
-            tokenId = tokenId,
+            coinId = coinId,
             toAddress = destination.text.toString(),
             amount = _amount.text.toString(),
         ).onEach { fees ->
@@ -108,8 +108,7 @@ internal class SendSharedViewModel(
     private fun signAndPush(chainId: String, onCompletion: (Throwable?) -> Unit) {
         with(_overviewUiState.value) {
             transactionSigningUseCase(
-                tokenId = tokenId,
-                chainId = chainId,
+                coinId = coinId,
                 toAddress = destination,
                 amount = _amount.text.toString(),
                 fee = selectedFee!!
@@ -154,7 +153,7 @@ internal class SendSharedViewModel(
                 _amount.clearText()
                 _amount.edit {
                     if (basicInfoUiState.value is SendingBasicUiState.PrepBasicInfo) {
-                        append((basicInfoUiState.value as SendingBasicUiState.PrepBasicInfo).balance)
+                        append((basicInfoUiState.value as SendingBasicUiState.PrepBasicInfo).assetBalance.balance)
                     }
                 }
             }

@@ -3,6 +3,7 @@ package com.easy.wallet.send
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 import com.easy.wallet.model.TokenBasicResult
+import com.easy.wallet.model.asset.AssetBalance
 import com.easy.wallet.shared.model.fees.FeeModel
 
 sealed interface SendUiEvent {
@@ -48,7 +49,6 @@ internal sealed interface SendingBasicUiState {
 
     @Immutable
     data class PrepBasicInfo(
-        val tokenInfo: TokenBasicResult,
-        val balance: String
+        val assetBalance: AssetBalance
     ) : SendingBasicUiState
 }

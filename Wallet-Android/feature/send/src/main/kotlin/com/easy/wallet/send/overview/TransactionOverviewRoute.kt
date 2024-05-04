@@ -27,7 +27,7 @@ internal fun TransactionOverviewRoute(
     val basicInfo by viewModel.basicInfoUiState.collectAsStateWithLifecycle()
     val overviewUiState by viewModel.overviewUiState.collectAsStateWithLifecycle()
     EvmChainOverviewScreen(
-        basicInfo = basicInfo as SendingBasicUiState.PrepBasicInfo,
+        assetBalance = (basicInfo as SendingBasicUiState.PrepBasicInfo).assetBalance,
         overviewUiState = overviewUiState,
         onEvent = viewModel::handleEvent
     )

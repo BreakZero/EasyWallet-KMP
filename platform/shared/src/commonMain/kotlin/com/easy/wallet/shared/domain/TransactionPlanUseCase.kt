@@ -7,21 +7,23 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 class TransactionPlanUseCase internal constructor(
-    private val basicInfoUseCase: GetToKenBasicInfoUseCase,
-    private val exactTokenRepositoryUseCase: GetExactTokenRepositoryUseCase
+    private val getAssetCoinInfoUseCase: GetAssetCoinInfoUseCase,
+    private val getChainRepositoryUseCase: GetChainRepositoryUseCase
 ) {
     @NativeCoroutines
     operator fun invoke(
-        tokenId: String,
+        coinId: String,
         toAddress: String,
         amount: String,
     ): Flow<List<FeeModel>> {
-        return basicInfoUseCase(tokenId).map { basicInfo ->
-            exactTokenRepositoryUseCase(basicInfo).prepFees(
-                account = basicInfo.address,
-                contractAddress = basicInfo.contract,
+        return getAssetCoinInfoUseCase(coinId).map { assetCoin ->
+            getChainRepositoryUseCase(assetCoin.platform).prepFees(
+                account = assetCoin.address,
+                contractAddress = assetCoin.contract,
                 toAddress = toAddress,
-                amount = amount.toBigDecimal().moveDecimalPoint(basicInfo.decimals).toBigInteger()
+                amount = amount.toBigDecimal().moveDecimalPoint(
+                    assetCoin.platform.network?.decimalPlace ?: 18
+                ).toBigInteger()
                     .toString(16)
             )
         }

@@ -24,12 +24,8 @@ import com.easy.wallet.shared.domain.AllAssetDashboardUseCase
 import com.easy.wallet.shared.domain.CoinBalanceUseCase
 import com.easy.wallet.shared.domain.CoinTrendUseCase
 import com.easy.wallet.shared.domain.CreateWalletUseCase
-import com.easy.wallet.shared.domain.DashboardUseCase
 import com.easy.wallet.shared.domain.GetAssetCoinInfoUseCase
 import com.easy.wallet.shared.domain.GetChainRepositoryUseCase
-import com.easy.wallet.shared.domain.GetExactTokenRepositoryUseCase
-import com.easy.wallet.shared.domain.GetToKenBasicInfoUseCase
-import com.easy.wallet.shared.domain.TokenBalanceUseCase
 import com.easy.wallet.shared.domain.TransactionPagerUseCase
 import com.easy.wallet.shared.domain.TransactionPlanUseCase
 import com.easy.wallet.shared.domain.TransactionSigningUseCase
@@ -71,24 +67,9 @@ val sharedModule = module {
     single { OKXDataRepository(get()) }
 
     single {
-        GetExactTokenRepositoryUseCase(
-            ethereumRepository = get(named("Ethereum")),
-            bitcoinRepository = get(named("NoSupportedChain"))
-        )
-    }
-
-    single {
         GetChainRepositoryUseCase(
             evmChainRepository = get(named("EvmChain")),
             noSupportedChainRepository = get(named("NoSupportedChain"))
-        )
-    }
-
-    single {
-        DashboardUseCase(
-            supportedTokenRepository = get(),
-            ethereumRepository = get(named("Ethereum")),
-            bitcoinRepository = get(named("Bitcoin")),
         )
     }
 
@@ -96,20 +77,7 @@ val sharedModule = module {
 
     singleOf(::CoinTrendUseCase)
 
-    single {
-        TokenBalanceUseCase(
-            getToKenBasicInfoUseCase = get(),
-            getExactTokenRepositoryUseCase = get()
-        )
-    }
     singleOf(::CoinBalanceUseCase)
-
-    single {
-        GetToKenBasicInfoUseCase(
-            walletRepository = get(),
-            supportedTokenRepository = get()
-        )
-    }
 
     singleOf(::GetAssetCoinInfoUseCase)
 
