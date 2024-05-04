@@ -9,7 +9,6 @@ import com.trustwallet.core.CoinType
 import com.trustwallet.core.HDWallet
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.channelFlow
-import kotlinx.coroutines.flow.firstOrNull
 
 class GetToKenBasicInfoUseCase internal constructor(
     private val walletRepository: MultiWalletRepository,

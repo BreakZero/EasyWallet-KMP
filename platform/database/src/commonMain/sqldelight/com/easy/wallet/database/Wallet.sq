@@ -13,6 +13,14 @@ insertWallet:
 INSERT INTO hdWalletEntity(mnemonic, passphrase, isActivated, createAt)
 VALUES (?,?,?,?);
 
+insertFullObject:
+INSERT OR IGNORE INTO hdWalletEntity(mnemonic, passphrase, isActivated, createAt)
+VALUES ?;
+
+findActiveWallet:
+SELECT * FROM hdWalletEntity
+WHERE isActivated == 1;
+
 forActivatedOne:
 SELECT * FROM hdWalletEntity
 WHERE isActivated == 1;

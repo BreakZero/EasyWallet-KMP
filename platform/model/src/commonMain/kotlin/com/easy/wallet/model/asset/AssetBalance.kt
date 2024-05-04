@@ -7,5 +7,6 @@ data class AssetBalance(
     override val logoURI: String,
     override val contract: String?,
     override val platform: AssetPlatform,
+    val address: String,
     val balance: String
-): BasicCoin
+): CoinModel

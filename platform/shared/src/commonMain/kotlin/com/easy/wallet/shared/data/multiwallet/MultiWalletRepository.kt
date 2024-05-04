@@ -1,82 +1,41 @@
 package com.easy.wallet.shared.data.multiwallet
 
-import app.cash.sqldelight.coroutines.asFlow
-import app.cash.sqldelight.coroutines.mapToList
-import app.cash.sqldelight.coroutines.mapToOneOrNull
-import co.touchlab.kermit.Logger
-import com.easy.wallet.database.SharedDatabase
+import com.easy.wallet.database.dao.WalletDao
 import com.easy.wallet.model.Wallet
 import com.rickclephas.kmp.nativecoroutines.NativeCoroutines
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.withContext
-import kotlinx.datetime.Clock
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toLocalDateTime
 
-class MultiWalletRepository internal constructor(
-    sharedDatabase: SharedDatabase,
-    private val dispatcher: CoroutineDispatcher = Dispatchers.IO
-) {
-    private val queries = sharedDatabase.database.walletQueries
-    private val platformQueries = sharedDatabase.database.assetPlatformEntityQueries
-    private val coinQueries = sharedDatabase.database.coinEntityQueries
-
+class MultiWalletRepository internal constructor(private val walletDao: WalletDao) {
     @NativeCoroutines
     suspend fun insertOne(
         mnemonic: String,
         passphrase: String,
         onCompleted: () -> Unit = {}
-    ) = withContext(dispatcher) {
-        queries.transaction {
-            afterCommit(onCompleted)
-
-            val currentlyOne = queries.forActivatedOne().executeAsOneOrNull()
-            currentlyOne?.let {
-                queries.inActivateById(it.id)
-            }
-            queries.insertWallet(
-                mnemonic = mnemonic,
-                passphrase = passphrase,
-                isActivated = true,
-                createAt = Clock.System.now().toLocalDateTime(TimeZone.UTC),
-            )
-        }
+    ) {
+        walletDao.insertWithCallback(
+            mnemonic,
+            passphrase,
+            onCompleted
+        )
     }
 
     @NativeCoroutines
     fun forActiveOneStream(): Flow<Wallet?> {
-        return queries.forActivatedOne().asFlow().mapToOneOrNull(dispatcher).map {
-            it?.let {
-                Wallet(
-                    mnemonic = it.mnemonic,
-                    passphrase = it.passphrase,
-                    isActivated = it.isActivated ?: false,
-                    createAt = it.createAt,
-                )
-            }
-        }
+        return walletDao.findActiveOneStream()
     }
 
     @NativeCoroutines
-    suspend fun forActiveOne(): Wallet? = withContext(dispatcher) {
-        try {
-            coinQueries.findAll().executeAsList().onEach {
-                Logger.i("COIN") { it.toString() }
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-        queries.forActivatedOne().executeAsOneOrNull()?.let {
-            Wallet(
-                mnemonic = it.mnemonic,
-                passphrase = it.passphrase,
-                isActivated = it.isActivated ?: false,
-                createAt = it.createAt,
-            )
-        }
+    fun findWalletStream(): Flow<Wallet?> {
+        return walletDao.findActiveOneStream()
+    }
+
+    @NativeCoroutines
+    suspend fun findWallet(): Wallet? {
+        return walletDao.findActiveOne()
+    }
+
+    @NativeCoroutines
+    suspend fun forActiveOne(): Wallet? {
+        return walletDao.findActiveOne()
     }
 }

@@ -6,5 +6,6 @@ data class AssetCoin(
     override val name: String,
     override val logoURI: String,
     override val contract: String?,
-    override val platform: AssetPlatform
-): BasicCoin
+    override val platform: AssetPlatform,
+    val address: String
+): CoinModel

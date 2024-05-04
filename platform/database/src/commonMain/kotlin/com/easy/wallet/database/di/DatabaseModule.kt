@@ -9,6 +9,8 @@ import com.easy.wallet.database.dao.CoinDao
 import com.easy.wallet.database.dao.CoinDaoImpl
 import com.easy.wallet.database.dao.LocalTokenDao
 import com.easy.wallet.database.dao.LocalTokenDaoImpl
+import com.easy.wallet.database.dao.WalletDao
+import com.easy.wallet.database.dao.WalletDaoImpl
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import org.koin.core.module.Module
@@ -49,4 +51,11 @@ val databaseModule = module {
             dispatcher = Dispatchers.IO
         )
     } bind CoinDao::class
+
+    single {
+        WalletDaoImpl(
+            get<SharedDatabase>().database.walletQueries,
+            dispatcher = Dispatchers.IO
+        )
+    } bind WalletDao::class
 }

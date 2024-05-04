@@ -8,8 +8,8 @@ import com.easy.wallet.database.FindAllCoins
 import com.easy.wallet.database.FindAllCoinsInPlatform
 import com.easy.wallet.database.model.EvmNetworkInformation
 import com.easy.wallet.database.model.asPublish
-import com.easy.wallet.model.asset.AssetCoin
 import com.easy.wallet.model.asset.AssetPlatform
+import com.easy.wallet.model.asset.BasicCoin
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
@@ -26,19 +26,43 @@ internal class CoinDaoImpl(
         }
     }
 
-    override suspend fun findAllStream(): Flow<List<AssetCoin>> {
+    override suspend fun findCoinById(id: String): BasicCoin? {
+        val entity = queries.findCoinById(id).executeAsOneOrNull()
+        return entity?.let {
+            BasicCoin(
+                id = it.id,
+                symbol = it.symbol,
+                name = it.name,
+                logoURI = it.logo_uri,
+                contract = it.contract,
+                platform = AssetPlatform(
+                    id = it.id_!!,
+                    shortName = it.short_name!!,
+                    chainIdentifier = it.chain_identifier,
+                    network = EvmNetworkInformation.decodeFromString(it.evm_network_info)
+                        ?.asPublish()
+                )
+            )
+        }
+    }
+
+    override suspend fun findAllCoin(): List<BasicCoin> {
+        return queries.findAllCoins().executeAsList().map(FindAllCoins::asPublish)
+    }
+
+    override fun findAllStream(): Flow<List<BasicCoin>> {
         return queries.findAllCoins().asFlow().mapToList(dispatcher)
             .map { it.map(FindAllCoins::asPublish) }
     }
 
-    override suspend fun findAllByPlatformStream(platformId: String): Flow<List<AssetCoin>> {
+    override fun findAllByPlatformStream(platformId: String): Flow<List<BasicCoin>> {
         return queries.findAllCoinsInPlatform(platformId).asFlow().mapToList(dispatcher)
             .map { it.map(FindAllCoinsInPlatform::asPublish) }
     }
 }
 
-private fun FindAllCoins.asPublish(): AssetCoin {
-    return AssetCoin(
+private fun FindAllCoins.asPublish(): BasicCoin {
+    return BasicCoin(
         id = id,
         symbol = symbol,
         name = name,
@@ -53,8 +77,8 @@ private fun FindAllCoins.asPublish(): AssetCoin {
     )
 }
 
-private fun FindAllCoinsInPlatform.asPublish(): AssetCoin {
-    return AssetCoin(
+private fun FindAllCoinsInPlatform.asPublish(): BasicCoin {
+    return BasicCoin(
         id = id,
         symbol = symbol,
         name = name,

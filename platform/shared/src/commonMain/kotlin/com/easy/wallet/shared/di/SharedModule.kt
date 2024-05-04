@@ -9,14 +9,23 @@ import com.easy.wallet.shared.data.repository.NoSupportedTokenRepository
 import com.easy.wallet.shared.data.repository.SupportedTokenRepository
 import com.easy.wallet.shared.data.repository.TokenRepository
 import com.easy.wallet.shared.data.repository.asset.ChainManageRepository
+import com.easy.wallet.shared.data.repository.asset.CoinRepository
+import com.easy.wallet.shared.data.repository.asset.LocalAssetRepository
 import com.easy.wallet.shared.data.repository.asset.LocalChainManageRepository
 import com.easy.wallet.shared.data.repository.asset.LocalTokenManageRepository
+import com.easy.wallet.shared.data.repository.asset.PlatformRepository
 import com.easy.wallet.shared.data.repository.asset.TokenManageRepository
+import com.easy.wallet.shared.data.repository.chain.EvmChainRepository
+import com.easy.wallet.shared.data.repository.chain.NoSupportedChainRepository
+import com.easy.wallet.shared.data.repository.chain.OnChainRepository
 import com.easy.wallet.shared.data.repository.news.NewsPager
 import com.easy.wallet.shared.data.repository.news.NewsRepository
+import com.easy.wallet.shared.domain.AllAssetDashboardUseCase
 import com.easy.wallet.shared.domain.CoinTrendUseCase
 import com.easy.wallet.shared.domain.CreateWalletUseCase
 import com.easy.wallet.shared.domain.DashboardUseCase
+import com.easy.wallet.shared.domain.GetAssetCoinInfoUseCase
+import com.easy.wallet.shared.domain.GetChainRepositoryUseCase
 import com.easy.wallet.shared.domain.GetExactTokenRepositoryUseCase
 import com.easy.wallet.shared.domain.GetToKenBasicInfoUseCase
 import com.easy.wallet.shared.domain.TokenBalanceUseCase
@@ -38,6 +47,13 @@ val sharedModule = module {
     single<TokenRepository>(named("Ethereum")) { EthereumRepository(get(), get(), get()) }
     single<TokenRepository>(named("NoSupportedChain")) { NoSupportedTokenRepository() }
 
+
+    single<OnChainRepository>(named("EvmChain")) { EvmChainRepository(get(), get()) }
+    single<OnChainRepository>(named("NoSupportedChain")) { NoSupportedChainRepository() }
+
+    single<CoinRepository>() { LocalAssetRepository(get(), get()) }
+    single<PlatformRepository>() { LocalAssetRepository(get(), get()) }
+
     single<ChainManageRepository>(named<LocalChainManageRepository>()) {
         LocalChainManageRepository(
             get()
@@ -56,7 +72,14 @@ val sharedModule = module {
     single {
         GetExactTokenRepositoryUseCase(
             ethereumRepository = get(named("Ethereum")),
-            bitcoinRepository = get(named("Bitcoin"))
+            bitcoinRepository = get(named("NoSupportedChain"))
+        )
+    }
+
+    single {
+        GetChainRepositoryUseCase(
+            evmChainRepository = get(named("EvmChain")),
+            noSupportedChainRepository = get(named("NoSupportedChain"))
         )
     }
 
@@ -67,6 +90,8 @@ val sharedModule = module {
             bitcoinRepository = get(named("Bitcoin")),
         )
     }
+
+    singleOf(::AllAssetDashboardUseCase)
 
     single {
         CoinTrendUseCase(
@@ -86,6 +111,13 @@ val sharedModule = module {
         GetToKenBasicInfoUseCase(
             walletRepository = get(),
             supportedTokenRepository = get()
+        )
+    }
+
+    single {
+        GetAssetCoinInfoUseCase(
+            walletRepository = get(),
+            coinRepository = get()
         )
     }
 
