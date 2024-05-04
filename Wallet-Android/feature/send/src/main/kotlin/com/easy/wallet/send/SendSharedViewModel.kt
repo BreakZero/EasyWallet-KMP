@@ -84,7 +84,7 @@ internal class SendSharedViewModel(
     // overview ui state, generate from build transaction plan, then sign transaction plan with selected fee to broadcast
     private val _overviewUiState = MutableStateFlow(OverviewUiState())
     val overviewUiState = _overviewUiState.asStateFlow()
-    private fun buildPlan(onCompletion: () -> Unit) {
+    private fun buildPlan(onCompletion: (Throwable?) -> Unit) {
         transactionPlanUseCase(
             coinId = coinId,
             toAddress = destination.text.toString(),
@@ -97,8 +97,8 @@ internal class SendSharedViewModel(
                     fees = fees
                 )
             }
-        }.onCompletion { _ ->
-            onCompletion()
+        }.onCompletion { cause ->
+            onCompletion(cause)
         }.catch {
             // handle error
             it.printStackTrace()
@@ -160,7 +160,11 @@ internal class SendSharedViewModel(
 
             SendUiEvent.BuildTransactionPlan -> {
                 buildPlan {
-                    dispatchEvent(SendUiEvent.NavigateTo(sendOverviewRoute))
+                    if (it != null) {
+                        dispatchEvent(SendUiEvent.ShowErrorMessage(it.message ?: "unknown error catch"))
+                    } else {
+                        dispatchEvent(SendUiEvent.NavigateTo(sendOverviewRoute))
+                    }
                 }
             }
 

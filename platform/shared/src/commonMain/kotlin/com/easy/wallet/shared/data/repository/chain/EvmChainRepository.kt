@@ -144,10 +144,8 @@ class EvmChainRepository internal constructor(
         val data = if (contractAddress.isNullOrBlank()) {
             ""
         } else {
-            Transaction.ERC20Transfer(
-                to = toAddress,
-                amount = amount.asHex()
-            ).encode().decodeToString()
+            val amountUInt = (ZERO_UINT + amount.cleanHexPrefix()).takeLast(64)
+            "0xa9059cbb000000000000000000000000${toAddress.cleanHexPrefix()}$amountUInt"
         }
         val estimateGas = jsonRpcApi.estimateGas(
             from = account,
@@ -165,5 +163,6 @@ class EvmChainRepository internal constructor(
     private suspend fun fetchingNonce(account: String): String {
         return jsonRpcApi.getTransactionCount(account)
     }
-
 }
+
+private const val ZERO_UINT = "0000000000000000000000000000000000000000000000000000000000000000"
