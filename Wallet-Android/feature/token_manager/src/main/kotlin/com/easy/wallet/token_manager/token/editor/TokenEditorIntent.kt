@@ -3,11 +3,11 @@ package com.easy.wallet.token_manager.token.editor
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.text2.input.TextFieldState
 import androidx.compose.runtime.Stable
-import com.easy.wallet.model.ChainInformation
+import com.easy.wallet.model.asset.AssetPlatform
 
 data class TokenEditorUiState(
-    val localChains: List<ChainInformation>,
-    val chainName: String,
+    val localPlatforms: List<AssetPlatform>,
+    val selectedPlatformName: String,
     val isActive: Boolean = false
 )
 
@@ -22,7 +22,7 @@ data class TokenEditorFields(
 )
 
 sealed interface TokenEditorEvent {
-    data class OnChainChanged(val chainId: Long) : TokenEditorEvent
+    data class OnChainChanged(val platformId: String) : TokenEditorEvent
 
     data class OnActiveChanged(val isActive: Boolean) : TokenEditorEvent
     data object ClickSaved : TokenEditorEvent

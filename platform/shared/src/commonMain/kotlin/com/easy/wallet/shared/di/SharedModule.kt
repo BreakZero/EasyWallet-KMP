@@ -2,12 +2,7 @@ package com.easy.wallet.shared.di
 
 import com.easy.wallet.shared.data.multiwallet.MultiWalletRepository
 import com.easy.wallet.shared.data.okx.OKXDataRepository
-import com.easy.wallet.shared.data.repository.BitcoinRepository
-import com.easy.wallet.shared.data.repository.EthereumRepository
 import com.easy.wallet.shared.data.repository.MarketsRepository
-import com.easy.wallet.shared.data.repository.NoSupportedTokenRepository
-import com.easy.wallet.shared.data.repository.SupportedTokenRepository
-import com.easy.wallet.shared.data.repository.TokenRepository
 import com.easy.wallet.shared.data.repository.asset.ChainManageRepository
 import com.easy.wallet.shared.data.repository.asset.CoinRepository
 import com.easy.wallet.shared.data.repository.asset.LocalAssetRepository
@@ -38,12 +33,6 @@ val sharedModule = module {
         MultiWalletRepository(get())
     }
     singleOf(::NewsRepository)
-    singleOf(::SupportedTokenRepository)
-
-    single<TokenRepository>(named("Bitcoin")) { BitcoinRepository() }
-    single<TokenRepository>(named("Ethereum")) { EthereumRepository(get(), get(), get()) }
-    single<TokenRepository>(named("NoSupportedChain")) { NoSupportedTokenRepository() }
-
 
     single<OnChainRepository>(named("EvmChain")) { EvmChainRepository(get(), get()) }
     single<OnChainRepository>(named("NoSupportedChain")) { NoSupportedChainRepository() }

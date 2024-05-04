@@ -2,63 +2,47 @@ package com.easy.wallet.token_manager.token.editor
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.text2.input.TextFieldState
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.easy.wallet.android.core.BaseViewModel
-import com.easy.wallet.shared.data.repository.asset.ChainManageRepository
-import com.easy.wallet.shared.data.repository.asset.TokenManageRepository
+import com.easy.wallet.shared.data.repository.asset.CoinRepository
+import com.easy.wallet.shared.data.repository.asset.PlatformRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import java.util.UUID
 
 @OptIn(ExperimentalFoundationApi::class)
 internal class TokenEditorViewModel(
-    private val chainManageRepository: ChainManageRepository,
-    private val tokenManageRepository: TokenManageRepository,
-    savedStateHandle: SavedStateHandle
+    coinRepository: CoinRepository,
+    platformRepository: PlatformRepository
 ) : BaseViewModel<TokenEditorEvent>() {
 
-    private val tokenId: String? = savedStateHandle["tokenId"]
-
-    private val _localChains = chainManageRepository.allChains()
-    private val _chainId: MutableStateFlow<Long> = MutableStateFlow(-1L)
+    private val _allPlatforms = platformRepository.allPlatformStream()
+    private val _selectedPlatform: MutableStateFlow<String> = MutableStateFlow("")
     private val _isActive: MutableStateFlow<Boolean> = MutableStateFlow(false)
 
-    val tokenEditorFields = tokenManageRepository.findById(tokenId.orEmpty()).map {
-        TokenEditorFields(
-            name = TextFieldState(it.name),
-            symbol = TextFieldState(it.symbol),
-            decimals = TextFieldState(it.decimals.toString()),
-            contract = TextFieldState(it.contract.orEmpty()),
-            iconUri = TextFieldState(it.iconUri)
-        )
-    }.catch {
-        TokenEditorFields()
-    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(3_000), TokenEditorFields())
+    val tokenEditorFields = TokenEditorFields()
 
     val tokenEditorUiState = combine(
-        _localChains,
-        _chainId,
+        _allPlatforms,
+        _selectedPlatform,
         _isActive
-    ) { localChains, chainId, isActive ->
-        val chainName = localChains.find { it.id == chainId }?.name.orEmpty()
+    ) { allPlatforms, selectedPlatform, isActive ->
+        val evmPlatforms = allPlatforms.filter { it.network != null }
+        val platformName = allPlatforms.find { it.id == selectedPlatform }?.shortName.orEmpty()
         TokenEditorUiState(
-            localChains = localChains,
-            chainName = chainName,
+            localPlatforms = evmPlatforms,
+            selectedPlatformName = platformName,
             isActive = isActive
         )
     }.stateIn(
         viewModelScope,
         SharingStarted.WhileSubscribed(3_000),
         TokenEditorUiState(
-            localChains = emptyList(),
-            chainName = ""
+            localPlatforms = emptyList(),
+            selectedPlatformName = ""
         )
     )
 
@@ -73,7 +57,7 @@ internal class TokenEditorViewModel(
             }
 
             is TokenEditorEvent.OnChainChanged -> {
-                _chainId.update { event.chainId }
+                _selectedPlatform.update { event.platformId }
             }
         }
     }
@@ -81,8 +65,10 @@ internal class TokenEditorViewModel(
     private fun onSaved() {
         log()
         viewModelScope.launch {
-            with(tokenEditorFields.value) {
-                tokenManageRepository.addOne(
+            with(tokenEditorFields) {
+                log()
+                // insert evm coin
+                /*tokenManageRepository.addOne(
                     id = UUID.randomUUID().toString(),
                     chainId = _chainId.value,
                     name = name.contentValue(),
@@ -92,7 +78,7 @@ internal class TokenEditorViewModel(
                     iconUri = iconUri.contentValue(),
                     isActive = _isActive.value,
                     tags = ""
-                )
+                )*/
             }
         }
     }
@@ -102,9 +88,9 @@ internal class TokenEditorViewModel(
     private fun log() {
         val info = buildString {
             appendLine("=========================")
-            appendLine(_chainId.value)
+            appendLine(_selectedPlatform.value)
             appendLine(_isActive.value)
-            with(tokenEditorFields.value) {
+            with(tokenEditorFields) {
                 appendLine("name: ${name.text}")
                 appendLine("symbol: ${symbol.text}")
                 appendLine("decimals: ${decimals.text}")
@@ -112,7 +98,7 @@ internal class TokenEditorViewModel(
                 appendLine("icon uri: ${iconUri.text}")
             }
             appendLine("isActive: ${tokenEditorUiState.value.isActive}")
-            appendLine("chain Name: ${tokenEditorUiState.value.chainName}")
+            appendLine("chain Name: ${tokenEditorUiState.value.selectedPlatformName}")
             appendLine("=========================")
         }
         println(info)
