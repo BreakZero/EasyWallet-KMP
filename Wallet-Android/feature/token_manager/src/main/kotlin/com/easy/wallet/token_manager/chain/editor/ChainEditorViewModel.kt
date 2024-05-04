@@ -5,29 +5,22 @@ import androidx.compose.foundation.text2.input.TextFieldState
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.easy.wallet.android.core.BaseViewModel
-import com.easy.wallet.shared.data.repository.asset.ChainManageRepository
+import com.easy.wallet.shared.data.repository.asset.PlatformRepository
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)
 internal class ChainEditorViewModel(
-    private val localChainRepository: ChainManageRepository,
+    platformRepository: PlatformRepository,
     savedStateHandle: SavedStateHandle
 ) : BaseViewModel<ChainEditorUiEvent>() {
 
-    private val chainId: Long = checkNotNull(savedStateHandle["chainId"])
+    private val platformId: String = checkNotNull(savedStateHandle["platformId"])
 
-    val chainEditorUiState = localChainRepository.getChainById(chainId).map {
-        ChainEditorUiState(
-            name = TextFieldState(it.name),
-            website = TextFieldState(it.website),
-            explorer = TextFieldState(it.explorer.orEmpty()),
-            rpcUrl = TextFieldState(it.rpcUrl),
-            chainId = TextFieldState(it.chainId.orEmpty())
-        )
+    val chainEditorUiState = platformRepository.findPlatformByIdStream(platformId).map {
+        ChainEditorUiState()
     }.catch {
         emit(ChainEditorUiState())
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(3_000), ChainEditorUiState())
@@ -37,15 +30,6 @@ internal class ChainEditorViewModel(
             ChainEditorUiEvent.OnSavedClick -> {
                 with(chainEditorUiState.value) {
                     // add validate information
-                    viewModelScope.launch {
-                        localChainRepository.addOne(
-                            name.asString(),
-                            website.asString(),
-                            explorer.asString(),
-                            rpcUrl.asString(),
-                            chainId.asString()
-                        )
-                    }
                     dispatchEvent(ChainEditorUiEvent.NavigateUp)
                 }
             }

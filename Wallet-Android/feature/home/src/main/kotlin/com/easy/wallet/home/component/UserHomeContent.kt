@@ -21,7 +21,6 @@ import com.easy.wallet.design.ui.EasyWalletTheme
 import com.easy.wallet.home.HomeEvent
 import com.easy.wallet.home.HomeUiState
 import com.easy.wallet.shared.model.AllAssetDashboardInformation
-import com.easy.wallet.shared.model.DashboardInformation
 
 @Composable
 internal fun UserHomeContent(

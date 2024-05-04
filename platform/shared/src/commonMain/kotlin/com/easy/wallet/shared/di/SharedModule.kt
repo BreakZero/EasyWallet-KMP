@@ -3,13 +3,9 @@ package com.easy.wallet.shared.di
 import com.easy.wallet.shared.data.multiwallet.MultiWalletRepository
 import com.easy.wallet.shared.data.okx.OKXDataRepository
 import com.easy.wallet.shared.data.repository.MarketsRepository
-import com.easy.wallet.shared.data.repository.asset.ChainManageRepository
 import com.easy.wallet.shared.data.repository.asset.CoinRepository
 import com.easy.wallet.shared.data.repository.asset.LocalAssetRepository
-import com.easy.wallet.shared.data.repository.asset.LocalChainManageRepository
-import com.easy.wallet.shared.data.repository.asset.LocalTokenManageRepository
 import com.easy.wallet.shared.data.repository.asset.PlatformRepository
-import com.easy.wallet.shared.data.repository.asset.TokenManageRepository
 import com.easy.wallet.shared.data.repository.chain.EvmChainRepository
 import com.easy.wallet.shared.data.repository.chain.NoSupportedChainRepository
 import com.easy.wallet.shared.data.repository.chain.OnChainRepository
@@ -39,17 +35,6 @@ val sharedModule = module {
 
     single<CoinRepository>() { LocalAssetRepository(get(), get()) }
     single<PlatformRepository>() { LocalAssetRepository(get(), get()) }
-
-    single<ChainManageRepository>(named<LocalChainManageRepository>()) {
-        LocalChainManageRepository(
-            get()
-        )
-    }
-    single<TokenManageRepository>(named<LocalTokenManageRepository>()) {
-        LocalTokenManageRepository(
-            get()
-        )
-    }
 
     singleOf(::MarketsRepository)
 

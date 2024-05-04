@@ -19,3 +19,7 @@ VALUES ?;
 findAll:
 SELECT *
 FROM AssetPlatform;
+
+findById:
+SELECT *
+FROM AssetPlatform WHERE id = :id;

@@ -8,5 +8,5 @@ interface PlatformRepository {
 
     fun allPlatformStream(): Flow<List<AssetPlatform>>
 
-    fun findPlatformByIdStream(platformId: String): Flow<AssetPlatform>
+    fun findPlatformByIdStream(platformId: String): Flow<AssetPlatform?>
 }

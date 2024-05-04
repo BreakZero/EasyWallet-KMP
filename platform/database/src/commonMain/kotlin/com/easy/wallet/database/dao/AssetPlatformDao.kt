@@ -7,5 +7,7 @@ import com.easy.wallet.database.AssetPlatform as Entity
 interface AssetPlatformDao {
     fun findAllStream(): Flow<List<AssetPlatform>>
 
+    fun findByIdStream(platformId: String): Flow<AssetPlatform?>
+
     suspend fun insert(vararg assetPlatforms: Entity)
 }

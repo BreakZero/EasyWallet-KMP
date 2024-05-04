@@ -40,7 +40,7 @@ class LocalAssetRepository internal constructor(
         return platformDao.findAllStream()
     }
 
-    override fun findPlatformByIdStream(platformId: String): Flow<AssetPlatform> {
-        TODO("Not yet implemented")
+    override fun findPlatformByIdStream(platformId: String): Flow<AssetPlatform?> {
+        return platformDao.findByIdStream(platformId)
     }
 }

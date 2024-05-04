@@ -86,14 +86,17 @@ internal fun ChainDetailScreen(
                     ItemRow(
                         modifier = itemRowModifier,
                         label = "Name",
-                        value = uiState.chainInformation.name
+                        value = uiState.assetPlatform.shortName
                     )
-                    ItemRow(
-                        modifier = itemRowModifier,
-                        label = "RPC Url",
-                        value = uiState.chainInformation.rpcUrl
-                    )
-                    uiState.chainInformation.chainId?.let {
+
+                    uiState.assetPlatform.network?.rpcUrl?.let {
+                        ItemRow(
+                            modifier = itemRowModifier,
+                            label = "RPC Url",
+                            value = it
+                        )
+                    }
+                    uiState.assetPlatform.chainIdentifier?.let {
                         ItemRow(
                             modifier = itemRowModifier,
                             label = "Chain ID",
@@ -101,12 +104,8 @@ internal fun ChainDetailScreen(
                         )
                     }
 
-                    ItemRow(
-                        modifier = itemRowModifier,
-                        label = "Website",
-                        value = uiState.chainInformation.website
-                    )
-                    uiState.chainInformation.explorer?.let {
+
+                    uiState.assetPlatform.network?.explorerUrl?.let {
                         ItemRow(
                             modifier = itemRowModifier,
                             label = "Explorer",
