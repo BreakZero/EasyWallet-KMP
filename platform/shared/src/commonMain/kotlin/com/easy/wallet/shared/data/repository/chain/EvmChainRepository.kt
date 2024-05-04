@@ -50,7 +50,7 @@ class EvmChainRepository internal constructor(
         } else {
             etherscanApi.getTransactions(page, offset, account)
         }
-        return basicTransactions.map { it.asTransactionUiModel(coin, 18, account) }
+        return basicTransactions.map { it.asTransactionUiModel(coin, -coin.decimalPlace, account) }
     }
 
     override suspend fun prepFees(

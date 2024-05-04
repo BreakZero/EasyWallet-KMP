@@ -6,6 +6,8 @@ import com.easy.wallet.model.Wallet
 import com.easy.wallet.model.asset.AssetBalance
 import com.easy.wallet.shared.data.repository.asset.CoinRepository
 import com.easy.wallet.shared.model.AllAssetDashboardInformation
+import com.ionspin.kotlin.bignum.decimal.RoundingMode
+import com.ionspin.kotlin.bignum.decimal.toBigDecimal
 import com.rickclephas.kmp.nativecoroutines.NativeCoroutines
 import com.trustwallet.core.CoinType
 import com.trustwallet.core.HDWallet
@@ -40,7 +42,13 @@ class AllAssetDashboardUseCase internal constructor(
                     val chainRepository = getChainRepositoryUseCase(coin.platform)
                     async {
                         val balance = try {
-                            chainRepository.loadBalance(coin.address, coin.contract)
+                            chainRepository.loadBalance(coin.address, coin.contract).toBigDecimal(
+                                exponentModifier = (-coin.decimalPlace).toLong()
+                            ).roundToDigitPositionAfterDecimalPoint(
+                                8,
+                                RoundingMode.ROUND_HALF_CEILING
+                            ).toPlainString()
+
                         } catch (e: Exception) {
                             Logger.w("AllAssetDashboardUseCase: ") {
                                 e.message ?: "unknown error"
