@@ -6,7 +6,13 @@ import kotlinx.coroutines.flow.Flow
 interface CoinRepository {
     fun findAllCoinStream(): Flow<List<BasicCoin>>
 
+    fun findAllCoinByPlatformStream(platformId: String): Flow<List<BasicCoin>>
+
     suspend fun findAllCoin(): List<BasicCoin>
 
+    suspend fun findAllCoinByPlatform(platformId: String): List<BasicCoin>
+
     suspend fun findCoinById(coinId: String): BasicCoin?
+
+    suspend fun findUniqueCoin(coinId: String, platformId: String): BasicCoin?
 }

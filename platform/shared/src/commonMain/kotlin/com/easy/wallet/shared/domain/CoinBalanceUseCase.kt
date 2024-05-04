@@ -8,12 +8,12 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 class CoinBalanceUseCase internal constructor(
-    private val assetCoinInfoUseCase: GetAssetCoinInfoUseCase,
+    private val getAssetCoinInfoUseCase: GetAssetCoinInfoUseCase,
     private val getChainRepositoryUseCase: GetChainRepositoryUseCase
 ) {
     @NativeCoroutines
     operator fun invoke(coinId: String): Flow<AssetBalance> {
-        return assetCoinInfoUseCase(coinId).map { assetCoin ->
+        return getAssetCoinInfoUseCase(coinId).map { assetCoin ->
             val exactChainRepository = getChainRepositoryUseCase(assetCoin.platform)
             val balance = exactChainRepository.loadBalance(assetCoin.address, assetCoin.contract)
             // format to display Model

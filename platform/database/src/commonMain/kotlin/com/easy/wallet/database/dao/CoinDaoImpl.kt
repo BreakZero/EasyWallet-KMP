@@ -51,6 +51,32 @@ internal class CoinDaoImpl(
         return queries.findAllCoins().executeAsList().map(FindAllCoins::asPublish)
     }
 
+    override suspend fun findAllCoinByPlatform(platformId: String): List<BasicCoin> {
+        return queries.findAllCoinsInPlatform(platformId).executeAsList()
+            .map(FindAllCoinsInPlatform::asPublish)
+    }
+
+    override suspend fun findUniqueCoin(coinId: String, platformId: String): BasicCoin? {
+        val entity = queries.findCoinByKeys(coinId, platformId).executeAsOneOrNull()
+        return entity?.let {
+            BasicCoin(
+                id = it.id,
+                symbol = it.symbol,
+                name = it.name,
+                decimalPlace = it.decimal_place,
+                logoURI = it.logo_uri,
+                contract = it.contract,
+                platform = AssetPlatform(
+                    id = it.id_!!,
+                    shortName = it.short_name!!,
+                    chainIdentifier = it.chain_identifier,
+                    network = EvmNetworkInformation.decodeFromString(it.evm_network_info)
+                        ?.asPublish()
+                )
+            )
+        }
+    }
+
     override fun findAllStream(): Flow<List<BasicCoin>> {
         return queries.findAllCoins().asFlow().mapToList(dispatcher)
             .map { it.map(FindAllCoins::asPublish) }

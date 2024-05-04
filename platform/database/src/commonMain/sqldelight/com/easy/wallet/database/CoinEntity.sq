@@ -43,5 +43,12 @@ FROM CoinEntity
 LEFT JOIN AssetPlatform ON CoinEntity.platform_id = AssetPlatform.id
 WHERE CoinEntity.id = :id;
 
+findCoinByKeys:
+SELECT CoinEntity.id, CoinEntity.symbol, CoinEntity.name, CoinEntity.logo_uri, CoinEntity.contract,CoinEntity.decimal_place,
+AssetPlatform.id, AssetPlatform.short_name, AssetPlatform.chain_identifier, AssetPlatform.evm_network_info
+FROM CoinEntity
+LEFT JOIN AssetPlatform ON CoinEntity.platform_id = AssetPlatform.id
+WHERE CoinEntity.id = :id AND platform_id = :platformId;
+
 deleteRows:
 DELETE FROM CoinEntity WHERE id IN :ids;

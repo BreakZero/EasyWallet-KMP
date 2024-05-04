@@ -14,12 +14,24 @@ class LocalAssetRepository internal constructor(
         return coinDao.findAllStream()
     }
 
+    override fun findAllCoinByPlatformStream(platformId: String): Flow<List<BasicCoin>> {
+        return coinDao.findAllByPlatformStream(platformId)
+    }
+
     override suspend fun findAllCoin(): List<BasicCoin> {
         return coinDao.findAllCoin()
     }
 
+    override suspend fun findAllCoinByPlatform(platformId: String): List<BasicCoin> {
+        return coinDao.findAllCoinByPlatform(platformId)
+    }
+
     override suspend fun findCoinById(coinId: String): BasicCoin? {
         return coinDao.findCoinById(coinId)
+    }
+
+    override suspend fun findUniqueCoin(coinId: String, platformId: String): BasicCoin? {
+        return coinDao.findUniqueCoin(coinId, platformId)
     }
 
     override suspend fun insertPlatform(

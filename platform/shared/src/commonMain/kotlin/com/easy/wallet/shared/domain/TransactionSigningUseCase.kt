@@ -11,6 +11,10 @@ import com.trustwallet.core.HDWallet
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
+private fun String.chainIdToHex(): String {
+    return this.toIntOrNull()?.toString(16) ?: this
+}
+
 class TransactionSigningUseCase internal constructor(
     private val walletRepository: MultiWalletRepository,
     private val getAssetCoinInfoUseCase: GetAssetCoinInfoUseCase,
@@ -33,8 +37,8 @@ class TransactionSigningUseCase internal constructor(
             val privateKey = getPrivateKeyFromChain(hdWallet, assetCoin.platform)
             getChainRepositoryUseCase(assetCoin.platform).signAndBroadcast(
                 account = assetCoin.address,
-                // update chain id to hex string
-                chainId = assetCoin.platform.chainIdentifier ?: "0x01",
+                // using Sepolia chain as default
+                chainId = assetCoin.platform.chainIdentifier?.chainIdToHex() ?: "0xaa36a7",
                 privateKey = privateKey,
                 contractAddress = assetCoin.contract,
                 toAddress = toAddress,
