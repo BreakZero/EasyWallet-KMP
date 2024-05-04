@@ -1,0 +1,2 @@
+-keep class wallet.core.jni.** { *; }
+-keep class wallet.core.jni.proto.** { *; }

@@ -86,6 +86,9 @@ kotlin {
 
 android {
     namespace = "com.easy.wallet.shared"
+    defaultConfig {
+        consumerProguardFile("consumer-rules.pro")
+    }
 }
 
 skie {
