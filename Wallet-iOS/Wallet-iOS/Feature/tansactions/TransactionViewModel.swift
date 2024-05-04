@@ -8,7 +8,6 @@
 
 import Foundation
 import shared
-import AsyncAlgorithms
 import KMPNativeCoroutinesAsync
 
 struct TransactionDashboard {
@@ -27,7 +26,7 @@ extension TransactionScreen {
 
         private var delegate = PagingCollectionViewController<TransactionUiModel>()
 
-        @LazyKoin private var tokenBalanceUseCase: TokenBalanceUseCase
+        @LazyKoin private var coinBalanceUseCase: CoinBalanceUseCase
         @LazyKoin private var coinTrendUseCase: CoinTrendUseCase
         @LazyKoin private var tnxPagerUseCase: TransactionPagerUseCase
 
@@ -37,23 +36,20 @@ extension TransactionScreen {
 
         @Published private(set) var transactionDashboard: TransactionDashboard = TransactionDashboard(balance: "0.0", marketPrices: [])
 
-        func loading(tokenId: String) async {
-            let balanceSequence = asyncSequence(for: tokenBalanceUseCase.invoke(tokenId: tokenId))
-            let trendsSequence = asyncSequence(for: coinTrendUseCase.invoke(tokenId: tokenId))
+        func loading(coinId: String) async {
+            let balanceSequence = asyncSequence(for: coinBalanceUseCase.invoke(coinId: coinId))
+            let trendsSequence = asyncSequence(for: coinTrendUseCase.invoke(coinId: coinId))
             do {
-                try await combineLatest(balanceSequence, trendsSequence).collect { balance, trends in
-                    print("====== \(balance), trends: \(trends)")
-                    self.transactionDashboard = TransactionDashboard(balance: balance, marketPrices: trends.enumerated().map({ (index, trend) in
-                        MarketPrice(index: index, price: Float(trend) ?? 0.0)
-                    }))
+                try await balanceSequence.collect { balance in
+                    self.transactionDashboard = TransactionDashboard(balance: balance.balance, marketPrices: [])
                 }
             } catch {
                 print(error)
             }
         }
 
-        func initPaging(tokenId: String) async {
-            let transactionStream = tnxPagerUseCase.invoke(tokenId: tokenId)
+        func initPaging(coinId: String) async {
+            let transactionStream = tnxPagerUseCase.invoke(coinId: coinId)
             try? await asyncSequence(for: transactionStream).collect { pagingData in
                 print(pagingData.description)
                 try? await delegate.submitData(pagingData: pagingData)

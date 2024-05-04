@@ -31,21 +31,21 @@ struct HomeScreen: View {
 
 @ViewBuilder
 private func TokenListView(
-    dashboard: DashboardInformation
+    dashboard: AllAssetDashboardInformation
 ) -> some View {
     NavigationStack {
         List {
             Section(
                 header: Text("\(dashboard.fiatBalance) \(dashboard.fiatSymbol)"),
                 content: {
-                    ForEach(dashboard.tokens,id: \.self.token.id) { token in
+                    ForEach(dashboard.assetBalances, id: \.id) { assetBalance in
                         ZStack {
-                            TokenItemView(extraToken: token)
+                            CoinItemView(assetBalance: assetBalance)
                             NavigationLink(destination: {
-                                TransactionScreen(tokenId: token.token.id)
-                            }) {
+                                TransactionScreen(coinId: assetBalance.id)
+                            }, label: {
                                 EmptyView()
-                            }.opacity(0.0)
+                            }).opacity(0.0)
                         }.listRowBackground(Color.clear)
                     }
                 }
@@ -59,5 +59,5 @@ private func TokenListView(
 }
 
 #Preview {
-    TokenListView(dashboard: DashboardInformation(fiatSymbol: "USD", fiatBalance: "8.88", tokens: []))
+    TokenListView(dashboard: AllAssetDashboardInformation(fiatSymbol: "USD", fiatBalance: "8.88", assetBalances: []))
 }

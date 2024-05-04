@@ -12,5 +12,5 @@ import shared
 enum HomeUiState {
     case Fetching
     case GuestUiState(String)
-    case WalletUiState(DashboardInformation)
+    case WalletUiState(AllAssetDashboardInformation)
 }
