@@ -35,6 +35,9 @@ kotlin {
 
 android {
     namespace = "com.easy.wallet.database"
+    defaultConfig {
+        consumerProguardFile("consumer-rules.pro")
+    }
 }
 
 sqldelight {
