@@ -25,15 +25,7 @@ class GetAssetCoinInfoUseCase internal constructor(
             val hdWallet = HDWallet(wallet.mnemonic, wallet.passphrase)
             val address = getAddress(hdWallet, coin.platform.id)
             emit(
-                AssetCoin(
-                    id = coin.id,
-                    symbol = coin.symbol,
-                    name = coin.name,
-                    logoURI = coin.logoURI,
-                    contract = coin.contract,
-                    platform = coin.platform,
-                    address = address
-                )
+                AssetCoin.copyFromBasicCoin(coin, address)
             )
         }
     }

@@ -26,16 +26,7 @@ class AllAssetDashboardUseCase internal constructor(
             val coins = coinRepository.findAllCoin()
             val emptyBalances = coins.map { coin ->
                 val address = hdWallet.getAddressByPlatform(coin.platform.id)
-                AssetBalance(
-                    id = coin.id,
-                    symbol = coin.symbol,
-                    name = coin.name,
-                    logoURI = coin.logoURI,
-                    contract = coin.contract,
-                    platform = coin.platform,
-                    address = address,
-                    balance = "0.00"
-                )
+                AssetBalance.copyFromBasicCoin(coin, address, "0.00")
             }
             send(
                 AllAssetDashboardInformation(
@@ -56,16 +47,7 @@ class AllAssetDashboardUseCase internal constructor(
                             }
                             "0.00"
                         }
-                        AssetBalance(
-                            id = coin.id,
-                            symbol = coin.symbol,
-                            name = coin.name,
-                            logoURI = coin.logoURI,
-                            contract = coin.contract,
-                            platform = coin.platform,
-                            address = coin.address,
-                            balance = balance
-                        )
+                        coin.copy(balance = balance)
                     }
                 }
             }.awaitAll()

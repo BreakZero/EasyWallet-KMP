@@ -6,6 +6,5 @@ import kotlin.native.ObjCName
 data class AssetNetwork(
     val networkName: String,
     val rpcUrl: String,
-    val decimalPlace: Int,
     val explorerUrl: String?
 )

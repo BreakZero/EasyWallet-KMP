@@ -1,4 +1,5 @@
 import kotlin.Boolean;
+import kotlin.Int;
 
 CREATE TABLE IF NOT EXISTS AssetPlatform(
     id TEXT PRIMARY KEY,
@@ -15,6 +16,7 @@ CREATE TABLE IF NOT EXISTS CoinEntity(
     name TEXT NOT NULL,
     logo_uri TEXT NOT NULL,
     contract TEXT,
+    decimal_place INTEGER AS Int NOT NULL,
     is_active INTEGER AS Boolean,
     FOREIGN KEY(platform_id) REFERENCES AssetPlatform(id),
     PRIMARY KEY(id, platform_id)

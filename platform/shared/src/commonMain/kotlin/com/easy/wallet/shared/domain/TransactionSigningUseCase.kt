@@ -38,9 +38,8 @@ class TransactionSigningUseCase internal constructor(
                 privateKey = privateKey,
                 contractAddress = assetCoin.contract,
                 toAddress = toAddress,
-                amount = amount.toBigDecimal().moveDecimalPoint(
-                    assetCoin.platform.network?.decimalPlace ?: 18
-                ).toBigInteger()
+                amount = amount.toBigDecimal().moveDecimalPoint(assetCoin.decimalPlace)
+                    .toBigInteger()
                     .toString(16),
                 fee = fee
             )

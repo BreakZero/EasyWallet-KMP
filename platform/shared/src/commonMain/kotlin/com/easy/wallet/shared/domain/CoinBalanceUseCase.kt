@@ -18,19 +18,10 @@ class CoinBalanceUseCase internal constructor(
             val balance = exactChainRepository.loadBalance(assetCoin.address, assetCoin.contract)
             // format to display Model
             val balanceString = balance.toBigDecimal(
-                exponentModifier = -(assetCoin.platform.network?.decimalPlace ?: 18).toLong()
+                exponentModifier = (-assetCoin.decimalPlace).toLong()
             ).roundToDigitPositionAfterDecimalPoint(8, RoundingMode.ROUND_HALF_CEILING)
                 .toPlainString()
-            AssetBalance(
-                id = assetCoin.id,
-                symbol = assetCoin.symbol,
-                name = assetCoin.name,
-                logoURI = assetCoin.logoURI,
-                contract = assetCoin.contract,
-                platform = assetCoin.platform,
-                address = assetCoin.address,
-                balance = balanceString
-            )
+            AssetBalance.copyFromAssetCoin(assetCoin, balanceString)
         }
     }
 }

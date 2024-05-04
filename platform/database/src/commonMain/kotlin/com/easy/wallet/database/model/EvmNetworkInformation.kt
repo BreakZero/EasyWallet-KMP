@@ -10,7 +10,6 @@ private val JSON = Json
 internal data class EvmNetworkInformation(
     val networkName: String,
     val rpcUrl: String,
-    val decimalPlace: Int,
     val explorerUrl: String?
 ) {
     companion object {
@@ -33,7 +32,6 @@ internal fun EvmNetworkInformation.asPublish(): AssetNetwork {
     return AssetNetwork(
         networkName = networkName,
         rpcUrl = rpcUrl,
-        decimalPlace = decimalPlace,
         explorerUrl = explorerUrl
     )
 }

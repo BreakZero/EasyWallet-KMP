@@ -21,9 +21,8 @@ class TransactionPlanUseCase internal constructor(
                 account = assetCoin.address,
                 contractAddress = assetCoin.contract,
                 toAddress = toAddress,
-                amount = amount.toBigDecimal().moveDecimalPoint(
-                    assetCoin.platform.network?.decimalPlace ?: 18
-                ).toBigInteger()
+                amount = amount.toBigDecimal().moveDecimalPoint(assetCoin.decimalPlace)
+                    .toBigInteger()
                     .toString(16)
             )
         }

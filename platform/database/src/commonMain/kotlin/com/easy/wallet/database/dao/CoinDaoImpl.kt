@@ -33,6 +33,7 @@ internal class CoinDaoImpl(
                 id = it.id,
                 symbol = it.symbol,
                 name = it.name,
+                decimalPlace = it.decimal_place,
                 logoURI = it.logo_uri,
                 contract = it.contract,
                 platform = AssetPlatform(
@@ -65,6 +66,7 @@ private fun FindAllCoins.asPublish(): BasicCoin {
     return BasicCoin(
         id = id,
         symbol = symbol,
+        decimalPlace = decimal_place,
         name = name,
         logoURI = logo_uri,
         contract = contract,
@@ -81,6 +83,7 @@ private fun FindAllCoinsInPlatform.asPublish(): BasicCoin {
     return BasicCoin(
         id = id,
         symbol = symbol,
+        decimalPlace = decimal_place,
         name = name,
         logoURI = logo_uri,
         contract = contract,
