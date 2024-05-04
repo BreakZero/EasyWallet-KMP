@@ -1,17 +1,14 @@
-package com.easy.wallet.shared.data.repository
+package com.easy.wallet.shared.data.repository.chain
 
-import com.easy.wallet.model.TokenBasicResult
-import com.easy.wallet.shared.model.Balance
+import com.easy.wallet.model.asset.AssetCoin
 import com.easy.wallet.shared.model.fees.FeeModel
 import com.easy.wallet.shared.model.transaction.TransactionUiModel
-import kotlinx.coroutines.flow.Flow
 
-interface TokenRepository {
-
+interface OnChainRepository {
     suspend fun loadBalance(account: String, contract: String?): String
 
     suspend fun loadTransactions(
-        token: TokenBasicResult,
+        coin: AssetCoin,
         page: Int,
         offset: Int,
     ): List<TransactionUiModel>

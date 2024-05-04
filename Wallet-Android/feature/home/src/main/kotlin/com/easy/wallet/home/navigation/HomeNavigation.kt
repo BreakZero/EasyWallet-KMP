@@ -11,7 +11,7 @@ import androidx.navigation.navArgument
 import androidx.navigation.navigation
 import com.easy.wallet.home.HomeRoute
 import com.easy.wallet.home.transactions.TransactionsRoute
-import com.easy.wallet.model.TokenInformation
+import com.easy.wallet.model.asset.CoinModel
 import java.net.URLDecoder
 import java.net.URLEncoder
 import kotlin.text.Charsets.UTF_8
@@ -26,19 +26,19 @@ fun NavController.selectedHomeTab(navOptions: NavOptions? = null) {
 }
 
 @VisibleForTesting
-internal const val TOKEN_ID_ARG = "tokenId"
+internal const val COIN_ID_ARG = "tokenId"
 
-internal class TokenArgs(val tokenId: String) {
+internal class CoinArgs(val tokenId: String) {
     constructor(savedStateHandle: SavedStateHandle) : this(
         URLDecoder.decode(
-            savedStateHandle[TOKEN_ID_ARG],
+            savedStateHandle[COIN_ID_ARG],
             UTF_8.name()
         )
     )
 }
 
-fun NavController.toTransactionList(tokenId: String, navOptions: NavOptions? = null) {
-    val encodeTokenId = URLEncoder.encode(tokenId, UTF_8.name())
+fun NavController.toTransactionList(coinId: String, navOptions: NavOptions? = null) {
+    val encodeTokenId = URLEncoder.encode(coinId, UTF_8.name())
     this.navigate("$transactionListRoute/$encodeTokenId", navOptions)
 }
 
@@ -46,7 +46,7 @@ fun NavGraphBuilder.attachHomeGraph(
     onCreateWallet: () -> Unit,
     onRestoreWallet: () -> Unit,
     navigateToSettings: () -> Unit,
-    onTokenClick: (TokenInformation) -> Unit,
+    onCoinClicked: (CoinModel) -> Unit,
     onStartSend: (String) -> Unit,
     navigateUp: () -> Unit,
     showSnackbar: (String) -> Unit,
@@ -57,14 +57,14 @@ fun NavGraphBuilder.attachHomeGraph(
             HomeRoute(
                 onCreateWallet = onCreateWallet,
                 onRestoreWallet = onRestoreWallet,
-                onTokenClick = onTokenClick,
+                onTokenClick = onCoinClicked,
                 navigateToSettings = navigateToSettings,
             )
         }
         composable(
-            route = "$transactionListRoute/{$TOKEN_ID_ARG}",
+            route = "$transactionListRoute/{$COIN_ID_ARG}",
             arguments = listOf(
-                navArgument(TOKEN_ID_ARG) { type = NavType.StringType }
+                navArgument(COIN_ID_ARG) { type = NavType.StringType }
             )
         ) {
             TransactionsRoute(

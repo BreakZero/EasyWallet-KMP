@@ -1,11 +1,11 @@
 package com.easy.wallet.token_manager.token.manager
 
-import com.easy.wallet.model.TokenInformation
+import com.easy.wallet.model.asset.BasicCoin
 
 sealed interface TokenManagerUiState {
     data object Loading : TokenManagerUiState
     data class Success(
-        val tokens: List<TokenInformation>
+        val coins: List<BasicCoin>
     ) : TokenManagerUiState
 }
 

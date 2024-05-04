@@ -1,16 +1,16 @@
-package com.easy.wallet.shared.data.repository
+package com.easy.wallet.shared.data.repository.chain
 
-import com.easy.wallet.model.TokenBasicResult
+import com.easy.wallet.model.asset.AssetCoin
 import com.easy.wallet.shared.model.fees.FeeModel
 import com.easy.wallet.shared.model.transaction.TransactionUiModel
 
-class BitcoinRepository : TokenRepository {
+class NoSupportedChainRepository internal constructor(): OnChainRepository {
     override suspend fun loadBalance(account: String, contract: String?): String {
-        return "0.00"
+        TODO("Not yet implemented")
     }
 
     override suspend fun loadTransactions(
-        token: TokenBasicResult,
+        coin: AssetCoin,
         page: Int,
         offset: Int
     ): List<TransactionUiModel> {
@@ -22,7 +22,7 @@ class BitcoinRepository : TokenRepository {
         toAddress: String,
         contractAddress: String?,
         amount: String
-    ): List<FeeModel>  {
+    ): List<FeeModel> {
         TODO("Not yet implemented")
     }
 
@@ -37,5 +37,4 @@ class BitcoinRepository : TokenRepository {
     ): String {
         TODO("Not yet implemented")
     }
-
 }

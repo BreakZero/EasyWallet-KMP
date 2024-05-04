@@ -21,7 +21,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -37,9 +36,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.easy.wallet.android.core.extensions.ObserveAsEvents
 import com.easy.wallet.design.component.DynamicAsyncImage
 import com.easy.wallet.design.component.LoadingWheel
-import com.easy.wallet.design.theme.ThemePreviews
-import com.easy.wallet.design.ui.EasyWalletTheme
-import com.easy.wallet.model.TokenInformation
+import com.easy.wallet.model.asset.BasicCoin
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -109,8 +106,8 @@ private fun TokenManagerScreen(
                 LazyColumn(
                     modifier = modifier
                 ) {
-                    items(uiState.tokens, key = { it.id }) {
-                        TokenInformationView(modifier = Modifier.fillMaxWidth(), token = it) {
+                    items(uiState.coins, key = { it.id }) {
+                        TokenInformationView(modifier = Modifier.fillMaxWidth(), coin = it) {
 
                         }
                     }
@@ -123,7 +120,7 @@ private fun TokenManagerScreen(
 @Composable
 private fun TokenInformationView(
     modifier: Modifier,
-    token: TokenInformation,
+    coin: BasicCoin,
     onCheckedChange: (Boolean) -> Unit
 ) {
     Row(
@@ -135,41 +132,15 @@ private fun TokenInformationView(
             modifier = Modifier
                 .size(48.dp)
                 .clip(CircleShape),
-            imageUrl = token.iconUri,
+            imageUrl = coin.logoURI,
             contentDescription = null
         )
         Spacer(modifier = Modifier.width(12.dp))
         Column(modifier = Modifier.wrapContentHeight(align = Alignment.CenterVertically)) {
-            Text(text = token.name)
-            Text(text = token.symbol)
+            Text(text = coin.name)
+            Text(text = coin.symbol)
         }
         Spacer(modifier = Modifier.weight(1.0f))
-        Switch(checked = token.isActive, onCheckedChange = onCheckedChange)
-    }
-}
-
-@ThemePreviews
-@Composable
-private fun TokenInformation_Preview() {
-    EasyWalletTheme {
-        Surface(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp)
-        ) {
-            TokenInformationView(
-                modifier = Modifier.fillMaxWidth(), token = TokenInformation(
-                    id = "1",
-                    name = "Ethereum",
-                    symbol = "ETH",
-                    chainName = "Ethereum(Main)",
-                    decimals = 18,
-                    contract = null,
-                    iconUri = "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/info/logo.png",
-                    chainIdHex = "",
-                    isActive = true
-                )
-            ) {}
-        }
+        Switch(checked = false, onCheckedChange = onCheckedChange)
     }
 }

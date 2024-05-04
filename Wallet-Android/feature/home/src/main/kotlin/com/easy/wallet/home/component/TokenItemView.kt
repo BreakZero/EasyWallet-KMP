@@ -14,23 +14,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import com.easy.wallet.design.component.DynamicAsyncImage
-import com.easy.wallet.design.component.EasyGradientBackground
-import com.easy.wallet.design.theme.ThemePreviews
-import com.easy.wallet.design.ui.EasyWalletTheme
 import com.easy.wallet.home.HomeEvent
-import com.easy.wallet.model.TokenInformation
-import com.easy.wallet.shared.model.Balance
-import com.easy.wallet.shared.model.TokenUiModel
+import com.easy.wallet.model.asset.AssetBalance
 
 @Composable
 internal fun TokenItemView(
     modifier: Modifier = Modifier,
-    extraToken: TokenUiModel,
+    assetBalance: AssetBalance,
     onEvent: (HomeEvent) -> Unit
 ) {
-    val token = extraToken.token
-    val balance = extraToken.balance
-    Card(modifier = modifier, onClick = { onEvent(HomeEvent.TokenClicked(token)) }) {
+    Card(modifier = modifier, onClick = { onEvent(HomeEvent.OnCoinClicked(assetBalance)) }) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -44,31 +37,12 @@ internal fun TokenItemView(
                 modifier = Modifier
                     .size(48.dp)
                     .clip(CircleShape),
-                imageUrl = token.iconUri,
-                contentDescription = token.name,
+                imageUrl = assetBalance.logoURI,
+                contentDescription = assetBalance.name,
             )
-            Text(modifier = Modifier.padding(start = 12.dp), text = token.name)
+            Text(modifier = Modifier.padding(start = 12.dp), text = assetBalance.name)
             Spacer(modifier = Modifier.weight(1.0f))
-            Text(text = "${balance.approximate()} ${token.symbol}")
-        }
-    }
-}
-
-
-@ThemePreviews
-@Composable
-private fun TokenItem_Preview() {
-    EasyWalletTheme {
-        EasyGradientBackground(modifier = Modifier.fillMaxWidth()) {
-            TokenItemView(
-                modifier = Modifier.fillMaxWidth(),
-                extraToken = TokenUiModel(
-                    token = TokenInformation("", "", "Ethereum", "ETY", 18, null, "", "", true),
-                    Balance.ZERO
-                )
-            ) {
-
-            }
+            Text(text = "${assetBalance.balance} ${assetBalance.symbol}")
         }
     }
 }

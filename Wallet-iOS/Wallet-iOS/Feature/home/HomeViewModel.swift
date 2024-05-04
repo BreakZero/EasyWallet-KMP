@@ -13,7 +13,7 @@ import KMPNativeCoroutinesAsync
 
 extension HomeScreen {
     @MainActor final class HomeViewModel: ObservableObject {
-        @LazyKoin private var dashboardUseCase: DashboardUseCase
+        @LazyKoin private var dashboardUseCase: AllAssetDashboardUseCase
         @LazyKoin private var multiWalletRepository: MultiWalletRepository
         
         private let moneyTrend: [Double] = [8,2,4,6,12,9,2]
@@ -23,7 +23,7 @@ extension HomeScreen {
         
         func fetching() {
             Task {
-                try? await asyncSequence(for: multiWalletRepository.forActivatedOne()).collect { wallet in
+                try? await asyncSequence(for: multiWalletRepository.findWalletStream()).collect { wallet in
                     print("wallet \(wallet?.mnemonic ?? "empty...")")
                     if wallet != nil {
                         homeUiState = HomeUiState.Fetching

@@ -1,9 +1,8 @@
-package com.easy.wallet.shared.data.repository
+package com.easy.wallet.shared.data.repository.chain
 
 import com.easy.wallet.core.commom.cleanHexPrefix
 import com.easy.wallet.core.commom.ifNullOrBlank
-import com.easy.wallet.model.TokenBasicResult
-import com.easy.wallet.network.source.blockchair.BlockchairApi
+import com.easy.wallet.model.asset.AssetCoin
 import com.easy.wallet.network.source.etherscan.EtherscanApi
 import com.easy.wallet.network.source.evm_rpc.JsonRpcApi
 import com.easy.wallet.shared.asHex
@@ -21,39 +20,37 @@ import com.trustwallet.core.ethereum.Transaction
 import com.trustwallet.core.ethereum.TransactionMode
 import com.trustwallet.core.sign
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO
 import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
 import okio.ByteString
 
-class EthereumRepository internal constructor(
-    private val blockchairApi: BlockchairApi,
+class EvmChainRepository internal constructor(
     private val etherscanApi: EtherscanApi,
     private val jsonRpcApi: JsonRpcApi
-) : TokenRepository {
+) : OnChainRepository {
     override suspend fun loadBalance(account: String, contract: String?): String {
         val balance = jsonRpcApi.getBalance(account, contract)
         return balance.cleanHexPrefix().toBigInteger(16).toString()
     }
 
     override suspend fun loadTransactions(
-        token: TokenBasicResult,
+        coin: AssetCoin,
         page: Int,
         offset: Int
     ): List<TransactionUiModel> {
-        val account = token.address
-        val isContract = !token.contract.isNullOrBlank()
+        val account = coin.address
+        val isContract = !coin.contract.isNullOrBlank()
         val basicTransactions = if (isContract) {
             etherscanApi.getContractInternalTransactions(
                 page,
                 offset,
                 account,
-                token.contract.orEmpty()
+                coin.contract.orEmpty()
             )
         } else {
             etherscanApi.getTransactions(page, offset, account)
         }
-        return basicTransactions.map { it.asTransactionUiModel(token, account) }
+        return basicTransactions.map { it.asTransactionUiModel(coin, -coin.decimalPlace, account) }
     }
 
     override suspend fun prepFees(
@@ -61,7 +58,7 @@ class EthereumRepository internal constructor(
         toAddress: String,
         contractAddress: String?,
         amount: String
-    ): List<FeeModel> = withContext(Dispatchers.IO) {
+    ): List<FeeModel> = withContext(Dispatchers.Default) {
         val estimateGasDeferred = async { estimateGas(account, toAddress, contractAddress, amount) }
         val feeDeferred = async { calculateFee() }
 
@@ -98,7 +95,7 @@ class EthereumRepository internal constructor(
         contractAddress: String?,
         amount: String,
         fee: FeeModel
-    ): String = withContext(Dispatchers.IO) {
+    ): String = withContext(Dispatchers.Default) {
         if (fee !is EthereumFee) throw IllegalArgumentException("fee model is incorrect")
         val isEthNormalTransfer = contractAddress.isNullOrBlank()
 
@@ -147,10 +144,8 @@ class EthereumRepository internal constructor(
         val data = if (contractAddress.isNullOrBlank()) {
             ""
         } else {
-            Transaction.ERC20Transfer(
-                to = toAddress,
-                amount = amount.asHex()
-            ).encode().decodeToString()
+            val amountUInt = (ZERO_UINT + amount.cleanHexPrefix()).takeLast(64)
+            "0xa9059cbb000000000000000000000000${toAddress.cleanHexPrefix()}$amountUInt"
         }
         val estimateGas = jsonRpcApi.estimateGas(
             from = account,
@@ -169,3 +164,5 @@ class EthereumRepository internal constructor(
         return jsonRpcApi.getTransactionCount(account)
     }
 }
+
+private const val ZERO_UINT = "0000000000000000000000000000000000000000000000000000000000000000"

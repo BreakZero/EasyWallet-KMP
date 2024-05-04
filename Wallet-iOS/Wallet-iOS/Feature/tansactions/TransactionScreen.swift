@@ -12,10 +12,10 @@ import Charts
 struct TransactionScreen: View {
     @ObservedObject private var viewModel = ViewModel()
     
-    private var tokenId: String
+    private var coinId: String
     
-    init(tokenId: String) {
-        self.tokenId = tokenId
+    init(coinId: String) {
+        self.coinId = coinId
     }
     
     var body: some View {
@@ -50,9 +50,9 @@ struct TransactionScreen: View {
                 }
             }
         }.task {
-            await viewModel.loading(tokenId: tokenId)
+            await viewModel.loading(coinId: coinId)
         }.task {
-            await viewModel.initPaging(tokenId: tokenId)
+            await viewModel.initPaging(coinId: coinId)
         }.task {
             await viewModel.subscribeDataChanged()
         }.task {

@@ -25,7 +25,7 @@ internal fun SendAmountRoute(
     val amountUiState by viewModel.amountUiState.collectAsStateWithLifecycle()
 
     EvmChainSendAmountScreen(
-        basicInfo = uiState as SendingBasicUiState.PrepBasicInfo,
+        assetBalance = (uiState as SendingBasicUiState.PrepBasicInfo).assetBalance,
         amountUiState = amountUiState,
         onEvent = viewModel::handleEvent
     )

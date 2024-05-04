@@ -45,7 +45,7 @@ fun WalletNavHost(
             onCreateWallet = navController::toCreateWallet,
             onRestoreWallet = navController::toImportWallet,
             navigateToSettings = navController::toSettings,
-            onTokenClick = {
+            onCoinClicked = {
                 navController.toTransactionList(it.id)
             },
             onStartSend = { navController.startSendFlow(it) },

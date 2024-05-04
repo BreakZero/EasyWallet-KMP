@@ -18,16 +18,16 @@ fun NavController.navigateToSupportedChains(navOptions: NavOptions? = null) {
     navigate(viewSupportedChainsRoute, navOptions)
 }
 
-fun NavController.navigateToChainDetail(chainId: Long, navOptions: NavOptions? = null) {
-    navigate("${viewChainDetailRoute}?chainId=$chainId", navOptions)
+fun NavController.navigateToChainDetail(platformId: String?, navOptions: NavOptions? = null) {
+    navigate("${viewChainDetailRoute}?platformId=$platformId", navOptions)
 }
 
-fun NavController.navigateChainEditor(chainId: Long, navOptions: NavOptions? = null) {
-    navigate("${chainEditorRouter}?chainId=$chainId", navOptions)
+fun NavController.navigateChainEditor(platformId: Long, navOptions: NavOptions? = null) {
+    navigate("${chainEditorRouter}?platformId=$platformId", navOptions)
 }
 
 fun NavGraphBuilder.attachChainManager(
-    navigateToDetail: (Long) -> Unit,
+    navigateToDetail: (String?) -> Unit,
     navigateUp: () -> Unit
 ) {
     composable(viewSupportedChainsRoute) {
@@ -38,20 +38,22 @@ fun NavGraphBuilder.attachChainManager(
     }
 
     composable(
-        route = "${viewChainDetailRoute}?chainId={chainId}",
-        arguments = listOf(navArgument("chainId") {
-            type = NavType.LongType
-            defaultValue = -1L
+        route = "${viewChainDetailRoute}?platformId={platformId}",
+        arguments = listOf(navArgument("platformId") {
+            type = NavType.StringType
+            nullable = true
+            defaultValue = null
         })
     ) {
         ChainDetailRoute(navigateUp = navigateUp)
     }
 
     composable(
-        route = "${chainEditorRouter}?chainId={chainId}",
-        arguments = listOf(navArgument("chainId") {
-            type = NavType.LongType
-            defaultValue = -1L
+        route = "${chainEditorRouter}?platformId={platformId}",
+        arguments = listOf(navArgument("platformId") {
+            type = NavType.StringType
+            nullable = true
+            defaultValue = null
         })
     ) {
         ChainEditorRoute(

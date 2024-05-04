@@ -33,7 +33,7 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 internal fun ChainManagerRoute(
-    navigateToDetail: (Long) -> Unit,
+    navigateToDetail: (String?) -> Unit,
     navigateUp: () -> Unit
 ) {
     val viewModel: ChainManagerViewModel = koinViewModel()
@@ -44,7 +44,7 @@ internal fun ChainManagerRoute(
             }
 
             is ChainManagerEvent.ClickAdd -> {
-                navigateToDetail(-1L)
+                navigateToDetail(null)
             }
 
             else -> Unit
@@ -92,7 +92,7 @@ private fun ChainManagerScreen(
             }
 
             is ChainUiState.Success -> {
-                if (uiState.chains.isEmpty()) {
+                if (uiState.platforms.isEmpty()) {
                     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                         Button(onClick = { onEvent(ChainManagerEvent.InitialDefaultData) }) {
                             Text(text = "Initial Default Supported Chains")
@@ -103,7 +103,7 @@ private fun ChainManagerScreen(
                         modifier = modifier,
                         verticalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
-                        items(uiState.chains, key = { it.id }) {
+                        items(uiState.platforms, key = { it.id }) {
                             Card(
                                 modifier = Modifier
                                     .fillMaxWidth()
@@ -115,11 +115,11 @@ private fun ChainManagerScreen(
                                         .padding(vertical = 8.dp, horizontal = 12.dp)
                                 ) {
                                     Text(
-                                        text = it.name,
+                                        text = it.shortName,
                                         style = MaterialTheme.typography.titleLarge
                                     )
-                                    it.explorer?.let { explorer ->
-                                        Text(text = explorer)
+                                    it.network?.explorerUrl?.let { explorerUrl ->
+                                        Text(text = explorerUrl)
                                     }
                                 }
                             }

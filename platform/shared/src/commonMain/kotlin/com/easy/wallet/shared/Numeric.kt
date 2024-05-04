@@ -15,6 +15,6 @@ internal fun String.asHex(): ByteString {
 @OptIn(ExperimentalStdlibApi::class)
 internal fun String.toHexByteArray(): ByteArray {
     val cleanInput = if (containsHexPrefix()) this.substring(2) else this
-    return cleanInput.hexToByteArray()
+    return cleanInput.let { if (it.length % 2 == 1) "0$it" else it }.hexToByteArray()
 }
 

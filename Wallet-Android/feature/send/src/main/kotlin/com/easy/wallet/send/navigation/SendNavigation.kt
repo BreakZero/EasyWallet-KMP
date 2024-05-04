@@ -31,12 +31,12 @@ internal const val sendOverviewRoute = "send_overview_route"
 internal const val sendPendingRoute = "send_pending_route"
 
 @VisibleForTesting
-internal const val TOKEN_ID_ARG = "tokenId"
+internal const val COIN_ID_ARG = "tokenId"
 
-internal class TokenArgs(val tokenId: String) {
+internal class CoinArgs(val coinId: String) {
     constructor(savedStateHandle: SavedStateHandle) : this(
         URLDecoder.decode(
-            savedStateHandle[TOKEN_ID_ARG],
+            savedStateHandle[COIN_ID_ARG],
             UTF_8.name()
         )
     )
@@ -52,10 +52,10 @@ fun NavGraphBuilder.attachSendGraph(
     onShowSnackbar: (String) -> Unit
 ) {
     navigation(
-        route = "$sendEnterRoute/{$TOKEN_ID_ARG}",
+        route = "$sendEnterRoute/{$COIN_ID_ARG}",
         startDestination = sendDestinationRoute,
         arguments = listOf(
-            navArgument(TOKEN_ID_ARG) { type = NavType.StringType }
+            navArgument(COIN_ID_ARG) { type = NavType.StringType }
         )
     ) {
         composable(sendDestinationRoute) {

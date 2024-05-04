@@ -31,15 +31,14 @@ import androidx.compose.ui.unit.dp
 import com.easy.wallet.design.component.EasyGradientBackground
 import com.easy.wallet.design.theme.ThemePreviews
 import com.easy.wallet.design.ui.EasyWalletTheme
-import com.easy.wallet.model.TokenBasicResult
+import com.easy.wallet.model.asset.AssetBalance
 import com.easy.wallet.send.AmountUiState
 import com.easy.wallet.send.SendUiEvent
-import com.easy.wallet.send.SendingBasicUiState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun EvmChainSendAmountScreen(
-    basicInfo: SendingBasicUiState.PrepBasicInfo,
+    assetBalance: AssetBalance,
     amountUiState: AmountUiState,
     onEvent: (SendUiEvent) -> Unit
 ) {
@@ -83,7 +82,7 @@ internal fun EvmChainSendAmountScreen(
                 contentAlignment = Alignment.Center
             ) {
                 Text(
-                    text = "${amountUiState.enterAmount} ${basicInfo.tokenInfo.symbol}",
+                    text = "${amountUiState.enterAmount} ${assetBalance.symbol}",
                     color = color,
                     style = MaterialTheme.typography.displaySmall
                 )
@@ -103,7 +102,7 @@ internal fun EvmChainSendAmountScreen(
                     Icon(imageVector = Icons.Default.Wallet, contentDescription = null)
                     Column(modifier = Modifier.weight(1.0f)) {
                         Text(text = "Balance")
-                        Text(text = "${basicInfo.balance} ${basicInfo.tokenInfo.symbol}")
+                        Text(text = "${assetBalance.balance} ${assetBalance.symbol}")
                     }
                     Button(onClick = { onEvent(SendUiEvent.MaxAmount) }) {
                         Text(text = "Max")
@@ -155,10 +154,7 @@ private fun EvmChainSendAmount_Preview() {
     EasyWalletTheme {
         EasyGradientBackground {
             EvmChainSendAmountScreen(
-                SendingBasicUiState.PrepBasicInfo(
-                    tokenInfo = TokenBasicResult("", "", 18, "", "", null, "Ethereum", "1"),
-                    balance = "8.00"
-                ),
+                assetBalance = AssetBalance.mockForPreview,
                 amountUiState = AmountUiState(""),
                 {}
             )

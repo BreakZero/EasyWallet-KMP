@@ -27,7 +27,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -46,7 +45,7 @@ internal fun TokenEditorRoute(
 ) {
     val viewModel: TokenEditorViewModel = koinViewModel()
     val editorUiState by viewModel.tokenEditorUiState.collectAsStateWithLifecycle()
-    val editorFields by viewModel.tokenEditorFields.collectAsStateWithLifecycle()
+    val editorFields = viewModel.tokenEditorFields
     TokenEditorScreen(
         editorUiState = editorUiState,
         editorFields = editorFields,
@@ -114,7 +113,10 @@ private fun TokenEditorScreen(
             ) {
                 // chain id selector
                 Text(text = "In Chain")
-                Text(style = MaterialTheme.typography.titleMedium, text = editorUiState.chainName)
+                Text(
+                    style = MaterialTheme.typography.titleMedium,
+                    text = editorUiState.selectedPlatformName
+                )
                 Spacer(modifier = Modifier.weight(1.0f))
                 Icon(imageVector = Icons.Default.KeyboardArrowRight, contentDescription = null)
             }
@@ -160,9 +162,9 @@ private fun TokenEditorScreen(
                         .fillMaxWidth()
                         .height(480.dp)
                 ) {
-                    items(editorUiState.localChains, key = { it.id }) {
+                    items(editorUiState.localPlatforms, key = { it.id }) {
                         Text(
-                            text = it.name,
+                            text = it.shortName,
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .clickable {

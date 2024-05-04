@@ -10,7 +10,6 @@
 		058557BB273AAA24004C7B11 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 058557BA273AAA24004C7B11 /* Assets.xcassets */; };
 		058557D9273AAEEB004C7B11 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 058557D8273AAEEB004C7B11 /* Preview Assets.xcassets */; };
 		2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2152FB032600AC8F00CF470E /* iOSApp.swift */; };
-		3C0CA2102BC51C6300E43D9F /* AsyncAlgorithms in Frameworks */ = {isa = PBXBuildFile; productRef = 3C0CA20F2BC51C6300E43D9F /* AsyncAlgorithms */; };
 		3C0CA2132BC51E6D00E43D9F /* KMPNativeCoroutinesAsync in Frameworks */ = {isa = PBXBuildFile; productRef = 3C0CA2122BC51E6D00E43D9F /* KMPNativeCoroutinesAsync */; };
 		3C0CA2152BC51E6D00E43D9F /* KMPNativeCoroutinesCore in Frameworks */ = {isa = PBXBuildFile; productRef = 3C0CA2142BC51E6D00E43D9F /* KMPNativeCoroutinesCore */; };
 		3C0CA2172BC68D3000E43D9F /* OnFirstAppearModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C0CA2162BC68D3000E43D9F /* OnFirstAppearModifier.swift */; };
@@ -18,7 +17,7 @@
 		3C75652A2A973CDC0032A653 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7565292A973CDC0032A653 /* HomeViewModel.swift */; };
 		3C75652E2A973FC90032A653 /* MarketplaceScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C75652D2A973FC90032A653 /* MarketplaceScreen.swift */; };
 		3C7565302A973FDF0032A653 /* DiscoverScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C75652F2A973FDF0032A653 /* DiscoverScreen.swift */; };
-		3CB6A4D42AB44EA500861D13 /* TokenItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CB6A4D32AB44EA500861D13 /* TokenItemView.swift */; };
+		3CB6A4D42AB44EA500861D13 /* CoinItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CB6A4D32AB44EA500861D13 /* CoinItemView.swift */; };
 		3CB939BD2AB58754008AF467 /* NewsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CB939BC2AB58754008AF467 /* NewsScreen.swift */; };
 		3CB939BF2AB58777008AF467 /* NewsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CB939BE2AB58777008AF467 /* NewsViewModel.swift */; };
 		3CB939C22AB5E54A008AF467 /* NewsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CB939C12AB5E54A008AF467 /* NewsView.swift */; };
@@ -49,7 +48,7 @@
 		3C7565292A973CDC0032A653 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		3C75652D2A973FC90032A653 /* MarketplaceScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketplaceScreen.swift; sourceTree = "<group>"; };
 		3C75652F2A973FDF0032A653 /* DiscoverScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverScreen.swift; sourceTree = "<group>"; };
-		3CB6A4D32AB44EA500861D13 /* TokenItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenItemView.swift; sourceTree = "<group>"; };
+		3CB6A4D32AB44EA500861D13 /* CoinItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinItemView.swift; sourceTree = "<group>"; };
 		3CB939BC2AB58754008AF467 /* NewsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsScreen.swift; sourceTree = "<group>"; };
 		3CB939BE2AB58777008AF467 /* NewsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsViewModel.swift; sourceTree = "<group>"; };
 		3CB939C12AB5E54A008AF467 /* NewsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsView.swift; sourceTree = "<group>"; };
@@ -77,7 +76,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				7E8C56C9F6F8FC69B807AD81 /* Pods_Wallet_iOS.framework in Frameworks */,
-				3C0CA2102BC51C6300E43D9F /* AsyncAlgorithms in Frameworks */,
 				3C0CA2152BC51E6D00E43D9F /* KMPNativeCoroutinesCore in Frameworks */,
 				3C0CA2132BC51E6D00E43D9F /* KMPNativeCoroutinesAsync in Frameworks */,
 			);
@@ -124,7 +122,7 @@
 		3CB6A4D22AB44E7F00861D13 /* component */ = {
 			isa = PBXGroup;
 			children = (
-				3CB6A4D32AB44EA500861D13 /* TokenItemView.swift */,
+				3CB6A4D32AB44EA500861D13 /* CoinItemView.swift */,
 				3CC5B6812AB981CC000B97CD /* GuestUserView.swift */,
 				3CC5B6872ABA8BF0000B97CD /* ActionSheetView.swift */,
 			);
@@ -301,7 +299,6 @@
 			);
 			name = "Wallet-iOS";
 			packageProductDependencies = (
-				3C0CA20F2BC51C6300E43D9F /* AsyncAlgorithms */,
 				3C0CA2122BC51E6D00E43D9F /* KMPNativeCoroutinesAsync */,
 				3C0CA2142BC51E6D00E43D9F /* KMPNativeCoroutinesCore */,
 			);
@@ -334,7 +331,6 @@
 			);
 			mainGroup = 7555FF72242A565900829871;
 			packageReferences = (
-				3C0CA20E2BC51C6300E43D9F /* XCRemoteSwiftPackageReference "swift-async-algorithms" */,
 				3C0CA2112BC51E6D00E43D9F /* XCRemoteSwiftPackageReference "KMP-NativeCoroutines" */,
 			);
 			productRefGroup = 7555FF7C242A565900829871 /* Products */;
@@ -414,7 +410,7 @@
 				3C75652E2A973FC90032A653 /* MarketplaceScreen.swift in Sources */,
 				3CC5B68F2ABABEF0000B97CD /* RestoreViewModel.swift in Sources */,
 				3CC5B6802AB89073000B97CD /* HomeUiState.swift in Sources */,
-				3CB6A4D42AB44EA500861D13 /* TokenItemView.swift in Sources */,
+				3CB6A4D42AB44EA500861D13 /* CoinItemView.swift in Sources */,
 				3CED15B22BB3A9BF006C6EC1 /* TransactionSummaryView.swift in Sources */,
 				3C0CA2172BC68D3000E43D9F /* OnFirstAppearModifier.swift in Sources */,
 				3CED15942BB0810A006C6EC1 /* Koin.swift in Sources */,
@@ -626,30 +622,17 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		3C0CA20E2BC51C6300E43D9F /* XCRemoteSwiftPackageReference "swift-async-algorithms" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/apple/swift-async-algorithms.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.0;
-			};
-		};
 		3C0CA2112BC51E6D00E43D9F /* XCRemoteSwiftPackageReference "KMP-NativeCoroutines" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/rickclephas/KMP-NativeCoroutines.git";
 			requirement = {
-				kind = upToNextMinorVersion;
-				minimumVersion = 1.0.0;
+				kind = exactVersion;
+				version = "1.0.0-ALPHA-28";
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		3C0CA20F2BC51C6300E43D9F /* AsyncAlgorithms */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 3C0CA20E2BC51C6300E43D9F /* XCRemoteSwiftPackageReference "swift-async-algorithms" */;
-			productName = AsyncAlgorithms;
-		};
 		3C0CA2122BC51E6D00E43D9F /* KMPNativeCoroutinesAsync */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 3C0CA2112BC51E6D00E43D9F /* XCRemoteSwiftPackageReference "KMP-NativeCoroutines" */;

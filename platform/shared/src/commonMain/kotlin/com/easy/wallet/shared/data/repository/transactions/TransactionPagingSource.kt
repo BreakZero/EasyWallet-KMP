@@ -2,15 +2,15 @@ package com.easy.wallet.shared.data.repository.transactions
 
 import app.cash.paging.PagingSource
 import app.cash.paging.PagingState
-import com.easy.wallet.model.TokenBasicResult
-import com.easy.wallet.shared.data.repository.TokenRepository
+import com.easy.wallet.model.asset.AssetCoin
+import com.easy.wallet.shared.data.repository.chain.OnChainRepository
 import com.easy.wallet.shared.model.transaction.TransactionUiModel
 
 internal const val TRANSACTION_PAGER_LIMIT = 20
 
 internal class TransactionPagingSource(
-    private val tokenInfo: TokenBasicResult,
-    private val tokenRepository: TokenRepository
+    private val assetCoin: AssetCoin,
+    private val onChainRepository: OnChainRepository
 ) : PagingSource<Int, TransactionUiModel>() {
     override fun getRefreshKey(state: PagingState<Int, TransactionUiModel>): Int? {
         return state.anchorPosition?.let { anchorPosition->
@@ -22,8 +22,8 @@ internal class TransactionPagingSource(
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, TransactionUiModel> {
         return try {
             val currPage = params.key ?: 1
-            val transactions = tokenRepository.loadTransactions(
-                tokenInfo,
+            val transactions = onChainRepository.loadTransactions(
+                assetCoin,
                 currPage,
                 TRANSACTION_PAGER_LIMIT
             )

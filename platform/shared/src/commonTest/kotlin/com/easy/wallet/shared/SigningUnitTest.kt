@@ -2,10 +2,16 @@ package com.easy.wallet.shared
 
 import com.trustwallet.core.AnySigner
 import com.trustwallet.core.CoinType
+import com.trustwallet.core.EthereumAbi
+import com.trustwallet.core.EthereumAbiFunction
 import com.trustwallet.core.PrivateKey
 import com.trustwallet.core.ethereum.SigningInput
 import com.trustwallet.core.ethereum.SigningOutput
 import com.trustwallet.core.ethereum.Transaction
+import com.trustwallet.core.ethereumabi.FunctionEncodingInput
+import com.trustwallet.core.ethereumabi.FunctionEncodingOutput
+import com.trustwallet.core.ethereumabi.NumberNParam
+import com.trustwallet.core.ethereumabi.Token
 import com.trustwallet.core.sign
 import okio.ByteString
 import kotlin.test.Test
@@ -30,6 +36,9 @@ class SigningUnitTest {
         )
         val output = AnySigner.sign(signingInput, CoinType.Ethereum, SigningOutput.ADAPTER)
         val encoded = "0x${output.encoded.hex()}"
-        assertEquals(encoded, "0xf86c098504a817c800825208943535353535353535353535353535353535353535880de0b6b3a76400008025a028ef61340bd939bc2195fe537567866003e1a15d3c71ff63e1590620aa636276a067cbe9d8997f761aecb703304b3800ccf555c9f3dc64214b297fb1966a3b6d83")
+        assertEquals(
+            encoded,
+            "0xf86c098504a817c800825208943535353535353535353535353535353535353535880de0b6b3a76400008025a028ef61340bd939bc2195fe537567866003e1a15d3c71ff63e1590620aa636276a067cbe9d8997f761aecb703304b3800ccf555c9f3dc64214b297fb1966a3b6d83"
+        )
     }
 }

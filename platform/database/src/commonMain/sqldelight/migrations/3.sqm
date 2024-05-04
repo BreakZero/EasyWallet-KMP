@@ -1,0 +1,30 @@
+import kotlin.Boolean;
+import kotlin.Int;
+
+CREATE TABLE IF NOT EXISTS AssetPlatform(
+    id TEXT PRIMARY KEY,
+    chain_identifier TEXT,
+    short_name TEXT NOT NULL,
+    is_testnet INTEGER AS Boolean,
+    evm_network_info TEXT
+);
+
+CREATE TABLE IF NOT EXISTS CoinEntity(
+    id TEXT NOT NULL,
+    platform_id TEXT NOT NULL,
+    symbol TEXT NOT NULL,
+    name TEXT NOT NULL,
+    logo_uri TEXT NOT NULL,
+    contract TEXT,
+    decimal_place INTEGER AS Int NOT NULL,
+    is_active INTEGER AS Boolean,
+    FOREIGN KEY(platform_id) REFERENCES AssetPlatform(id),
+    PRIMARY KEY(id, platform_id)
+);
+
+
+-- INSERT OR IGNORE INTO AssetPlatform(id, chain_identifier, short_name, is_testnet, evm_network_info)
+-- VALUES("ethereum", "1", "Ethereum", 0, NULL);
+
+-- INSERT OR IGNORE INTO CoinEntity(id, platform_id, symbol, name, logo_uri, contract, is_active)
+-- VALUES('','','','','',NULL ,1);

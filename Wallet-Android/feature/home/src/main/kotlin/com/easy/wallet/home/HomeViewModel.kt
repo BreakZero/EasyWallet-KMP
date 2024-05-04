@@ -3,7 +3,7 @@ package com.easy.wallet.home
 import androidx.lifecycle.viewModelScope
 import com.easy.wallet.android.core.BaseViewModel
 import com.easy.wallet.shared.data.multiwallet.MultiWalletRepository
-import com.easy.wallet.shared.domain.DashboardUseCase
+import com.easy.wallet.shared.domain.AllAssetDashboardUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.flatMapConcat
@@ -17,7 +17,7 @@ import kotlinx.coroutines.flow.update
 
 internal class HomeViewModel(
     private val multiWalletRepository: MultiWalletRepository,
-    private val dashboardUseCase: DashboardUseCase
+    private val assetDashboardUseCase: AllAssetDashboardUseCase
 ) : BaseViewModel<HomeEvent>() {
     private val _isRefreshing = MutableStateFlow(true)
 
@@ -31,9 +31,10 @@ internal class HomeViewModel(
     }
 
     private fun fetch() {
-        multiWalletRepository.forActivatedOne().flatMapConcat { wallet ->
+        multiWalletRepository.forActiveOneStream().flatMapConcat { wallet ->
             if (wallet != null) {
-                dashboardUseCase(wallet).onStart {
+
+                assetDashboardUseCase(wallet).onStart {
                     _isRefreshing.update { true }
                 }.onCompletion {
                     _isRefreshing.update { false }

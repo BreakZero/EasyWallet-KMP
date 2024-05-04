@@ -26,8 +26,8 @@ extension KoinApplication {
 extension KoinApplication {
     private static let keyPaths: [PartialKeyPath<Koin>] = [
         \.coinTrendUseCase,
-        \.dashboardUseCase,
-        \.tokenBalanceUseCase,
+        \.allAssetDashboard,
+        \.coinBalanceUseCase,
         \.transactionPagerUseCase,
         \.multiWalletRepository,
         \.newsPager
