@@ -1,33 +1,42 @@
 import kotlin.Boolean;
 
 CREATE TABLE IF NOT EXISTS CoinEntity(
-    id TEXT PRIMARY KEY,
+    id TEXT NOT NULL,
     platform_id TEXT NOT NULL,
     symbol TEXT NOT NULL,
     name TEXT NOT NULL,
     logo_uri TEXT NOT NULL,
     contract TEXT,
     is_active INTEGER AS Boolean,
-    FOREIGN KEY(platform_id) REFERENCES AssetPlatform(id)
+    FOREIGN KEY(platform_id) REFERENCES AssetPlatform(id),
+    PRIMARY KEY(id, platform_id)
 );
 
+insertFullObject:
+INSERT OR IGNORE INTO CoinEntity(id, platform_id, symbol, name, logo_uri, contract, is_active)
+VALUES ?;
+
 findAllCoinsInPlatform:
-SELECT CoinEntity.id, CoinEntity.symbol, CoinEntity.name, CoinEntity.logo_uri, CoinEntity.contract, AssetPlatform.short_name AS platform_name
+SELECT CoinEntity.id, CoinEntity.symbol, CoinEntity.name, CoinEntity.logo_uri, CoinEntity.contract,
+AssetPlatform.id, AssetPlatform.short_name, AssetPlatform.chain_identifier, AssetPlatform.evm_network_info
 FROM CoinEntity
 LEFT JOIN AssetPlatform ON CoinEntity.platform_id = AssetPlatform.id
 WHERE platform_id = :platformId;
 
 findAll:
 SELECT *
-FROM CoinEntity;
+FROM CoinEntity
+LEFT JOIN AssetPlatform ON CoinEntity.platform_id == AssetPlatform.id;
 
 findAllCoins:
-SELECT CoinEntity.id, CoinEntity.symbol, CoinEntity.name, CoinEntity.logo_uri, CoinEntity.contract, AssetPlatform.short_name AS platform_name
+SELECT CoinEntity.id, CoinEntity.symbol, CoinEntity.name, CoinEntity.logo_uri, CoinEntity.contract,
+AssetPlatform.id, AssetPlatform.short_name, AssetPlatform.chain_identifier, AssetPlatform.evm_network_info
 FROM CoinEntity
 LEFT JOIN AssetPlatform ON CoinEntity.platform_id = AssetPlatform.id;
 
 findCoinById:
-SELECT CoinEntity.id, CoinEntity.symbol, CoinEntity.name, CoinEntity.logo_uri, CoinEntity.contract, AssetPlatform.short_name AS platform_name
+SELECT CoinEntity.id, CoinEntity.symbol, CoinEntity.name, CoinEntity.logo_uri, CoinEntity.contract,
+AssetPlatform.id, AssetPlatform.short_name, AssetPlatform.chain_identifier, AssetPlatform.evm_network_info
 FROM CoinEntity
 LEFT JOIN AssetPlatform ON CoinEntity.platform_id = AssetPlatform.id
 WHERE CoinEntity.id = :id;

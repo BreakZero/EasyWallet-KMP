@@ -109,16 +109,16 @@ private fun initSupportedPlatform(driver: SqlDriver) {
     driver.execute(
         identifier = null,
         """
-            INSERT OR IGNORE INTO AssetPlatform(id, chain_identifier, short_name, evm_network_info)
-            VALUES('ethereum', '1', 'Ethereum', '{"networkName":"ethereum","rpcUrl":"https://mainnet.infura.io/","decimalPlace":18,"explorerUrl":null}');
+            INSERT OR IGNORE INTO AssetPlatform(id, chain_identifier, short_name, is_testnet, evm_network_info)
+            VALUES('ethereum', '1', 'Ethereum', 0, '{"networkName":"ethereum","rpcUrl":"https://mainnet.infura.io/","decimalPlace":18,"explorerUrl":null}');
         """.trimIndent(),
         parameters = 0
     )
     driver.execute(
         identifier = null,
         """
-            INSERT OR IGNORE INTO AssetPlatform(id, chain_identifier, short_name, evm_network_info)
-            VALUES('ethereum_sepolia', '11155111', 'Ethereum(Sepolia)', '{"networkName":"ethereum(sepolia)","rpcUrl":"https://sepolia.infura.io/","decimalPlace":18,"explorerUrl":null}');
+            INSERT OR IGNORE INTO AssetPlatform(id, chain_identifier, short_name, is_testnet, evm_network_info)
+            VALUES('ethereum_sepolia', '11155111', 'Ethereum(Sepolia)', 1, '{"networkName":"ethereum(sepolia)","rpcUrl":"https://sepolia.infura.io/","decimalPlace":18,"explorerUrl":null}');
         """.trimIndent(),
         parameters = 0
     )
@@ -154,6 +154,14 @@ private fun initDefaultCoins(driver: SqlDriver) {
         """
             INSERT OR IGNORE INTO CoinEntity(id, platform_id, symbol, name, logo_uri, contract, is_active)
             VALUES('compound-governance-token','ethereum','COMP','Compound','https://assets.coingecko.com/coins/images/10775/small/COMP.png', '0xc00e94cb662c3520282e6f5717214004a7f26888' ,1);
+        """.trimIndent(),
+        parameters = 0
+    )
+    driver.execute(
+        identifier = null,
+        """
+            INSERT OR IGNORE INTO CoinEntity(id, platform_id, symbol, name, logo_uri, contract, is_active)
+            VALUES('crypto-com-chain','ethereum','CRO','Cronos','https://assets.coingecko.com/coins/images/7310/small/cro_token_logo.png', '0xa0b73e1ff0b80914ab6fe0444e65848c4c34450b' ,1);
         """.trimIndent(),
         parameters = 0
     )

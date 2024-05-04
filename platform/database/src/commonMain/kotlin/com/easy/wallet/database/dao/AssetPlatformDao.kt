@@ -1,7 +1,11 @@
 package com.easy.wallet.database.dao
 
-interface AssetPlatformDao {
-    suspend fun findAll()
+import com.easy.wallet.model.asset.AssetPlatform
+import kotlinx.coroutines.flow.Flow
+import com.easy.wallet.database.AssetPlatform as Entity
 
-    suspend fun insert()
+interface AssetPlatformDao {
+    fun findAllStream(): Flow<List<AssetPlatform>>
+
+    suspend fun insert(vararg assetPlatforms: Entity)
 }
