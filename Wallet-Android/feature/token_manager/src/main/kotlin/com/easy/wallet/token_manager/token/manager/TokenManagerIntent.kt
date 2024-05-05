@@ -5,7 +5,7 @@ import com.easy.wallet.model.asset.BasicCoin
 sealed interface TokenManagerUiState {
     data object Loading : TokenManagerUiState
     data class Success(
-        val coins: List<BasicCoin>
+        val groups: Map<String, List<BasicCoin>>
     ) : TokenManagerUiState
 }
 

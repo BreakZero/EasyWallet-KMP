@@ -11,7 +11,7 @@ internal class TokenManagerViewModel(
     localAssetRepository: CoinRepository
 ) : BaseViewModel<TokenManagerEvent>() {
     val tokenManagerUiState = localAssetRepository.findAllCoinStream().map {
-        TokenManagerUiState.Success(coins = it)
+        TokenManagerUiState.Success(groups = it.groupBy { it.platform.shortName })
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(3_000), TokenManagerUiState.Loading)
 
     override fun handleEvent(event: TokenManagerEvent) {

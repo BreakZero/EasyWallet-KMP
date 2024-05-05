@@ -95,7 +95,7 @@ private fun initDefaultCoins(driver: SqlDriver) {
     )
     /** --------------------------- ------------------------------- **/
 
-    /*driver.execute(
+    driver.execute(
         identifier = null,
         """
             INSERT OR IGNORE INTO CoinEntity(id, platform_id, symbol, name, logo_uri, contract, decimal_place, is_active)
@@ -118,7 +118,7 @@ private fun initDefaultCoins(driver: SqlDriver) {
             VALUES('tether','ethereum_sepolia','USDT','Tether','https://assets.coingecko.com/coins/images/325/small/Tether.png', '0x36160274B0ED3673E67F2CA5923560a7a0c523aa',18 ,1);
         """.trimIndent(),
         parameters = 0
-    )*/
+    )
 }
 
 class SharedDatabase internal constructor(
