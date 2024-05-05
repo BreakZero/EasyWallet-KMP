@@ -41,7 +41,9 @@ internal fun UserHomeContent(
         }
     ) {
         CollapsingToolbarWithLazyList(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(bottom = 12.dp),
             listState = lazyListState,
             toolbarHeightRange = toolbarHeightRange,
             header = { headerModifier ->
@@ -59,7 +61,9 @@ internal fun UserHomeContent(
                     verticalArrangement = Arrangement.spacedBy(12.dp),
                     state = lazyListState
                 ) {
-                    items(walletUiState.dashboard.assetBalances, key = { "${it.id}-${it.platform.id}" }) {
+                    items(
+                        walletUiState.dashboard.assetBalances,
+                        key = { "${it.id}-${it.platform.id}" }) {
                         TokenItemView(
                             modifier = Modifier
                                 .fillMaxWidth()
