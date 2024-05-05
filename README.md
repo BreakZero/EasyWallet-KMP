@@ -1,10 +1,15 @@
 [![Android Release Build](https://github.com/BreakZero/EasyWallet-KMP/actions/workflows/android-build-release.yml/badge.svg)](https://github.com/BreakZero/EasyWallet-KMP/actions/workflows/android-build-release.yml)
 
 ## 关于EasyWallet - (WIP)
+EasyWallet是一个去中心化钱包，计划所有关于钱包方面的资产都将本地化，使用用户自定义RPC节点达到更高的可信度。
+当然RPC接口有一定的局限性，所以有些功能比如交易记录等就只能通过浏览器查看了。用户亦可自定义添加Token支持(仅支持EVM链)。
+接入[BlockChair](https://blockchair.com)讯息接口提供消息浏览，关注时文时事。[coingecko](https://www.coingecko.com/)查看行情，了解行情。
 
-EasyWallet初衷是一个为CryptoDeFiWallet重构准备而实验的一个项目，同时也是为了学习Android新技术栈的练习项目。目前使用Kotlin
-Multiplatform进行Android
-和iOS开发，共享逻辑代码。UI分别使用Jetpack Compose和SwiftUI实现。
+### 功能和进度
+目前支持助剂词导入和生成方式创建钱包，已支持Ethereum链资产使用
+在钱包方面，所有数据都是本地化实现。目前数据库方面设计已完成多链支持基本工作。更多在计划中
+虽说这是支持跨平台的，但在iOS平台上功能和UI都还比较简单粗糙
+不过令人满足的是整体应用架构实现得以在开发过程中关注于平台UI开发即可
 
 ### 结构和架构
 这是一个Kotlin Multiplatform Project, 支持iOS和Android端。结构上由3大部分组成，分别是 _**platform**_, _**Wallet-Android**_, _**Wallet-iOS**_
@@ -20,7 +25,7 @@ Multiplatform进行Android
 基本架构图如下：
 ![architecture.png](screens%2Farchitecture.png)
 
-### 配置
+### 需要配置
 
 由于项目中依赖[wallet-core](https://github.com/trustwallet/wallet-core)
 实现区块链相关功能处理，其使用`GitHub packages`进行包管理，所以想拉取依赖库，需要使用到`github token`。
