@@ -13,10 +13,11 @@ class TransactionPlanUseCase internal constructor(
     @NativeCoroutines
     operator fun invoke(
         coinId: String,
+        platformId: String,
         toAddress: String,
         amount: String,
     ): Flow<List<FeeModel>> {
-        return getAssetCoinInfoUseCase(coinId).map { assetCoin ->
+        return getAssetCoinInfoUseCase(coinId, platformId).map { assetCoin ->
             getChainRepositoryUseCase(assetCoin.platform).prepFees(
                 account = assetCoin.address,
                 contractAddress = assetCoin.contract,

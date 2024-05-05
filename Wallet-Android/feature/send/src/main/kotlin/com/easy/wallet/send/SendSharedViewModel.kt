@@ -41,19 +41,20 @@ internal class SendSharedViewModel(
 
     private val coinArgs: CoinArgs = CoinArgs(savedStateHandle)
     private val coinId = coinArgs.coinId
+    private val platformId = coinArgs.platformId
 
     val destination = TextFieldState("")
     private val _amount = TextFieldState("0")
 
     // prep information for sending coin
-    val basicInfoUiState = coinBalanceUseCase(coinId).map { assetBalance ->
+    val basicInfoUiState = coinBalanceUseCase(coinId, platformId).map { assetBalance ->
         SendingBasicUiState.PrepBasicInfo(assetBalance)
     }.stateIn(viewModelScope, SharingStarted.Lazily, SendingBasicUiState.Loading)
 
     // enter destination page ui state, check enter address is valid or not
     val destinationUiState = combine(
         destination.textAsFlow(),
-        getAssetCoinInfoUseCase(coinId)
+        getAssetCoinInfoUseCase(coinId, platformId)
     ) { address, assetCoin ->
         val coinType = when (assetCoin.platform.id) {
             AssetPlatformIdConstant.PLATFORM_ETHEREUM,
@@ -71,7 +72,7 @@ internal class SendSharedViewModel(
     // enter amount page ui state, check balance is enough or not
     val amountUiState = combine(
         _amount.textAsFlow(),
-        coinBalanceUseCase(coinId)
+        coinBalanceUseCase(coinId, platformId)
     ) { amount, assetBalance ->
         val insufficientBalance =
             assetBalance.balance.toDouble() < (amount.toString().toDoubleOrNull() ?: 0.0)
@@ -87,6 +88,7 @@ internal class SendSharedViewModel(
     private fun buildPlan(onCompletion: (Throwable?) -> Unit) {
         transactionPlanUseCase(
             coinId = coinId,
+            platformId = platformId,
             toAddress = destination.text.toString(),
             amount = _amount.text.toString(),
         ).onEach { fees ->
@@ -105,10 +107,11 @@ internal class SendSharedViewModel(
         }.launchIn(viewModelScope)
     }
 
-    private fun signAndPush(chainId: String, onCompletion: (Throwable?) -> Unit) {
+    private fun signAndPush(onCompletion: (Throwable?) -> Unit) {
         with(_overviewUiState.value) {
             transactionSigningUseCase(
                 coinId = coinId,
+                platformId = platformId,
                 toAddress = destination,
                 amount = _amount.text.toString(),
                 fee = selectedFee!!
@@ -161,7 +164,11 @@ internal class SendSharedViewModel(
             SendUiEvent.BuildTransactionPlan -> {
                 buildPlan {
                     if (it != null) {
-                        dispatchEvent(SendUiEvent.ShowErrorMessage(it.message ?: "unknown error catch"))
+                        dispatchEvent(
+                            SendUiEvent.ShowErrorMessage(
+                                it.message ?: "unknown error catch"
+                            )
+                        )
                     } else {
                         dispatchEvent(SendUiEvent.NavigateTo(sendOverviewRoute))
                     }
@@ -170,7 +177,7 @@ internal class SendSharedViewModel(
 
             is SendUiEvent.OnSigningTransaction -> {
                 // Sepolia as default
-                signAndPush(event.chainIdHex ?: "0xaa36a7") {
+                signAndPush {
                     if (it == null) {
                         dispatchEvent(SendUiEvent.NavigateTo(sendPendingRoute))
                     } else {

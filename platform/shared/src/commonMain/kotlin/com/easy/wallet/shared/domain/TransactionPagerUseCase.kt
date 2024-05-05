@@ -17,8 +17,8 @@ class TransactionPagerUseCase internal constructor(
     private val getChainRepositoryUseCase: GetChainRepositoryUseCase
 ) {
     @NativeCoroutines
-    operator fun invoke(coinId: String): Flow<PagingData<TransactionUiModel>> {
-        return getAssetCoinInfoUseCase(coinId).flatMapConcat { assetCoin ->
+    operator fun invoke(coinId: String, platformId: String): Flow<PagingData<TransactionUiModel>> {
+        return getAssetCoinInfoUseCase(coinId, platformId).flatMapConcat { assetCoin ->
             val chainRepository = getChainRepositoryUseCase(assetCoin.platform)
             Pager(
                 config = PagingConfig(pageSize = TRANSACTION_PAGER_LIMIT, prefetchDistance = 2),

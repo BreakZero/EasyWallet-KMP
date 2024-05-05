@@ -24,11 +24,12 @@ class TransactionSigningUseCase internal constructor(
     @NativeCoroutines
     operator fun invoke(
         coinId: String,
+        platformId: String,
         toAddress: String,
         amount: String,
         fee: FeeModel
     ): Flow<String> {
-        return getAssetCoinInfoUseCase(coinId).map { assetCoin ->
+        return getAssetCoinInfoUseCase(coinId, platformId).map { assetCoin ->
             // active wallet flow never stop, we need the first one when signing is OK
             val wallet = walletRepository.forActiveOne()
                 ?: throw NoSuchElementException("No wallet had been set yet.")

@@ -46,9 +46,9 @@ fun WalletNavHost(
             onRestoreWallet = navController::toImportWallet,
             navigateToSettings = navController::toSettings,
             onCoinClicked = {
-                navController.toTransactionList(it.id)
+                navController.toTransactionList(it.id, it.platform.id)
             },
-            onStartSend = { navController.startSendFlow(it) },
+            onStartSend = { navController.startSendFlow(it.id, it.platform.id) },
             showSnackbar = { scope.launch { onShowSnackbar(it, null) } },
             navigateUp = navController::navigateUp
         ) {
@@ -72,6 +72,8 @@ fun WalletNavHost(
             navigateToEditor = { navController.navigateToTokenEditor() },
             navigateUp = navController::navigateUp
         )
-        attachSendGraph(navController, onShowSnackbar = { scope.launch { onShowSnackbar(it, null) } })
+        attachSendGraph(
+            navController,
+            onShowSnackbar = { scope.launch { onShowSnackbar(it, null) } })
     }
 }

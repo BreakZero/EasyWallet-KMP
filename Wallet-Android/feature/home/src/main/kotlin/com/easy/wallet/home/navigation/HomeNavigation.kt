@@ -5,6 +5,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
+import androidx.navigation.NavOptionsBuilder
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
@@ -25,21 +26,37 @@ fun NavController.selectedHomeTab(navOptions: NavOptions? = null) {
     this.navigate(HOME_GRAPH_ROUTE_PATTERN, navOptions)
 }
 
-@VisibleForTesting
-internal const val COIN_ID_ARG = "tokenId"
+private val URL_CHARACTER_ENCODING = UTF_8.name()
 
-internal class CoinArgs(val tokenId: String) {
+@VisibleForTesting
+internal const val COIN_ID_ARG = "coinId"
+internal const val PLATFORM_ID_ARG = "platformId"
+
+internal class CoinArgs(val coinId: String, val platformId: String) {
     constructor(savedStateHandle: SavedStateHandle) : this(
         URLDecoder.decode(
             savedStateHandle[COIN_ID_ARG],
-            UTF_8.name()
+            URL_CHARACTER_ENCODING
+        ),
+        URLDecoder.decode(
+            savedStateHandle[PLATFORM_ID_ARG],
+            URL_CHARACTER_ENCODING
         )
     )
 }
 
-fun NavController.toTransactionList(coinId: String, navOptions: NavOptions? = null) {
-    val encodeTokenId = URLEncoder.encode(coinId, UTF_8.name())
-    this.navigate("$transactionListRoute/$encodeTokenId", navOptions)
+fun NavController.toTransactionList(
+    coinId: String,
+    platformId: String,
+    navOptions: NavOptionsBuilder.() -> Unit = {}
+) {
+    val encodedCoinId = URLEncoder.encode(coinId, URL_CHARACTER_ENCODING)
+    val encodedPlatformId = URLEncoder.encode(platformId, URL_CHARACTER_ENCODING)
+
+    val transactionListRoute = "$transactionListRoute/$encodedCoinId/$encodedPlatformId"
+    navigate(transactionListRoute) {
+        navOptions()
+    }
 }
 
 fun NavGraphBuilder.attachHomeGraph(
@@ -47,7 +64,7 @@ fun NavGraphBuilder.attachHomeGraph(
     onRestoreWallet: () -> Unit,
     navigateToSettings: () -> Unit,
     onCoinClicked: (CoinModel) -> Unit,
-    onStartSend: (String) -> Unit,
+    onStartSend: (CoinModel) -> Unit,
     navigateUp: () -> Unit,
     showSnackbar: (String) -> Unit,
     nestedGraphs: NavGraphBuilder.() -> Unit
@@ -62,9 +79,10 @@ fun NavGraphBuilder.attachHomeGraph(
             )
         }
         composable(
-            route = "$transactionListRoute/{$COIN_ID_ARG}",
+            route = "$transactionListRoute/{$COIN_ID_ARG}/{$PLATFORM_ID_ARG}",
             arguments = listOf(
-                navArgument(COIN_ID_ARG) { type = NavType.StringType }
+                navArgument(COIN_ID_ARG) { type = NavType.StringType },
+                navArgument(PLATFORM_ID_ARG) { type = NavType.StringType }
             )
         ) {
             TransactionsRoute(

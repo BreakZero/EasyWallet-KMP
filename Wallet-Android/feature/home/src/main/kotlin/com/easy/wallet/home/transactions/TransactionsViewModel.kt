@@ -22,11 +22,16 @@ internal class TransactionsViewModel(
     tnxPagerUseCase: TransactionPagerUseCase
 ) : BaseViewModel<TransactionEvent>() {
     private val coinArgs: CoinArgs = CoinArgs(savedStateHandle)
-    private val tokenId = coinArgs.tokenId
+    private val coinId = coinArgs.coinId
+    private val platformId = coinArgs.platformId
+
+    init {
+        println("===== $coinId, $platformId")
+    }
 
     val dashboardUiState = combine(
-        getBalanceUseCase(tokenId),
-        coinTrendUseCase(tokenId)
+        getBalanceUseCase(coinId, platformId),
+        coinTrendUseCase(coinId, platformId)
     ) { assetBalance, trends ->
         TransactionDashboardUiState.Success(
             assetBalance,
@@ -37,15 +42,12 @@ internal class TransactionsViewModel(
         emit(TransactionDashboardUiState.Error)
     }.stateIn(viewModelScope, SharingStarted.Lazily, TransactionDashboardUiState.Loading)
 
-    val transactionPager = tnxPagerUseCase(tokenId).distinctUntilChanged()
+    val transactionPager = tnxPagerUseCase(coinId, platformId).distinctUntilChanged()
         .catch { emit(PagingData.empty()) }
         .cachedIn(viewModelScope)
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), PagingData.empty())
 
     override fun handleEvent(event: TransactionEvent) {
-        when (event) {
-            is TransactionEvent.ClickSend -> dispatchEvent(TransactionEvent.ClickSend(tokenId))
-            else -> dispatchEvent(event)
-        }
+        dispatchEvent(event)
     }
 }

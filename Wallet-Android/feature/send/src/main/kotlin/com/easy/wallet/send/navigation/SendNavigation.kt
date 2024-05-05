@@ -9,6 +9,7 @@ import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
+import androidx.navigation.NavOptionsBuilder
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
@@ -30,21 +31,32 @@ internal const val sendDestinationRoute = "send_destination_route"
 internal const val sendOverviewRoute = "send_overview_route"
 internal const val sendPendingRoute = "send_pending_route"
 
-@VisibleForTesting
-internal const val COIN_ID_ARG = "tokenId"
+private val URL_CHARACTER_ENCODING = UTF_8.name()
 
-internal class CoinArgs(val coinId: String) {
+@VisibleForTesting
+internal const val COIN_ID_ARG = "coinId"
+internal const val PLATFORM_ID_ARG = "platformId"
+
+internal class CoinArgs(val coinId: String, val platformId: String) {
     constructor(savedStateHandle: SavedStateHandle) : this(
         URLDecoder.decode(
             savedStateHandle[COIN_ID_ARG],
-            UTF_8.name()
+            URL_CHARACTER_ENCODING
+        ),
+        URLDecoder.decode(
+            savedStateHandle[PLATFORM_ID_ARG],
+            URL_CHARACTER_ENCODING
         )
     )
 }
 
-fun NavController.startSendFlow(tokenId: String, navOptions: NavOptions? = null) {
-    val encodeTokenId = URLEncoder.encode(tokenId, UTF_8.name())
-    navigate("$sendEnterRoute/$encodeTokenId", navOptions)
+fun NavController.startSendFlow(coinId: String, platformId: String, navOptions: NavOptionsBuilder.() -> Unit = {}) {
+    val encodedCoinId = URLEncoder.encode(coinId, URL_CHARACTER_ENCODING)
+    val encodedPlatformId = URLEncoder.encode(platformId, URL_CHARACTER_ENCODING)
+
+    val enterRoute = "$sendEnterRoute/$encodedCoinId/$encodedPlatformId"
+
+    navigate(enterRoute) { navOptions() }
 }
 
 fun NavGraphBuilder.attachSendGraph(
@@ -52,10 +64,11 @@ fun NavGraphBuilder.attachSendGraph(
     onShowSnackbar: (String) -> Unit
 ) {
     navigation(
-        route = "$sendEnterRoute/{$COIN_ID_ARG}",
+        route = "$sendEnterRoute/{$COIN_ID_ARG}/{$PLATFORM_ID_ARG}",
         startDestination = sendDestinationRoute,
         arguments = listOf(
-            navArgument(COIN_ID_ARG) { type = NavType.StringType }
+            navArgument(COIN_ID_ARG) { type = NavType.StringType },
+            navArgument(PLATFORM_ID_ARG) { type = NavType.StringType }
         )
     ) {
         composable(sendDestinationRoute) {

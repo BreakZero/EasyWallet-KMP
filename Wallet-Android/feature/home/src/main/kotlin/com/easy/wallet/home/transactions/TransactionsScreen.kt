@@ -42,12 +42,13 @@ import com.easy.wallet.home.component.CollapsingToolbarWithLazyList
 import com.easy.wallet.home.receive.ReceiveContentSheet
 import com.easy.wallet.home.transactions.component.AmountHeaderView
 import com.easy.wallet.home.transactions.component.TransactionSummaryView
+import com.easy.wallet.model.asset.CoinModel
 import com.easy.wallet.shared.model.transaction.TransactionUiModel
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 internal fun TransactionsRoute(
-    startToSend: (String) -> Unit,
+    startToSend: (CoinModel) -> Unit,
     showSnackbar: (String) -> Unit,
     navigateUp: () -> Unit
 ) {
@@ -58,7 +59,7 @@ internal fun TransactionsRoute(
     ObserveAsEvents(flow = viewModel.navigationEvents) {
         when (it) {
             TransactionEvent.PopBack -> navigateUp()
-            is TransactionEvent.ClickSend -> startToSend(it.tokenId)
+            is TransactionEvent.ClickSend -> startToSend(it.coinModel)
             is TransactionEvent.ShowSnackbar -> showSnackbar(it.message)
             else -> Unit
         }
@@ -106,7 +107,7 @@ internal fun TransactionsScreen(
                 ) {
                     ElevatedButton(
                         modifier = Modifier.weight(1.0f),
-                        onClick = { onEvent(TransactionEvent.ClickSend("")) }
+                        onClick = { onEvent(TransactionEvent.ClickSend(dashboardUiState.assetBalance)) }
                     ) {
                         Text(text = "SEND")
                     }

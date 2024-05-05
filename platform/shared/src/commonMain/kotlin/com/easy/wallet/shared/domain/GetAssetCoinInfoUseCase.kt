@@ -15,11 +15,11 @@ class GetAssetCoinInfoUseCase internal constructor(
     private val coinRepository: CoinRepository
 ) {
     @NativeCoroutines
-    operator fun invoke(coinId: String): Flow<AssetCoin> {
+    operator fun invoke(coinId: String, platform: String): Flow<AssetCoin> {
         return flow {
             val wallet = walletRepository.findWallet()
                 ?: throw NoSuchElementException("No wallet had been set yet.")
-            val coin = coinRepository.findCoinById(coinId)
+            val coin = coinRepository.findUniqueCoin(coinId, platform)
                 ?: throw NoSuchElementException("No coin be found, id is: $coinId")
 
             val hdWallet = HDWallet(wallet.mnemonic, wallet.passphrase)
