@@ -59,6 +59,7 @@ class AllAssetDashboardUseCase internal constructor(
                     }
                 }
             }.awaitAll()
+
             send(
                 AllAssetDashboardInformation(
                     fiatBalance = "888.88",

@@ -106,7 +106,7 @@ private fun TokenManagerScreen(
                 LazyColumn(
                     modifier = modifier
                 ) {
-                    items(uiState.coins, key = { it.id }) {
+                    items(uiState.coins, key = { "${it.id}-${it.platform.id}" }) {
                         TokenInformationView(modifier = Modifier.fillMaxWidth(), coin = it) {
 
                         }
