@@ -10,10 +10,8 @@ import com.easy.wallet.onboard.di.onboardModule
 import com.easy.wallet.send.di.sendModule
 import com.easy.wallet.settings.di.settingsModule
 import com.easy.wallet.shared.di.initKoin
-import com.easy.wallet.shared.di.sharedModule
-import com.easy.wallet.token_manager.di.assetModule
+import com.easy.wallet.assetmanager.di.assetModule
 import org.koin.android.ext.koin.androidContext
-import org.koin.core.context.startKoin
 
 class WalletApplication : Application() {
     init {

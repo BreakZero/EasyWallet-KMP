@@ -20,27 +20,27 @@ VALUES ?;
 
 findAllCoinsInPlatform:
 SELECT CoinEntity.id, CoinEntity.symbol, CoinEntity.name, CoinEntity.logo_uri, CoinEntity.contract, CoinEntity.decimal_place,
-AssetPlatform.id, AssetPlatform.short_name, AssetPlatform.chain_identifier, AssetPlatform.evm_network_info
+AssetPlatform.id AS platform_id, AssetPlatform.short_name, AssetPlatform.chain_identifier, AssetPlatform.evm_network_info
 FROM CoinEntity
-LEFT JOIN AssetPlatform ON CoinEntity.platform_id = AssetPlatform.id
+INNER JOIN AssetPlatform ON CoinEntity.platform_id = AssetPlatform.id
 WHERE platform_id = :platformId;
 
 findAll:
 SELECT *
 FROM CoinEntity
-LEFT JOIN AssetPlatform ON CoinEntity.platform_id == AssetPlatform.id;
+INNER JOIN AssetPlatform ON CoinEntity.platform_id == AssetPlatform.id;
 
 findAllCoins:
 SELECT CoinEntity.id, CoinEntity.symbol, CoinEntity.name, CoinEntity.logo_uri, CoinEntity.contract,CoinEntity.decimal_place,
 AssetPlatform.id, AssetPlatform.short_name, AssetPlatform.chain_identifier, AssetPlatform.evm_network_info
 FROM CoinEntity
-LEFT JOIN AssetPlatform ON CoinEntity.platform_id = AssetPlatform.id;
+INNER JOIN AssetPlatform ON CoinEntity.platform_id = AssetPlatform.id;
 
 findCoinById:
 SELECT CoinEntity.id, CoinEntity.symbol, CoinEntity.name, CoinEntity.logo_uri, CoinEntity.contract,CoinEntity.decimal_place,
-AssetPlatform.id, AssetPlatform.short_name, AssetPlatform.chain_identifier, AssetPlatform.evm_network_info
+AssetPlatform.id AS platform_id, AssetPlatform.short_name, AssetPlatform.chain_identifier, AssetPlatform.evm_network_info
 FROM CoinEntity
-LEFT JOIN AssetPlatform ON CoinEntity.platform_id = AssetPlatform.id
+INNER JOIN AssetPlatform ON CoinEntity.platform_id = AssetPlatform.id
 WHERE CoinEntity.id = :id;
 
 deleteRows:

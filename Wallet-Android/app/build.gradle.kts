@@ -79,6 +79,6 @@ dependencies {
     implementation(project(":Wallet-Android:feature:marketplace"))
     implementation(project(":Wallet-Android:feature:discover"))
     implementation(project(":Wallet-Android:feature:settings"))
-    implementation(project(":Wallet-Android:feature:token_manager"))
+    implementation(project(":Wallet-Android:feature:asset_manager"))
     implementation(project(":Wallet-Android:feature:send"))
 }

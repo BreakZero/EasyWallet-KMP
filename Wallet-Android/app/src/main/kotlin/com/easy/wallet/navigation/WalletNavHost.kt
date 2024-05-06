@@ -18,12 +18,12 @@ import com.easy.wallet.send.navigation.attachSendGraph
 import com.easy.wallet.send.navigation.startSendFlow
 import com.easy.wallet.settings.navigation.attachSettingsModule
 import com.easy.wallet.settings.navigation.toSettings
-import com.easy.wallet.token_manager.chain.navigation.attachChainManager
-import com.easy.wallet.token_manager.chain.navigation.navigateToChainDetail
-import com.easy.wallet.token_manager.chain.navigation.navigateToSupportedChains
-import com.easy.wallet.token_manager.token.navigation.attachTokenManager
-import com.easy.wallet.token_manager.token.navigation.navigateToTokenEditor
-import com.easy.wallet.token_manager.token.navigation.navigateToTokenManager
+import com.easy.wallet.assetmanager.platform.navigation.attachChainManager
+import com.easy.wallet.assetmanager.platform.navigation.navigateToChainDetail
+import com.easy.wallet.assetmanager.platform.navigation.navigateToSupportedChains
+import com.easy.wallet.assetmanager.coin.navigation.attachTokenManager
+import com.easy.wallet.assetmanager.coin.navigation.navigateToTokenEditor
+import com.easy.wallet.assetmanager.coin.navigation.navigateToTokenManager
 import com.easy.wallet.ui.WalletAppState
 import kotlinx.coroutines.launch
 

@@ -1,7 +1,6 @@
 package com.easy.wallet.database.dao
 
 import com.easy.wallet.database.CoinEntity
-import com.easy.wallet.model.asset.AssetCoin
 import com.easy.wallet.model.asset.BasicCoin
 import kotlinx.coroutines.flow.Flow
 
@@ -15,4 +14,10 @@ interface CoinDao {
     fun findAllStream(): Flow<List<BasicCoin>>
 
     fun findAllByPlatformStream(platformId: String): Flow<List<BasicCoin>>
+
+    /** ----------- version 2 ----------------- */
+
+    fun allCoinStream(): Flow<List<BasicCoin>>
+    suspend fun findCoinsById(id: String): List<BasicCoin>
+    fun findCoinsByIdStream(id: String): Flow<List<BasicCoin>>
 }

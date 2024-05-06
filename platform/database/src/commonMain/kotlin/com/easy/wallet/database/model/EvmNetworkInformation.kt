@@ -24,7 +24,7 @@ internal data class EvmNetworkInformation(
     }
 }
 
-internal fun EvmNetworkInformation.decodeToString(): String {
+internal fun EvmNetworkInformation.encodeToString(): String {
     return JSON.encodeToString(EvmNetworkInformation.serializer(), this)
 }
 
