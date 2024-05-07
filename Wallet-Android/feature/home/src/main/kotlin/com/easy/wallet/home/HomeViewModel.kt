@@ -33,7 +33,6 @@ internal class HomeViewModel(
     private fun fetch() {
         multiWalletRepository.forActiveOneStream().flatMapConcat { wallet ->
             if (wallet != null) {
-
                 assetDashboardUseCase(wallet).onStart {
                     _isRefreshing.update { true }
                 }.onCompletion {

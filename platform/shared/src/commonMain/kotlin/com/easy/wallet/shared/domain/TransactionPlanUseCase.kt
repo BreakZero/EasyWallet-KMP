@@ -18,8 +18,7 @@ class TransactionPlanUseCase internal constructor(
     ): Flow<List<FeeModel>> {
         return getAssetCoinInfoUseCase(coinId).map { assetCoin ->
             getChainRepositoryUseCase(assetCoin.platform).prepFees(
-                account = assetCoin.address,
-                contractAddress = assetCoin.contract,
+                coin = assetCoin,
                 toAddress = toAddress,
                 amount = amount.toBigDecimal().moveDecimalPoint(assetCoin.decimalPlace)
                     .toBigInteger()

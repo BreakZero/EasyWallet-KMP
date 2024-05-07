@@ -3,7 +3,7 @@ package com.easy.wallet.shared.data.repository.transactions
 import app.cash.paging.PagingSource
 import app.cash.paging.PagingState
 import com.easy.wallet.model.asset.AssetCoin
-import com.easy.wallet.shared.data.repository.chain.OnChainRepository
+import com.easy.wallet.shared.data.repository.platform.OnChainRepository
 import com.easy.wallet.shared.model.transaction.TransactionUiModel
 
 internal const val TRANSACTION_PAGER_LIMIT = 20

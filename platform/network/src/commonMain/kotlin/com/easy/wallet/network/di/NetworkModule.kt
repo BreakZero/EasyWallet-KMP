@@ -152,12 +152,12 @@ val networkModule = module {
             }
         ) {
             defaultRequest {
-                url {
+ /*               url {
                     protocol = URLProtocol.HTTPS
                     host = "mainnet.infura.io"
 //                    host = "sepolia.infura.io"
                     path("v3/${BuildKonfig.INFURA_KEY}")
-                }
+                }*/
                 header("Content-Type", "application/json")
             }
         }

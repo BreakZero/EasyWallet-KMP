@@ -22,6 +22,10 @@ class LocalAssetRepository internal constructor(
         return coinDao.findCoinById(coinId)
     }
 
+    override suspend fun findCoinsById(coinId: String): List<BasicCoin> {
+        return coinDao.findCoinsById(coinId)
+    }
+
     override suspend fun insertPlatform(
         name: String,
         rpcUrl: String,

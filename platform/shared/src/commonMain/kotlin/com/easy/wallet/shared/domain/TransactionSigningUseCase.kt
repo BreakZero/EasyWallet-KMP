@@ -25,18 +25,8 @@ class TransactionSigningUseCase internal constructor(
         fee: FeeModel
     ): Flow<String> {
         return getAssetCoinInfoUseCase(coinId).map { assetCoin ->
-            // active wallet flow never stop, we need the first one when signing is OK
-            val wallet = walletRepository.forActiveOne()
-                ?: throw NoSuchElementException("No wallet had been set yet.")
-
-            val hdWallet = HDWallet(wallet.mnemonic, wallet.passphrase)
-            val privateKey = getPrivateKeyFromChain(hdWallet, assetCoin.platform)
             getChainRepositoryUseCase(assetCoin.platform).signAndBroadcast(
-                account = assetCoin.address,
-                // update chain id to hex string
-                chainId = assetCoin.platform.chainIdentifier ?: "0x01",
-                privateKey = privateKey,
-                contractAddress = assetCoin.contract,
+                coin = assetCoin,
                 toAddress = toAddress,
                 amount = amount.toBigDecimal().moveDecimalPoint(assetCoin.decimalPlace)
                     .toBigInteger()
@@ -44,16 +34,5 @@ class TransactionSigningUseCase internal constructor(
                 fee = fee
             )
         }
-    }
-
-    private fun getPrivateKeyFromChain(
-        hdWallet: HDWallet,
-        platform: AssetPlatform
-    ): ByteArray {
-        val coinType = when (platform.id) {
-            AssetPlatformIdConstant.PLATFORM_ETHEREUM, AssetPlatformIdConstant.PLATFORM_ETHEREUM_SEPOLIA -> CoinType.Ethereum
-            else -> throw NotImplementedError("The chain(${platform.shortName}) not supported yet.")
-        }
-        return hdWallet.getKeyForCoin(coinType).data
     }
 }

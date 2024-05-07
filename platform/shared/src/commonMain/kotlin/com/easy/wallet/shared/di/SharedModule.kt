@@ -6,9 +6,9 @@ import com.easy.wallet.shared.data.repository.MarketsRepository
 import com.easy.wallet.shared.data.repository.asset.CoinRepository
 import com.easy.wallet.shared.data.repository.asset.LocalAssetRepository
 import com.easy.wallet.shared.data.repository.asset.PlatformRepository
-import com.easy.wallet.shared.data.repository.chain.EvmChainRepository
-import com.easy.wallet.shared.data.repository.chain.NoSupportedChainRepository
-import com.easy.wallet.shared.data.repository.chain.OnChainRepository
+import com.easy.wallet.shared.data.repository.platform.EvmChainRepository
+import com.easy.wallet.shared.data.repository.platform.NoSupportedChainRepository
+import com.easy.wallet.shared.data.repository.platform.OnChainRepository
 import com.easy.wallet.shared.data.repository.news.NewsPager
 import com.easy.wallet.shared.data.repository.news.NewsRepository
 import com.easy.wallet.shared.domain.AllAssetDashboardUseCase

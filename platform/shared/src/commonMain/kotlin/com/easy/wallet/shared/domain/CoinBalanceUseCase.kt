@@ -15,7 +15,7 @@ class CoinBalanceUseCase internal constructor(
     operator fun invoke(coinId: String): Flow<AssetBalance> {
         return assetCoinInfoUseCase(coinId).map { assetCoin ->
             val exactChainRepository = getChainRepositoryUseCase(assetCoin.platform)
-            val balance = exactChainRepository.loadBalance(assetCoin.address, assetCoin.contract)
+            val balance = exactChainRepository.loadBalance(assetCoin.platform, assetCoin.address, assetCoin.contract)
             // format to display Model
             val balanceString = balance.toBigDecimal(
                 exponentModifier = (-assetCoin.decimalPlace).toLong()

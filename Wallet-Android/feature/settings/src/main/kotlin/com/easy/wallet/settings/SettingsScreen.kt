@@ -93,6 +93,7 @@ internal fun SettingsScreen(
             ExtendSettingsItem(
                 modifier = modifier,
                 title = "View Supported Chains",
+                subtitle = "Only EVM editable",
                 onClick = {
                     onEvent(SettingsEvent.ClickViewSupportedChains)
                 }

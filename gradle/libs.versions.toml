@@ -20,7 +20,7 @@ kotlinx-coroutine = "1.8.0"
 
 # For plugins
 org-jetbrains-kotlin = "1.9.23"
-android-gradle-plugin = "8.2.2"
+android-gradle-plugin = "8.4.0"
 
 # For testing
 junit = "4.13.2"
