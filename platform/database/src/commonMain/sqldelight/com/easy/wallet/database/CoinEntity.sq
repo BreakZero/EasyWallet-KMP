@@ -2,7 +2,7 @@ import kotlin.Boolean;
 import kotlin.Int;
 
 CREATE TABLE IF NOT EXISTS CoinEntity(
-    id TEXT NOT NULL,
+    id TEXT NOT NULL PRIMARY KEY,
     platform_id TEXT NOT NULL,
     symbol TEXT NOT NULL,
     name TEXT NOT NULL,
@@ -10,8 +10,7 @@ CREATE TABLE IF NOT EXISTS CoinEntity(
     contract TEXT,
     decimal_place INTEGER AS Int NOT NULL,
     is_active INTEGER AS Boolean,
-    FOREIGN KEY(platform_id) REFERENCES AssetPlatform(id),
-    PRIMARY KEY(id, platform_id)
+    FOREIGN KEY(platform_id) REFERENCES AssetPlatform(id)
 );
 
 insertFullObject:

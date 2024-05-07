@@ -32,20 +32,17 @@ class AllAssetDashboardUseCase internal constructor(
                 val address = hdWallet.getAddressByPlatform(coin.platform)
                 AssetBalance.copyFromBasicCoin(coin, address, "0.00")
             }
-            val distinctCoins = emptyBalances.distinctBy { it.id }
+
             send(
                 AllAssetDashboardInformation(
                     fiatBalance = "888.88",
                     fiatSymbol = "USD",
-                    assetBalances = distinctCoins
+                    assetBalances = emptyBalances
                 )
             )
-            val balanceMap = mutableMapOf<String, BigDecimal>()
-
-            // zip balance by coin id
-            emptyBalances.map { coin ->
+            val assetBalances = emptyBalances.map { coin ->
+                val chainRepository = getChainRepositoryUseCase(coin.platform)
                 coroutineScope {
-                    val chainRepository = getChainRepositoryUseCase(coin.platform)
                     async {
                         val balance = try {
                             chainRepository.loadBalance(
@@ -59,20 +56,16 @@ class AllAssetDashboardUseCase internal constructor(
                             }
                             BigDecimal.ZERO
                         }
-                        if (balanceMap.containsKey(coin.id)) {
-                            balanceMap[coin.id] = balanceMap[coin.id]!!.plus(balance)
-                        } else {
-                            balanceMap[coin.id] = balance
-                        }
+                        val displayBalance = balance.moveDecimalPoint(-coin.decimalPlace)
+                            .roundToDigitPositionAfterDecimalPoint(
+                                digitPosition = 8,
+                                roundingMode = RoundingMode.ROUND_HALF_CEILING
+                            )
+                            .toPlainString()
+                        coin.copy(balance = displayBalance)
                     }
                 }
             }.awaitAll()
-            val assetBalances = distinctCoins.map {
-                val balance = (balanceMap[it.id] ?: BigDecimal.ZERO)
-                    .moveDecimalPoint(-it.decimalPlace)
-                    .roundToDigitPositionAfterDecimalPoint(8, RoundingMode.ROUND_HALF_CEILING)
-                it.copy(balance = balance.toPlainString())
-            }
             send(
                 AllAssetDashboardInformation(
                     fiatBalance = "888.88",
@@ -83,6 +76,42 @@ class AllAssetDashboardUseCase internal constructor(
         }
     }
 }
+
+/** group version (maybe group by group id or name
+ val balanceMap = mutableMapOf<String, BigDecimal>()
+// zip balance by coin id
+emptyBalances.map { coin ->
+    coroutineScope {
+        val chainRepository = getChainRepositoryUseCase(coin.platform)
+        async {
+            val balance = try {
+                chainRepository.loadBalance(
+                    platform = coin.platform,
+                    coin.address,
+                    coin.contract
+                ).toBigDecimal()
+            } catch (e: Exception) {
+                Logger.w("AllAssetDashboardUseCase: ") {
+                    e.message ?: "unknown error"
+                }
+                BigDecimal.ZERO
+            }
+            if (balanceMap.containsKey(coin.name)) {
+                balanceMap[coin.name] = balanceMap[coin.id]!!.plus(balance)
+            } else {
+                balanceMap[coin.name] = balance
+            }
+        }
+    }
+}.awaitAll()
+val distinctCoins = emptyBalances.distinctBy { it.name }
+val assetBalances = distinctCoins.map {
+    val balance = (balanceMap[it.name] ?: BigDecimal.ZERO)
+        .moveDecimalPoint(-it.decimalPlace)
+        .roundToDigitPositionAfterDecimalPoint(8, RoundingMode.ROUND_HALF_CEILING)
+    it.copy(balance = balance.toPlainString())
+}
+ */
 
 private fun HDWallet.getAddressByPlatform(platform: AssetPlatform): String {
     val coinType = when (platform.id) {

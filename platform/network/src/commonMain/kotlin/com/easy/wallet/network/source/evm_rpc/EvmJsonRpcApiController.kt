@@ -20,7 +20,6 @@ import kotlinx.serialization.json.Json
 class EvmJsonRpcApiImpl internal constructor(
     private val httpClient: HttpClient
 ) : JsonRpcApi {
-    private val pathWithKey = "v3/${BuildKonfig.INFURA_KEY}"
     private val defaultBody = RpcRequestBody(
         jsonrpc = "2.0",
         id = 1,
@@ -44,7 +43,7 @@ class EvmJsonRpcApiImpl internal constructor(
                 )
             )
         )
-        val response = httpClient.post("$rpcUrl$pathWithKey") {
+        val response = httpClient.post(rpcUrl) {
             setBody(body)
         }.also {
             validateResponse(it)
@@ -61,7 +60,7 @@ class EvmJsonRpcApiImpl internal constructor(
                 Parameter.IntListParameter(percentiles)
             )
         )
-        val response = httpClient.post("$rpcUrl$pathWithKey") {
+        val response = httpClient.post(rpcUrl) {
             setBody(body)
         }.also {
             validateResponse(it)
@@ -86,7 +85,7 @@ class EvmJsonRpcApiImpl internal constructor(
     }
 
     override suspend fun gasPrice(rpcUrl: String): String {
-        val response = httpClient.post("$rpcUrl$pathWithKey") {
+        val response = httpClient.post(rpcUrl) {
             setBody(defaultBody.copy(method = "eth_gasPrice"))
         }.also {
             validateResponse(it)
@@ -95,7 +94,7 @@ class EvmJsonRpcApiImpl internal constructor(
     }
 
     override suspend fun getTransactionCount(rpcUrl: String,account: String): String {
-        val response = httpClient.post("$rpcUrl$pathWithKey") {
+        val response = httpClient.post(rpcUrl) {
             setBody(
                 defaultBody.copy(
                     method = "eth_getTransactionCount",
@@ -134,7 +133,7 @@ class EvmJsonRpcApiImpl internal constructor(
                 )
             )
         }
-        val balanceRes = httpClient.post("$rpcUrl$pathWithKey") {
+        val balanceRes = httpClient.post(rpcUrl) {
             setBody(finalBody)
         }.also {
             validateResponse(it)
@@ -144,7 +143,7 @@ class EvmJsonRpcApiImpl internal constructor(
     }
 
     override suspend fun sendRawTransaction(rpcUrl: String,data: String): String {
-        val hashResponse = httpClient.post("$rpcUrl$pathWithKey") {
+        val hashResponse = httpClient.post(rpcUrl) {
             setBody(
                 defaultBody.copy(
                     method = "eth_sendRawTransaction",
