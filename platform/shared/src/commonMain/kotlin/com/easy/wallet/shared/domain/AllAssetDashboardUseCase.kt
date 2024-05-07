@@ -42,7 +42,7 @@ class AllAssetDashboardUseCase internal constructor(
                     val chainRepository = getChainRepositoryUseCase(coin.platform)
                     async {
                         val balance = try {
-                            chainRepository.loadBalance(coin.address, coin.contract).toBigDecimal(
+                            chainRepository.loadBalance(platform = coin.platform, coin.address, coin.contract).toBigDecimal(
                                 exponentModifier = (-coin.decimalPlace).toLong()
                             ).roundToDigitPositionAfterDecimalPoint(
                                 8,

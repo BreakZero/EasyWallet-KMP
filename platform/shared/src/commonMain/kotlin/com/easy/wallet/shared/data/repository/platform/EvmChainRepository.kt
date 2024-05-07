@@ -1,8 +1,9 @@
-package com.easy.wallet.shared.data.repository.chain
+package com.easy.wallet.shared.data.repository.platform
 
 import com.easy.wallet.core.commom.cleanHexPrefix
 import com.easy.wallet.core.commom.ifNullOrBlank
 import com.easy.wallet.model.asset.AssetCoin
+import com.easy.wallet.model.asset.AssetPlatform
 import com.easy.wallet.network.source.etherscan.EtherscanApi
 import com.easy.wallet.network.source.evm_rpc.JsonRpcApi
 import com.easy.wallet.shared.asHex
@@ -28,8 +29,13 @@ class EvmChainRepository internal constructor(
     private val etherscanApi: EtherscanApi,
     private val jsonRpcApi: JsonRpcApi
 ) : OnChainRepository {
-    override suspend fun loadBalance(account: String, contract: String?): String {
-        val balance = jsonRpcApi.getBalance(account, contract)
+    override suspend fun loadBalance(
+        platform: AssetPlatform,
+        account: String,
+        contract: String?
+    ): String {
+        val rpcUrl = platform.network!!.rpcUrl
+        val balance = jsonRpcApi.getBalance(rpcUrl, account, contract)
         return balance.cleanHexPrefix().toBigInteger(16).toString()
     }
 
@@ -54,13 +60,12 @@ class EvmChainRepository internal constructor(
     }
 
     override suspend fun prepFees(
-        account: String,
+        coin: AssetCoin,
         toAddress: String,
-        contractAddress: String?,
         amount: String
     ): List<FeeModel> = withContext(Dispatchers.Default) {
-        val estimateGasDeferred = async { estimateGas(account, toAddress, contractAddress, amount) }
-        val feeDeferred = async { calculateFee() }
+        val estimateGasDeferred = async { estimateGas(coin.platform, coin.address, toAddress, coin.contract, amount) }
+        val feeDeferred = async { calculateFee(coin.platform) }
 
         val estimateGas = estimateGasDeferred.await()
         val (maxFeePerGas, inclusionFeePerGas) = feeDeferred.await()
@@ -88,18 +93,15 @@ class EvmChainRepository internal constructor(
     }
 
     override suspend fun signAndBroadcast(
-        account: String,
-        chainId: String,
-        privateKey: ByteArray,
+        coin: AssetCoin,
         toAddress: String,
-        contractAddress: String?,
         amount: String,
         fee: FeeModel
     ): String = withContext(Dispatchers.Default) {
         if (fee !is EthereumFee) throw IllegalArgumentException("fee model is incorrect")
-        val isEthNormalTransfer = contractAddress.isNullOrBlank()
+        val isEthNormalTransfer = coin.contract.isNullOrBlank()
 
-        val nonceDeferred = async { fetchingNonce(account) }
+        val nonceDeferred = async { fetchingNonce(coin.platform, coin.address) }
         val nonce = nonceDeferred.await()
 
         val maxFeePerGas = fee.maxFeePerGas
@@ -107,10 +109,10 @@ class EvmChainRepository internal constructor(
         val gasLimit = fee.gas
 
         // double check balance if enough to send for fee
-
+        val chainId = coin.platform.chainIdentifier ?: "0x01"
         val signingInput = SigningInput(
-            private_key = ByteString.of(*privateKey),
-            to_address = contractAddress.ifNullOrBlank { toAddress },
+            private_key = ByteString.of(*coin.privateKey),
+            to_address = coin.contract.ifNullOrBlank { toAddress },
             tx_mode = TransactionMode.Enveloped,
             chain_id = chainId.asHex(),
             nonce = nonce.asHex(),
@@ -132,15 +134,17 @@ class EvmChainRepository internal constructor(
         )
         val output = AnySigner.sign(signingInput, CoinType.Ethereum, SigningOutput.ADAPTER)
         val encoded = "0x${output.encoded.hex()}"
-        jsonRpcApi.sendRawTransaction(encoded)
+        jsonRpcApi.sendRawTransaction(coin.platform.network!!.rpcUrl, encoded)
     }
 
     private suspend fun estimateGas(
+        platform: AssetPlatform,
         account: String,
         toAddress: String,
         contractAddress: String?,
         amount: String
     ): String {
+        val rpcUrl = platform.network!!.rpcUrl
         val data = if (contractAddress.isNullOrBlank()) {
             ""
         } else {
@@ -148,6 +152,7 @@ class EvmChainRepository internal constructor(
             "0xa9059cbb000000000000000000000000${toAddress.cleanHexPrefix()}$amountUInt"
         }
         val estimateGas = jsonRpcApi.estimateGas(
+            rpcUrl = rpcUrl,
             from = account,
             to = contractAddress.ifNullOrBlank { toAddress },
             value = null,
@@ -156,12 +161,14 @@ class EvmChainRepository internal constructor(
         return estimateGas
     }
 
-    private suspend fun calculateFee(): Pair<String, String> {
-        return jsonRpcApi.feeHistory(5, listOf(20, 30))
+    private suspend fun calculateFee(platform: AssetPlatform): Pair<String, String> {
+        val rpcUrl = platform.network!!.rpcUrl
+        return jsonRpcApi.feeHistory(rpcUrl = rpcUrl, 5, listOf(20, 30))
     }
 
-    private suspend fun fetchingNonce(account: String): String {
-        return jsonRpcApi.getTransactionCount(account)
+    private suspend fun fetchingNonce(platform: AssetPlatform, account: String): String {
+        val rpcUrl = platform.network!!.rpcUrl
+        return jsonRpcApi.getTransactionCount(rpcUrl = rpcUrl, account)
     }
 }
 

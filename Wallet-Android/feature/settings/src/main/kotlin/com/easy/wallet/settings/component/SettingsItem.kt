@@ -47,7 +47,7 @@ internal fun SettingsItem(
                 style = MaterialTheme.typography.titleLarge,
             )
             subtitle?.let {
-                Text(text = it)
+                Text(style = MaterialTheme.typography.labelMedium, text = it)
             }
         }
         Spacer(modifier = Modifier.width(12.dp))
@@ -67,7 +67,10 @@ internal fun ExtendSettingsItem(
         title = title,
         subtitle = subtitle,
         suffix = {
-            Icon(imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight, contentDescription = null)
+            Icon(
+                imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                contentDescription = null
+            )
         },
         onClick = onClick
     )

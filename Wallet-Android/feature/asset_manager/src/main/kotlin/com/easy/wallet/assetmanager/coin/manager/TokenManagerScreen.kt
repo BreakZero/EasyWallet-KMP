@@ -17,6 +17,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddCircleOutline
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -106,9 +107,22 @@ private fun TokenManagerScreen(
                 LazyColumn(
                     modifier = modifier
                 ) {
-                    items(uiState.coins, key = { "${it.id}-${it.platform.id}" }) {
-                        TokenInformationView(modifier = Modifier.fillMaxWidth(), coin = it) {
+                    uiState.groupOfCoin.forEach { platform, coins ->
+                        item {
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(top = 8.dp, bottom = 4.dp),
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Text(text = platform.shortName)
+                                HorizontalDivider()
+                            }
+                        }
+                        items(coins, key = { "${it.id}-${it.platform.id}" }) { coin ->
+                            TokenInformationView(modifier = Modifier.fillMaxWidth(), coin = coin) {
 
+                            }
                         }
                     }
                 }

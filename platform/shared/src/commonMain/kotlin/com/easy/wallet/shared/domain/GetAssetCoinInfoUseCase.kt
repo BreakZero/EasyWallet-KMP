@@ -2,6 +2,7 @@ package com.easy.wallet.shared.domain
 
 import com.easy.wallet.core.commom.AssetPlatformIdConstant
 import com.easy.wallet.model.asset.AssetCoin
+import com.easy.wallet.model.asset.AssetPlatform
 import com.easy.wallet.shared.data.multiwallet.MultiWalletRepository
 import com.easy.wallet.shared.data.repository.asset.CoinRepository
 import com.rickclephas.kmp.nativecoroutines.NativeCoroutines
@@ -23,18 +24,23 @@ class GetAssetCoinInfoUseCase internal constructor(
                 ?: throw NoSuchElementException("No coin be found, id is: $coinId")
 
             val hdWallet = HDWallet(wallet.mnemonic, wallet.passphrase)
-            val address = getAddress(hdWallet, coin.platform.id)
+            val (address, keyData) = getAddressAndKey(hdWallet, coin.platform)
             emit(
-                AssetCoin.copyFromBasicCoin(coin, address)
+                AssetCoin.copyFromBasicCoin(coin, address, keyData)
             )
         }
     }
 }
 
-private fun getAddress(hdWallet: HDWallet, platform: String): String {
-    val coinType = when (platform) {
+private fun getAddressAndKey(
+    hdWallet: HDWallet,
+    platform: AssetPlatform
+): Pair<String, ByteArray> {
+    val coinType = when (platform.id) {
         AssetPlatformIdConstant.PLATFORM_ETHEREUM, AssetPlatformIdConstant.PLATFORM_ETHEREUM_SEPOLIA -> CoinType.Ethereum
-        else -> null
+        else -> throw NotImplementedError("The chain(${platform.shortName}) not supported yet.")
     }
-    return coinType?.let { hdWallet.getAddressForCoin(it) } ?: ""
+    val address = hdWallet.getAddressForCoin(coinType)
+    val keyData = hdWallet.getKeyForCoin(coinType).data
+    return Pair(address, keyData)
 }

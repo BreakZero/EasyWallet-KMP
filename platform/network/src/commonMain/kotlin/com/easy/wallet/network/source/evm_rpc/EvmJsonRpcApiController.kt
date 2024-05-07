@@ -2,6 +2,7 @@ package com.easy.wallet.network.source.evm_rpc
 
 import co.touchlab.kermit.Logger
 import com.easy.wallet.core.commom.cleanHexPrefix
+import com.easy.wallet.network.key.BuildKonfig
 import com.easy.wallet.network.source.evm_rpc.dto.BaseRpcResponseDto
 import com.easy.wallet.network.source.evm_rpc.dto.FeeHistoryDto
 import com.easy.wallet.network.source.evm_rpc.dto.RpcErrorResponse
@@ -19,6 +20,7 @@ import kotlinx.serialization.json.Json
 class EvmJsonRpcApiImpl internal constructor(
     private val httpClient: HttpClient
 ) : JsonRpcApi {
+    private val pathWithKey = "v3/${BuildKonfig.INFURA_KEY}"
     private val defaultBody = RpcRequestBody(
         jsonrpc = "2.0",
         id = 1,
@@ -27,6 +29,7 @@ class EvmJsonRpcApiImpl internal constructor(
     )
 
     override suspend fun estimateGas(
+        rpcUrl: String,
         from: String,
         to: String,
         value: Long?,
@@ -41,7 +44,7 @@ class EvmJsonRpcApiImpl internal constructor(
                 )
             )
         )
-        val response = httpClient.post {
+        val response = httpClient.post("$rpcUrl$pathWithKey") {
             setBody(body)
         }.also {
             validateResponse(it)
@@ -49,7 +52,7 @@ class EvmJsonRpcApiImpl internal constructor(
         return response.result
     }
 
-    override suspend fun feeHistory(blockCount: Int, percentiles: List<Int>): Pair<String, String> {
+    override suspend fun feeHistory(rpcUrl: String,blockCount: Int, percentiles: List<Int>): Pair<String, String> {
         val body = defaultBody.copy(
             method = "eth_feeHistory",
             params = listOf(
@@ -58,7 +61,7 @@ class EvmJsonRpcApiImpl internal constructor(
                 Parameter.IntListParameter(percentiles)
             )
         )
-        val response = httpClient.post {
+        val response = httpClient.post("$rpcUrl$pathWithKey") {
             setBody(body)
         }.also {
             validateResponse(it)
@@ -82,8 +85,8 @@ class EvmJsonRpcApiImpl internal constructor(
         return Pair(maxFee.times(2).toString(16), maxFee.toString(16))
     }
 
-    override suspend fun gasPrice(): String {
-        val response = httpClient.post {
+    override suspend fun gasPrice(rpcUrl: String): String {
+        val response = httpClient.post("$rpcUrl$pathWithKey") {
             setBody(defaultBody.copy(method = "eth_gasPrice"))
         }.also {
             validateResponse(it)
@@ -91,8 +94,8 @@ class EvmJsonRpcApiImpl internal constructor(
         return response.result
     }
 
-    override suspend fun getTransactionCount(account: String): String {
-        val response = httpClient.post {
+    override suspend fun getTransactionCount(rpcUrl: String,account: String): String {
+        val response = httpClient.post("$rpcUrl$pathWithKey") {
             setBody(
                 defaultBody.copy(
                     method = "eth_getTransactionCount",
@@ -108,7 +111,7 @@ class EvmJsonRpcApiImpl internal constructor(
         return response.result
     }
 
-    override suspend fun getBalance(account: String, contract: String?): String {
+    override suspend fun getBalance(rpcUrl: String,account: String, contract: String?): String {
         val finalBody = if (contract.isNullOrBlank()) {
             defaultBody.copy(
                 method = "eth_getBalance", params = listOf(
@@ -131,7 +134,7 @@ class EvmJsonRpcApiImpl internal constructor(
                 )
             )
         }
-        val balanceRes = httpClient.post {
+        val balanceRes = httpClient.post("$rpcUrl$pathWithKey") {
             setBody(finalBody)
         }.also {
             validateResponse(it)
@@ -140,8 +143,8 @@ class EvmJsonRpcApiImpl internal constructor(
         return balanceRes.result
     }
 
-    override suspend fun sendRawTransaction(data: String): String {
-        val hashResponse = httpClient.post {
+    override suspend fun sendRawTransaction(rpcUrl: String,data: String): String {
+        val hashResponse = httpClient.post("$rpcUrl$pathWithKey") {
             setBody(
                 defaultBody.copy(
                     method = "eth_sendRawTransaction",
@@ -155,6 +158,7 @@ class EvmJsonRpcApiImpl internal constructor(
     }
 
     override suspend fun methodCall(
+        rpcUrl: String,
         from: String,
         to: String,
         gas: Long?,
