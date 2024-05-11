@@ -26,13 +26,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.easy.wallet.design.theme.ThemePreviews
 import com.easy.wallet.design.ui.EasyWalletTheme
-import com.easy.wallet.home.HomeEvent
+import com.easy.wallet.home.WalletEvent
 import com.easy.wallet.home.R
 
 @Composable
 internal fun GuestContent(
     modifier: Modifier = Modifier,
-    onEvent: (HomeEvent) -> Unit
+    onEvent: (WalletEvent) -> Unit
 ) {
     var actionDestination by remember {
         mutableStateOf(ActionDestination.None)

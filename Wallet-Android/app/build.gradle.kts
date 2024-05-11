@@ -73,7 +73,7 @@ dependencies {
     implementation(project(":platform:model"))
 
     implementation(project(":Wallet-Android:design-system"))
-    implementation(project(":Wallet-Android:feature:home"))
+    implementation(project(":Wallet-Android:feature:wallet"))
     implementation(project(":Wallet-Android:feature:news"))
     implementation(project(":Wallet-Android:feature:onboard"))
     implementation(project(":Wallet-Android:feature:marketplace"))

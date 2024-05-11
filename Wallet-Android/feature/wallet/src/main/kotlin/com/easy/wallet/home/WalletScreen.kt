@@ -12,6 +12,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.TopAppBarDefaults.enterAlwaysScrollBehavior
+import androidx.compose.material3.TopAppBarDefaults.exitUntilCollapsedScrollBehavior
+import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -27,8 +30,8 @@ import com.easy.wallet.model.asset.CoinModel
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-internal fun HomeRoute(
-    viewModel: HomeViewModel = koinViewModel(),
+internal fun WalletRoute(
+    viewModel: WalletViewModel = koinViewModel(),
     onCreateWallet: () -> Unit,
     onRestoreWallet: () -> Unit,
     onTokenClick: (CoinModel) -> Unit,
@@ -39,16 +42,16 @@ internal fun HomeRoute(
 
     ObserveAsEvents(flow = viewModel.navigationEvents) { event ->
         when (event) {
-            HomeEvent.CreateWallet -> onCreateWallet()
-            HomeEvent.RestoreWallet -> onRestoreWallet()
-            HomeEvent.SettingsClicked -> navigateToSettings()
-            is HomeEvent.OnCoinClicked -> onTokenClick(event.coin)
+            WalletEvent.CreateWallet -> onCreateWallet()
+            WalletEvent.RestoreWallet -> onRestoreWallet()
+            WalletEvent.SettingsClicked -> navigateToSettings()
+            is WalletEvent.OnCoinClicked -> onTokenClick(event.coin)
             else -> Unit
         }
     }
 
-    HomeScreen(
-        homeUiState = uiState,
+    WalletScreen(
+        walletUiState = uiState,
         isRefreshing = isRefreshing,
         onEvent = viewModel::handleEvent,
     )
@@ -56,10 +59,10 @@ internal fun HomeRoute(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun HomeScreen(
+internal fun WalletScreen(
     isRefreshing: Boolean,
-    homeUiState: HomeUiState,
-    onEvent: (HomeEvent) -> Unit
+    walletUiState: WalletUiState,
+    onEvent: (WalletEvent) -> Unit
 ) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -69,19 +72,20 @@ internal fun HomeScreen(
             TopAppBar(
                 title = { /*TODO*/ },
                 navigationIcon = {
-                    if (homeUiState is HomeUiState.WalletUiState) {
-                        IconButton(onClick = { onEvent(HomeEvent.SettingsClicked) }) {
+                    if (walletUiState is WalletUiState.WalletUiState) {
+                        IconButton(onClick = { onEvent(WalletEvent.SettingsClicked) }) {
                             Icon(imageVector = Icons.Default.Settings, contentDescription = null)
                         }
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors()
-                    .copy(containerColor = MaterialTheme.colorScheme.inverseOnSurface)
+                    .copy(containerColor = MaterialTheme.colorScheme.inverseOnSurface),
+                scrollBehavior = exitUntilCollapsedScrollBehavior()
             )
         }
     ) { paddingValues ->
-        when (homeUiState) {
-            is HomeUiState.Initial -> {
+        when (walletUiState) {
+            is WalletUiState.Initial -> {
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
@@ -91,17 +95,17 @@ internal fun HomeScreen(
                     LoadingWheel(contentDesc = "")
                 }
             }
-            is HomeUiState.WalletUiState -> {
+            is WalletUiState.WalletUiState -> {
                 UserHomeContent(
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(paddingValues),
                     isRefreshing = isRefreshing,
-                    walletUiState = homeUiState,
+                    walletUiState = walletUiState,
                     onEvent = onEvent,
                 )
             }
-            is HomeUiState.GuestUserUiState -> {
+            is WalletUiState.GuestUserUiState -> {
                 GuestContent(
                     modifier = Modifier
                         .fillMaxSize()

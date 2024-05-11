@@ -76,7 +76,7 @@ fun WalletApp(
                 }
                 Column(modifier = Modifier.fillMaxSize()) {
                     when (appState.currentTopLevelDestination) {
-                        TopLevelDestination.HOME -> {}
+                        TopLevelDestination.WALLET -> {}
                         else -> Unit
                     }
                     WalletNavHost(

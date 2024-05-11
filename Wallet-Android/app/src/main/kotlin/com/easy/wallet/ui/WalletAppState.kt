@@ -61,7 +61,7 @@ class WalletAppState(
 
     val currentTopLevelDestination: TopLevelDestination?
         @Composable get() = when (currentDestination?.route) {
-            homeEntryRoute -> TopLevelDestination.HOME
+            homeEntryRoute -> TopLevelDestination.WALLET
             newsTabRoute -> TopLevelDestination.NEWS
             discoverTabRoute -> TopLevelDestination.DISCOVER
             marketplaceTabRoute -> TopLevelDestination.MARKETPLACE
@@ -78,7 +78,7 @@ class WalletAppState(
         }
 
         when (topLevelDestination) {
-            TopLevelDestination.HOME -> navController.selectedHomeTab(topLevelNavOptions)
+            TopLevelDestination.WALLET -> navController.selectedHomeTab(topLevelNavOptions)
             TopLevelDestination.NEWS -> navController.selectedNewsTab(topLevelNavOptions)
             TopLevelDestination.MARKETPLACE -> navController.selectedMarketplaceTab(topLevelNavOptions)
             TopLevelDestination.DISCOVER -> navController.selectedDiscoverTab(topLevelNavOptions)

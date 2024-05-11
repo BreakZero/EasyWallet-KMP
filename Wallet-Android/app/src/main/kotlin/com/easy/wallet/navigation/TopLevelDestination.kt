@@ -1,11 +1,11 @@
 package com.easy.wallet.navigation
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.AccountBalanceWallet
 import androidx.compose.material.icons.filled.Newspaper
 import androidx.compose.material.icons.filled.Store
 import androidx.compose.material.icons.filled.TravelExplore
-import androidx.compose.material.icons.twotone.Home
+import androidx.compose.material.icons.twotone.AccountBalanceWallet
 import androidx.compose.material.icons.twotone.Newspaper
 import androidx.compose.material.icons.twotone.Store
 import androidx.compose.material.icons.twotone.TravelExplore
@@ -20,10 +20,10 @@ enum class TopLevelDestination(
     val hasNews: Boolean = false,
     val badgeCount: Int? = null
 ) {
-    HOME(
+    WALLET(
         title = UiText.StringResource(resId = R.string.tab_home),
-        selectedIcon = Icons.TwoTone.Home,
-        unselectedIcon = Icons.Default.Home,
+        selectedIcon = Icons.TwoTone.AccountBalanceWallet,
+        unselectedIcon = Icons.Default.AccountBalanceWallet,
     ),
     NEWS(
         title = UiText.StringResource(resId = R.string.tab_news),

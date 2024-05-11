@@ -14,16 +14,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import com.easy.wallet.design.component.DynamicAsyncImage
-import com.easy.wallet.home.HomeEvent
+import com.easy.wallet.home.WalletEvent
 import com.easy.wallet.model.asset.AssetBalance
 
 @Composable
 internal fun TokenItemView(
     modifier: Modifier = Modifier,
     assetBalance: AssetBalance,
-    onEvent: (HomeEvent) -> Unit
+    onEvent: (WalletEvent) -> Unit
 ) {
-    Card(modifier = modifier, onClick = { onEvent(HomeEvent.OnCoinClicked(assetBalance)) }) {
+    Card(modifier = modifier, onClick = { onEvent(WalletEvent.OnCoinClicked(assetBalance)) }) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()

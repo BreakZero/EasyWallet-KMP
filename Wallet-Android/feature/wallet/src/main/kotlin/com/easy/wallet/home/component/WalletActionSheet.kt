@@ -13,7 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.easy.wallet.home.HomeEvent
+import com.easy.wallet.home.WalletEvent
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -21,7 +21,7 @@ internal fun WalletActionSheet(
     modifier: Modifier = Modifier,
     menus: List<ActionSheetMenu>,
     onDismiss: () -> Unit,
-    onEvent: (HomeEvent) -> Unit
+    onEvent: (WalletEvent) -> Unit
 ) {
     val bottomSheetState = rememberModalBottomSheetState(
         skipPartiallyExpanded = true,
@@ -35,8 +35,8 @@ internal fun WalletActionSheet(
             items(menus, key = { it.title.toString() }) { menu ->
                 ActionSheetItem(menu = menu) {
                     when (menu) {
-                        ActionSheetMenu.CREATE_BY_SEED -> onEvent(HomeEvent.CreateWallet)
-                        ActionSheetMenu.RESTORE_BY_SEED -> onEvent(HomeEvent.RestoreWallet)
+                        ActionSheetMenu.CREATE_BY_SEED -> onEvent(WalletEvent.CreateWallet)
+                        ActionSheetMenu.RESTORE_BY_SEED -> onEvent(WalletEvent.RestoreWallet)
                     }
                     onDismiss()
                 }
