@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS AssetPlatform(
     id TEXT NOT NULL PRIMARY KEY,
     chain_identifier TEXT,
     short_name TEXT NOT NULL,
-    is_testnet INTEGER AS Boolean,
+    is_testnet INTEGER AS Boolean NOT NULL,
     evm_network_info TEXT
 );
 

@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.Flow
 class LocalAssetRepository internal constructor(
     private val coinDao: CoinDao,
     private val platformDao: AssetPlatformDao
-): CoinRepository, PlatformRepository {
+) : CoinRepository, PlatformRepository {
     override fun findAllCoinStream(): Flow<List<BasicCoin>> {
         return coinDao.findAllStream()
     }
@@ -24,6 +24,10 @@ class LocalAssetRepository internal constructor(
 
     override suspend fun findCoinsById(coinId: String): List<BasicCoin> {
         return coinDao.findCoinsById(coinId)
+    }
+
+    override suspend fun findUniqueCoin(coinId: String, platformId: String): BasicCoin? {
+        return coinDao.findUniqueCoin(coinId, platformId)
     }
 
     override suspend fun insertPlatform(

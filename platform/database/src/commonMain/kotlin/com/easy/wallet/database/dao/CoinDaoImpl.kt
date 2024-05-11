@@ -7,6 +7,7 @@ import com.easy.wallet.database.CoinEntityQueries
 import com.easy.wallet.database.FindAllCoins
 import com.easy.wallet.database.FindAllCoinsInPlatform
 import com.easy.wallet.database.FindCoinById
+import com.easy.wallet.database.FindUniqueCoin
 import com.easy.wallet.database.model.EvmNetworkInformation
 import com.easy.wallet.database.model.asPublish
 import com.easy.wallet.model.asset.AssetPlatform
@@ -47,6 +48,10 @@ internal class CoinDaoImpl(
             .map { it.map(FindAllCoinsInPlatform::asPublish) }
     }
 
+    override suspend fun findUniqueCoin(coinId: String, platformId: String): BasicCoin? = withContext(dispatcher) {
+        queries.findUniqueCoin(coinId, platformId).executeAsOneOrNull()?.asPublish()
+    }
+
     override fun allCoinStream(): Flow<List<BasicCoin>> {
         return queries.findAllCoins().asFlow().mapToList(dispatcher)
             .map { it.map(FindAllCoins::asPublish) }
@@ -76,6 +81,7 @@ private fun FindCoinById.asPublish(): BasicCoin {
             id = platform_id,
             shortName = short_name,
             chainIdentifier = chain_identifier,
+            isTestNet = is_testnet ?: false,
             network = EvmNetworkInformation.decodeFromString(evm_network_info)
                 ?.asPublish()
         )
@@ -94,6 +100,25 @@ private fun FindAllCoins.asPublish(): BasicCoin {
             id = id_,
             shortName = short_name,
             chainIdentifier = chain_identifier,
+            isTestNet = is_testnet ?: false,
+            network = EvmNetworkInformation.decodeFromString(evm_network_info)?.asPublish()
+        )
+    )
+}
+
+private fun FindUniqueCoin.asPublish(): BasicCoin {
+    return BasicCoin(
+        id = id,
+        symbol = symbol,
+        decimalPlace = decimal_place,
+        name = name,
+        logoURI = logo_uri,
+        contract = contract,
+        platform = AssetPlatform(
+            id = platform_id,
+            shortName = short_name,
+            chainIdentifier = chain_identifier,
+            isTestNet = is_testnet ?: false,
             network = EvmNetworkInformation.decodeFromString(evm_network_info)?.asPublish()
         )
     )
@@ -111,6 +136,7 @@ private fun FindAllCoinsInPlatform.asPublish(): BasicCoin {
             id = platform_id,
             shortName = short_name,
             chainIdentifier = chain_identifier,
+            isTestNet = is_testnet ?: false,
             network = EvmNetworkInformation.decodeFromString(evm_network_info)?.asPublish()
         )
     )

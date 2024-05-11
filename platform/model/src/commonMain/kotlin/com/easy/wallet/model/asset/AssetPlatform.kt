@@ -7,5 +7,6 @@ data class AssetPlatform(
     val id: String,
     val shortName: String,
     val chainIdentifier: String?,
+    val isTestNet: Boolean,
     val network: AssetNetwork?
 )

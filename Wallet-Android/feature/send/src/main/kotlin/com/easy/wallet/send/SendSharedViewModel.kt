@@ -105,7 +105,7 @@ internal class SendSharedViewModel(
         }.launchIn(viewModelScope)
     }
 
-    private fun signAndPush(chainId: String, onCompletion: (Throwable?) -> Unit) {
+    private fun signAndPush(onCompletion: (Throwable?) -> Unit) {
         with(_overviewUiState.value) {
             transactionSigningUseCase(
                 coinId = coinId,
@@ -168,9 +168,9 @@ internal class SendSharedViewModel(
                 }
             }
 
-            is SendUiEvent.OnSigningTransaction -> {
+            SendUiEvent.OnSigningTransaction -> {
                 // Sepolia as default
-                signAndPush(event.chainIdHex ?: "0xaa36a7") {
+                signAndPush {
                     if (it == null) {
                         dispatchEvent(SendUiEvent.NavigateTo(sendPendingRoute))
                     } else {

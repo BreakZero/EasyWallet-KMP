@@ -16,7 +16,7 @@ sealed interface SendUiEvent {
     data object MaxAmount : SendUiEvent
     data object BuildTransactionPlan : SendUiEvent
 
-    data class OnSigningTransaction(val chainIdHex: String?) : SendUiEvent
+    data object OnSigningTransaction : SendUiEvent
     data class DestinationChanged(val text: String) : SendUiEvent
     data class OnFeeChanged(val fee: FeeModel): SendUiEvent
 }

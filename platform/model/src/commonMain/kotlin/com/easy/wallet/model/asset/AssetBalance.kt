@@ -19,7 +19,7 @@ data class AssetBalance(
             decimalPlace = 18,
             logoURI = "_logo",
             contract = null,
-            platform = AssetPlatform("", "", null, null),
+            platform = AssetPlatform("", "", null, false, null),
             address = "_address",
             balance = "0.0"
         )

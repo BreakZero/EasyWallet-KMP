@@ -10,4 +10,6 @@ interface CoinRepository {
 
     suspend fun findCoinById(coinId: String): BasicCoin?
     suspend fun findCoinsById(coinId: String): List<BasicCoin>
+
+    suspend fun findUniqueCoin(coinId: String, platformId: String): BasicCoin?
 }

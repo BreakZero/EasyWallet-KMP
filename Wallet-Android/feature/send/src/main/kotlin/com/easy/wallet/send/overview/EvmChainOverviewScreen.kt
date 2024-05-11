@@ -74,7 +74,7 @@ internal fun EvmChainOverviewScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp, vertical = 8.dp),
-                onClick = { onEvent(SendUiEvent.OnSigningTransaction(null)) }
+                onClick = { onEvent(SendUiEvent.OnSigningTransaction) }
             ) {
                 Text(text = "Next")
             }

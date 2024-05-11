@@ -16,6 +16,7 @@ interface CoinDao {
     fun findAllByPlatformStream(platformId: String): Flow<List<BasicCoin>>
 
     /** ----------- version 2 ----------------- */
+    suspend fun findUniqueCoin(coinId: String, platformId: String): BasicCoin?
 
     fun allCoinStream(): Flow<List<BasicCoin>>
     suspend fun findCoinsById(id: String): List<BasicCoin>

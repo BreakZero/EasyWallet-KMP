@@ -42,6 +42,7 @@ private fun Entity.toPublish(): AssetPlatform {
         id = id,
         shortName = short_name,
         chainIdentifier = chain_identifier,
+        isTestNet = is_testnet,
         network = networkInfo
     )
 }
