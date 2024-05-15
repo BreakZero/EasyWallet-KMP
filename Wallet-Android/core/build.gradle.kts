@@ -1,6 +1,7 @@
 @Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
 plugins {
-    id("org.easy.android.library.compose")
+    id("easy.android.library")
+    id("easy.android.library.compose")
 }
 
 android {

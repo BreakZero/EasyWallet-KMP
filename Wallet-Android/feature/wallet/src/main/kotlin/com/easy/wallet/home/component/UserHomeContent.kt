@@ -18,16 +18,16 @@ import com.easy.wallet.design.component.EasyGradientBackground
 import com.easy.wallet.design.component.PullToRefreshBox
 import com.easy.wallet.design.theme.ThemePreviews
 import com.easy.wallet.design.ui.EasyWalletTheme
-import com.easy.wallet.home.HomeEvent
-import com.easy.wallet.home.HomeUiState
+import com.easy.wallet.home.WalletEvent
+import com.easy.wallet.home.WalletUiState
 import com.easy.wallet.shared.model.AllAssetDashboardInformation
 
 @Composable
 internal fun UserHomeContent(
     modifier: Modifier = Modifier,
     isRefreshing: Boolean,
-    walletUiState: HomeUiState.WalletUiState,
-    onEvent: (HomeEvent) -> Unit
+    walletUiState: WalletUiState.WalletUiState,
+    onEvent: (WalletEvent) -> Unit
 ) {
     val toolbarHeightRange = with(LocalDensity.current) {
         0.dp.roundToPx()..248.dp.roundToPx()
@@ -37,7 +37,7 @@ internal fun UserHomeContent(
         modifier = modifier,
         isRefreshing = isRefreshing,
         onRefresh = {
-            onEvent(HomeEvent.OnRefreshing)
+            onEvent(WalletEvent.OnRefreshing)
         }
     ) {
         CollapsingToolbarWithLazyList(
@@ -54,16 +54,15 @@ internal fun UserHomeContent(
             },
             listContent = { contentModifier ->
                 LazyColumn(
-                    modifier = contentModifier
-                        .clip(RoundedCornerShape(topEnd = 20.dp, topStart = 20.dp)),
-                    verticalArrangement = Arrangement.spacedBy(12.dp),
+                    modifier = contentModifier,
+                    verticalArrangement = Arrangement.spacedBy(2.dp),
                     state = lazyListState
                 ) {
                     items(
                         walletUiState.dashboard.assetBalances,
                         key = { "${it.id}-${it.platform.id}" }
                     ) {
-                        TokenItemView(
+                        CoinItemView(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(horizontal = 16.dp),
@@ -87,7 +86,7 @@ private fun UserHome_Preview() {
         ) {
             UserHomeContent(
                 isRefreshing = false,
-                walletUiState = HomeUiState.WalletUiState(
+                walletUiState = WalletUiState.WalletUiState(
                     AllAssetDashboardInformation(
                         fiatSymbol = "USD",
                         fiatBalance = "888.88",

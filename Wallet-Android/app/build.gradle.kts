@@ -1,11 +1,13 @@
+import org.easy.mobile.convention.configureFlavors
 import java.io.FileInputStream
 import java.io.InputStreamReader
 import java.util.Properties
 
 @Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
 plugins {
-    id("org.easy.android.application.compose")
-    id("org.easy.jacoco")
+    id("easy.android.application")
+    id("easy.android.application.compose")
+    id("easy.android.jacoco")
 }
 
 android {
@@ -35,14 +37,7 @@ android {
             signingConfig = signingConfigs.getByName("release")
         }
     }
-    packaging {
-        resources {
-            excludes.add("META-INF/versions/9/previous-compilation-data.bin")
-        }
-    }
-    compileOptions {
-        isCoreLibraryDesugaringEnabled = true
-    }
+    configureFlavors(this)
 }
 
 fun keyStoreProperties(): Properties {
@@ -58,7 +53,6 @@ fun keyStoreProperties(): Properties {
 }
 
 dependencies {
-    coreLibraryDesugaring(libs.desugar.jdk.libs)
     implementation(libs.androidx.core.splashscreen)
     implementation(libs.androidx.compose.material3.window.size)
     implementation(libs.androidx.core.ktx)
@@ -73,7 +67,7 @@ dependencies {
     implementation(project(":platform:model"))
 
     implementation(project(":Wallet-Android:design-system"))
-    implementation(project(":Wallet-Android:feature:home"))
+    implementation(project(":Wallet-Android:feature:wallet"))
     implementation(project(":Wallet-Android:feature:news"))
     implementation(project(":Wallet-Android:feature:onboard"))
     implementation(project(":Wallet-Android:feature:marketplace"))

@@ -15,16 +15,16 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.update
 
-internal class HomeViewModel(
+internal class WalletViewModel(
     private val multiWalletRepository: MultiWalletRepository,
     private val assetDashboardUseCase: AllAssetDashboardUseCase
-) : BaseViewModel<HomeEvent>() {
+) : BaseViewModel<WalletEvent>() {
     private val _isRefreshing = MutableStateFlow(true)
 
-    private val _homeUiState = MutableStateFlow<HomeUiState>(HomeUiState.Initial)
+    private val _walletUiState = MutableStateFlow<WalletUiState>(WalletUiState.Initial)
 
     val isRefreshing = _isRefreshing.asStateFlow()
-    val homeUiState = _homeUiState.asStateFlow()
+    val homeUiState = _walletUiState.asStateFlow()
 
     init {
         fetch()
@@ -37,21 +37,21 @@ internal class HomeViewModel(
                     _isRefreshing.update { true }
                 }.onCompletion {
                     _isRefreshing.update { false }
-                }.map { HomeUiState.WalletUiState(it) as HomeUiState }
+                }.map { WalletUiState.WalletUiState(it) as WalletUiState }
             } else {
                 flow {
                     _isRefreshing.update { false }
-                    emit(HomeUiState.GuestUserUiState)
+                    emit(WalletUiState.GuestUserUiState)
                 }
             }
         }.onEach { latestState ->
-            _homeUiState.update { latestState }
+            _walletUiState.update { latestState }
         }.launchIn(viewModelScope)
     }
 
-    override fun handleEvent(event: HomeEvent) {
+    override fun handleEvent(event: WalletEvent) {
         when (event) {
-            is HomeEvent.OnRefreshing -> {
+            is WalletEvent.OnRefreshing -> {
                 fetch()
             }
 

@@ -9,15 +9,15 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
-import com.easy.wallet.home.HomeRoute
+import com.easy.wallet.home.WalletRoute
 import com.easy.wallet.home.transactions.TransactionsRoute
 import com.easy.wallet.model.asset.CoinModel
 import java.net.URLDecoder
 import java.net.URLEncoder
 import kotlin.text.Charsets.UTF_8
 
-const val HOME_GRAPH_ROUTE_PATTERN = "home_graph"
-const val homeEntryRoute = "_home_route"
+const val HOME_GRAPH_ROUTE_PATTERN = "wallet_graph"
+const val homeEntryRoute = "_wallet_route"
 
 internal const val transactionListRoute = "_transaction_list_route"
 
@@ -54,7 +54,7 @@ fun NavGraphBuilder.attachHomeGraph(
 ) {
     navigation(route = HOME_GRAPH_ROUTE_PATTERN, startDestination = homeEntryRoute) {
         composable(route = homeEntryRoute) {
-            HomeRoute(
+            WalletRoute(
                 onCreateWallet = onCreateWallet,
                 onRestoreWallet = onRestoreWallet,
                 onTokenClick = onCoinClicked,
