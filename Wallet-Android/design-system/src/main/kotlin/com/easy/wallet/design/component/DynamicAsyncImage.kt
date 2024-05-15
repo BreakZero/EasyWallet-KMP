@@ -27,7 +27,7 @@ fun DynamicAsyncImage(
     imageUrl: String,
     contentDescription: String?,
     modifier: Modifier = Modifier,
-    placeholder: Painter = painterResource(R.drawable.ic_placeholder_default)
+    placeholder: Painter = painterResource(R.drawable.wallet_android_design_system_ic_placeholder_default)
 ) {
     val iconTint = MaterialTheme.colorScheme.primary
     var isLoading by remember { mutableStateOf(true) }
