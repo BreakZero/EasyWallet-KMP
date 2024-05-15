@@ -79,8 +79,7 @@ internal fun WalletScreen(
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors()
-                    .copy(containerColor = MaterialTheme.colorScheme.inverseOnSurface),
-                scrollBehavior = exitUntilCollapsedScrollBehavior()
+                    .copy(containerColor = MaterialTheme.colorScheme.inverseOnSurface)
             )
         }
     ) { paddingValues ->

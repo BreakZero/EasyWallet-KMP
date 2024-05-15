@@ -54,16 +54,15 @@ internal fun UserHomeContent(
             },
             listContent = { contentModifier ->
                 LazyColumn(
-                    modifier = contentModifier
-                        .clip(RoundedCornerShape(topEnd = 20.dp, topStart = 20.dp)),
-                    verticalArrangement = Arrangement.spacedBy(12.dp),
+                    modifier = contentModifier,
+                    verticalArrangement = Arrangement.spacedBy(2.dp),
                     state = lazyListState
                 ) {
                     items(
                         walletUiState.dashboard.assetBalances,
                         key = { "${it.id}-${it.platform.id}" }
                     ) {
-                        TokenItemView(
+                        CoinItemView(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(horizontal = 16.dp),

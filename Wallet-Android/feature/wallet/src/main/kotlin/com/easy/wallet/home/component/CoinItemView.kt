@@ -1,5 +1,6 @@
 package com.easy.wallet.home.component
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -18,31 +19,32 @@ import com.easy.wallet.home.WalletEvent
 import com.easy.wallet.model.asset.AssetBalance
 
 @Composable
-internal fun TokenItemView(
+internal fun CoinItemView(
     modifier: Modifier = Modifier,
     assetBalance: AssetBalance,
     onEvent: (WalletEvent) -> Unit
 ) {
-    Card(modifier = modifier, onClick = { onEvent(WalletEvent.OnCoinClicked(assetBalance)) }) {
-        Row(
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable {
+                onEvent(WalletEvent.OnCoinClicked(assetBalance))
+            }
+            .padding(
+                horizontal = 16.dp,
+                vertical = 12.dp,
+            ),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        DynamicAsyncImage(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(
-                    horizontal = 16.dp,
-                    vertical = 12.dp,
-                ),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            DynamicAsyncImage(
-                modifier = Modifier
-                    .size(48.dp)
-                    .clip(CircleShape),
-                imageUrl = assetBalance.logoURI,
-                contentDescription = assetBalance.name,
-            )
-            Text(modifier = Modifier.padding(start = 12.dp), text = assetBalance.name)
-            Spacer(modifier = Modifier.weight(1.0f))
-            Text(text = "${assetBalance.balance} ${assetBalance.symbol}")
-        }
+                .size(48.dp)
+                .clip(CircleShape),
+            imageUrl = assetBalance.logoURI,
+            contentDescription = assetBalance.name,
+        )
+        Text(modifier = Modifier.padding(start = 12.dp), text = assetBalance.name)
+        Spacer(modifier = Modifier.weight(1.0f))
+        Text(text = "${assetBalance.balance} ${assetBalance.symbol}")
     }
 }
