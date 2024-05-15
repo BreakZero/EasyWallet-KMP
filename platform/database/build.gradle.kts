@@ -1,6 +1,6 @@
 @Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
 plugins {
-    id("org.easy.multiplatform")
+    id("easy.library.multiplatform")
     id("app.cash.sqldelight") version libs.versions.sqldelight
     alias(libs.plugins.kotlin.serialization)
 }

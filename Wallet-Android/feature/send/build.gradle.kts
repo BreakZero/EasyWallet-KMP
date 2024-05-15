@@ -1,6 +1,7 @@
 plugins {
-    id("org.easy.android.library.compose")
-    id("org.easy.koin")
+    id("easy.android.library")
+    id("easy.android.library.compose")
+    id("easy.android.koin")
 }
 
 android {
