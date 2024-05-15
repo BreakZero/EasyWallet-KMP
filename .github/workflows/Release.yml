@@ -49,6 +49,9 @@ jobs:
         run: yes | "$ANDROID_HOME"/cmdline-tools/latest/bin/sdkmanager --licenses || true
 
       - name: Build release variant
+        env:
+          GT_USERNAME: ${{ github.actor }}
+          GT_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: ./gradlew Wallet-Android:app:assembleProdRelease
           -Pandroid.testInstrumentationRunnerArguments.androidx.benchmark.enabledRules=BaselineProfile
           -Pandroid.testoptions.manageddevices.emulator.gpu="swiftshader_indirect"
