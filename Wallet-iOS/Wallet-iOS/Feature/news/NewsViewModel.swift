@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import shared
+import platform_shared
 import KMPNativeCoroutinesAsync
 
 extension NewsScreen {

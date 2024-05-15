@@ -7,10 +7,10 @@
 //
 
 import Foundation
-import shared
+import platform_shared
 
-enum HomeUiState {
+enum WalletUiState {
     case Fetching
     case GuestUiState(String)
-    case WalletUiState(AllAssetDashboardInformation)
+    case UserUiState(AllAssetDashboardInformation)
 }

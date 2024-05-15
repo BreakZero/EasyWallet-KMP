@@ -9,7 +9,7 @@
 //
 
 import Foundation
-import shared
+import platform_shared
 
 typealias KoinApplication = Koin_coreKoinApplication
 typealias Koin = Koin_coreKoin

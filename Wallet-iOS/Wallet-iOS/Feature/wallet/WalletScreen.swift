@@ -7,18 +7,18 @@
 //
 
 import SwiftUI
-import shared
+import platform_shared
 
 struct HomeScreen: View {
     @ObservedObject private var viewModel = HomeViewModel()
     var body: some View {
         VStack {
-            switch viewModel.homeUiState {
+            switch viewModel.walletUiState {
             case .Fetching:
                 ProgressView()
             case .GuestUiState(_):
                 GuestUserView()
-            case .WalletUiState(let dashboard):
+            case .UserUiState(let dashboard):
                 TokenListView(dashboard: dashboard).refreshable {
                     viewModel.fetching()
                 }

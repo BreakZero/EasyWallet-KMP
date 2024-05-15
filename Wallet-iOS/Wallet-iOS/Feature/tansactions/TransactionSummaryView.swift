@@ -7,7 +7,7 @@
 //
 
 import SwiftUI
-import shared
+import platform_shared
 
 struct TransactionSummaryView: View {
     @State private(set) var transaction: TransactionUiModel

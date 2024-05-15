@@ -8,7 +8,7 @@
 
 import Foundation
 import Combine
-import shared
+import platform_shared
 import KMPNativeCoroutinesAsync
 
 extension HomeScreen {
@@ -18,7 +18,7 @@ extension HomeScreen {
         
         private let moneyTrend: [Double] = [8,2,4,6,12,9,2]
         
-        @Published private(set) var homeUiState: HomeUiState = HomeUiState.Fetching
+        @Published private(set) var walletUiState: WalletUiState = WalletUiState.Fetching
         @Published private(set) var walletExist: Bool = false
         
         func fetching() {
@@ -26,10 +26,10 @@ extension HomeScreen {
                 try? await asyncSequence(for: multiWalletRepository.findWalletStream()).collect { wallet in
                     print("wallet \(wallet?.mnemonic ?? "empty...")")
                     if wallet != nil {
-                        homeUiState = HomeUiState.Fetching
+                        walletUiState = WalletUiState.Fetching
                         await startLoadToken(wallet: wallet!)
                     } else {
-                        homeUiState = HomeUiState.GuestUiState("Guest User")
+                        walletUiState = WalletUiState.GuestUiState("Guest User")
                     }
                 }
             }
@@ -38,7 +38,7 @@ extension HomeScreen {
         private func startLoadToken(wallet: ModelWallet) async {
             try? await asyncSequence(for: dashboardUseCase.invoke(wallet: wallet)).collect { dashboard in
                 print("token size: \(dashboard.fiatBalance)")
-                self.homeUiState = HomeUiState.WalletUiState(dashboard)
+                self.walletUiState = WalletUiState.UserUiState(dashboard)
             }
         }
     }
