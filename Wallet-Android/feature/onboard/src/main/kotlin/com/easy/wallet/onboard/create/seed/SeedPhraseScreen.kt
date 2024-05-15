@@ -80,11 +80,11 @@ internal fun SeedPhraseScreen(
         }
         Spacer(modifier = Modifier.height(16.dp))
         Text(
-            text = stringResource(id = R.string.create_wallet_secure_write_down_seed),
+            text = stringResource(id = R.string.wallet_android_feature_onboard_create_wallet_secure_write_down_seed),
             style = MaterialTheme.typography.headlineLarge,
         )
         Spacer(modifier = Modifier.height(48.dp))
-        Text(text = stringResource(id = R.string.create_wallet_secure_write_down_seed_desc))
+        Text(text = stringResource(id = R.string.wallet_android_feature_onboard_create_wallet_secure_write_down_seed_desc))
         Spacer(modifier = Modifier.height(24.dp))
 
         Box(

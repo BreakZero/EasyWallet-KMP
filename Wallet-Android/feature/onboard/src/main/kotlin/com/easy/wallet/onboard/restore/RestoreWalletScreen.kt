@@ -60,12 +60,12 @@ internal fun RestoreWalletScreen(
             verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
             Text(
-                text = stringResource(R.string.restore_wallet_import_from_seed),
+                text = stringResource(R.string.wallet_android_feature_onboard_restore_wallet_import_from_seed),
                 style = MaterialTheme.typography.headlineLarge,
             )
 
             TextField(
-                label = { Text(text = stringResource(R.string.restore_wallet_seed_phrase)) },
+                label = { Text(text = stringResource(R.string.wallet_android_feature_onboard_restore_wallet_seed_phrase)) },
                 modifier = Modifier.fillMaxWidth(),
                 keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Text),
                 value = seedPhraseForm.seedPhrase,
@@ -77,7 +77,7 @@ internal fun RestoreWalletScreen(
             TextField(
                 value = seedPhraseForm.password,
                 label = {
-                    Text(text = stringResource(R.string.restore_wallet_new_password))
+                    Text(text = stringResource(R.string.wallet_android_feature_onboard_restore_wallet_new_password))
                 },
                 keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Password),
                 isError = !uiState.passwordError.isNullOrBlank(),
@@ -92,7 +92,7 @@ internal fun RestoreWalletScreen(
             TextField(
                 value = seedPhraseForm.confirmPassword,
                 label = {
-                    Text(text = stringResource(R.string.restore_wallet_confirm_password))
+                    Text(text = stringResource(R.string.wallet_android_feature_onboard_restore_wallet_confirm_password))
                 },
                 isError = !uiState.confirmPasswordError.isNullOrBlank(),
                 onValueChange = {
@@ -114,7 +114,7 @@ internal fun RestoreWalletScreen(
                 onEvent(RestoreWalletEvent.OnImport)
             },
         ) {
-            Text(text = stringResource(R.string.restore_wallet_import))
+            Text(text = stringResource(R.string.wallet_android_feature_onboard_restore_wallet_import))
         }
     }
 }

@@ -64,7 +64,7 @@ internal fun SecureScreen(
         )
         Spacer(modifier = Modifier.height(16.dp))
         Text(
-            text = stringResource(id = R.string.create_wallet_secure_your_wallet),
+            text = stringResource(id = R.string.wallet_android_feature_onboard_create_wallet_secure_your_wallet),
             style = MaterialTheme.typography.headlineLarge,
         )
         Spacer(modifier = Modifier.height(48.dp))
@@ -72,11 +72,11 @@ internal fun SecureScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .aspectRatio(ratio = 265.0F / 191.0F),
-            painter = painterResource(id = R.drawable.ic_secure),
+            painter = painterResource(id = R.drawable.wallet_android_feature_onboard_ic_secure),
             contentDescription = null,
         )
         Spacer(modifier = Modifier.height(48.dp))
-        Text(text = stringResource(id = R.string.create_wallet_secure_desc))
+        Text(text = stringResource(id = R.string.wallet_android_feature_onboard_create_wallet_secure_desc))
         Spacer(modifier = Modifier.weight(1.0f))
         OutlinedButton(
             modifier = Modifier.fillMaxWidth(),

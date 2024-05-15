@@ -36,13 +36,13 @@ internal enum class ActionSheetMenu(
     val trailingIcon: ImageVector
 ) {
     CREATE_BY_SEED(
-        title = UiText.StringResource(resId = R.string.onboard_seed_phrase_title),
-        desc = UiText.StringResource(resId = R.string.onboard_seed_phrase_create_desc),
+        title = UiText.StringResource(resId = R.string.wallet_android_feature_wallet_onboard_seed_phrase_title),
+        desc = UiText.StringResource(resId = R.string.wallet_android_feature_wallet_onboard_seed_phrase_create_desc),
         trailingIcon = Icons.Default.Wallet,
     ),
     RESTORE_BY_SEED(
-        title = UiText.StringResource(resId = R.string.onboard_seed_phrase_title),
-        desc = UiText.StringResource(resId = R.string.onboard_seed_phrase_import_desc),
+        title = UiText.StringResource(resId = R.string.wallet_android_feature_wallet_onboard_seed_phrase_title),
+        desc = UiText.StringResource(resId = R.string.wallet_android_feature_wallet_onboard_seed_phrase_import_desc),
         trailingIcon = Icons.Default.Wallet,
     )
 }

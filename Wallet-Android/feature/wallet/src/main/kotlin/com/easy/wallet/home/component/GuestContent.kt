@@ -49,7 +49,7 @@ internal fun GuestContent(
         ) {
             Image(
                 modifier = Modifier.wrapContentSize(),
-                painter = painterResource(id = R.drawable.ic_setup_wallet),
+                painter = painterResource(id = R.drawable.wallet_android_feature_wallet_ic_setup_wallet),
                 contentDescription = null,
             )
             Spacer(modifier = Modifier.height(48.dp))
@@ -71,7 +71,7 @@ internal fun GuestContent(
                 actionDestination = ActionDestination.Create
             },
         ) {
-            Text(text = stringResource(id = R.string.onboard_create_wallet))
+            Text(text = stringResource(id = R.string.wallet_android_feature_wallet_onboard_create_wallet))
         }
         OutlinedButton(
             modifier = Modifier.fillMaxWidth(),
@@ -79,7 +79,7 @@ internal fun GuestContent(
                 actionDestination = ActionDestination.Restore
             },
         ) {
-            Text(text = stringResource(id = R.string.onboard_import_wallet))
+            Text(text = stringResource(id = R.string.wallet_android_feature_wallet_onboard_import_wallet))
         }
     }
     when(actionDestination) {

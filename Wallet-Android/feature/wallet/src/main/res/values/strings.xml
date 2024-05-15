@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="onboard_create_wallet">Create wallet</string>
-    <string name="onboard_import_wallet">I already have one</string>
-    <string name="onboard_seed_phrase_title">Seed phrase</string>
-    <string name="onboard_seed_phrase_create_desc">Create a wallet by generating seed phrase</string>
-    <string name="onboard_seed_phrase_import_desc">12,18,24-word seed phrases are supported</string>
+    <string name="wallet_android_feature_wallet_onboard_create_wallet">Create wallet</string>
+    <string name="wallet_android_feature_wallet_onboard_import_wallet">I already have one</string>
+    <string name="wallet_android_feature_wallet_onboard_seed_phrase_title">Seed phrase</string>
+    <string name="wallet_android_feature_wallet_onboard_seed_phrase_create_desc">Create a wallet by generating seed phrase</string>
+    <string name="wallet_android_feature_wallet_onboard_seed_phrase_import_desc">12,18,24-word seed phrases are supported</string>
 </resources>

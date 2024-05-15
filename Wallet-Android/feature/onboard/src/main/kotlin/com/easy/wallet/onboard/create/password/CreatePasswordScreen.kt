@@ -78,14 +78,14 @@ internal fun CreatePasswordScreen(
         )
         Spacer(modifier = Modifier.height(16.dp))
         Text(
-            text = stringResource(id = R.string.create_wallet_create_password),
+            text = stringResource(id = R.string.wallet_android_feature_onboard_create_wallet_create_password),
             style = MaterialTheme.typography.headlineLarge,
         )
         Text(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 8.dp),
-            text = stringResource(id = R.string.create_wallet_create_password_desc),
+            text = stringResource(id = R.string.wallet_android_feature_onboard_create_wallet_create_password_desc),
         )
         TextField(
             value = uiState.password,
@@ -137,7 +137,7 @@ internal fun CreatePasswordScreen(
                 },
             )
             Spacer(modifier = Modifier.width(12.dp))
-            Text(text = stringResource(R.string.create_wallet_create_password_terms))
+            Text(text = stringResource(R.string.wallet_android_feature_onboard_create_wallet_create_password_terms))
         }
         Spacer(modifier = Modifier.weight(1.0f))
         Button(
@@ -145,7 +145,7 @@ internal fun CreatePasswordScreen(
             enabled = uiState.isAvailable(),
             onClick = { onEvent(CreateWalletEvent.NextToSecure) },
         ) {
-            Text(text = stringResource(id = R.string.create_wallet_create_password))
+            Text(text = stringResource(id = R.string.wallet_android_feature_onboard_create_wallet_create_password))
         }
     }
 }
