@@ -13,8 +13,8 @@ plugins {
 android {
     defaultConfig {
         applicationId = "com.easy.wallet"
-        versionCode = 1000000003
-        versionName = "v0.1.0-alpha03"
+        versionCode = 1000000005
+        versionName = "v0.1.0-alpha04"
     }
     namespace = "com.easy.wallet"
     val keyProperties = keyStoreProperties()
