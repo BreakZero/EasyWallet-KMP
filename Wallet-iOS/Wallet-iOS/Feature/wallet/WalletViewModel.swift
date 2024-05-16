@@ -16,29 +16,23 @@ extension WalletTabView {
         @LazyKoin private var dashboardUseCase: AllAssetDashboardUseCase
         @LazyKoin private var multiWalletRepository: MultiWalletRepository
         
-        private let moneyTrend: [Double] = [8,2,4,6,12,9,2]
+        @Published private(set) var walletDashboard: AllAssetDashboardInformation? = nil
+        @Published private(set) var isChecking: Bool = true
         
-        @Published private(set) var walletUiState: WalletUiState = WalletUiState.Fetching
-        @Published private(set) var walletExist: Bool = false
-        
-        func fetching() {
+        func checkWallet() {
             Task {
                 try? await asyncSequence(for: multiWalletRepository.findWalletStream()).collect { wallet in
-                    print("wallet \(wallet?.mnemonic ?? "empty...")")
+                    isChecking = false
                     if wallet != nil {
-                        walletUiState = WalletUiState.Fetching
-                        await startLoadToken(wallet: wallet!)
-                    } else {
-                        walletUiState = WalletUiState.GuestUiState("Guest User")
+                        await loading(wallet: wallet!)
                     }
                 }
             }
         }
         
-        private func startLoadToken(wallet: ModelWallet) async {
-            try? await asyncSequence(for: dashboardUseCase.invoke(wallet: wallet)).collect { dashboard in
-                print("token size: \(dashboard.fiatBalance)")
-                self.walletUiState = WalletUiState.UserUiState(dashboard)
+        private func loading(wallet: ModelWallet) async {
+            try? await asyncSequence(for: dashboardUseCase.invoke(wallet: wallet)).collect {dashboard in
+                self.walletDashboard = dashboard
             }
         }
     }

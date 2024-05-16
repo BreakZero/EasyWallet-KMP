@@ -13,25 +13,26 @@ struct CoinListHeaderCell: View {
     var height: CGFloat = 300
     
     var body: some View {
-        ImageLoaderView(urlString: "https://picsum.photos/600")
+        Rectangle()
+            .opacity(0.001)
             .overlay(
                 HStack(spacing: 88) {
                     Image(systemName: "arrow.up")
                         .resizable()
                         .padding(12)
-                        .background(Color.accentColor)
+                        .background(Color.accentColor.opacity(0.7))
                         .clipShape(Circle())
                         .clipped()
                         .frame(width: 50, height: 50)
                     Image(systemName: "arrow.down")
                         .resizable()
                         .padding(12)
-                        .background(Color.accentColor)
+                        .background(Color.accentColor.opacity(0.7))
                         .clipShape(Circle())
                         .clipped()
                         .frame(width: 50, height: 50)
                 }
-            ).asStretchyHeader(startingHeight: 300)
+            ).frame(height: height)
     }
 }
 
