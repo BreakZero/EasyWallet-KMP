@@ -19,6 +19,7 @@
 		3C4075242BF60E6E00E1D102 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4075232BF60E6E00E1D102 /* Constants.swift */; };
 		3C4075272BF60F5A00E1D102 /* TransactionDashboardHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4075262BF60F5A00E1D102 /* TransactionDashboardHeader.swift */; };
 		3C4075292BF6195D00E1D102 /* TransactionRowCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4075282BF6195D00E1D102 /* TransactionRowCell.swift */; };
+		3C40752B2BF631CF00E1D102 /* NewsRowCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C40752A2BF631CF00E1D102 /* NewsRowCell.swift */; };
 		3C41F6C42BF5B9EE001E512F /* CoinListHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C41F6C32BF5B9EE001E512F /* CoinListHeaderCell.swift */; };
 		3C41F6C62BF5C478001E512F /* CoinRowCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C41F6C52BF5C478001E512F /* CoinRowCell.swift */; };
 		3C7565282A973CC80032A653 /* WalletTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7565272A973CC80032A653 /* WalletTabView.swift */; };
@@ -27,7 +28,6 @@
 		3C7565302A973FDF0032A653 /* DiscoverScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C75652F2A973FDF0032A653 /* DiscoverScreen.swift */; };
 		3CB939BD2AB58754008AF467 /* NewsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CB939BC2AB58754008AF467 /* NewsScreen.swift */; };
 		3CB939BF2AB58777008AF467 /* NewsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CB939BE2AB58777008AF467 /* NewsViewModel.swift */; };
-		3CB939C22AB5E54A008AF467 /* NewsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CB939C12AB5E54A008AF467 /* NewsView.swift */; };
 		3CC5B6822AB981CC000B97CD /* GuestUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CC5B6812AB981CC000B97CD /* GuestUserView.swift */; };
 		3CC5B6862AB9845A000B97CD /* DefaultStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CC5B6852AB9845A000B97CD /* DefaultStyle.swift */; };
 		3CC5B6882ABA8BF0000B97CD /* ActionSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CC5B6872ABA8BF0000B97CD /* ActionSheetView.swift */; };
@@ -53,6 +53,7 @@
 		3C4075232BF60E6E00E1D102 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		3C4075262BF60F5A00E1D102 /* TransactionDashboardHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionDashboardHeader.swift; sourceTree = "<group>"; };
 		3C4075282BF6195D00E1D102 /* TransactionRowCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionRowCell.swift; sourceTree = "<group>"; };
+		3C40752A2BF631CF00E1D102 /* NewsRowCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsRowCell.swift; sourceTree = "<group>"; };
 		3C41F6C32BF5B9EE001E512F /* CoinListHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinListHeaderCell.swift; sourceTree = "<group>"; };
 		3C41F6C52BF5C478001E512F /* CoinRowCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinRowCell.swift; sourceTree = "<group>"; };
 		3C7565272A973CC80032A653 /* WalletTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletTabView.swift; sourceTree = "<group>"; };
@@ -61,7 +62,6 @@
 		3C75652F2A973FDF0032A653 /* DiscoverScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverScreen.swift; sourceTree = "<group>"; };
 		3CB939BC2AB58754008AF467 /* NewsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsScreen.swift; sourceTree = "<group>"; };
 		3CB939BE2AB58777008AF467 /* NewsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsViewModel.swift; sourceTree = "<group>"; };
-		3CB939C12AB5E54A008AF467 /* NewsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsView.swift; sourceTree = "<group>"; };
 		3CC5B6812AB981CC000B97CD /* GuestUserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuestUserView.swift; sourceTree = "<group>"; };
 		3CC5B6852AB9845A000B97CD /* DefaultStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultStyle.swift; sourceTree = "<group>"; };
 		3CC5B6872ABA8BF0000B97CD /* ActionSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionSheetView.swift; sourceTree = "<group>"; };
@@ -168,7 +168,7 @@
 		3CB939C02AB5E530008AF467 /* component */ = {
 			isa = PBXGroup;
 			children = (
-				3CB939C12AB5E54A008AF467 /* NewsView.swift */,
+				3C40752A2BF631CF00E1D102 /* NewsRowCell.swift */,
 			);
 			path = component;
 			sourceTree = "<group>";
@@ -439,6 +439,7 @@
 				3C75652E2A973FC90032A653 /* MarketplaceScreen.swift in Sources */,
 				3CC5B68F2ABABEF0000B97CD /* RestoreViewModel.swift in Sources */,
 				3C0CA2172BC68D3000E43D9F /* OnFirstAppearModifier.swift in Sources */,
+				3C40752B2BF631CF00E1D102 /* NewsRowCell.swift in Sources */,
 				3C41F6C42BF5B9EE001E512F /* CoinListHeaderCell.swift in Sources */,
 				3C4075222BF6024800E1D102 /* RootEntryView.swift in Sources */,
 				3CED15942BB0810A006C6EC1 /* Koin.swift in Sources */,
@@ -452,7 +453,6 @@
 				3CC5B6862AB9845A000B97CD /* DefaultStyle.swift in Sources */,
 				3CED15B02BB279D7006C6EC1 /* AsyncExtensions.swift in Sources */,
 				3CED15A32BB1CBBB006C6EC1 /* TransactionViewModel.swift in Sources */,
-				3CB939C22AB5E54A008AF467 /* NewsView.swift in Sources */,
 				3C40751D2BF5D8C900E1D102 /* ImageLoaderView.swift in Sources */,
 				3C7565302A973FDF0032A653 /* DiscoverScreen.swift in Sources */,
 				3C75652A2A973CDC0032A653 /* WalletViewModel.swift in Sources */,
@@ -583,6 +583,7 @@
 			baseConfigurationReference = 1170E243CAC1ED71B700C0B7 /* Pods-Wallet-iOS.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"Wallet-iOS/Preview Content\"";
 				DEVELOPMENT_TEAM = 6JF6SLX7QS;
@@ -609,6 +610,7 @@
 			baseConfigurationReference = E1964BC418A04471FF958614 /* Pods-Wallet-iOS.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"Wallet-iOS/Preview Content\"";
 				DEVELOPMENT_TEAM = 6JF6SLX7QS;

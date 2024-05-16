@@ -66,6 +66,7 @@ struct TransactionDashboardHeader: View {
             .frame(maxWidth: .infinity, alignment: .bottomLeading)
             .background(LinearGradient(colors: [Color.clear, .black], startPoint: .top, endPoint: .bottom)), alignment: .bottomLeading
         ).chartXAxis(.hidden)
+            .chartYAxis(.hidden)
             .frame(height: height)
     }
 }
