@@ -7,19 +7,8 @@
 //
 
 import Foundation
-import shared
+import platform_shared
 import KMPNativeCoroutinesAsync
-
-struct TransactionDashboard {
-    let balance: String
-    let marketPrices: [MarketPrice]
-}
-
-struct MarketPrice: Identifiable {
-    let index: Int
-    let price: Float
-    var id: Int { index }
-}
 
 extension TransactionScreen {
     @MainActor final class ViewModel: ObservableObject {
@@ -34,19 +23,25 @@ extension TransactionScreen {
         @Published private(set) var hasNextPage: Bool = false
         @Published private(set) var showLoading: Bool = false
 
-        @Published private(set) var transactionDashboard: TransactionDashboard = TransactionDashboard(balance: "0.0", marketPrices: [])
+        @Published private(set) var transactionDashboard: TransactionDashboard = TransactionDashboard(balance: "0.0", symbol: "", marketPrices: [])
 
         func loading(coinId: String) async {
             let balanceSequence = asyncSequence(for: coinBalanceUseCase.invoke(coinId: coinId))
-            let trendsSequence = asyncSequence(for: coinTrendUseCase.invoke(coinId: coinId))
+            _ = asyncSequence(for: coinTrendUseCase.invoke(coinId: coinId))
             do {
                 try await balanceSequence.collect { balance in
-                    self.transactionDashboard = TransactionDashboard(balance: balance.balance, marketPrices: [])
+                    self.transactionDashboard = TransactionDashboard(
+                        balance: balance.balance,
+                        symbol: balance.symbol,
+                        marketPrices: PriceOfCoinMarket.mocks
+                    )
                 }
             } catch {
                 print(error)
             }
         }
+        
+        
 
         func initPaging(coinId: String) async {
             let transactionStream = tnxPagerUseCase.invoke(coinId: coinId)

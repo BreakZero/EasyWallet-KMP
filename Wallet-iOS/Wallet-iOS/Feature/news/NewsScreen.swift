@@ -16,19 +16,21 @@ struct NewsScreen: View {
         NavigationStack {
             List {
                 ForEach(viewModel.newsResult, id: \.self.title) { news in
-                    Button(action: {
-                        if let url = URL(string: news.link), UIApplication.shared.canOpenURL(url) {
-                            UIApplication.shared.open(url)
+                    NewsRowCell(news: news)
+                        .padding(.horizontal)
+                        .listRowInsets(EdgeInsets())
+                        .asButton {
+                            if let url = URL(string: news.link), UIApplication.shared.canOpenURL(url) {
+                                UIApplication.shared.open(url)
+                            }
                         }
-                    }, label: {
-                        NewsView(news: news)
-                            .listRowInsets(EdgeInsets())
-                            .listRowBackground(Color.clear)
-                    })
                 }
                 
                 if viewModel.showLoding {
                     // loading view
+                    VStack {
+                        ProgressView(label: { Text("Loading...") })
+                    }
                 }
                 
                 

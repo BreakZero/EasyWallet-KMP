@@ -1,31 +1,38 @@
+//
+//  RootEntryView.swift
+//  Wallet-iOS
+//
+//  Created by Jin on 2024/5/16.
+//  Copyright © 2024 orgName. All rights reserved.
+//
+
 import SwiftUI
 
-struct ContentView: View {
-    
+struct RootEntryView: View {
     var body: some View {
         TabView {
-            HomeScreen().tabItem {
+            WalletTabView().tabItem {
                 Label(
-                    title: { Text("Home") },
-                    icon: { Image("home") }
+                    title: { Text("Wallet") },
+                    icon: { Image(systemName: "house.fill") }
                 )
             }
             NewsScreen().tabItem {
                 Label(
                     title: { Text("News")},
-                    icon: { Image("store") }
+                    icon: { Image(systemName: "newspaper") }
                 )
             }
             MarketplaceScreen().tabItem {
                 Label(
                     title: { Text("Marketplace") },
-                    icon: { Image("store") }
+                    icon: { Image(systemName: "chart.line.uptrend.xyaxis") }
                 )
             }
             DiscoverScreen().tabItem {
                 Label(
                     title: { Text("Discover") },
-                    icon: { Image("travel_explore") }
+                    icon: { Image(systemName: "circle.grid.cross.down.filled") }
                 )
             }
         }
@@ -33,5 +40,5 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView()
+    RootEntryView()
 }

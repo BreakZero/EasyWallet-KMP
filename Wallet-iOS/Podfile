@@ -1,7 +1,7 @@
 target 'Wallet-iOS' do
   use_frameworks!
   platform :ios, '16.0'
-  pod 'shared', :path => '../platform/shared'
+  pod 'platform-shared', :path => '../platform/shared'
 end
 post_install do |installer|
   installer.pods_project.targets.each do |target|

@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import shared
+import platform_shared
 import KMPNativeCoroutinesAsync
 
 extension NewsScreen {
@@ -24,7 +24,6 @@ extension NewsScreen {
         func startLoadNews() {
             Task {
                 try? await asyncSequence(for: newsPager.invoke()).collect { pagingData in
-                    print(pagingData.description)
                     try? await delegate.submitData(pagingData: pagingData)
                 }
             }
