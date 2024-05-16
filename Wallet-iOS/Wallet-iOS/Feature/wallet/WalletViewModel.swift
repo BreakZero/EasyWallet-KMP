@@ -11,8 +11,8 @@ import Combine
 import platform_shared
 import KMPNativeCoroutinesAsync
 
-extension HomeScreen {
-    @MainActor final class HomeViewModel: ObservableObject {
+extension WalletTabView {
+    @MainActor final class WalletViewModel: ObservableObject {
         @LazyKoin private var dashboardUseCase: AllAssetDashboardUseCase
         @LazyKoin private var multiWalletRepository: MultiWalletRepository
         

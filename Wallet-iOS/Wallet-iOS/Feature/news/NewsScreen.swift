@@ -29,6 +29,9 @@ struct NewsScreen: View {
                 
                 if viewModel.showLoding {
                     // loading view
+                    VStack {
+                        ProgressView(label: { Text("Loading...") })
+                    }
                 }
                 
                 

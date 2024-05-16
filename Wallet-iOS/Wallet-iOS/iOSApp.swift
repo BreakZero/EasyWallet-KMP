@@ -1,16 +1,16 @@
 import SwiftUI
-import shared
-
+import SwiftfulRouting
 
 @main
 struct iOSApp: App {
     init() {
         KoinApplication.start()
     }
-	var body: some Scene {
-		WindowGroup {
+    var body: some Scene {
+        WindowGroup {
+            
             TabView {
-                HomeScreen().tabItem {
+                WalletTabView().tabItem {
                     Label(
                         title: { Text("Wallet") },
                         icon: { Image(systemName: "house.fill") }
@@ -34,7 +34,8 @@ struct iOSApp: App {
                         icon: { Image(systemName: "circle.grid.cross.down.filled") }
                     )
                 }
+                
             }
-		}
-	}
+        }
+    }
 }

@@ -13,11 +13,15 @@
 		3C0CA2132BC51E6D00E43D9F /* KMPNativeCoroutinesAsync in Frameworks */ = {isa = PBXBuildFile; productRef = 3C0CA2122BC51E6D00E43D9F /* KMPNativeCoroutinesAsync */; };
 		3C0CA2152BC51E6D00E43D9F /* KMPNativeCoroutinesCore in Frameworks */ = {isa = PBXBuildFile; productRef = 3C0CA2142BC51E6D00E43D9F /* KMPNativeCoroutinesCore */; };
 		3C0CA2172BC68D3000E43D9F /* OnFirstAppearModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C0CA2162BC68D3000E43D9F /* OnFirstAppearModifier.swift */; };
-		3C7565282A973CC80032A653 /* WalletScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7565272A973CC80032A653 /* WalletScreen.swift */; };
+		3C40751A2BF5D86200E1D102 /* SwiftfulUI in Frameworks */ = {isa = PBXBuildFile; productRef = 3C4075192BF5D86200E1D102 /* SwiftfulUI */; };
+		3C40751D2BF5D8C900E1D102 /* ImageLoaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C40751C2BF5D8C900E1D102 /* ImageLoaderView.swift */; };
+		3C4075202BF5EFC000E1D102 /* SwiftfulRouting in Frameworks */ = {isa = PBXBuildFile; productRef = 3C40751F2BF5EFC000E1D102 /* SwiftfulRouting */; };
+		3C41F6C42BF5B9EE001E512F /* CoinListHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C41F6C32BF5B9EE001E512F /* CoinListHeaderCell.swift */; };
+		3C41F6C62BF5C478001E512F /* CoinRowCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C41F6C52BF5C478001E512F /* CoinRowCell.swift */; };
+		3C7565282A973CC80032A653 /* WalletTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7565272A973CC80032A653 /* WalletTabView.swift */; };
 		3C75652A2A973CDC0032A653 /* WalletViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7565292A973CDC0032A653 /* WalletViewModel.swift */; };
 		3C75652E2A973FC90032A653 /* MarketplaceScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C75652D2A973FC90032A653 /* MarketplaceScreen.swift */; };
 		3C7565302A973FDF0032A653 /* DiscoverScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C75652F2A973FDF0032A653 /* DiscoverScreen.swift */; };
-		3CB6A4D42AB44EA500861D13 /* CoinItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CB6A4D32AB44EA500861D13 /* CoinItemView.swift */; };
 		3CB939BD2AB58754008AF467 /* NewsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CB939BC2AB58754008AF467 /* NewsScreen.swift */; };
 		3CB939BF2AB58777008AF467 /* NewsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CB939BE2AB58777008AF467 /* NewsViewModel.swift */; };
 		3CB939C22AB5E54A008AF467 /* NewsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CB939C12AB5E54A008AF467 /* NewsView.swift */; };
@@ -43,11 +47,13 @@
 		1170E243CAC1ED71B700C0B7 /* Pods-Wallet-iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Wallet-iOS.debug.xcconfig"; path = "Target Support Files/Pods-Wallet-iOS/Pods-Wallet-iOS.debug.xcconfig"; sourceTree = "<group>"; };
 		2152FB032600AC8F00CF470E /* iOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSApp.swift; sourceTree = "<group>"; };
 		3C0CA2162BC68D3000E43D9F /* OnFirstAppearModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnFirstAppearModifier.swift; sourceTree = "<group>"; };
-		3C7565272A973CC80032A653 /* WalletScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletScreen.swift; sourceTree = "<group>"; };
+		3C40751C2BF5D8C900E1D102 /* ImageLoaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoaderView.swift; sourceTree = "<group>"; };
+		3C41F6C32BF5B9EE001E512F /* CoinListHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinListHeaderCell.swift; sourceTree = "<group>"; };
+		3C41F6C52BF5C478001E512F /* CoinRowCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinRowCell.swift; sourceTree = "<group>"; };
+		3C7565272A973CC80032A653 /* WalletTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletTabView.swift; sourceTree = "<group>"; };
 		3C7565292A973CDC0032A653 /* WalletViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletViewModel.swift; sourceTree = "<group>"; };
 		3C75652D2A973FC90032A653 /* MarketplaceScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketplaceScreen.swift; sourceTree = "<group>"; };
 		3C75652F2A973FDF0032A653 /* DiscoverScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverScreen.swift; sourceTree = "<group>"; };
-		3CB6A4D32AB44EA500861D13 /* CoinItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinItemView.swift; sourceTree = "<group>"; };
 		3CB939BC2AB58754008AF467 /* NewsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsScreen.swift; sourceTree = "<group>"; };
 		3CB939BE2AB58777008AF467 /* NewsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsViewModel.swift; sourceTree = "<group>"; };
 		3CB939C12AB5E54A008AF467 /* NewsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsView.swift; sourceTree = "<group>"; };
@@ -75,7 +81,9 @@
 			files = (
 				7E8C56C9F6F8FC69B807AD81 /* Pods_Wallet_iOS.framework in Frameworks */,
 				3C0CA2152BC51E6D00E43D9F /* KMPNativeCoroutinesCore in Frameworks */,
+				3C40751A2BF5D86200E1D102 /* SwiftfulUI in Frameworks */,
 				3C0CA2132BC51E6D00E43D9F /* KMPNativeCoroutinesAsync in Frameworks */,
+				3C4075202BF5EFC000E1D102 /* SwiftfulRouting in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -90,11 +98,19 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
+		3C40751B2BF5D89C00E1D102 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				3C40751C2BF5D8C900E1D102 /* ImageLoaderView.swift */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
 		3C7565242A973C9C0032A653 /* wallet */ = {
 			isa = PBXGroup;
 			children = (
 				3CB6A4D22AB44E7F00861D13 /* component */,
-				3C7565272A973CC80032A653 /* WalletScreen.swift */,
+				3C7565272A973CC80032A653 /* WalletTabView.swift */,
 				3C7565292A973CDC0032A653 /* WalletViewModel.swift */,
 				3CC5B67F2AB89073000B97CD /* WalletUiState.swift */,
 			);
@@ -120,9 +136,10 @@
 		3CB6A4D22AB44E7F00861D13 /* component */ = {
 			isa = PBXGroup;
 			children = (
-				3CB6A4D32AB44EA500861D13 /* CoinItemView.swift */,
 				3CC5B6812AB981CC000B97CD /* GuestUserView.swift */,
 				3CC5B6872ABA8BF0000B97CD /* ActionSheetView.swift */,
+				3C41F6C32BF5B9EE001E512F /* CoinListHeaderCell.swift */,
+				3C41F6C52BF5C478001E512F /* CoinRowCell.swift */,
 			);
 			path = component;
 			sourceTree = "<group>";
@@ -255,6 +272,7 @@
 		7555FF7D242A565900829871 /* Wallet-iOS */ = {
 			isa = PBXGroup;
 			children = (
+				3C40751B2BF5D89C00E1D102 /* Shared */,
 				3CED15B42BB405BD006C6EC1 /* View */,
 				3CED15AE2BB279AA006C6EC1 /* Helper */,
 				3CED159D2BB17AF5006C6EC1 /* Feature */,
@@ -298,6 +316,8 @@
 			packageProductDependencies = (
 				3C0CA2122BC51E6D00E43D9F /* KMPNativeCoroutinesAsync */,
 				3C0CA2142BC51E6D00E43D9F /* KMPNativeCoroutinesCore */,
+				3C4075192BF5D86200E1D102 /* SwiftfulUI */,
+				3C40751F2BF5EFC000E1D102 /* SwiftfulRouting */,
 			);
 			productName = "Wallet-iOS";
 			productReference = 7555FF7B242A565900829871 /* Wallet-iOS.app */;
@@ -329,6 +349,8 @@
 			mainGroup = 7555FF72242A565900829871;
 			packageReferences = (
 				3C0CA2112BC51E6D00E43D9F /* XCRemoteSwiftPackageReference "KMP-NativeCoroutines" */,
+				3C4075182BF5D86200E1D102 /* XCRemoteSwiftPackageReference "SwiftfulUI" */,
+				3C40751E2BF5EFBF00E1D102 /* XCRemoteSwiftPackageReference "SwiftfulRouting" */,
 			);
 			productRefGroup = 7555FF7C242A565900829871 /* Products */;
 			projectDirPath = "";
@@ -406,18 +428,20 @@
 				3C75652E2A973FC90032A653 /* MarketplaceScreen.swift in Sources */,
 				3CC5B68F2ABABEF0000B97CD /* RestoreViewModel.swift in Sources */,
 				3CC5B6802AB89073000B97CD /* WalletUiState.swift in Sources */,
-				3CB6A4D42AB44EA500861D13 /* CoinItemView.swift in Sources */,
 				3CED15B22BB3A9BF006C6EC1 /* TransactionSummaryView.swift in Sources */,
 				3C0CA2172BC68D3000E43D9F /* OnFirstAppearModifier.swift in Sources */,
+				3C41F6C42BF5B9EE001E512F /* CoinListHeaderCell.swift in Sources */,
 				3CED15942BB0810A006C6EC1 /* Koin.swift in Sources */,
+				3C41F6C62BF5C478001E512F /* CoinRowCell.swift in Sources */,
 				3CB939BF2AB58777008AF467 /* NewsViewModel.swift in Sources */,
-				3C7565282A973CC80032A653 /* WalletScreen.swift in Sources */,
+				3C7565282A973CC80032A653 /* WalletTabView.swift in Sources */,
 				3CC5B68D2ABABED1000B97CD /* RestoreScreen.swift in Sources */,
 				3CC5B6822AB981CC000B97CD /* GuestUserView.swift in Sources */,
 				3CC5B6862AB9845A000B97CD /* DefaultStyle.swift in Sources */,
 				3CED15B02BB279D7006C6EC1 /* AsyncExtensions.swift in Sources */,
 				3CED15A32BB1CBBB006C6EC1 /* TransactionViewModel.swift in Sources */,
 				3CB939C22AB5E54A008AF467 /* NewsView.swift in Sources */,
+				3C40751D2BF5D8C900E1D102 /* ImageLoaderView.swift in Sources */,
 				3C7565302A973FDF0032A653 /* DiscoverScreen.swift in Sources */,
 				3C75652A2A973CDC0032A653 /* WalletViewModel.swift in Sources */,
 			);
@@ -626,6 +650,22 @@
 				version = "1.0.0-ALPHA-28";
 			};
 		};
+		3C4075182BF5D86200E1D102 /* XCRemoteSwiftPackageReference "SwiftfulUI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SwiftfulThinking/SwiftfulUI";
+			requirement = {
+				kind = exactVersion;
+				version = 1.2.0;
+			};
+		};
+		3C40751E2BF5EFBF00E1D102 /* XCRemoteSwiftPackageReference "SwiftfulRouting" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SwiftfulThinking/SwiftfulRouting";
+			requirement = {
+				kind = exactVersion;
+				version = 5.3.4;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -638,6 +678,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 3C0CA2112BC51E6D00E43D9F /* XCRemoteSwiftPackageReference "KMP-NativeCoroutines" */;
 			productName = KMPNativeCoroutinesCore;
+		};
+		3C4075192BF5D86200E1D102 /* SwiftfulUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3C4075182BF5D86200E1D102 /* XCRemoteSwiftPackageReference "SwiftfulUI" */;
+			productName = SwiftfulUI;
+		};
+		3C40751F2BF5EFC000E1D102 /* SwiftfulRouting */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3C40751E2BF5EFBF00E1D102 /* XCRemoteSwiftPackageReference "SwiftfulRouting" */;
+			productName = SwiftfulRouting;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
