@@ -1,4 +1,4 @@
-[![Android Release Build](https://github.com/BreakZero/EasyWallet-KMP/actions/workflows/android-build-release.yml/badge.svg)](https://github.com/BreakZero/EasyWallet-KMP/actions/workflows/android-build-release.yml)
+[![Github Release](https://github.com/BreakZero/EasyWallet-KMP/actions/workflows/Release.yml/badge.svg)](https://github.com/BreakZero/EasyWallet-KMP/actions/workflows/Release.yml)
 
 ## 关于EasyWallet - (WIP)
 EasyWallet是一个去中心化钱包，计划所有关于钱包方面的资产都将本地化，使用用户自定义RPC节点达到更高的可信度。
