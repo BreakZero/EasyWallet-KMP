@@ -16,7 +16,7 @@ data object MarketplaceEntryRoute
 
 fun NavController.selectedMarketplaceTab(navOptions: NavOptions? = null) = navigate(MarketplaceTabRoute, navOptions)
 
-fun NavGraphBuilder.attachMarketplaceGraph(
+fun NavGraphBuilder.attachMarketplaceTabGraph(
     nestedGraphs: NavGraphBuilder.() -> Unit
 ) {
     navigation<MarketplaceTabRoute>(startDestination = MarketplaceEntryRoute) {

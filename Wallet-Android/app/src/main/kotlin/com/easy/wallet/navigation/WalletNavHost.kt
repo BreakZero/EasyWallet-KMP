@@ -4,12 +4,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
-import androidx.navigation.navigation
-import com.easy.wallet.discover.navigation.attachDiscoverGraph
-import com.easy.wallet.home.navigation.attachHomeGraph
+import com.easy.wallet.discover.navigation.attachDiscoverTabGraph
+import com.easy.wallet.home.navigation.attachWalletTabGraph
 import com.easy.wallet.home.navigation.toTransactionList
-import com.easy.wallet.marketplace.navigation.attachMarketplaceGraph
-import com.easy.wallet.news.navigation.attachNewsGraph
+import com.easy.wallet.marketplace.navigation.attachMarketplaceTabGraph
+import com.easy.wallet.news.navigation.attachNewsTabGraph
 import com.easy.wallet.onboard.create.navigation.attachCreateWalletGraph
 import com.easy.wallet.onboard.create.navigation.toCreateWallet
 import com.easy.wallet.onboard.restore.navigation.attachRestoreWallet
@@ -41,7 +40,7 @@ fun WalletNavHost(
         navController = navController,
         startDestination = WalletTabRoute,
     ) {
-        attachHomeGraph(
+        attachWalletTabGraph(
             onCreateWallet = navController::toCreateWallet,
             onRestoreWallet = navController::toImportWallet,
             navigateToSettings = navController::toSettings,
@@ -50,28 +49,34 @@ fun WalletNavHost(
             },
             onStartSend = { navController.startSendFlow(it) },
             showSnackbar = { scope.launch { onShowSnackbar(it, null) } },
-            navigateUp = navController::navigateUp
-        ) {
-
-        }
-        attachCreateWalletGraph(navController)
-        attachRestoreWallet(navController)
-        attachNewsGraph{}
-        attachMarketplaceGraph{}
-        attachDiscoverGraph{}
-        attachSettingsModule(
-            navigateToSupportedChains = navController::navigateToSupportedChains,
-            navigateTokenManager = navController::navigateToTokenManager,
             popBack = navController::popBackStack
-        )
-        attachChainManager(
-            navigateToDetail = { navController.navigateToChainDetail(it) },
-            navigateUp = navController::navigateUp
-        )
-        attachTokenManager(
-            navigateToEditor = { navController.navigateToTokenEditor() },
-            navigateUp = navController::navigateUp
-        )
-        attachSendGraph(navController, onShowSnackbar = { scope.launch { onShowSnackbar(it, null) } })
+        ) {
+            attachCreateWalletGraph(navController)
+            attachRestoreWallet(navController)
+
+            attachSendGraph(
+                navController,
+                onShowSnackbar = { scope.launch { onShowSnackbar(it, null) } }
+            )
+
+            attachSettingsModule(
+                navigateToSupportedChains = navController::navigateToSupportedChains,
+                navigateTokenManager = navController::navigateToTokenManager,
+                popBack = navController::popBackStack
+            ) {
+                attachChainManager(
+                    navigateToDetail = { navController.navigateToChainDetail(it) },
+                    navigateUp = navController::navigateUp
+                )
+                attachTokenManager(
+                    navigateToEditor = { navController.navigateToTokenEditor() },
+                    navigateUp = navController::navigateUp
+                )
+            }
+        }
+
+        attachNewsTabGraph {}
+        attachMarketplaceTabGraph {}
+        attachDiscoverTabGraph {}
     }
 }

@@ -14,14 +14,14 @@ import com.easy.wallet.news.NewsRoute
 import kotlinx.serialization.Serializable
 
 @Serializable
-data object NewsTabRoute
+internal data object NewsTabRoute
 
 @Serializable
 data object NewsEntryRoute
 
 fun NavController.selectedNewsTab(navOptions: NavOptions? = null) = navigate(NewsTabRoute, navOptions)
 
-fun NavGraphBuilder.attachNewsGraph(
+fun NavGraphBuilder.attachNewsTabGraph(
     nestedGraphs: NavGraphBuilder.() -> Unit
 ) {
     navigation<NewsTabRoute>(startDestination = NewsEntryRoute) {

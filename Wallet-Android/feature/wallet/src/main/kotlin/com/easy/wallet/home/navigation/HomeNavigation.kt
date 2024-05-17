@@ -32,13 +32,13 @@ fun NavController.onSelectedWalletTab(navOptions: NavOptions? = null) =
 fun NavController.toTransactionList(coinId: String, navOptions: NavOptions? = null) =
     navigate(TransactionListRoute(coinId = coinId), navOptions)
 
-fun NavGraphBuilder.attachHomeGraph(
+fun NavGraphBuilder.attachWalletTabGraph(
     onCreateWallet: () -> Unit,
     onRestoreWallet: () -> Unit,
     navigateToSettings: () -> Unit,
     onCoinClicked: (CoinModel) -> Unit,
     onStartSend: (String) -> Unit,
-    navigateUp: () -> Unit,
+    popBack: () -> Unit,
     showSnackbar: (String) -> Unit,
     nestedGraphs: NavGraphBuilder.() -> Unit
 ) {
@@ -47,7 +47,7 @@ fun NavGraphBuilder.attachHomeGraph(
             WalletRoute(
                 onCreateWallet = onCreateWallet,
                 onRestoreWallet = onRestoreWallet,
-                onTokenClick = onCoinClicked,
+                onCoinItemClick = onCoinClicked,
                 navigateToSettings = navigateToSettings,
             )
         }
@@ -58,7 +58,7 @@ fun NavGraphBuilder.attachHomeGraph(
                 viewModel = viewModel,
                 startToSend = onStartSend,
                 showSnackbar = showSnackbar,
-                navigateUp = navigateUp
+                navigateUp = popBack
             )
         }
         nestedGraphs()

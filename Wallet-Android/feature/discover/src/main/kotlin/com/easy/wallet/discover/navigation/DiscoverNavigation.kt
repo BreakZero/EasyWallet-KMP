@@ -18,7 +18,7 @@ fun NavController.selectedDiscoverTab(navOptions: NavOptions? = null) {
     navigate(DiscoverTabRoute, navOptions)
 }
 
-fun NavGraphBuilder.attachDiscoverGraph(
+fun NavGraphBuilder.attachDiscoverTabGraph(
     nestedGraphs: NavGraphBuilder.() -> Unit
 ) {
     navigation<DiscoverTabRoute>(startDestination = DiscoverEntryRoute) {

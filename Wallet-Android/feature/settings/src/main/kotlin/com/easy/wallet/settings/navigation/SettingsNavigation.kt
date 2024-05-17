@@ -17,7 +17,8 @@ fun NavController.toSettings(navOptions: NavOptions? = null) {
 fun NavGraphBuilder.attachSettingsModule(
     navigateToSupportedChains: () -> Unit,
     navigateTokenManager: () -> Unit,
-    popBack: () -> Unit
+    popBack: () -> Unit,
+    nestedGraphs: NavGraphBuilder.() -> Unit
 ) {
     navigation(route = settingsRoute, startDestination = settingsEntryRoute) {
         composable(settingsEntryRoute) {
@@ -27,5 +28,6 @@ fun NavGraphBuilder.attachSettingsModule(
                 popBack = popBack
             )
         }
+        nestedGraphs()
     }
 }
