@@ -10,7 +10,7 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.ksp)
     alias(libs.plugins.nativecoroutines)
-    alias(libs.plugins.skie)
+//    alias(libs.plugins.skie)
 }
 
 kotlin {
@@ -56,7 +56,7 @@ kotlin {
                 implementation(libs.ktor.serialization.kotlinx.json)
 
                 implementation("app.cash.paging:paging-common:3.3.0-alpha02-0.5.1")
-                implementation(libs.skie.annotations)
+//                implementation(libs.skie.annotations)
 
                 api("com.trustwallet:wallet-core-kotlin:4.0.31")
                 implementation(libs.bignum)
@@ -91,14 +91,14 @@ android {
     }
 }
 
-skie {
-    features {
-        group {
-            SealedInterop.Enabled(true)
-            EnumInterop.Enabled(true)
-            coroutinesInterop.set(false)
-            SuspendInterop.Enabled(false)
-            FlowInterop.Enabled(false)
-        }
-    }
-}
+//skie {
+//    features {
+//        group {
+//            SealedInterop.Enabled(true)
+//            EnumInterop.Enabled(true)
+//            coroutinesInterop.set(false)
+//            SuspendInterop.Enabled(false)
+//            FlowInterop.Enabled(false)
+//        }
+//    }
+//}

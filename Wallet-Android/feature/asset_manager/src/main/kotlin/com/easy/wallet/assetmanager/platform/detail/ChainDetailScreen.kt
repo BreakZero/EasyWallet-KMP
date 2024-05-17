@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBackIos
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -51,7 +52,7 @@ internal fun ChainDetailScreen(
         topBar = {
             TopAppBar(title = { }, navigationIcon = {
                 IconButton(onClick = { navigateUp() }) {
-                    Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
+                    Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBackIos, contentDescription = null)
                 }
             }, colors = TopAppBarDefaults.topAppBarColors()
                 .copy(containerColor = MaterialTheme.colorScheme.inverseOnSurface)

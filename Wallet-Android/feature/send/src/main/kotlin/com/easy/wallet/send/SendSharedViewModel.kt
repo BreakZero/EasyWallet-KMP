@@ -1,10 +1,9 @@
 package com.easy.wallet.send
 
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.text2.input.TextFieldState
-import androidx.compose.foundation.text2.input.clearText
-import androidx.compose.foundation.text2.input.delete
-import androidx.compose.foundation.text2.input.textAsFlow
+import androidx.compose.foundation.text.input.TextFieldState
+import androidx.compose.foundation.text.input.clearText
+import androidx.compose.foundation.text.input.delete
+import androidx.compose.runtime.snapshotFlow
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.easy.wallet.android.core.BaseViewModel
@@ -30,7 +29,6 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 
-@OptIn(ExperimentalFoundationApi::class)
 internal class SendSharedViewModel(
     savedStateHandle: SavedStateHandle,
     getAssetCoinInfoUseCase: GetAssetCoinInfoUseCase,
@@ -52,7 +50,7 @@ internal class SendSharedViewModel(
 
     // enter destination page ui state, check enter address is valid or not
     val destinationUiState = combine(
-        destination.textAsFlow(),
+        snapshotFlow { destination },
         getAssetCoinInfoUseCase(coinId)
     ) { address, assetCoin ->
         val coinType = when (assetCoin.platform.id) {
@@ -70,7 +68,7 @@ internal class SendSharedViewModel(
 
     // enter amount page ui state, check balance is enough or not
     val amountUiState = combine(
-        _amount.textAsFlow(),
+        snapshotFlow { _amount },
         coinBalanceUseCase(coinId)
     ) { amount, assetBalance ->
         val insufficientBalance =

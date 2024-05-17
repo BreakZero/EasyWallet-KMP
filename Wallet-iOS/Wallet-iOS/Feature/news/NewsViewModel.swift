@@ -12,11 +12,11 @@ import KMPNativeCoroutinesAsync
 
 extension NewsScreen {
     @MainActor final class ViewModel: ObservableObject {
-        
+
         @LazyKoin private var newsPager: NewsPager
-        
+
         private var delegate = PagingCollectionViewController<ModelNews>()
-        
+
         @Published private(set) var newsResult:[ModelNews] = []
         @Published private(set) var hasNextPage: Bool = false
         @Published private(set) var showLoding: Bool = false
@@ -28,7 +28,7 @@ extension NewsScreen {
                 }
             }
         }
-        
+
         func subscribeDataChanged() async {
             do {
                 for try await _ in asyncSequence(for: delegate.onPagesUpdatedFlow) {
@@ -36,13 +36,13 @@ extension NewsScreen {
                 }
             } catch {}
         }
-        
+
         func loadNextPage() {
             delegate.loadNextPage()
         }
-        
+
         func subscribeLoadState() async {
-            do {
+            /* do {
                 for try await loadState in asyncSequence(for: delegate.loadStateFlow) {
                     switch onEnum(of: loadState.append) {
                     case .error(let errorState):
@@ -54,7 +54,7 @@ extension NewsScreen {
                         self.hasNextPage = !notLoading.endOfPaginationReached
                         break
                     }
-                    
+
                     switch onEnum(of: loadState.refresh) {
                     case .error(_):
                         break
@@ -67,8 +67,8 @@ extension NewsScreen {
                     }
                 }
             } catch {
-                
-            }
+
+            } */
         }
     }
 }

@@ -1,26 +1,27 @@
 [versions]
 androidDesugarJdkLibs = "2.0.4"
 androidx-core-splashscreen = "1.0.1"
-androidx-core-ktx = "1.12.0"
+androidx-core-ktx = "1.13.1"
 androidx-appcompat = "1.6.1"
-androidx-lifecycle = "2.7.0"
-androidx-paging = "3.3.0-alpha02"
+androidx-lifecycle = "2.8.0"
+androidx-paging = "3.3.0"
 androidxTracing = "1.2.0"
 androidxWindowManager = "1.2.0"
 androidxWork = "2.9.0"
 vico = "2.0.0-alpha.19"
-skie = "0.6.2"
+skie = "0.7.2"
 
 buildkonfigGradlePlugin = "0.15.1"
-compose-bom = "2024.04.00"
-compose-compiler = "1.5.11"
-compose-activity = "1.8.2"
-compose-navigation = "2.7.7"
+compose-bom = "2024.05.00"
+compose-compiler = "1.5.14"
+compose-activity = "1.9.0"
+compose-navigation = "2.8.0-beta01"
 
 kotlinx-coroutine = "1.8.0"
+kotlinx-serilization = "1.6.3"
 
 # For plugins
-org-jetbrains-kotlin = "1.9.23"
+org-jetbrains-kotlin = "1.9.24"
 android-gradle-plugin = "8.4.0"
 
 # For testing
@@ -31,11 +32,10 @@ jacoco = "0.8.10"
 
 # tools
 sqldelight = "2.0.1"
-coil = "2.4.0"
-koin = "3.4.1"
+coil = "2.6.0"
+koin = "3.5.6"
 ktor = "2.3.3"
-material = "1.11.0"
-ksp = "1.9.22-1.0.17"
+ksp = "1.9.24-1.0.20"
 hilt = "2.48"
 native-coroutines = "1.0.0-ALPHA-27"
 
@@ -81,8 +81,9 @@ espresso-core = { group = "androidx.test.espresso", name = "espresso-core", vers
 # Kotlinx
 kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinx-coroutine" }
 kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlinx-coroutine" }
+kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version = "kotlinx-serilization" }
 
-kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version = "0.4.1" }
+kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version = "0.5.0" }
 
 sqldelight-runtime = { group = "app.cash.sqldelight", name = "runtime", version.ref = "sqldelight" }
 sqldelight-android = { group = "app.cash.sqldelight", name = "android-driver", version.ref = "sqldelight" }
@@ -120,9 +121,6 @@ vico-compose-m3 = { group = "com.patrykandpatrick.vico", name = "compose-m3", ve
 vico-core = { group = "com.patrykandpatrick.vico", name = "core", version.ref = "vico" }
 
 zxing = { group = "com.google.zxing", name = "core", version = "3.5.1" }
-
-# helper
-material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "android-gradle-plugin" }

@@ -1,6 +1,5 @@
 package com.easy.wallet.send.destination
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -9,8 +8,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.text2.BasicTextField2
-import androidx.compose.foundation.text2.input.TextFieldState
+import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.ContentCopy
@@ -41,7 +40,7 @@ import com.easy.wallet.send.SendUiEvent
 import com.easy.wallet.send.SendingBasicUiState
 import com.easy.wallet.send.navigation.sendAmountRoute
 
-@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun EvmChainDestinationScreen(
     uiState: SendingBasicUiState,
@@ -100,7 +99,7 @@ internal fun EvmChainDestinationScreen(
                     modifier = modifier,
                     verticalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
-                    BasicTextField2(
+                    BasicTextField(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(16.dp),
@@ -159,7 +158,6 @@ internal fun EvmChainDestinationScreen(
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @ThemePreviews
 @Composable
 private fun EvmChainDestination_Preview() {

@@ -1,18 +1,17 @@
 package com.easy.wallet.assetmanager.platform.editor
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.text2.BasicTextField2
-import androidx.compose.foundation.text2.input.InputTransformation
-import androidx.compose.foundation.text2.input.TextFieldLineLimits
-import androidx.compose.foundation.text2.input.TextFieldState
+import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.input.InputTransformation
+import androidx.compose.foundation.text.input.TextFieldLineLimits
+import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBackIos
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -55,7 +54,7 @@ internal fun ChainEditorRoute(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun ChainEditorScreen(
     chainEditorUiState: ChainEditorUiState,
@@ -68,7 +67,7 @@ private fun ChainEditorScreen(
         topBar = {
             TopAppBar(title = { }, navigationIcon = {
                 IconButton(onClick = { onEvent(ChainEditorUiEvent.NavigateUp) }) {
-                    Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
+                    Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBackIos, contentDescription = null)
                 }
             }, colors = TopAppBarDefaults.topAppBarColors()
                 .copy(containerColor = MaterialTheme.colorScheme.inverseOnSurface)
@@ -126,7 +125,6 @@ private fun ChainEditorScreen(
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 internal fun EditorWithLabel(
     modifier: Modifier = Modifier,
@@ -140,7 +138,7 @@ internal fun EditorWithLabel(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(style = MaterialTheme.typography.labelMedium, text = label)
-        BasicTextField2(
+        BasicTextField(
             modifier = Modifier
                 .weight(1.0f)
                 .padding(horizontal = 8.dp),
@@ -152,7 +150,6 @@ internal fun EditorWithLabel(
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @ThemePreviews
 @Composable
 private fun Editor_Preview() {
