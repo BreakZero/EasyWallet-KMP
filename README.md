@@ -76,24 +76,17 @@ opensea=008e**********91dd6564880a
 ### UI展示
 
 - Light Theme
-  |                                                          |                                                               |                                                           |
-  | :--------------------------------------------------------| :------------------------------------------------------------:|----------------------------------------------------------:|
-  | ![Setup](screens%2FScreenshot_20240403_142430.png)       | ![Password](screens%2FScreenshot_20240403_142459.png)         | ![Seed](screens%2FScreenshot_20240403_142539.png)         |
-  | ![Seed Phrase](screens%2FScreenshot_20240403_142552.png) | ![Tokens](screens%2FScreenshot_20240403_170909.png)           | ![News](screens%2FScreenshot_20240403_170930.png)         |
-  | ![News Detail](screens%2FScreenshot_20240403_171051.png) | ![Marketplace](screens%2FScreenshot_20240403_170946.png)      | ![Transactions](screens%2FScreenshot_20240403_171126.png) |
-  | ![Receive](screens%2FScreenshot_20240403_171142.png)     | ![Activated Tokens](screens%2FScreenshot_20240403_171200.png) | ![Add Token](screens%2FScreenshot_20240403_234138.png)    |
-
-- Dark Theme
-  |                                                   |                                                           |                                                      |
-  | :-------------------------------------------------| :--------------------------------------------------------:|-----------------------------------------------------:|
-  | ![Home](screens%2FScreenshot_20240403_000608.png) | ![Transactions](screens%2FScreenshot_20240403_000650.png) | ![Receive](screens%2FScreenshot_20240403_000723.png) |
+  |                                                                             |                                                                             |                                                                             |
+  | --------------------------------------------------------------------------- | --------------------------------------------------------------------------- | --------------------------------------------------------------------------: |
+  | ![Screenshot_20240517_100227.png](screens%2FScreenshot_20240517_100227.png) | ![Screenshot_20240517_100249.png](screens%2FScreenshot_20240517_100249.png) | ![Screenshot_20240517_100302.png](screens%2FScreenshot_20240517_100302.png) |
+  | ![Screenshot_20240517_100718.png](screens%2FScreenshot_20240517_100718.png) | ![Screenshot_20240517_100728.png](screens%2FScreenshot_20240517_100728.png) | ![Screenshot_20240517_100800.png](screens%2FScreenshot_20240517_100800.png) |
+  | ![Screenshot_20240517_100819.png](screens%2FScreenshot_20240517_100819.png) | ![Screenshot_20240517_100847.png](screens%2FScreenshot_20240517_100847.png) | ![Screenshot_20240517_100923.png](screens%2FScreenshot_20240517_100923.png) |
+  | ![Screenshot_20240517_101027.png](screens%2FScreenshot_20240517_101027.png) | ![Screenshot_20240517_101219.png](screens%2FScreenshot_20240517_101219.png) |                                                                             |
 
 - iOS
-  |                                                   |                                                           |                                                      |
-  | :-------------------------------------------------| :--------------------------------------------------------:|-----------------------------------------------------:|
+  |                                                                       |                                                                       |                                                                       |
+  | --------------------------------------------------------------------- | --------------------------------------------------------------------- | --------------------------------------------------------------------: |
   | ![Screenshot_01_iPhone_15.png](screens%2FScreenshot_01_iPhone_15.png) | ![Screenshot_02_iPhone_15.png](screens%2FScreenshot_02_iPhone_15.png) | ![Screenshot_03_iPhone_15.png](screens%2FScreenshot_03_iPhone_15.png) |
-
-
 
 ### 界面参考资源
 

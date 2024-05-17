@@ -21,6 +21,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import com.easy.wallet.design.theme.ThemePreviews
@@ -49,9 +50,8 @@ internal fun TransactionSummaryView(
                 horizontalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 val accentColor = when (transaction.status) {
-                    TransactionStatus.Confirmed -> MaterialTheme.colorScheme.primaryContainer
-                    TransactionStatus.Pending -> MaterialTheme.colorScheme.secondary
                     TransactionStatus.Failed -> MaterialTheme.colorScheme.error
+                    else -> Color.Unspecified
                 }
                 Icon(
                     modifier = Modifier
@@ -62,11 +62,14 @@ internal fun TransactionSummaryView(
                     imageVector = transaction.icon(), contentDescription = null
                 )
                 Column(modifier = Modifier) {
-                    Text(text = transaction.actionTitle())
+                    Text(text = transaction.actionTitle(), )
                     Text(color = accentColor, text = transaction.status.name)
                 }
                 Spacer(modifier = Modifier.weight(1.0f))
-                Text(text = "${transaction.amount} ${transaction.symbol}")
+                Text(
+                    text = "${transaction.amount} ${transaction.symbol}",
+                    style = MaterialTheme.typography.titleMedium
+                )
             }
         }
     }

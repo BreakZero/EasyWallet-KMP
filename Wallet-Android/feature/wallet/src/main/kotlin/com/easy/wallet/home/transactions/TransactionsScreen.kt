@@ -113,10 +113,10 @@ internal fun TransactionsScreen(
                     ElevatedButton(
                         modifier = Modifier.weight(1.0f),
                         colors = ButtonDefaults.elevatedButtonColors()
-                            .copy(containerColor = MaterialTheme.colorScheme.onTertiaryContainer),
+                            .copy(containerColor = MaterialTheme.colorScheme.tertiaryContainer),
                         onClick = { showReceiveSheet = true }
                     ) {
-                        Text(text = "RECEIVE")
+                        Text(text = "RECEIVE", color = MaterialTheme.colorScheme.onTertiaryContainer)
                     }
                 }
             }

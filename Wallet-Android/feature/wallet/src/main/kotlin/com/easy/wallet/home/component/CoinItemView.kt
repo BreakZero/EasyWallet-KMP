@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Card
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -43,8 +44,15 @@ internal fun CoinItemView(
             imageUrl = assetBalance.logoURI,
             contentDescription = assetBalance.name,
         )
-        Text(modifier = Modifier.padding(start = 12.dp), text = assetBalance.name)
+        Text(
+            modifier = Modifier.padding(start = 12.dp),
+            text = assetBalance.name,
+            style = MaterialTheme.typography.titleMedium
+        )
         Spacer(modifier = Modifier.weight(1.0f))
-        Text(text = "${assetBalance.balance} ${assetBalance.symbol}")
+        Text(
+            text = "${assetBalance.balance} ${assetBalance.symbol}",
+            style = MaterialTheme.typography.titleLarge
+        )
     }
 }

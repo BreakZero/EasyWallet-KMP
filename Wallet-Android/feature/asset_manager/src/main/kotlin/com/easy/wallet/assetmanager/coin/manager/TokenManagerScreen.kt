@@ -155,6 +155,6 @@ private fun TokenInformationView(
             Text(text = coin.symbol)
         }
         Spacer(modifier = Modifier.weight(1.0f))
-        Switch(checked = false, onCheckedChange = onCheckedChange)
+        Switch(checked = true, onCheckedChange = onCheckedChange)
     }
 }
