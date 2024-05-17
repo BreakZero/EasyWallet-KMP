@@ -24,7 +24,14 @@ internal class CoinDaoImpl(
 ) : CoinDao {
     override suspend fun insert(vararg coins: CoinEntity) {
         queries.transaction {
-            coins.onEach(queries::insertFullObject)
+            coins.onEach {
+                val isExisted = queries.findCoinById(it.id).executeAsOneOrNull() != null
+                if (isExisted) {
+                    return@onEach
+                } else {
+                    queries.insertFullObject(it)
+                }
+            }
         }
     }
 

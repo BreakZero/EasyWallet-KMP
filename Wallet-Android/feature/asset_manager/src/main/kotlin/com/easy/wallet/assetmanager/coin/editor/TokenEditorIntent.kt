@@ -26,4 +26,6 @@ sealed interface TokenEditorEvent {
 
     data class OnActiveChanged(val isActive: Boolean) : TokenEditorEvent
     data object ClickSaved : TokenEditorEvent
+
+    data object OnSavedSuccess: TokenEditorEvent
 }

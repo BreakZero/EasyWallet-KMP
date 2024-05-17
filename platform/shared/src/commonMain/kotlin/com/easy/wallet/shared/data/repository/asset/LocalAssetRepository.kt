@@ -1,10 +1,12 @@
 package com.easy.wallet.shared.data.repository.asset
 
+import com.easy.wallet.database.CoinEntity
 import com.easy.wallet.database.dao.AssetPlatformDao
 import com.easy.wallet.database.dao.CoinDao
 import com.easy.wallet.model.asset.AssetPlatform
 import com.easy.wallet.model.asset.BasicCoin
 import kotlinx.coroutines.flow.Flow
+import kotlin.math.log
 
 class LocalAssetRepository internal constructor(
     private val coinDao: CoinDao,
@@ -24,6 +26,28 @@ class LocalAssetRepository internal constructor(
 
     override suspend fun findCoinsById(coinId: String): List<BasicCoin> {
         return coinDao.findCoinsById(coinId)
+    }
+
+    override suspend fun insertCoin(
+        id: String,
+        platformId: String,
+        symbol: String,
+        name: String,
+        logoUri: String,
+        contract: String?,
+        decimalPlace: Int
+    ) {
+        val coinEntity = CoinEntity(
+            id = id,
+            platform_id = platformId,
+            symbol = symbol,
+            name = name,
+            logo_uri = logoUri,
+            contract = contract,
+            decimal_place = decimalPlace,
+            is_active = true
+        )
+        coinDao.insert(coinEntity)
     }
 
     override suspend fun insertPlatform(

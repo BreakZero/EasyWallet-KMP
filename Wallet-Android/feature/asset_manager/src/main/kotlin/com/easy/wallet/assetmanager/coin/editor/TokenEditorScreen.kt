@@ -36,6 +36,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.easy.wallet.android.core.extensions.ObserveAsEvents
 import com.easy.wallet.assetmanager.platform.editor.EditorWithLabel
 import org.koin.androidx.compose.koinViewModel
 
@@ -46,6 +47,14 @@ internal fun TokenEditorRoute(
     val viewModel: TokenEditorViewModel = koinViewModel()
     val editorUiState by viewModel.tokenEditorUiState.collectAsStateWithLifecycle()
     val editorFields = viewModel.tokenEditorFields
+
+    ObserveAsEvents(flow = viewModel.navigationEvents) {
+        when(it) {
+            TokenEditorEvent.OnSavedSuccess -> navigateUp()
+            else -> Unit
+        }
+    }
+
     TokenEditorScreen(
         editorUiState = editorUiState,
         editorFields = editorFields,
