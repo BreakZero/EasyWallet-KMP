@@ -1,46 +1,36 @@
 package com.easy.wallet.home.navigation
 
-import androidx.annotation.VisibleForTesting
-import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
-import androidx.navigation.NavType
 import androidx.navigation.compose.composable
-import androidx.navigation.navArgument
 import androidx.navigation.navigation
+import androidx.navigation.toRoute
 import com.easy.wallet.home.WalletRoute
 import com.easy.wallet.home.transactions.TransactionsRoute
+import com.easy.wallet.home.transactions.TransactionsViewModel
 import com.easy.wallet.model.asset.CoinModel
-import java.net.URLDecoder
-import java.net.URLEncoder
-import kotlin.text.Charsets.UTF_8
+import kotlinx.serialization.Serializable
+import org.koin.androidx.compose.koinViewModel
+import org.koin.core.parameter.parametersOf
 
-const val HOME_GRAPH_ROUTE_PATTERN = "wallet_graph"
-const val homeEntryRoute = "_wallet_route"
+@Serializable
+data object WalletTabRoute
 
-internal const val transactionListRoute = "_transaction_list_route"
+@Serializable
+data object WalletEntryRoute
 
-fun NavController.selectedHomeTab(navOptions: NavOptions? = null) {
-    this.navigate(HOME_GRAPH_ROUTE_PATTERN, navOptions)
-}
 
-@VisibleForTesting
-internal const val COIN_ID_ARG = "tokenId"
+@Serializable
+internal data class TransactionListRoute(
+    val coinId: String
+)
 
-internal class CoinArgs(val tokenId: String) {
-    constructor(savedStateHandle: SavedStateHandle) : this(
-        URLDecoder.decode(
-            savedStateHandle[COIN_ID_ARG],
-            UTF_8.name()
-        )
-    )
-}
+fun NavController.onSelectedWalletTab(navOptions: NavOptions? = null) =
+    navigate(WalletTabRoute, navOptions)
 
-fun NavController.toTransactionList(coinId: String, navOptions: NavOptions? = null) {
-    val encodeTokenId = URLEncoder.encode(coinId, UTF_8.name())
-    this.navigate("$transactionListRoute/$encodeTokenId", navOptions)
-}
+fun NavController.toTransactionList(coinId: String, navOptions: NavOptions? = null) =
+    navigate(TransactionListRoute(coinId = coinId), navOptions)
 
 fun NavGraphBuilder.attachHomeGraph(
     onCreateWallet: () -> Unit,
@@ -52,8 +42,8 @@ fun NavGraphBuilder.attachHomeGraph(
     showSnackbar: (String) -> Unit,
     nestedGraphs: NavGraphBuilder.() -> Unit
 ) {
-    navigation(route = HOME_GRAPH_ROUTE_PATTERN, startDestination = homeEntryRoute) {
-        composable(route = homeEntryRoute) {
+    navigation<WalletTabRoute>(startDestination = WalletEntryRoute) {
+        composable<WalletEntryRoute> {
             WalletRoute(
                 onCreateWallet = onCreateWallet,
                 onRestoreWallet = onRestoreWallet,
@@ -61,13 +51,11 @@ fun NavGraphBuilder.attachHomeGraph(
                 navigateToSettings = navigateToSettings,
             )
         }
-        composable(
-            route = "$transactionListRoute/{$COIN_ID_ARG}",
-            arguments = listOf(
-                navArgument(COIN_ID_ARG) { type = NavType.StringType }
-            )
-        ) {
+        composable<TransactionListRoute> {
+            val args = it.toRoute<TransactionListRoute>()
+            val viewModel: TransactionsViewModel = koinViewModel { parametersOf(args.coinId) }
             TransactionsRoute(
+                viewModel = viewModel,
                 startToSend = onStartSend,
                 showSnackbar = showSnackbar,
                 navigateUp = navigateUp

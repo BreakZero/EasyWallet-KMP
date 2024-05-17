@@ -4,8 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
+import androidx.navigation.navigation
 import com.easy.wallet.discover.navigation.attachDiscoverGraph
-import com.easy.wallet.home.navigation.HOME_GRAPH_ROUTE_PATTERN
 import com.easy.wallet.home.navigation.attachHomeGraph
 import com.easy.wallet.home.navigation.toTransactionList
 import com.easy.wallet.marketplace.navigation.attachMarketplaceGraph
@@ -24,6 +24,7 @@ import com.easy.wallet.assetmanager.platform.navigation.navigateToSupportedChain
 import com.easy.wallet.assetmanager.coin.navigation.attachTokenManager
 import com.easy.wallet.assetmanager.coin.navigation.navigateToTokenEditor
 import com.easy.wallet.assetmanager.coin.navigation.navigateToTokenManager
+import com.easy.wallet.home.navigation.WalletTabRoute
 import com.easy.wallet.ui.WalletAppState
 import kotlinx.coroutines.launch
 
@@ -31,15 +32,14 @@ import kotlinx.coroutines.launch
 fun WalletNavHost(
     appState: WalletAppState,
     onShowSnackbar: suspend (String, String?) -> Boolean,
-    modifier: Modifier = Modifier,
-    startDestination: String = HOME_GRAPH_ROUTE_PATTERN
+    modifier: Modifier = Modifier
 ) {
     val navController = appState.navController
     val scope = rememberCoroutineScope()
     NavHost(
         modifier = modifier,
         navController = navController,
-        startDestination = startDestination,
+        startDestination = WalletTabRoute,
     ) {
         attachHomeGraph(
             onCreateWallet = navController::toCreateWallet,
@@ -56,9 +56,9 @@ fun WalletNavHost(
         }
         attachCreateWalletGraph(navController)
         attachRestoreWallet(navController)
-        attachNewsGraph()
-        attachMarketplaceGraph()
-        attachDiscoverGraph()
+        attachNewsGraph{}
+        attachMarketplaceGraph{}
+        attachDiscoverGraph{}
         attachSettingsModule(
             navigateToSupportedChains = navController::navigateToSupportedChains,
             navigateTokenManager = navController::navigateToTokenManager,
