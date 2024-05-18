@@ -12,9 +12,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.TopAppBarDefaults.enterAlwaysScrollBehavior
-import androidx.compose.material3.TopAppBarDefaults.exitUntilCollapsedScrollBehavior
-import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -34,7 +31,7 @@ internal fun WalletRoute(
     viewModel: WalletViewModel = koinViewModel(),
     onCreateWallet: () -> Unit,
     onRestoreWallet: () -> Unit,
-    onTokenClick: (CoinModel) -> Unit,
+    onCoinItemClick: (CoinModel) -> Unit,
     navigateToSettings: () -> Unit
 ) {
     val uiState by viewModel.homeUiState.collectAsStateWithLifecycle()
@@ -45,7 +42,7 @@ internal fun WalletRoute(
             WalletEvent.CreateWallet -> onCreateWallet()
             WalletEvent.RestoreWallet -> onRestoreWallet()
             WalletEvent.SettingsClicked -> navigateToSettings()
-            is WalletEvent.OnCoinClicked -> onTokenClick(event.coin)
+            is WalletEvent.OnCoinClicked -> onCoinItemClick(event.coin)
             else -> Unit
         }
     }

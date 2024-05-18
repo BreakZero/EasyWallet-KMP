@@ -3,6 +3,7 @@ plugins {
     id("easy.android.library")
     id("easy.android.library.compose")
     id("easy.android.koin")
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -16,6 +17,9 @@ dependencies {
     implementation(project(":platform:shared"))
     implementation(project(":platform:datastore"))
     implementation(project(":platform:model"))
+
+    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.androidx.compose.navigation)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)

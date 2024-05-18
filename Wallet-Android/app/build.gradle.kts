@@ -8,6 +8,7 @@ plugins {
     id("easy.android.application")
     id("easy.android.application.compose")
     id("easy.android.jacoco")
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -59,6 +60,7 @@ dependencies {
     implementation(libs.androidx.compose.viewmodel)
     implementation(libs.androidx.compose.lifecycle.runtime)
     implementation(libs.androidx.compose.navigation)
+    implementation(libs.kotlinx.serialization.json)
     implementation(libs.bundles.koin.android.bundle)
 
     implementation(project(":platform:core"))

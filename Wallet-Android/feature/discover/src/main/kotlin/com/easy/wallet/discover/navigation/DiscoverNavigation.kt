@@ -4,17 +4,27 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
+import androidx.navigation.navigation
 import com.easy.wallet.discover.DiscoverRoute
+import kotlinx.serialization.Serializable
 
-const val discoverTabRoute = "discover_tab"
-internal const val discoverEntryRoute = "discover_entry"
+@Serializable
+internal data object DiscoverTabRoute
+
+@Serializable
+data object DiscoverEntryRoute
 
 fun NavController.selectedDiscoverTab(navOptions: NavOptions? = null) {
-    this.navigate(discoverTabRoute, navOptions)
+    navigate(DiscoverTabRoute, navOptions)
 }
 
-fun NavGraphBuilder.attachDiscoverGraph() {
-    composable(route = discoverTabRoute) {
-        DiscoverRoute()
+fun NavGraphBuilder.attachDiscoverTabGraph(
+    nestedGraphs: NavGraphBuilder.() -> Unit
+) {
+    navigation<DiscoverTabRoute>(startDestination = DiscoverEntryRoute) {
+        composable<DiscoverEntryRoute> {
+            DiscoverRoute()
+        }
+        nestedGraphs()
     }
 }

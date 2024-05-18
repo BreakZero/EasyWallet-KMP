@@ -3,6 +3,7 @@ plugins {
     id("easy.android.library")
     id("easy.android.library.compose")
     id("easy.android.koin")
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -12,4 +13,7 @@ android {
 dependencies {
     implementation(project(":Wallet-Android:design-system"))
     implementation(project(":Wallet-Android:core"))
+
+    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.androidx.compose.navigation)
 }

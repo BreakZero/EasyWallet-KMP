@@ -9,17 +9,26 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
+import androidx.navigation.navigation
 import com.easy.wallet.news.NewsRoute
+import kotlinx.serialization.Serializable
 
-const val newsTabRoute = "_news_tab_route"
+@Serializable
+internal data object NewsTabRoute
 
-fun NavController.selectedNewsTab(navOptions: NavOptions? = null) {
-    this.navigate(newsTabRoute, navOptions)
-}
+@Serializable
+data object NewsEntryRoute
 
-fun NavGraphBuilder.attachNewsGraph() {
-    composable(route = newsTabRoute) {
-        NewsRoute()
+fun NavController.selectedNewsTab(navOptions: NavOptions? = null) = navigate(NewsTabRoute, navOptions)
+
+fun NavGraphBuilder.attachNewsTabGraph(
+    nestedGraphs: NavGraphBuilder.() -> Unit
+) {
+    navigation<NewsTabRoute>(startDestination = NewsEntryRoute) {
+        composable<NewsEntryRoute> {
+            NewsRoute()
+        }
+        nestedGraphs()
     }
 }
 

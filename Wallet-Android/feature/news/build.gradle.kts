@@ -3,6 +3,7 @@ plugins {
     id("easy.android.library")
     id("easy.android.library.compose")
     id("easy.android.koin")
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -16,7 +17,9 @@ dependencies {
     implementation(project(":platform:shared"))
     implementation(project(":platform:model"))
 
-    implementation("androidx.browser:browser:1.7.0")
+    implementation("androidx.browser:browser:1.8.0")
+    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.androidx.compose.navigation)
 
     implementation(libs.androidx.paging)
     implementation(libs.androidx.paging.compose)

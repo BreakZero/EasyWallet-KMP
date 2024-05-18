@@ -40,8 +40,8 @@ extension TransactionScreen {
                 print(error)
             }
         }
-        
-        
+
+
 
         func initPaging(coinId: String) async {
             let transactionStream = tnxPagerUseCase.invoke(coinId: coinId)

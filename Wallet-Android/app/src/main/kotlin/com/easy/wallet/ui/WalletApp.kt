@@ -75,10 +75,6 @@ fun WalletApp(
                     // nav rail
                 }
                 Column(modifier = Modifier.fillMaxSize()) {
-                    when (appState.currentTopLevelDestination) {
-                        TopLevelDestination.WALLET -> {}
-                        else -> Unit
-                    }
                     WalletNavHost(
                         appState = appState,
                         onShowSnackbar = { message, action ->
@@ -144,5 +140,7 @@ private fun Modifier.notificationDot(): Modifier =
 
 private fun NavDestination?.isTopLevelDestinationInHierarchy(destination: TopLevelDestination) =
     this?.hierarchy?.any {
-        it.route?.contains(destination.name, true) ?: false
+        it.route.mapToTopLevelDestination() == destination
     } ?: false
+
+

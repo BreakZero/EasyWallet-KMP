@@ -55,7 +55,7 @@ kotlin {
                 implementation(libs.ktor.client.content.negotiation)
                 implementation(libs.ktor.serialization.kotlinx.json)
 
-                implementation("app.cash.paging:paging-common:3.3.0-alpha02-0.5.1")
+                implementation(libs.paging.common)
                 implementation(libs.skie.annotations)
 
                 api("com.trustwallet:wallet-core-kotlin:4.0.31")
@@ -66,12 +66,12 @@ kotlin {
 
         commonTest.dependencies {
             implementation(kotlin("test"))
-            api("com.trustwallet:wallet-core-kotlin:4.0.31")
+            implementation("com.trustwallet:wallet-core-kotlin:4.0.31")
         }
 
         iosMain {
             dependencies {
-                implementation("app.cash.paging:paging-runtime-uikit:3.3.0-alpha02-0.5.1")
+                implementation(libs.paging.runtime.uikit)
                 implementation(libs.ktor.client.darwin)
             }
         }

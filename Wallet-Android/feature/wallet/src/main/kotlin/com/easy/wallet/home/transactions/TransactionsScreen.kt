@@ -47,11 +47,11 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 internal fun TransactionsRoute(
+    viewModel: TransactionsViewModel,
     startToSend: (String) -> Unit,
     showSnackbar: (String) -> Unit,
     navigateUp: () -> Unit
 ) {
-    val viewModel: TransactionsViewModel = koinViewModel()
     val transactionUiState = viewModel.transactionPager.collectAsLazyPagingItems()
     val dashboardUiState by viewModel.dashboardUiState.collectAsStateWithLifecycle()
 

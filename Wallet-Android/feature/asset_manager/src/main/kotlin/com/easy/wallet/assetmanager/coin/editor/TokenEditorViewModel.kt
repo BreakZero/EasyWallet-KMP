@@ -1,7 +1,6 @@
 package com.easy.wallet.assetmanager.coin.editor
 
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.text2.input.TextFieldState
+import androidx.compose.foundation.text.input.TextFieldState
 import androidx.lifecycle.viewModelScope
 import com.easy.wallet.android.core.BaseViewModel
 import com.easy.wallet.model.asset.AssetPlatform
@@ -17,7 +16,6 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.util.UUID
 
-@OptIn(ExperimentalFoundationApi::class)
 internal class TokenEditorViewModel(
     private val coinRepository: CoinRepository,
     private val platformRepository: PlatformRepository

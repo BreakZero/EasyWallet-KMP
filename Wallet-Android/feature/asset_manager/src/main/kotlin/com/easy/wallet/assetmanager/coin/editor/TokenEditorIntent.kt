@@ -1,7 +1,6 @@
 package com.easy.wallet.assetmanager.coin.editor
 
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.text2.input.TextFieldState
+import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.runtime.Stable
 import com.easy.wallet.model.asset.AssetPlatform
 
@@ -11,7 +10,6 @@ data class TokenEditorUiState(
     val isActive: Boolean = false
 )
 
-@OptIn(ExperimentalFoundationApi::class)
 @Stable
 data class TokenEditorFields(
     val name: TextFieldState = TextFieldState(),

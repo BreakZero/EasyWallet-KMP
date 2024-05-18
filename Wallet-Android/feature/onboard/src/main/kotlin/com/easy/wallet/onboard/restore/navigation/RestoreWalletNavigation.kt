@@ -5,15 +5,17 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import com.easy.wallet.onboard.restore.RestoreWalletRoute
+import kotlinx.serialization.Serializable
 
-const val importWalletRoute = "_restore_wallet"
+@Serializable
+internal data object ImportWalletRoute
 
 fun NavController.toImportWallet(navOptions: NavOptions? = null) {
-    this.navigate(importWalletRoute, navOptions)
+    this.navigate(ImportWalletRoute, navOptions)
 }
 
-fun NavGraphBuilder.attachRestoreWallet(navController: NavController) {
-    composable(importWalletRoute) {
+fun NavGraphBuilder.attachRestoreWalletScreens(navController: NavController) {
+    composable<ImportWalletRoute> {
         RestoreWalletRoute(
             onImportSuccess = navController::popBackStack,
         )
