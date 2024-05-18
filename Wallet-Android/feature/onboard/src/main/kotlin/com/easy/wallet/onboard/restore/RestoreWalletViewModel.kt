@@ -1,64 +1,49 @@
 package com.easy.wallet.onboard.restore
 
+import androidx.compose.foundation.text.input.TextFieldState
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.lifecycle.viewModelScope
 import com.easy.wallet.android.core.BaseViewModel
 import com.easy.wallet.shared.data.multiwallet.MultiWalletRepository
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.launch
 
 internal class RestoreWalletViewModel(
     private val multiWalletRepository: MultiWalletRepository
 ) : BaseViewModel<RestoreWalletEvent>() {
-    private val _restoreWalletUiState = MutableStateFlow(RestoreWalletUiState())
-    internal val restoreWalletUiState = _restoreWalletUiState.asStateFlow()
+    private val passwordValidationRegex =
+        """^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}${'$'}""".toRegex()
 
-    internal var seedPhraseForm: SeedPhraseForm by mutableStateOf(SeedPhraseForm())
-        private set
+    val seedPhraseFieldState = TextFieldState()
+    val passwordFieldState = TextFieldState()
+    val confirmPasswordFieldState = TextFieldState()
+
+    val isPasswordValid by derivedStateOf {
+        passwordFieldState.text.matches(passwordValidationRegex).also {
+            println("===== $it")
+        }
+    }
+
+    suspend fun checkConfirmPassword() {
+        snapshotFlow { confirmPasswordFieldState.text }.debounce(300).collectLatest { confirm ->
+            if (isPasswordValid) {
+                println("=== $confirm")
+            }
+        }
+    }
 
     override fun handleEvent(event: RestoreWalletEvent) {
         when (event) {
-            is RestoreWalletEvent.SeedChanged -> {
-                seedPhraseForm = seedPhraseForm.copy(seedPhrase = event.seed)
-            }
-
-            is RestoreWalletEvent.PasswordChanged -> {
-                seedPhraseForm = seedPhraseForm.copy(password = event.password)
-            }
-
-            is RestoreWalletEvent.ConfirmPasswordChanged -> {
-                seedPhraseForm = seedPhraseForm.copy(confirmPassword = event.confirmPassword)
-            }
-
             is RestoreWalletEvent.OnImport -> {
-                val result = validateSeedPhrase(seedPhraseForm)
-                val errors = listOfNotNull(
-                    result.seedPhraseError,
-                    result.passwordError,
-                    result.confirmPasswordError,
-                    result.matchError,
-                )
-                if (errors.isEmpty()) {
-                    viewModelScope.launch {
-                        multiWalletRepository.insertOne(
-                            mnemonic = seedPhraseForm.seedPhrase,
-                            passphrase = "",
-                        ) {
-                            dispatchEvent(event)
-                        }
-                    }
-                } else {
-                    _restoreWalletUiState.update {
-                        it.copy(
-                            seedPhraseError = result.seedPhraseError,
-                            passwordError = result.passwordError,
-                            confirmPasswordError = result.confirmPasswordError,
-                            matchError = result.matchError,
-                        )
+                viewModelScope.launch {
+                    multiWalletRepository.insertOne(
+                        mnemonic = seedPhraseFieldState.text.toString(),
+                        passphrase = "",
+                    ) {
+                        dispatchEvent(event)
                     }
                 }
             }

@@ -6,25 +6,26 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.automirrored.filled.ArrowBackIos
 import androidx.compose.material.icons.filled.RemoveRedEye
 import androidx.compose.material3.Button
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.easy.wallet.android.core.extensions.ObserveAsEvents
 import com.easy.wallet.onboard.R
+import com.easy.wallet.onboard.components.MnemonicInputView
+import com.easy.wallet.onboard.components.PasswordTextField
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -35,86 +36,89 @@ internal fun RestoreWalletRoute(
     ObserveAsEvents(flow = viewModel.navigationEvents) {
         onImportSuccess()
     }
-    val uiState by viewModel.restoreWalletUiState.collectAsStateWithLifecycle()
-    val seedPhraseForm = viewModel.seedPhraseForm
-    RestoreWalletScreen(seedPhraseForm, uiState, viewModel::handleEvent)
+
+    LaunchedEffect(key1 = viewModel) {
+        viewModel.checkConfirmPassword()
+    }
+
+    RestoreWalletScreen(
+        seedPhraseFieldState = viewModel.seedPhraseFieldState,
+        passwordFieldState = viewModel.passwordFieldState,
+        confirmPasswordFieldState = viewModel.confirmPasswordFieldState,
+        isPasswordValid = viewModel.isPasswordValid,
+        onEvent = viewModel::handleEvent
+    )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun RestoreWalletScreen(
-    seedPhraseForm: SeedPhraseForm,
-    uiState: RestoreWalletUiState,
+    seedPhraseFieldState: TextFieldState,
+    passwordFieldState: TextFieldState,
+    confirmPasswordFieldState: TextFieldState,
+    isPasswordValid: Boolean,
     onEvent: (RestoreWalletEvent) -> Unit
 ) {
-    Column(
+    Scaffold(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp),
-        verticalArrangement = Arrangement.SpaceBetween,
+            .imePadding(),
+        topBar = {
+            TopAppBar(
+                title = {
+                    Text(
+                        text = stringResource(R.string.wallet_android_feature_onboard_restore_wallet_import_from_seed)
+                    )
+                },
+                navigationIcon = {
+                    IconButton(onClick = { /*TODO*/ }) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Default.ArrowBackIos,
+                            contentDescription = null
+                        )
+                    }
+                })
+        },
+        bottomBar = {
+            Button(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp),
+                onClick = {
+                    onEvent(RestoreWalletEvent.OnImport)
+                },
+            ) {
+                Text(text = stringResource(R.string.wallet_android_feature_onboard_restore_wallet_import))
+            }
+        }
     ) {
+
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .wrapContentHeight()
-                .imePadding(),
+                .padding(it)
+                .padding(horizontal = 16.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
-            Text(
-                text = stringResource(R.string.wallet_android_feature_onboard_restore_wallet_import_from_seed),
-                style = MaterialTheme.typography.headlineLarge,
-            )
-
-            TextField(
-                label = { Text(text = stringResource(R.string.wallet_android_feature_onboard_restore_wallet_seed_phrase)) },
+            MnemonicInputView(
                 modifier = Modifier.fillMaxWidth(),
-                keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Text),
-                value = seedPhraseForm.seedPhrase,
-                isError = !uiState.seedPhraseError.isNullOrBlank(),
-                onValueChange = {
-                    onEvent(RestoreWalletEvent.SeedChanged(it))
-                },
+                textFieldState = seedPhraseFieldState,
+                placeholder = { Text(text = "Enter your seed phrase") }
             )
-            TextField(
-                value = seedPhraseForm.password,
-                label = {
-                    Text(text = stringResource(R.string.wallet_android_feature_onboard_restore_wallet_new_password))
-                },
-                keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Password),
-                isError = !uiState.passwordError.isNullOrBlank(),
-                onValueChange = {
-                    onEvent(RestoreWalletEvent.PasswordChanged(it))
-                },
+            PasswordTextField(
+                modifier = Modifier.fillMaxWidth(),
+                textField = passwordFieldState,
+                placeholder = { Text(text = stringResource(R.string.wallet_android_feature_onboard_restore_wallet_new_password)) },
+                isError = !isPasswordValid,
                 trailingIcon = {
                     Icon(imageVector = Icons.Default.RemoveRedEye, contentDescription = null)
-                },
-                modifier = Modifier.fillMaxWidth(),
+                }
             )
-            TextField(
-                value = seedPhraseForm.confirmPassword,
-                label = {
-                    Text(text = stringResource(R.string.wallet_android_feature_onboard_restore_wallet_confirm_password))
-                },
-                isError = !uiState.confirmPasswordError.isNullOrBlank(),
-                onValueChange = {
-                    onEvent(RestoreWalletEvent.ConfirmPasswordChanged(it))
-                },
-                keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Password),
-                trailingIcon = {
-                    Icon(
-                        imageVector = Icons.Default.Check,
-                        contentDescription = null,
-                    )
-                },
+            PasswordTextField(
                 modifier = Modifier.fillMaxWidth(),
+                textField = confirmPasswordFieldState,
+                placeholder = { Text(text = stringResource(R.string.wallet_android_feature_onboard_restore_wallet_confirm_password)) }
             )
-        }
-        Button(
-            modifier = Modifier.fillMaxWidth(),
-            onClick = {
-                onEvent(RestoreWalletEvent.OnImport)
-            },
-        ) {
-            Text(text = stringResource(R.string.wallet_android_feature_onboard_restore_wallet_import))
         }
     }
 }

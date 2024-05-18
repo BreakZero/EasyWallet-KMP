@@ -20,18 +20,6 @@ class WalletApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-//        startKoin {
-//            androidContext(applicationContext)
-//            modules(appModule)
-//            modules(homeModule)
-//            modules(newsModule)
-//            modules(discoverModule)
-//            modules(onboardModule)
-//            modules(sharedModule)
-//            modules(marketModule)
-//            modules(settingsModule)
-//            modules(assetModule())
-//        }
 
         initKoin {
             androidContext(this@WalletApplication)
