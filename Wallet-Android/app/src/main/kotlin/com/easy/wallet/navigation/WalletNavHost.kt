@@ -11,18 +11,18 @@ import com.easy.wallet.marketplace.navigation.attachMarketplaceTabGraph
 import com.easy.wallet.news.navigation.attachNewsTabGraph
 import com.easy.wallet.onboard.create.navigation.attachCreateWalletGraph
 import com.easy.wallet.onboard.create.navigation.toCreateWallet
-import com.easy.wallet.onboard.restore.navigation.attachRestoreWallet
+import com.easy.wallet.onboard.restore.navigation.attachRestoreWalletScreens
 import com.easy.wallet.onboard.restore.navigation.toImportWallet
-import com.easy.wallet.send.navigation.attachSendGraph
+import com.easy.wallet.send.navigation.attachSendFlowGraph
 import com.easy.wallet.send.navigation.startSendFlow
 import com.easy.wallet.settings.navigation.attachSettingsModule
 import com.easy.wallet.settings.navigation.toSettings
 import com.easy.wallet.assetmanager.platform.navigation.attachChainManager
 import com.easy.wallet.assetmanager.platform.navigation.navigateToChainDetail
 import com.easy.wallet.assetmanager.platform.navigation.navigateToSupportedChains
-import com.easy.wallet.assetmanager.coin.navigation.attachTokenManager
-import com.easy.wallet.assetmanager.coin.navigation.navigateToTokenEditor
-import com.easy.wallet.assetmanager.coin.navigation.navigateToTokenManager
+import com.easy.wallet.assetmanager.coin.navigation.attachCoinManagerScreens
+import com.easy.wallet.assetmanager.coin.navigation.navigateToCoinEditor
+import com.easy.wallet.assetmanager.coin.navigation.navigateToCoinManager
 import com.easy.wallet.home.navigation.WalletTabRoute
 import com.easy.wallet.ui.WalletAppState
 import kotlinx.coroutines.launch
@@ -52,24 +52,24 @@ fun WalletNavHost(
             popBack = navController::popBackStack
         ) {
             attachCreateWalletGraph(navController)
-            attachRestoreWallet(navController)
+            attachRestoreWalletScreens(navController)
 
-            attachSendGraph(
+            attachSendFlowGraph(
                 navController,
                 onShowSnackbar = { scope.launch { onShowSnackbar(it, null) } }
             )
 
             attachSettingsModule(
                 navigateToSupportedChains = navController::navigateToSupportedChains,
-                navigateTokenManager = navController::navigateToTokenManager,
+                navigateTokenManager = navController::navigateToCoinManager,
                 popBack = navController::popBackStack
             ) {
                 attachChainManager(
                     navigateToDetail = { navController.navigateToChainDetail(it) },
                     navigateUp = navController::navigateUp
                 )
-                attachTokenManager(
-                    navigateToEditor = { navController.navigateToTokenEditor() },
+                attachCoinManagerScreens(
+                    navigateToEditor = { navController.navigateToCoinEditor() },
                     navigateUp = navController::navigateUp
                 )
             }

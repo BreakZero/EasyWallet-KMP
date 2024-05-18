@@ -4,11 +4,9 @@ import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.foundation.text.input.clearText
 import androidx.compose.foundation.text.input.delete
 import androidx.compose.runtime.snapshotFlow
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.easy.wallet.android.core.BaseViewModel
 import com.easy.wallet.core.commom.AssetPlatformIdConstant
-import com.easy.wallet.send.navigation.CoinArgs
 import com.easy.wallet.send.navigation.sendOverviewRoute
 import com.easy.wallet.send.navigation.sendPendingRoute
 import com.easy.wallet.shared.domain.CoinBalanceUseCase
@@ -30,15 +28,13 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 
 internal class SendSharedViewModel(
-    savedStateHandle: SavedStateHandle,
+    private val coinId: String,
     getAssetCoinInfoUseCase: GetAssetCoinInfoUseCase,
     coinBalanceUseCase: CoinBalanceUseCase,
     private val transactionPlanUseCase: TransactionPlanUseCase,
     private val transactionSigningUseCase: TransactionSigningUseCase
 ) : BaseViewModel<SendUiEvent>() {
 
-    private val coinArgs: CoinArgs = CoinArgs(savedStateHandle)
-    private val coinId = coinArgs.coinId
 
     val destination = TextFieldState("")
     private val _amount = TextFieldState("0")

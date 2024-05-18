@@ -10,26 +10,33 @@ import com.easy.wallet.onboard.create.password.CreatePasswordRoute
 import com.easy.wallet.onboard.create.secure.SecureRoute
 import com.easy.wallet.onboard.create.seed.SeedPhraseRoute
 import com.easy.wallet.onboard.sharedViewModel
+import kotlinx.serialization.Serializable
 
-const val createWalletRoute = "_create_wallet_route"
-internal const val createPasswordRoute = "_create_password_route"
-internal const val secureRoute = "_secure_route"
-internal const val checkSeedRoute = "_handle_seed_route"
+@Serializable
+internal data object WalletEntryPointRoute
+
+@Serializable
+internal data object CreateWalletRoute
+
+@Serializable
+internal data object CheckSecureRoute
+@Serializable
+internal data object CheckSeedRoute
 
 fun NavController.toCreateWallet(navOptions: NavOptions? = null) {
-    this.navigate(createWalletRoute, navOptions)
+    this.navigate(CreateWalletRoute, navOptions)
 }
 
 internal fun NavController.toSecure(navOptions: NavOptions? = null) {
-    this.navigate(secureRoute, navOptions)
+    this.navigate(CheckSecureRoute, navOptions)
 }
 internal fun NavController.toCheckSeed(navOptions: NavOptions? = null) {
-    this.navigate(checkSeedRoute, navOptions)
+    this.navigate(CheckSeedRoute, navOptions)
 }
 
 fun NavGraphBuilder.attachCreateWalletGraph(navController: NavController) {
-    navigation(route = createWalletRoute, startDestination = createPasswordRoute) {
-        composable(route = createPasswordRoute) {
+    navigation<WalletEntryPointRoute>(startDestination = CreateWalletRoute) {
+        composable<CreateWalletRoute> {
             val viewModel: CreateWalletViewModel = it.sharedViewModel(navController = navController)
             CreatePasswordRoute(
                 viewModel = viewModel,
@@ -37,15 +44,15 @@ fun NavGraphBuilder.attachCreateWalletGraph(navController: NavController) {
                 onClose = navController::popBackStack,
             )
         }
-        composable(route = secureRoute) {
+        composable<CheckSecureRoute> {
             val viewModel: CreateWalletViewModel = it.sharedViewModel(navController = navController)
             SecureRoute(viewModel = viewModel, nextToCheckSeed = navController::toCheckSeed)
         }
 
-        composable(route = checkSeedRoute) {
+        composable<CheckSeedRoute> {
             val viewModel: CreateWalletViewModel = it.sharedViewModel(navController = navController)
             SeedPhraseRoute(viewModel, onCreateSuccess = {
-                navController.popBackStack(createWalletRoute, true)
+                navController.popBackStack(WalletEntryPointRoute, true)
             })
         }
     }

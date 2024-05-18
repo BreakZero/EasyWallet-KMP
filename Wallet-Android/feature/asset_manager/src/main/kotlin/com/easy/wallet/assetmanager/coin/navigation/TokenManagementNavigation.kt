@@ -6,30 +6,28 @@ import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import com.easy.wallet.assetmanager.coin.editor.TokenEditorRoute
 import com.easy.wallet.assetmanager.coin.manager.TokenManagerRoute
+import kotlinx.serialization.Serializable
 
-internal const val tokenManagerRoute = "token_manager_route"
-internal const val tokenEditorRoute = "token_editor_route"
+@Serializable
+internal data object CoinManagerRoute
 
-fun NavController.navigateToTokenManager(navOptions: NavOptions? = null) {
-    navigate(tokenManagerRoute, navOptions)
-}
+@Serializable
+internal data object CoinEditorRoute
 
-fun NavController.navigateToTokenEditor(navOptions: NavOptions? = null) {
-    navigate(tokenEditorRoute, navOptions)
-}
+fun NavController.navigateToCoinManager(navOptions: NavOptions? = null) = navigate(CoinManagerRoute, navOptions)
+fun NavController.navigateToCoinEditor(navOptions: NavOptions? = null) = navigate(CoinEditorRoute, navOptions)
 
-fun NavGraphBuilder.attachTokenManager(
+fun NavGraphBuilder.attachCoinManagerScreens(
     navigateToEditor: (String?) -> Unit,
     navigateUp: () -> Unit
 ) {
-    composable(tokenManagerRoute) {
+    composable<CoinManagerRoute> {
         TokenManagerRoute(
             navigateToEditor = navigateToEditor,
             navigateUp = navigateUp
         )
     }
-
-    composable(tokenEditorRoute) {
+    composable<CoinEditorRoute> {
         TokenEditorRoute(navigateUp = navigateUp)
     }
 }

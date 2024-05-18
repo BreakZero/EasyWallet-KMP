@@ -42,7 +42,7 @@ extension NewsScreen {
         }
 
         func subscribeLoadState() async {
-            /* do {
+            do {
                 for try await loadState in asyncSequence(for: delegate.loadStateFlow) {
                     switch onEnum(of: loadState.append) {
                     case .error(let errorState):
@@ -68,7 +68,7 @@ extension NewsScreen {
                 }
             } catch {
 
-            } */
+            }
         }
     }
 }

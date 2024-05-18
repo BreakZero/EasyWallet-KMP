@@ -1,99 +1,87 @@
 package com.easy.wallet.send.navigation
 
-import androidx.annotation.VisibleForTesting
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
-import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
-import androidx.navigation.navArgument
+import androidx.navigation.toRoute
 import com.easy.wallet.send.SendSharedViewModel
 import com.easy.wallet.send.amount.SendAmountRoute
 import com.easy.wallet.send.destination.SendDestinationRoute
 import com.easy.wallet.send.overview.TransactionOverviewRoute
 import com.easy.wallet.send.pending.PendingRoute
+import kotlinx.serialization.Serializable
 import org.koin.androidx.compose.koinViewModel
-import java.net.URLDecoder
-import java.net.URLEncoder
-import kotlin.text.Charsets.UTF_8
-
-internal const val sendEnterRoute = "send_enter_route"
+import org.koin.core.parameter.parametersOf
 
 internal const val sendAmountRoute = "send_amount_route"
-internal const val sendDestinationRoute = "send_destination_route"
 internal const val sendOverviewRoute = "send_overview_route"
 internal const val sendPendingRoute = "send_pending_route"
 
-@VisibleForTesting
-internal const val COIN_ID_ARG = "tokenId"
+@Serializable
+internal data class SendEntryPointRoute(val coinId: String)
 
-internal class CoinArgs(val coinId: String) {
-    constructor(savedStateHandle: SavedStateHandle) : this(
-        URLDecoder.decode(
-            savedStateHandle[COIN_ID_ARG],
-            UTF_8.name()
-        )
-    )
+@Serializable
+internal data object EnterSendDestinationRoute
+@Serializable
+internal data object EnterSendAmountRoute
+@Serializable
+internal data object SendOverviewRoute
+@Serializable
+internal data object SendCompletedRoute
+
+fun NavController.startSendFlow(coinId: String, navOptions: NavOptions? = null) {
+    navigate(SendEntryPointRoute(coinId = coinId), navOptions)
 }
 
-fun NavController.startSendFlow(tokenId: String, navOptions: NavOptions? = null) {
-    val encodeTokenId = URLEncoder.encode(tokenId, UTF_8.name())
-    navigate("$sendEnterRoute/$encodeTokenId", navOptions)
-}
-
-fun NavGraphBuilder.attachSendGraph(
+fun NavGraphBuilder.attachSendFlowGraph(
     navController: NavController,
     onShowSnackbar: (String) -> Unit
 ) {
-    navigation(
-        route = "$sendEnterRoute/{$COIN_ID_ARG}",
-        startDestination = sendDestinationRoute,
-        arguments = listOf(
-            navArgument(COIN_ID_ARG) { type = NavType.StringType }
-        )
+    navigation<SendEntryPointRoute>(
+        startDestination = EnterSendDestinationRoute
     ) {
-        composable(sendDestinationRoute) {
+        composable<EnterSendDestinationRoute> {
             val sharedViewModel: SendSharedViewModel =
                 it.sharedViewModel(navController = navController)
             SendDestinationRoute(
                 viewModel = sharedViewModel,
-                navigateTo = navController::navigate,
+                navigateTo = { navController.navigate(EnterSendAmountRoute) },
                 popBack = navController::popBackStack
             )
         }
 
-        composable(sendAmountRoute) {
+        composable<EnterSendAmountRoute> {
             val sharedViewModel: SendSharedViewModel =
                 it.sharedViewModel(navController = navController)
             SendAmountRoute(
                 viewModel = sharedViewModel,
-                navigateTo = navController::navigate,
+                navigateTo = { navController.navigate(SendOverviewRoute) },
                 popBack = navController::popBackStack
             )
         }
 
-        composable(sendOverviewRoute) {
+        composable<SendOverviewRoute> {
             val sharedViewModel: SendSharedViewModel =
                 it.sharedViewModel(navController = navController)
             TransactionOverviewRoute(
                 viewModel = sharedViewModel,
                 showErrorMessage = onShowSnackbar,
-                navigateTo = navController::navigate,
+                navigateTo = { navController.navigate(SendCompletedRoute) },
                 popBack = navController::popBackStack
             )
         }
 
-        composable(sendPendingRoute) {
+        composable<SendCompletedRoute> {
             val sharedViewModel: SendSharedViewModel =
                 it.sharedViewModel(navController = navController)
             PendingRoute(viewModel = sharedViewModel) {
-                navController.popBackStack(sendDestinationRoute, true)
+                navController.popBackStack(EnterSendDestinationRoute, true)
             }
         }
     }
@@ -105,5 +93,6 @@ internal inline fun <reified T : ViewModel> NavBackStackEntry.sharedViewModel(na
     val parentEntry = remember(key1 = this) {
         navController.getBackStackEntry(navGraphRoute)
     }
-    return koinViewModel(viewModelStoreOwner = parentEntry)
+    val args = parentEntry.toRoute<SendEntryPointRoute>()
+    return koinViewModel(viewModelStoreOwner = parentEntry) { parametersOf(args.coinId) }
 }

@@ -8,6 +8,7 @@ androidx-paging = "3.3.0"
 androidxTracing = "1.2.0"
 androidxWindowManager = "1.2.0"
 androidxWork = "2.9.0"
+pagingKmp = "3.3.0-alpha02-0.5.1"
 vico = "2.0.0-alpha.19"
 skie = "0.7.2"
 
@@ -72,6 +73,8 @@ androidx-compose-lifecycle-runtime = { module = "androidx.lifecycle:lifecycle-ru
 androidx-compose-navigation = { group = "androidx.navigation", name = "navigation-compose", version.ref = "compose-navigation" }
 
 buildkonfig-gradle-plugin = { module = "com.codingfeline.buildkonfig:buildkonfig-gradle-plugin", version.ref = "buildkonfigGradlePlugin" }
+paging-common = { module = "app.cash.paging:paging-common", version.ref = "pagingKmp" }
+paging-runtime-uikit = { module = "app.cash.paging:paging-runtime-uikit", version.ref = "pagingKmp" }
 ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
