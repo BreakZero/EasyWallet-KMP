@@ -46,7 +46,7 @@ internal class SendSharedViewModel(
 
     // enter destination page ui state, check enter address is valid or not
     val destinationUiState = combine(
-        snapshotFlow { destination },
+        snapshotFlow { destination.text },
         getAssetCoinInfoUseCase(coinId)
     ) { address, assetCoin ->
         val coinType = when (assetCoin.platform.id) {
@@ -64,7 +64,7 @@ internal class SendSharedViewModel(
 
     // enter amount page ui state, check balance is enough or not
     val amountUiState = combine(
-        snapshotFlow { _amount },
+        snapshotFlow { _amount.text },
         coinBalanceUseCase(coinId)
     ) { amount, assetBalance ->
         val insufficientBalance =

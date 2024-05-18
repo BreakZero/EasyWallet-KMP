@@ -6,12 +6,16 @@ import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.easy.wallet.settings.SettingsRoute
+import kotlinx.serialization.Serializable
 
-const val settingsRoute = "_route_settings"
-internal const val settingsEntryRoute = "_route_settings_entry"
+@Serializable
+internal data object SettingsEntryPointRoute
+
+@Serializable
+internal data object SettingsRoute
 
 fun NavController.toSettings(navOptions: NavOptions? = null) {
-    this.navigate(settingsRoute, navOptions)
+    this.navigate(SettingsEntryPointRoute, navOptions)
 }
 
 fun NavGraphBuilder.attachSettingsModule(
@@ -20,8 +24,8 @@ fun NavGraphBuilder.attachSettingsModule(
     popBack: () -> Unit,
     nestedGraphs: NavGraphBuilder.() -> Unit
 ) {
-    navigation(route = settingsRoute, startDestination = settingsEntryRoute) {
-        composable(settingsEntryRoute) {
+    navigation<SettingsEntryPointRoute>(startDestination = SettingsRoute) {
+        composable<SettingsRoute> {
             SettingsRoute(
                 navigateToSupportedChains = navigateToSupportedChains,
                 navigateTokenManager = navigateTokenManager,
