@@ -1,64 +1,62 @@
 package com.easy.wallet.onboard.restore
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
+import androidx.compose.foundation.text.input.TextFieldState
+import androidx.compose.runtime.snapshotFlow
 import androidx.lifecycle.viewModelScope
 import com.easy.wallet.android.core.BaseViewModel
+import com.easy.wallet.onboard.util.PasswordValidateResult
+import com.easy.wallet.onboard.util.PasswordValidation
 import com.easy.wallet.shared.data.multiwallet.MultiWalletRepository
+import com.trustwallet.core.Mnemonic
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 internal class RestoreWalletViewModel(
     private val multiWalletRepository: MultiWalletRepository
 ) : BaseViewModel<RestoreWalletEvent>() {
-    private val _restoreWalletUiState = MutableStateFlow(RestoreWalletUiState())
-    internal val restoreWalletUiState = _restoreWalletUiState.asStateFlow()
 
-    internal var seedPhraseForm: SeedPhraseForm by mutableStateOf(SeedPhraseForm())
-        private set
+    val seedPhraseFieldState = TextFieldState()
+    val passwordFieldState = TextFieldState()
+    val confirmPasswordFieldState = TextFieldState()
+
+    private val _uiState: MutableStateFlow<RestoreWalletUiState> = MutableStateFlow(RestoreWalletUiState())
+    val uiState = _uiState.asStateFlow()
+
+    suspend fun mnemonicValidate() {
+        snapshotFlow { seedPhraseFieldState.text }.debounce(300).collectLatest {
+            val isValid = Mnemonic.isValid(it.toString())
+            _uiState.update { it.copy(mnemonicError = if (isValid) null else "Mnemonic is invalid") }
+        }
+    }
 
     override fun handleEvent(event: RestoreWalletEvent) {
         when (event) {
-            is RestoreWalletEvent.SeedChanged -> {
-                seedPhraseForm = seedPhraseForm.copy(seedPhrase = event.seed)
-            }
-
-            is RestoreWalletEvent.PasswordChanged -> {
-                seedPhraseForm = seedPhraseForm.copy(password = event.password)
-            }
-
-            is RestoreWalletEvent.ConfirmPasswordChanged -> {
-                seedPhraseForm = seedPhraseForm.copy(confirmPassword = event.confirmPassword)
-            }
-
             is RestoreWalletEvent.OnImport -> {
-                val result = validateSeedPhrase(seedPhraseForm)
-                val errors = listOfNotNull(
-                    result.seedPhraseError,
-                    result.passwordError,
-                    result.confirmPasswordError,
-                    result.matchError,
+                _uiState.update { it.copy(passwordError = false, confirmPasswordError = false) }
+                val result = PasswordValidation.validate(
+                    password = passwordFieldState.text.toString(),
+                    confirmPassword = confirmPasswordFieldState.text.toString()
                 )
-                if (errors.isEmpty()) {
-                    viewModelScope.launch {
-                        multiWalletRepository.insertOne(
-                            mnemonic = seedPhraseForm.seedPhrase,
-                            passphrase = "",
-                        ) {
-                            dispatchEvent(event)
-                        }
+                when(result) {
+                    PasswordValidateResult.PasswordNotMatch -> {
+                        _uiState.update { it.copy(passwordError = true) }
                     }
-                } else {
-                    _restoreWalletUiState.update {
-                        it.copy(
-                            seedPhraseError = result.seedPhraseError,
-                            passwordError = result.passwordError,
-                            confirmPasswordError = result.confirmPasswordError,
-                            matchError = result.matchError,
-                        )
+                    PasswordValidateResult.ConfirmPasswordNotMatch -> {
+                        _uiState.update { it.copy(confirmPasswordError = true) }
+                    }
+                    PasswordValidateResult.Pass -> {
+                        viewModelScope.launch {
+                            multiWalletRepository.insertOne(
+                                mnemonic = seedPhraseFieldState.text.toString(),
+                                passphrase = "",
+                            ) {
+                                dispatchEvent(event)
+                            }
+                        }
                     }
                 }
             }

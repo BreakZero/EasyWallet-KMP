@@ -1,7 +1,6 @@
 package com.easy.wallet.ui
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
@@ -37,7 +36,6 @@ import com.easy.wallet.design.theme.LocalGradientColors
 import com.easy.wallet.navigation.TopLevelDestination
 import com.easy.wallet.navigation.WalletNavHost
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun WalletApp(
     windowSizeClass: WindowSizeClass,

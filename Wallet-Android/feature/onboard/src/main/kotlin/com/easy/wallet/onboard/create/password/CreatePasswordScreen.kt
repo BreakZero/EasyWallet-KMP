@@ -1,151 +1,144 @@
 package com.easy.wallet.onboard.create.password
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.text.input.TextFieldState
+import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.RemoveRedEye
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.easy.wallet.android.core.extensions.ObserveAsEvents
 import com.easy.wallet.design.theme.ThemePreviews
 import com.easy.wallet.design.ui.EasyWalletTheme
 import com.easy.wallet.onboard.R
+import com.easy.wallet.onboard.components.PasswordTextField
+import com.easy.wallet.onboard.components.ProgressTopBar
 import com.easy.wallet.onboard.create.CreateWalletEvent
 import com.easy.wallet.onboard.create.CreateWalletViewModel
-import com.easy.wallet.onboard.create.PasswordUiState
-import com.easy.wallet.onboard.create.component.TopBar
+import com.easy.wallet.onboard.util.PasswordValidateResult
 
 @Composable
 internal fun CreatePasswordRoute(
-    viewModel: CreateWalletViewModel,
-    nextToSecure: () -> Unit,
-    onClose: () -> Unit
+    viewModel: CreateWalletViewModel
 ) {
-    val uiState by viewModel.passwordUiState.collectAsStateWithLifecycle()
-    ObserveAsEvents(flow = viewModel.navigationEvents) {
-        when (it) {
-            is CreateWalletEvent.NextToSecure -> nextToSecure()
-            is CreateWalletEvent.Close -> onClose()
-            else -> Unit
-        }
+    LaunchedEffect(key1 = viewModel) {
+        viewModel.validatePassword()
     }
-    CreatePasswordScreen(uiState, viewModel::handleEvent)
+    CreatePasswordScreen(
+        passwordTextField = viewModel.passwordTextFieldState,
+        confirmPasswordTextFieldState = viewModel.confirmPasswordTextFieldState,
+        passwordValidateResult = viewModel.validateResult,
+        onEvent = viewModel::handleEvent
+    )
 }
 
 @Composable
 internal fun CreatePasswordScreen(
-    uiState: PasswordUiState,
+    passwordTextField: TextFieldState,
+    confirmPasswordTextFieldState: TextFieldState,
+    passwordValidateResult: PasswordValidateResult,
     onEvent: (CreateWalletEvent) -> Unit
 ) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-    ) {
-        TopBar(
-            step = 1,
-            totalStep = 3,
-            navigationIcon = {
-                Icon(imageVector = Icons.Default.Close, contentDescription = "")
-            },
-            navigationAction = {
-                // close and remove saved password if it exists
-                onEvent(CreateWalletEvent.Close)
-            },
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-        Text(
-            text = stringResource(id = R.string.wallet_android_feature_onboard_create_wallet_create_password),
-            style = MaterialTheme.typography.headlineLarge,
-        )
-        Text(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 8.dp),
-            text = stringResource(id = R.string.wallet_android_feature_onboard_create_wallet_create_password_desc),
-        )
-        TextField(
-            value = uiState.password,
-            label = {
-                Text(text = "New password")
-            },
-            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Password),
-            isError = uiState.passwordError != null,
-            onValueChange = {
-                onEvent(CreateWalletEvent.OnPasswordChanged(it))
-            },
-            trailingIcon = {
-                Icon(imageVector = Icons.Default.RemoveRedEye, contentDescription = null)
-            },
-            modifier = Modifier.fillMaxWidth(),
-        )
-        Spacer(modifier = Modifier.height(8.dp))
-        TextField(
-            value = uiState.confirmPassword,
-            label = {
-                Text(text = "Confirm password")
-            },
-            isError = uiState.confirmPasswordError != null,
-            onValueChange = {
-                onEvent(CreateWalletEvent.OnConfirmPasswordChanged(it))
-            },
-            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Password),
-            trailingIcon = {
-                if (uiState.isMatch()) {
-                    Icon(
-                        imageVector = Icons.Default.Check,
-                        contentDescription = null,
-                    )
-                }
-            },
-            modifier = Modifier.fillMaxWidth(),
-        )
-        Spacer(modifier = Modifier.height(8.dp))
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(IntrinsicSize.Min),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Checkbox(
-                checked = uiState.isTermsOfServiceAgreed,
-                onCheckedChange = {
-                    onEvent(CreateWalletEvent.OnCheckedTermOfServiceChanged(it))
+    var isTermChecked by remember {
+        mutableStateOf(false)
+    }
+    Scaffold(
+        topBar = {
+            ProgressTopBar(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(end = 16.dp),
+                step = 1,
+                totalSteps = 3,
+                navigationIcon = {
+                    Icon(imageVector = Icons.Default.Close, contentDescription = "")
                 },
+                action = { onEvent(CreateWalletEvent.PopBack) }
             )
-            Spacer(modifier = Modifier.width(12.dp))
-            Text(text = stringResource(R.string.wallet_android_feature_onboard_create_wallet_create_password_terms))
+        },
+        bottomBar = {
+            Button(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                enabled = passwordValidateResult == PasswordValidateResult.Pass && isTermChecked,
+                onClick = { onEvent(CreateWalletEvent.OnCreatePassword) },
+            ) {
+                Text(text = stringResource(id = R.string.wallet_android_feature_onboard_create_wallet_create_password))
+            }
         }
-        Spacer(modifier = Modifier.weight(1.0f))
-        Button(
-            modifier = Modifier.fillMaxWidth(),
-            enabled = uiState.isAvailable(),
-            onClick = { onEvent(CreateWalletEvent.NextToSecure) },
+    ) {
+
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(it)
+                .padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            Text(text = stringResource(id = R.string.wallet_android_feature_onboard_create_wallet_create_password))
+            Text(
+                text = stringResource(id = R.string.wallet_android_feature_onboard_create_wallet_create_password),
+                style = MaterialTheme.typography.headlineLarge,
+            )
+            Text(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                text = stringResource(id = R.string.wallet_android_feature_onboard_create_wallet_create_password_desc),
+                style = MaterialTheme.typography.bodyMedium
+            )
+            PasswordTextField(
+                textField = passwordTextField,
+                placeholder = { Text(text = "New password") },
+                trailingIcon = {
+                    Icon(imageVector = Icons.Default.RemoveRedEye, contentDescription = null)
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 12.dp),
+            )
+            PasswordTextField(
+                textField = confirmPasswordTextFieldState,
+                placeholder = { Text(text = "Confirm password") },
+                modifier = Modifier.fillMaxWidth(),
+            )
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(IntrinsicSize.Min)
+                    .padding(top = 12.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Checkbox(
+                    checked = isTermChecked,
+                    onCheckedChange = {
+                        isTermChecked = !isTermChecked
+                    },
+                )
+                Text(text = stringResource(R.string.wallet_android_feature_onboard_create_wallet_create_password_terms))
+            }
         }
     }
 }
@@ -156,7 +149,9 @@ private fun CreatePassword_Preview() {
     EasyWalletTheme {
         Surface(modifier = Modifier.fillMaxSize()) {
             CreatePasswordScreen(
-                uiState = PasswordUiState(),
+                passwordTextField = rememberTextFieldState(),
+                confirmPasswordTextFieldState = rememberTextFieldState(),
+                passwordValidateResult = PasswordValidateResult.Pass,
                 onEvent = {},
             )
         }
