@@ -92,14 +92,6 @@ internal fun WalletScreen(
                 }
             }
             is WalletUiState.WalletUiState -> {
-//                GuestContent(
-//                    modifier = Modifier
-//                        .fillMaxSize()
-//                        .padding(paddingValues)
-//                        .padding(horizontal = 16.dp)
-//                        .padding(bottom = 16.dp),
-//                    onEvent = onEvent
-//                )
                 UserHomeContent(
                     modifier = Modifier
                         .fillMaxSize()
