@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
@@ -33,6 +34,7 @@ import com.easy.wallet.android.core.extensions.ObserveAsEvents
 import com.easy.wallet.design.theme.ThemePreviews
 import com.easy.wallet.design.ui.EasyWalletTheme
 import com.easy.wallet.onboard.R
+import com.easy.wallet.onboard.components.PasswordTextField
 import com.easy.wallet.onboard.create.CreateWalletEvent
 import com.easy.wallet.onboard.create.CreateWalletViewModel
 import com.easy.wallet.onboard.create.PasswordUiState
@@ -87,39 +89,18 @@ internal fun CreatePasswordScreen(
                 .padding(vertical = 8.dp),
             text = stringResource(id = R.string.wallet_android_feature_onboard_create_wallet_create_password_desc),
         )
-        TextField(
-            value = uiState.password,
-            label = {
-                Text(text = "New password")
-            },
-            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Password),
-            isError = uiState.passwordError != null,
-            onValueChange = {
-                onEvent(CreateWalletEvent.OnPasswordChanged(it))
-            },
+        PasswordTextField(
+            textField = rememberTextFieldState(), placeholder = { Text(text = "New password") },
             trailingIcon = {
                 Icon(imageVector = Icons.Default.RemoveRedEye, contentDescription = null)
             },
             modifier = Modifier.fillMaxWidth(),
         )
         Spacer(modifier = Modifier.height(8.dp))
-        TextField(
-            value = uiState.confirmPassword,
-            label = {
-                Text(text = "Confirm password")
-            },
-            isError = uiState.confirmPasswordError != null,
-            onValueChange = {
-                onEvent(CreateWalletEvent.OnConfirmPasswordChanged(it))
-            },
-            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Password),
+        PasswordTextField(
+            textField = rememberTextFieldState(), placeholder = { Text(text = "Confirm password") },
             trailingIcon = {
-                if (uiState.isMatch()) {
-                    Icon(
-                        imageVector = Icons.Default.Check,
-                        contentDescription = null,
-                    )
-                }
+                Icon(imageVector = Icons.Default.RemoveRedEye, contentDescription = null)
             },
             modifier = Modifier.fillMaxWidth(),
         )

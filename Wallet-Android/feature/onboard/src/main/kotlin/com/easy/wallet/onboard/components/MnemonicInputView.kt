@@ -28,6 +28,7 @@ import com.easy.wallet.design.ui.EasyWalletTheme
 @Composable
 internal fun MnemonicInputView(
     modifier: Modifier = Modifier,
+    isError: Boolean = false,
     textFieldState: TextFieldState = rememberTextFieldState(),
     placeholder: @Composable (() -> Unit)? = null
 ) {

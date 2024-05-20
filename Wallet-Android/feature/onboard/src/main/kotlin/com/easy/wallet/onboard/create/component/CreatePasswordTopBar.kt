@@ -30,7 +30,7 @@ internal fun TopBar(
             navigationIcon()
         }
         LinearProgressIndicator(
-            progress = step.toFloat().div(totalStep),
+            progress = { step.toFloat().div(totalStep) },
             modifier = Modifier
                 .weight(1.0f)
                 .padding(horizontal = 6.dp),

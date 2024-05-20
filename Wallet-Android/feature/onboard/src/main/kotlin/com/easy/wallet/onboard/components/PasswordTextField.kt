@@ -4,6 +4,7 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.BasicSecureTextField
 import androidx.compose.foundation.text.input.TextFieldState
+import androidx.compose.foundation.text.input.TextObfuscationMode
 import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.TextFieldDefaults
@@ -20,6 +21,7 @@ internal fun PasswordTextField(
     modifier: Modifier = Modifier,
     textField: TextFieldState,
     isError: Boolean = false,
+    textObfuscationMode: TextObfuscationMode = TextObfuscationMode.RevealLastTyped,
     placeholder: @Composable (() -> Unit)? = null,
     leadingIcon: @Composable (() -> Unit)? = null,
     trailingIcon: @Composable (() -> Unit)? = null,
@@ -27,6 +29,7 @@ internal fun PasswordTextField(
     BasicSecureTextField(
         modifier = modifier,
         state = textField,
+        textObfuscationMode = textObfuscationMode,
         decorator = @Composable {
             val interactionSource = remember { MutableInteractionSource() }
             TextFieldDefaults.DecorationBox(
@@ -51,7 +54,7 @@ private fun PasswordTextField_Preview() {
     EasyWalletTheme {
         PasswordTextField(
             modifier = Modifier.fillMaxWidth(),
-            textField = rememberTextFieldState()
+            textField = rememberTextFieldState("123")
         )
     }
 }

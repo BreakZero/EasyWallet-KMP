@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.input.TextFieldState
+import androidx.compose.foundation.text.input.TextObfuscationMode
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBackIos
 import androidx.compose.material.icons.filled.RemoveRedEye
@@ -19,9 +20,14 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.easy.wallet.android.core.extensions.ObserveAsEvents
 import com.easy.wallet.onboard.R
 import com.easy.wallet.onboard.components.MnemonicInputView
@@ -38,14 +44,16 @@ internal fun RestoreWalletRoute(
     }
 
     LaunchedEffect(key1 = viewModel) {
-        viewModel.checkConfirmPassword()
+        viewModel.mnemonicValidate()
     }
+
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     RestoreWalletScreen(
         seedPhraseFieldState = viewModel.seedPhraseFieldState,
         passwordFieldState = viewModel.passwordFieldState,
         confirmPasswordFieldState = viewModel.confirmPasswordFieldState,
-        isPasswordValid = viewModel.isPasswordValid,
+        uiState = uiState,
         onEvent = viewModel::handleEvent
     )
 }
@@ -56,7 +64,7 @@ internal fun RestoreWalletScreen(
     seedPhraseFieldState: TextFieldState,
     passwordFieldState: TextFieldState,
     confirmPasswordFieldState: TextFieldState,
-    isPasswordValid: Boolean,
+    uiState: RestoreWalletUiState,
     onEvent: (RestoreWalletEvent) -> Unit
 ) {
     Scaffold(
@@ -92,7 +100,9 @@ internal fun RestoreWalletScreen(
             }
         }
     ) {
-
+        var textObfuscationMode by remember {
+            mutableStateOf(TextObfuscationMode.RevealLastTyped)
+        }
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -103,20 +113,29 @@ internal fun RestoreWalletScreen(
             MnemonicInputView(
                 modifier = Modifier.fillMaxWidth(),
                 textFieldState = seedPhraseFieldState,
+                isError = !uiState.mnemonicError.isNullOrBlank(),
                 placeholder = { Text(text = "Enter your seed phrase") }
             )
             PasswordTextField(
                 modifier = Modifier.fillMaxWidth(),
                 textField = passwordFieldState,
+                textObfuscationMode = textObfuscationMode,
                 placeholder = { Text(text = stringResource(R.string.wallet_android_feature_onboard_restore_wallet_new_password)) },
-                isError = !isPasswordValid,
+                isError = uiState.passwordError,
                 trailingIcon = {
-                    Icon(imageVector = Icons.Default.RemoveRedEye, contentDescription = null)
+                    IconButton(onClick = {
+                        textObfuscationMode =
+                            if (textObfuscationMode == TextObfuscationMode.Visible) TextObfuscationMode.RevealLastTyped else TextObfuscationMode.Visible
+                    }) {
+                        Icon(imageVector = Icons.Default.RemoveRedEye, contentDescription = null)
+                    }
                 }
             )
             PasswordTextField(
                 modifier = Modifier.fillMaxWidth(),
                 textField = confirmPasswordFieldState,
+                isError = uiState.confirmPasswordError,
+                textObfuscationMode = textObfuscationMode,
                 placeholder = { Text(text = stringResource(R.string.wallet_android_feature_onboard_restore_wallet_confirm_password)) }
             )
         }
