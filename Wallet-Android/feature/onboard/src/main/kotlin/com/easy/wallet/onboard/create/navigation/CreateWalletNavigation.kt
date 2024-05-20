@@ -65,7 +65,7 @@ fun NavGraphBuilder.attachCreateWalletGraph(navController: NavController) {
             val viewModel: CreateWalletViewModel = it.sharedViewModel(navController = navController)
             ObserveAsEvents(flow = viewModel.navigationEvents) {
                 when (it) {
-                    is CreateWalletEvent.OnCreateWallet -> navController.popBackStack(WalletEntryPointRoute, true)
+                    is CreateWalletEvent.NavigateToWalletTab -> navController.popBackStack(WalletEntryPointRoute, true)
                     CreateWalletEvent.PopBack -> navController.popBackStack()
                     else -> Unit
                 }
