@@ -1,18 +1,15 @@
 package com.easy.wallet.onboard.create
 
 sealed interface CreateWalletEvent {
-    data object Close : CreateWalletEvent
+    data object PopBack: CreateWalletEvent
 
-    // Create Start
-    data class OnPasswordChanged(val password: String) : CreateWalletEvent
-    data class OnConfirmPasswordChanged(val confirm: String) : CreateWalletEvent
-    data class OnCheckedTermOfServiceChanged(val checked: Boolean) : CreateWalletEvent
+    data object OnCreatePassword: CreateWalletEvent
 
-    data object OnViewTermOfService : CreateWalletEvent
-    data object HideTermOfService : CreateWalletEvent
-    data object NextToSecure : CreateWalletEvent
-    // Create Ended
-
-    data object NextToCheckSeed : CreateWalletEvent
     data object OnCreateWallet : CreateWalletEvent
+    data object OnStartInSecure: CreateWalletEvent
+
+    data object NavigateToMnemonic: CreateWalletEvent
+
+    data object NavigateToSecure: CreateWalletEvent
+    data object NavigateToWalletTab: CreateWalletEvent
 }

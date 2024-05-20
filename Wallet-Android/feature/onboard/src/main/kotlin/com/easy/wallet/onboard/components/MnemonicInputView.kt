@@ -47,6 +47,7 @@ internal fun MnemonicInputView(
         BasicTextField(
             modifier = Modifier.fillMaxWidth(),
             state = textFieldState,
+            textStyle = MaterialTheme.typography.titleMedium,
             keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Text),
             decorator = @Composable {
                 val interactionSource = remember { MutableInteractionSource() }
@@ -54,6 +55,7 @@ internal fun MnemonicInputView(
                     value = textFieldState.text.toString(),
                     innerTextField = it,
                     enabled = true,
+                    isError = isError,
                     singleLine = false,
                     placeholder = placeholder,
                     visualTransformation = VisualTransformation.None,

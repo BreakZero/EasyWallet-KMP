@@ -92,22 +92,22 @@ internal fun WalletScreen(
                 }
             }
             is WalletUiState.WalletUiState -> {
-                GuestContent(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(paddingValues)
-                        .padding(horizontal = 16.dp)
-                        .padding(bottom = 16.dp),
-                    onEvent = onEvent
-                )
-//                UserHomeContent(
+//                GuestContent(
 //                    modifier = Modifier
 //                        .fillMaxSize()
-//                        .padding(paddingValues),
-//                    isRefreshing = isRefreshing,
-//                    walletUiState = walletUiState,
-//                    onEvent = onEvent,
+//                        .padding(paddingValues)
+//                        .padding(horizontal = 16.dp)
+//                        .padding(bottom = 16.dp),
+//                    onEvent = onEvent
 //                )
+                UserHomeContent(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(paddingValues),
+                    isRefreshing = isRefreshing,
+                    walletUiState = walletUiState,
+                    onEvent = onEvent,
+                )
             }
             is WalletUiState.GuestUserUiState -> {
                 GuestContent(

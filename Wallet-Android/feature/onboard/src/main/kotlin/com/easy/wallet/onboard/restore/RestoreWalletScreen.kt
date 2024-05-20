@@ -95,6 +95,7 @@ internal fun RestoreWalletScreen(
                 onClick = {
                     onEvent(RestoreWalletEvent.OnImport)
                 },
+                enabled = uiState.mnemonicError.isNullOrBlank()
             ) {
                 Text(text = stringResource(R.string.wallet_android_feature_onboard_restore_wallet_import))
             }
