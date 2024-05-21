@@ -1,6 +1,7 @@
 package com.easy.wallet.shared
 
 import com.easy.wallet.shared.data.multiwallet.MultiWalletRepository
+import com.easy.wallet.shared.data.repository.MarketsRepository
 import com.easy.wallet.shared.data.repository.news.NewsPager
 import com.easy.wallet.shared.di.initKoin
 import com.easy.wallet.shared.domain.AllAssetDashboardUseCase
@@ -28,4 +29,7 @@ val Koin.multiWalletRepository: MultiWalletRepository
     get() = get()
 
 val Koin.newsPager: NewsPager
+    get() = get()
+
+val Koin.marketRepository: MarketsRepository
     get() = get()

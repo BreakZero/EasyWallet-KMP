@@ -16,6 +16,8 @@ extension WalletTabView {
         @LazyKoin private var dashboardUseCase: AllAssetDashboardUseCase
         @LazyKoin private var multiWalletRepository: MultiWalletRepository
         
+        @LazyKoin private var marketRepository: MarketsRepository
+        
         @Published private(set) var walletDashboard: AllAssetDashboardInformation? = nil
         @Published private(set) var isChecking: Bool = true
         

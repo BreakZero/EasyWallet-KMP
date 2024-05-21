@@ -1,4 +1,9 @@
 PODS:
+  - KMPNativeCoroutinesAsync (1.0.0-ALPHA-27):
+    - KMPNativeCoroutinesCore (= 1.0.0-ALPHA-27)
+  - KMPNativeCoroutinesCombine (1.0.0-ALPHA-27):
+    - KMPNativeCoroutinesCore (= 1.0.0-ALPHA-27)
+  - KMPNativeCoroutinesCore (1.0.0-ALPHA-27)
   - platform-shared (1.0):
     - TrustWalletCore
   - SwiftProtobuf (1.21.0)
@@ -10,10 +15,15 @@ PODS:
     - SwiftProtobuf
 
 DEPENDENCIES:
+  - KMPNativeCoroutinesAsync (= 1.0.0-ALPHA-27)
+  - KMPNativeCoroutinesCombine (= 1.0.0-ALPHA-27)
   - platform-shared (from `../platform/shared`)
 
 SPEC REPOS:
   trunk:
+    - KMPNativeCoroutinesAsync
+    - KMPNativeCoroutinesCombine
+    - KMPNativeCoroutinesCore
     - SwiftProtobuf
     - TrustWalletCore
 
@@ -22,10 +32,13 @@ EXTERNAL SOURCES:
     :path: "../platform/shared"
 
 SPEC CHECKSUMS:
+  KMPNativeCoroutinesAsync: 7a2476324cf4842818ceda3801de543005babd12
+  KMPNativeCoroutinesCombine: 59f2c55c3973d2133d80b587b7dadf4f7eba6a67
+  KMPNativeCoroutinesCore: a02bb7ce001707820591837b6aa6900ff990c776
   platform-shared: 22f25638f7ca10b9a22c97b9bb7966924bf72a6d
   SwiftProtobuf: afced68785854575756db965e9da52bbf3dc45e7
   TrustWalletCore: fabbb38652ab559ee25c864af8836e6481a7e22b
 
-PODFILE CHECKSUM: 6e5b3dabdc72570461a1d0be424bb93f6bbcbd16
+PODFILE CHECKSUM: 24b3c3ef791ff52ff01e9014e4dcec6983e0d117
 
 COCOAPODS: 1.10.2

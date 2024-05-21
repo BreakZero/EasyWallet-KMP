@@ -2,6 +2,8 @@ target 'Wallet-iOS' do
   use_frameworks!
   platform :ios, '16.0'
   pod 'platform-shared', :path => '../platform/shared'
+  pod 'KMPNativeCoroutinesAsync', '1.0.0-ALPHA-27'    # Swift Concurrency implementation
+  pod 'KMPNativeCoroutinesCombine', '1.0.0-ALPHA-27'
 end
 post_install do |installer|
   installer.pods_project.targets.each do |target|
