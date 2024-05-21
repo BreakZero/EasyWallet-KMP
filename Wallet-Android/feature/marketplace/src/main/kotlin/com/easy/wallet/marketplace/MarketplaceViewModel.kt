@@ -13,7 +13,7 @@ class MarketplaceViewModel(
     marketsRepository: MarketsRepository
 ) : ViewModel() {
 
-    private val _topCoinsPagingFlow = marketsRepository.topCoinsByPaging().flow
+    private val _topCoinsPagingFlow = marketsRepository.topCoinsByPagingFlow()
     private val _trends = marketsRepository.searchTrends()
 
     internal val topCoins = _topCoinsPagingFlow.distinctUntilChanged().cachedIn(viewModelScope)

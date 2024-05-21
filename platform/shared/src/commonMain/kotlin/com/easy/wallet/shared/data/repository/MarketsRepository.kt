@@ -2,28 +2,32 @@ package com.easy.wallet.shared.data.repository
 
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
+import androidx.paging.PagingData
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.easy.wallet.model.CoinInformation
 import com.easy.wallet.model.CoinMarketInformation
 import com.easy.wallet.network.source.coingecko.CoinGeckoApi
+import com.rickclephas.kmp.nativecoroutines.NativeCoroutines
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
 class MarketsRepository internal constructor(
     private val coinGeckoApi: CoinGeckoApi
 ) {
-    fun topCoinsByPaging(
+    @NativeCoroutines
+    fun topCoinsByPagingFlow(
         currency: String = "usd"
-    ): Pager<Int, CoinMarketInformation> {
+    ): Flow<PagingData<CoinMarketInformation>> {
         return Pager(
             config = PagingConfig(pageSize = Int.MAX_VALUE, prefetchDistance = 2),
             pagingSourceFactory = {
                 MarketDataPagingSource(currency, coinGeckoApi)
             }
-        )
+        ).flow
     }
 
+    @NativeCoroutines
     fun searchTrends(): Flow<List<CoinInformation>> {
         return flow {
             val trends = coinGeckoApi.getSearchTrending()
