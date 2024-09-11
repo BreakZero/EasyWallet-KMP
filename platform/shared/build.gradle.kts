@@ -58,7 +58,7 @@ kotlin {
                 implementation(libs.paging.common)
                 implementation(libs.skie.annotations)
 
-                api("com.trustwallet:wallet-core-kotlin:4.0.31")
+                api("com.trustwallet:wallet-core-kotlin:4.1.7")
                 implementation(libs.bignum)
                 implementation(libs.kermit)
             }

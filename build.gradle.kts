@@ -13,6 +13,7 @@ plugins {
     alias(libs.plugins.ksp) apply false
     alias(libs.plugins.skie) apply false
     alias(libs.plugins.nativecoroutines) apply false
+    alias(libs.plugins.compose) apply false
 }
 
 subprojects {

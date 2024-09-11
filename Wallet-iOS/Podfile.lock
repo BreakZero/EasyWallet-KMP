@@ -22,7 +22,7 @@ EXTERNAL SOURCES:
     :path: "../platform/shared"
 
 SPEC CHECKSUMS:
-  platform-shared: 22f25638f7ca10b9a22c97b9bb7966924bf72a6d
+  platform-shared: 06f441c31a08b23c4519c813eb1c32be346b22a2
   SwiftProtobuf: afced68785854575756db965e9da52bbf3dc45e7
   TrustWalletCore: fabbb38652ab559ee25c864af8836e6481a7e22b
 
