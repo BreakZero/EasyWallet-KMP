@@ -11,17 +11,17 @@ import Charts
 
 struct TransactionScreen: View {
     @ObservedObject private var viewModel = ViewModel()
-    
+
     private var coinId: String
-    
+
     init(coinId: String) {
         self.coinId = coinId
     }
-    
+
     var body: some View {
         ZStack {
             LinearGradient(colors: [Color.clear, .accentColor], startPoint: .top, endPoint: .bottom).ignoresSafeArea()
-            
+
             ScrollView(.vertical) {
                 LazyVStack(spacing: 8) {
                     TransactionDashboardHeader(
