@@ -11,16 +11,14 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
-import androidx.compose.material3.pulltorefresh.PullToRefreshContainer
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
@@ -44,21 +42,12 @@ fun <T : Any> PullToRefreshPagingColumn(
         derivedStateOf { pagingItems.loadState.refresh is LoadState.Loading }
     }
 
-    if (pullToRefreshState.isRefreshing) {
-        LaunchedEffect(true) {
-            pagingItems.refresh()
-        }
-    }
-
-    LaunchedEffect(isRefreshing) {
-        if (isRefreshing) {
-            pullToRefreshState.startRefresh()
-        } else {
-            pullToRefreshState.endRefresh()
-        }
-    }
-
-    Box(modifier = modifier.nestedScroll(pullToRefreshState.nestedScrollConnection)) {
+    PullToRefreshBox(
+        modifier = modifier,
+        onRefresh = { pagingItems.refresh() },
+        state = pullToRefreshState,
+        isRefreshing = isRefreshing
+    ) {
         LazyColumn(
             modifier = Modifier.fillMaxSize(),
             state = lazyListState,
@@ -110,10 +99,5 @@ fun <T : Any> PullToRefreshPagingColumn(
             }
             footerContainer()
         }
-        PullToRefreshContainer(
-            modifier = Modifier
-                .align(Alignment.TopCenter),
-            state = pullToRefreshState,
-        )
     }
 }
