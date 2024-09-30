@@ -85,7 +85,6 @@ internal fun GuestContent(
     when(actionDestination) {
         ActionDestination.Create -> {
             WalletActionSheet(
-                modifier = Modifier.fillMaxHeight(0.5f),
                 menus = listOf(ActionSheetMenu.CREATE_BY_SEED),
                 onDismiss = { actionDestination = ActionDestination.None },
                 onEvent = onEvent,
@@ -93,7 +92,6 @@ internal fun GuestContent(
         }
         ActionDestination.Restore -> {
             WalletActionSheet(
-                modifier = Modifier.fillMaxHeight(0.5f),
                 menus = listOf(ActionSheetMenu.RESTORE_BY_SEED),
                 onDismiss = { actionDestination = ActionDestination.None },
                 onEvent = onEvent,
