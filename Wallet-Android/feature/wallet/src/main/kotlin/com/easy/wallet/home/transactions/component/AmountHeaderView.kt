@@ -33,71 +33,70 @@ import kotlin.random.Random
 
 @Composable
 internal fun AmountHeaderView(
-    modifier: Modifier = Modifier,
-    assetBalance: AssetBalance,
-    rate: BigDecimal = BigDecimal.ONE,
-    trends: List<String>
+  modifier: Modifier = Modifier,
+  assetBalance: AssetBalance,
+  rate: BigDecimal = BigDecimal.ONE,
+  trends: List<String>
 ) {
-    val modelProducer = remember { CartesianChartModelProducer.build() }
-    LaunchedEffect(Unit) {
-        modelProducer.tryRunTransaction {
-            lineSeries { series(trends.map { it.toFloat() }) }
-        }
+  val modelProducer = remember { CartesianChartModelProducer.build() }
+  LaunchedEffect(Unit) {
+    modelProducer.tryRunTransaction {
+      lineSeries { series(trends.map { it.toFloat() }) }
     }
-    Box(
-        modifier = modifier,
-        contentAlignment = Alignment.TopStart
-    ) {
-        CartesianChartHost(
-            rememberCartesianChart(
-                rememberLineCartesianLayer(),
-                startAxis = rememberStartAxis(
-                    label = null,
-                    axis = null,
-                    tick = null,
-                    guideline = null
-                ),
-                bottomAxis = rememberBottomAxis(
-                    label = null,
-                    axis = null,
-                    tick = null,
-                    guideline = null
-                ),
-            ),
-            modelProducer,
-            horizontalLayout = HorizontalLayout.fullWidth()
+  }
+  Box(
+    modifier = modifier,
+    contentAlignment = Alignment.TopStart
+  ) {
+    CartesianChartHost(
+      rememberCartesianChart(
+        rememberLineCartesianLayer(),
+        startAxis = rememberStartAxis(
+          label = null,
+          axis = null,
+          tick = null,
+          guideline = null
+        ),
+        bottomAxis = rememberBottomAxis(
+          label = null,
+          axis = null,
+          tick = null,
+          guideline = null
         )
-        Column(
-            modifier = Modifier
-                .padding(12.dp)
-                .background(
-                    MaterialTheme.colorScheme.surfaceTint.copy(alpha = 0.5f),
-                    RoundedCornerShape(8.dp)
-                )
-                .padding(8.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text(
-                text = "${assetBalance.balance} ${assetBalance.symbol}",
-                style = MaterialTheme.typography.headlineLarge
-            )
+      ),
+      modelProducer,
+      horizontalLayout = HorizontalLayout.fullWidth()
+    )
+    Column(
+      modifier = Modifier
+        .padding(12.dp)
+        .background(
+          MaterialTheme.colorScheme.surfaceTint.copy(alpha = 0.5f),
+          RoundedCornerShape(8.dp)
+        ).padding(8.dp),
+      horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+      Text(
+        text = "${assetBalance.balance} ${assetBalance.symbol}",
+        style = MaterialTheme.typography.headlineLarge
+      )
 //            Text(text = "¥ ${balance.toBigDecimal().times(rate)}")
-        }
     }
+  }
 }
 
 @ThemePreviews
 @Composable
 private fun AmountHeader_Preview() {
-    EasyWalletTheme {
-        Surface {
-            AmountHeaderView(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(260.dp),
-                assetBalance = AssetBalance.mockForPreview,
-                trends = List(8) { Random.nextInt(12).toString() }
-            )
-        }
+  EasyWalletTheme {
+    Surface {
+      AmountHeaderView(
+        modifier = Modifier
+          .fillMaxWidth()
+          .height(260.dp),
+        assetBalance = AssetBalance.mockForPreview,
+        trends = List(8) { Random.nextInt(12).toString() }
+      )
     }
+  }
 }

@@ -12,14 +12,14 @@ import kotlin.experimental.ExperimentalObjCName
 @OptIn(ExperimentalObjCName::class)
 @ObjCName("iOSCommonHelper")
 object CommonHelper {
-    @OptIn(ExperimentalForeignApi::class, BetaInteropApi::class)
-    fun getUIImageFromBytes(bytes: ByteArray): UIImage {
-        val data = bytes.usePinned {
-            NSData.create(
-                bytes = it.addressOf(0),
-                length = bytes.size.toULong(),
-            )
-        }
-        return UIImage(data)
+  @OptIn(ExperimentalForeignApi::class, BetaInteropApi::class)
+  fun getUIImageFromBytes(bytes: ByteArray): UIImage {
+    val data = bytes.usePinned {
+      NSData.create(
+        bytes = it.addressOf(0),
+        length = bytes.size.toULong()
+      )
     }
+    return UIImage(data)
+  }
 }

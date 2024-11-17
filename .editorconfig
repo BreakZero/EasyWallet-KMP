@@ -2,7 +2,7 @@ root = true
 
 [*]
 charset = utf-8
-insert_final_newline = false
+insert_final_newline = true
 trim_trailing_whitespace = true
 
 [*.{kt,kts}]
@@ -18,6 +18,6 @@ ktlint_standard_multiline-expression-wrapping = disabled
 
 ktlint_standard_annotation = disabled
 ktlint_standard_filename = disabled
-ij_kotlin_packages_to_use_import_on_demand = org.junit.**
+ij_kotlin_packages_to_use_import_on_demand = org.junit.**,kotlinx.serialization.**
 ij_kotlin_allow_trailing_comma_on_call_site = false
 ij_kotlin_allow_trailing_comma = false

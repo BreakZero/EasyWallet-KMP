@@ -15,19 +15,17 @@ internal data object CoinManagerRoute
 internal data object CoinEditorRoute
 
 fun NavController.navigateToCoinManager(navOptions: NavOptions? = null) = navigate(CoinManagerRoute, navOptions)
+
 fun NavController.navigateToCoinEditor(navOptions: NavOptions? = null) = navigate(CoinEditorRoute, navOptions)
 
-fun NavGraphBuilder.attachCoinManagerScreens(
-    navigateToEditor: (String?) -> Unit,
-    navigateUp: () -> Unit
-) {
-    composable<CoinManagerRoute> {
-        TokenManagerRoute(
-            navigateToEditor = navigateToEditor,
-            navigateUp = navigateUp
-        )
-    }
-    composable<CoinEditorRoute> {
-        TokenEditorRoute(navigateUp = navigateUp)
-    }
+fun NavGraphBuilder.attachCoinManagerScreens(navigateToEditor: (String?) -> Unit, navigateUp: () -> Unit) {
+  composable<CoinManagerRoute> {
+    TokenManagerRoute(
+      navigateToEditor = navigateToEditor,
+      navigateUp = navigateUp
+    )
+  }
+  composable<CoinEditorRoute> {
+    TokenEditorRoute(navigateUp = navigateUp)
+  }
 }

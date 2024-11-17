@@ -40,154 +40,151 @@ import com.easy.wallet.assetmanager.platform.editor.EditorWithLabel
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-internal fun TokenEditorRoute(
-    navigateUp: () -> Unit
-) {
-    val viewModel: TokenEditorViewModel = koinViewModel()
-    val editorUiState by viewModel.tokenEditorUiState.collectAsStateWithLifecycle()
-    val editorFields = viewModel.tokenEditorFields
+internal fun TokenEditorRoute(navigateUp: () -> Unit) {
+  val viewModel: TokenEditorViewModel = koinViewModel()
+  val editorUiState by viewModel.tokenEditorUiState.collectAsStateWithLifecycle()
+  val editorFields = viewModel.tokenEditorFields
 
-    ObserveAsEvents(flow = viewModel.navigationEvents) {
-        when (it) {
-            TokenEditorEvent.OnSavedSuccess -> navigateUp()
-            else -> Unit
-        }
+  ObserveAsEvents(flow = viewModel.navigationEvents) {
+    when (it) {
+      TokenEditorEvent.OnSavedSuccess -> navigateUp()
+      else -> Unit
     }
+  }
 
-    TokenEditorScreen(
-        editorUiState = editorUiState,
-        editorFields = editorFields,
-        navigateUp = navigateUp,
-        onEvent = viewModel::handleEvent
-    )
+  TokenEditorScreen(
+    editorUiState = editorUiState,
+    editorFields = editorFields,
+    navigateUp = navigateUp,
+    onEvent = viewModel::handleEvent
+  )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun TokenEditorScreen(
-    editorUiState: TokenEditorUiState,
-    editorFields: TokenEditorFields,
-    navigateUp: () -> Unit,
-    onEvent: (TokenEditorEvent) -> Unit
+  editorUiState: TokenEditorUiState,
+  editorFields: TokenEditorFields,
+  navigateUp: () -> Unit,
+  onEvent: (TokenEditorEvent) -> Unit
 ) {
-    Scaffold(
-        modifier = Modifier.fillMaxSize(),
-        containerColor = Color.Transparent,
-        contentColor = MaterialTheme.colorScheme.onBackground,
-        topBar = {
-            TopAppBar(
-                title = { },
-                navigationIcon = {
-                    IconButton(onClick = navigateUp) {
-                        Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
-                    }
-                },
-                colors = TopAppBarDefaults.topAppBarColors()
-                    .copy(containerColor = MaterialTheme.colorScheme.inverseOnSurface)
-            )
+  Scaffold(
+    modifier = Modifier.fillMaxSize(),
+    containerColor = Color.Transparent,
+    contentColor = MaterialTheme.colorScheme.onBackground,
+    topBar = {
+      TopAppBar(
+        title = { },
+        navigationIcon = {
+          IconButton(onClick = navigateUp) {
+            Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
+          }
         },
-        bottomBar = {
-            Button(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp)
-                    .padding(bottom = 12.dp),
-                onClick = { onEvent(TokenEditorEvent.ClickSaved) }
-            ) {
-                Text(text = "Saved")
-            }
-        }
-    ) { paddingValues ->
-        var isShowChainSelector by remember {
-            mutableStateOf(false)
-        }
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues),
-            verticalArrangement = Arrangement.spacedBy(4.dp)
-        ) {
-            val modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 4.dp)
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clickable {
-                        isShowChainSelector = true
-                    }
-                    .padding(horizontal = 16.dp, vertical = 4.dp),
-                horizontalArrangement = Arrangement.spacedBy(16.dp)
-            ) {
-                // chain id selector
-                Text(text = "In Chain")
-                Text(
-                    style = MaterialTheme.typography.titleMedium,
-                    text = editorUiState.selectedPlatformName
-                )
-                Spacer(modifier = Modifier.weight(1.0f))
-                Icon(
-                    imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
-                    contentDescription = null
-                )
-            }
-            EditorWithLabel(
-                modifier = modifier,
-                textFieldState = editorFields.name,
-                label = "Name"
-            )
-            EditorWithLabel(
-                modifier = modifier,
-                textFieldState = editorFields.symbol,
-                label = "Symbol"
-            )
-            EditorWithLabel(
-                modifier = modifier,
-                textFieldState = editorFields.decimals,
-                label = "Decimals"
-            )
-            EditorWithLabel(
-                modifier = modifier,
-                textFieldState = editorFields.contract,
-                label = "Contract Address"
-            )
-            EditorWithLabel(
-                modifier = modifier,
-                textFieldState = editorFields.iconUri,
-                label = "Icon Uri"
-            )
-            Row(modifier = modifier, verticalAlignment = Alignment.CenterVertically) {
-                Text(text = "Active")
-                Spacer(modifier = Modifier.weight(1.0f))
-                Switch(
-                    checked = editorUiState.isActive,
-                    onCheckedChange = { onEvent(TokenEditorEvent.OnActiveChanged(it)) }
-                )
-            }
-        }
-
-        if (isShowChainSelector) {
-            ModalBottomSheet(onDismissRequest = { isShowChainSelector = false }) {
-                LazyColumn(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(480.dp)
-                ) {
-                    items(editorUiState.localPlatforms, key = { it.id }) {
-                        Text(
-                            text = it.shortName,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .clickable {
-                                    onEvent(TokenEditorEvent.OnChainChanged(it.id))
-                                    isShowChainSelector = false
-                                }
-                                .padding(horizontal = 16.dp, vertical = 8.dp),
-                            style = MaterialTheme.typography.titleMedium
-                        )
-                    }
-                }
-            }
-        }
+        colors = TopAppBarDefaults
+          .topAppBarColors()
+          .copy(containerColor = MaterialTheme.colorScheme.inverseOnSurface)
+      )
+    },
+    bottomBar = {
+      Button(
+        modifier = Modifier
+          .fillMaxWidth()
+          .padding(horizontal = 16.dp)
+          .padding(bottom = 12.dp),
+        onClick = { onEvent(TokenEditorEvent.ClickSaved) }
+      ) {
+        Text(text = "Saved")
+      }
     }
+  ) { paddingValues ->
+    var isShowChainSelector by remember {
+      mutableStateOf(false)
+    }
+    Column(
+      modifier = Modifier
+        .fillMaxSize()
+        .padding(paddingValues),
+      verticalArrangement = Arrangement.spacedBy(4.dp)
+    ) {
+      val modifier = Modifier
+        .fillMaxWidth()
+        .padding(horizontal = 16.dp, vertical = 4.dp)
+      Row(
+        modifier = Modifier
+          .fillMaxWidth()
+          .clickable {
+            isShowChainSelector = true
+          }.padding(horizontal = 16.dp, vertical = 4.dp),
+        horizontalArrangement = Arrangement.spacedBy(16.dp)
+      ) {
+        // chain id selector
+        Text(text = "In Chain")
+        Text(
+          style = MaterialTheme.typography.titleMedium,
+          text = editorUiState.selectedPlatformName
+        )
+        Spacer(modifier = Modifier.weight(1.0f))
+        Icon(
+          imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
+          contentDescription = null
+        )
+      }
+      EditorWithLabel(
+        modifier = modifier,
+        textFieldState = editorFields.name,
+        label = "Name"
+      )
+      EditorWithLabel(
+        modifier = modifier,
+        textFieldState = editorFields.symbol,
+        label = "Symbol"
+      )
+      EditorWithLabel(
+        modifier = modifier,
+        textFieldState = editorFields.decimals,
+        label = "Decimals"
+      )
+      EditorWithLabel(
+        modifier = modifier,
+        textFieldState = editorFields.contract,
+        label = "Contract Address"
+      )
+      EditorWithLabel(
+        modifier = modifier,
+        textFieldState = editorFields.iconUri,
+        label = "Icon Uri"
+      )
+      Row(modifier = modifier, verticalAlignment = Alignment.CenterVertically) {
+        Text(text = "Active")
+        Spacer(modifier = Modifier.weight(1.0f))
+        Switch(
+          checked = editorUiState.isActive,
+          onCheckedChange = { onEvent(TokenEditorEvent.OnActiveChanged(it)) }
+        )
+      }
+    }
+
+    if (isShowChainSelector) {
+      ModalBottomSheet(onDismissRequest = { isShowChainSelector = false }) {
+        LazyColumn(
+          modifier = Modifier
+            .fillMaxWidth()
+            .height(480.dp)
+        ) {
+          items(editorUiState.localPlatforms, key = { it.id }) {
+            Text(
+              text = it.shortName,
+              modifier = Modifier
+                .fillMaxWidth()
+                .clickable {
+                  onEvent(TokenEditorEvent.OnChainChanged(it.id))
+                  isShowChainSelector = false
+                }.padding(horizontal = 16.dp, vertical = 8.dp),
+              style = MaterialTheme.typography.titleMedium
+            )
+          }
+        }
+      }
+    }
+  }
 }

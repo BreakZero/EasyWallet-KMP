@@ -22,55 +22,61 @@ internal data object CreateWalletRoute
 
 @Serializable
 internal data object CheckSecureRoute
+
 @Serializable
 internal data object MnemonicPhrasesOverviewRoute
 
 fun NavController.toCreateWallet(navOptions: NavOptions? = null) {
-    this.navigate(CreateWalletRoute, navOptions)
+  this.navigate(CreateWalletRoute, navOptions)
 }
 
 internal fun NavController.toSecure(navOptions: NavOptions? = null) {
-    this.navigate(CheckSecureRoute, navOptions)
+  this.navigate(CheckSecureRoute, navOptions)
 }
+
 internal fun NavController.toViewMnemonicPhrases(navOptions: NavOptions? = null) {
-    this.navigate(MnemonicPhrasesOverviewRoute, navOptions)
+  this.navigate(MnemonicPhrasesOverviewRoute, navOptions)
 }
 
 fun NavGraphBuilder.attachCreateWalletGraph(navController: NavController) {
-    navigation<WalletEntryPointRoute>(startDestination = CreateWalletRoute) {
-        composable<CreateWalletRoute> {
-            val viewModel: CreateWalletViewModel = it.sharedViewModel(navController = navController)
-            ObserveAsEvents(flow = viewModel.navigationEvents) {
-                when(it) {
-                    CreateWalletEvent.PopBack -> navController.popBackStack()
-                    CreateWalletEvent.NavigateToSecure -> { navController.toSecure() }
-                    else -> Unit
-                }
-            }
-            CreatePasswordRoute(viewModel = viewModel)
+  navigation<WalletEntryPointRoute>(startDestination = CreateWalletRoute) {
+    composable<CreateWalletRoute> {
+      val viewModel: CreateWalletViewModel = it.sharedViewModel(navController = navController)
+      ObserveAsEvents(flow = viewModel.navigationEvents) {
+        when (it) {
+          CreateWalletEvent.PopBack -> navController.popBackStack()
+          CreateWalletEvent.NavigateToSecure -> {
+            navController.toSecure()
+          }
+          else -> Unit
         }
-        composable<CheckSecureRoute> {
-            val viewModel: CreateWalletViewModel = it.sharedViewModel(navController = navController)
-            ObserveAsEvents(flow = viewModel.navigationEvents) {
-                when(it) {
-                    CreateWalletEvent.PopBack -> navController.popBackStack()
-                    CreateWalletEvent.NavigateToMnemonic -> { navController.toViewMnemonicPhrases() }
-                    else -> Unit
-                }
-            }
-            SecureRoute(viewModel = viewModel)
-        }
-
-        composable<MnemonicPhrasesOverviewRoute> {
-            val viewModel: CreateWalletViewModel = it.sharedViewModel(navController = navController)
-            ObserveAsEvents(flow = viewModel.navigationEvents) {
-                when (it) {
-                    is CreateWalletEvent.NavigateToWalletTab -> navController.popBackStack(WalletEntryPointRoute, true)
-                    CreateWalletEvent.PopBack -> navController.popBackStack()
-                    else -> Unit
-                }
-            }
-            SeedPhraseRoute(viewModel = viewModel)
-        }
+      }
+      CreatePasswordRoute(viewModel = viewModel)
     }
+    composable<CheckSecureRoute> {
+      val viewModel: CreateWalletViewModel = it.sharedViewModel(navController = navController)
+      ObserveAsEvents(flow = viewModel.navigationEvents) {
+        when (it) {
+          CreateWalletEvent.PopBack -> navController.popBackStack()
+          CreateWalletEvent.NavigateToMnemonic -> {
+            navController.toViewMnemonicPhrases()
+          }
+          else -> Unit
+        }
+      }
+      SecureRoute(viewModel = viewModel)
+    }
+
+    composable<MnemonicPhrasesOverviewRoute> {
+      val viewModel: CreateWalletViewModel = it.sharedViewModel(navController = navController)
+      ObserveAsEvents(flow = viewModel.navigationEvents) {
+        when (it) {
+          is CreateWalletEvent.NavigateToWalletTab -> navController.popBackStack(WalletEntryPointRoute, true)
+          CreateWalletEvent.PopBack -> navController.popBackStack()
+          else -> Unit
+        }
+      }
+      SeedPhraseRoute(viewModel = viewModel)
+    }
+  }
 }

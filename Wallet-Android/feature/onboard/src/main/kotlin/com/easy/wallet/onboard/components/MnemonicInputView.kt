@@ -27,57 +27,55 @@ import com.easy.wallet.design.ui.EasyWalletTheme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun MnemonicInputView(
-    modifier: Modifier = Modifier,
-    isError: Boolean = false,
-    textFieldState: TextFieldState = rememberTextFieldState(),
-    placeholder: @Composable (() -> Unit)? = null
+  modifier: Modifier = Modifier,
+  isError: Boolean = false,
+  textFieldState: TextFieldState = rememberTextFieldState(),
+  placeholder: @Composable (() -> Unit)? = null
 ) {
-    Box(
-        modifier = modifier
-            .fillMaxWidth()
-            .defaultMinSize(minHeight = 120.dp)
-            .background(MaterialTheme.colorScheme.background)
-            .border(
-                width = 1.dp,
-                color = MaterialTheme.colorScheme.onBackground,
-                shape = RoundedCornerShape(4.dp)
-            )
-
-    ) {
-        BasicTextField(
-            modifier = Modifier.fillMaxWidth(),
-            state = textFieldState,
-            textStyle = MaterialTheme.typography.titleMedium,
-            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Text),
-            decorator = @Composable {
-                val interactionSource = remember { MutableInteractionSource() }
-                TextFieldDefaults.DecorationBox(
-                    value = textFieldState.text.toString(),
-                    innerTextField = it,
-                    enabled = true,
-                    isError = isError,
-                    singleLine = false,
-                    placeholder = placeholder,
-                    visualTransformation = VisualTransformation.None,
-                    interactionSource = interactionSource,
-                    container = {},
-                )
-            }
+  Box(
+    modifier = modifier
+      .fillMaxWidth()
+      .defaultMinSize(minHeight = 120.dp)
+      .background(MaterialTheme.colorScheme.background)
+      .border(
+        width = 1.dp,
+        color = MaterialTheme.colorScheme.onBackground,
+        shape = RoundedCornerShape(4.dp)
+      )
+  ) {
+    BasicTextField(
+      modifier = Modifier.fillMaxWidth(),
+      state = textFieldState,
+      textStyle = MaterialTheme.typography.titleMedium,
+      keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Text),
+      decorator = @Composable {
+        val interactionSource = remember { MutableInteractionSource() }
+        TextFieldDefaults.DecorationBox(
+          value = textFieldState.text.toString(),
+          innerTextField = it,
+          enabled = true,
+          isError = isError,
+          singleLine = false,
+          placeholder = placeholder,
+          visualTransformation = VisualTransformation.None,
+          interactionSource = interactionSource,
+          container = {}
         )
-    }
-
+      }
+    )
+  }
 }
 
 @ThemePreviews
 @Composable
 private fun MnemonicInputView_Preview() {
-    EasyWalletTheme {
-        MnemonicInputView(
-            modifier = Modifier.fillMaxWidth(),
-            textFieldState = rememberTextFieldState(),
-            placeholder = {
-                Text(text = "Enter Seed")
-            }
-        )
-    }
+  EasyWalletTheme {
+    MnemonicInputView(
+      modifier = Modifier.fillMaxWidth(),
+      textFieldState = rememberTextFieldState(),
+      placeholder = {
+        Text(text = "Enter Seed")
+      }
+    )
+  }
 }

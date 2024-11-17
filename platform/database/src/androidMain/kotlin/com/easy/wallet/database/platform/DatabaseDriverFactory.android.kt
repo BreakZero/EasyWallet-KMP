@@ -10,22 +10,22 @@ import net.sqlcipher.database.SupportFactory
 import java.util.UUID
 
 actual class DatabaseDriverFactory(
-    private val context: Context
+  private val context: Context
 ) {
-    actual fun createDriver(passphraseCheck: (String) -> String): SqlDriver {
-        val uuid = UUID.randomUUID().toString()
-        val key = passphraseCheck(uuid).ifBlank { uuid }
-        val supportFactory = SupportFactory(SQLiteDatabase.getBytes(key.toCharArray()))
-        return AndroidSqliteDriver(
-            Schema,
-            context,
-            name = "e_wallet.db",
-            factory = supportFactory,
-            callback = object : AndroidSqliteDriver.Callback(Schema) {
-                override fun onOpen(db: SupportSQLiteDatabase) {
-                    db.setForeignKeyConstraintsEnabled(true)
-                }
-            },
-        )
-    }
+  actual fun createDriver(passphraseCheck: (String) -> String): SqlDriver {
+    val uuid = UUID.randomUUID().toString()
+    val key = passphraseCheck(uuid).ifBlank { uuid }
+    val supportFactory = SupportFactory(SQLiteDatabase.getBytes(key.toCharArray()))
+    return AndroidSqliteDriver(
+      Schema,
+      context,
+      name = "e_wallet.db",
+      factory = supportFactory,
+      callback = object : AndroidSqliteDriver.Callback(Schema) {
+        override fun onOpen(db: SupportSQLiteDatabase) {
+          db.setForeignKeyConstraintsEnabled(true)
+        }
+      }
+    )
+  }
 }

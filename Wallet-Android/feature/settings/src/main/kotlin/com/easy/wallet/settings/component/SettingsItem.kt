@@ -25,77 +25,76 @@ import com.easy.wallet.design.ui.EasyWalletTheme
 
 @Composable
 internal fun SettingsItem(
-    modifier: Modifier = Modifier,
-    title: String,
-    subtitle: String? = null,
-    suffix: @Composable (() -> Unit)? = null,
-    onClick: () -> Unit = {}
+  modifier: Modifier = Modifier,
+  title: String,
+  subtitle: String? = null,
+  suffix: @Composable (() -> Unit)? = null,
+  onClick: () -> Unit = {}
 ) {
-    Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .clip(RoundedCornerShape(8.dp))
-            .clickable(onClick = onClick)
-            .padding(vertical = 12.dp, horizontal = 12.dp),
-        verticalAlignment = Alignment.CenterVertically,
+  Row(
+    modifier = modifier
+      .fillMaxWidth()
+      .clip(RoundedCornerShape(8.dp))
+      .clickable(onClick = onClick)
+      .padding(vertical = 12.dp, horizontal = 12.dp),
+    verticalAlignment = Alignment.CenterVertically
+  ) {
+    Column(
+      modifier = Modifier.weight(1.0f)
     ) {
-        Column(
-            modifier = Modifier.weight(1.0f),
-        ) {
-            Text(
-                text = title,
-                style = MaterialTheme.typography.titleLarge,
-            )
-            subtitle?.let {
-                Text(style = MaterialTheme.typography.labelMedium, text = it)
-            }
-        }
-        Spacer(modifier = Modifier.width(12.dp))
-        if (suffix != null) suffix()
+      Text(
+        text = title,
+        style = MaterialTheme.typography.titleLarge
+      )
+      subtitle?.let {
+        Text(style = MaterialTheme.typography.labelMedium, text = it)
+      }
     }
+    Spacer(modifier = Modifier.width(12.dp))
+    if (suffix != null) suffix()
+  }
 }
 
 @Composable
 internal fun ExtendSettingsItem(
-    modifier: Modifier = Modifier,
-    title: String,
-    subtitle: String? = null,
-    onClick: () -> Unit
+  modifier: Modifier = Modifier,
+  title: String,
+  subtitle: String? = null,
+  onClick: () -> Unit
 ) {
-    SettingsItem(
-        modifier = modifier,
-        title = title,
-        subtitle = subtitle,
-        suffix = {
-            Icon(
-                imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
-                contentDescription = null
-            )
-        },
-        onClick = onClick
-    )
+  SettingsItem(
+    modifier = modifier,
+    title = title,
+    subtitle = subtitle,
+    suffix = {
+      Icon(
+        imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
+        contentDescription = null
+      )
+    },
+    onClick = onClick
+  )
 }
 
 @ThemePreviews
 @Composable
 private fun SettingsItem_Preview() {
-    EasyWalletTheme {
-        Surface {
-            Column {
-                SettingsItem(
-                    title = "General",
-                    subtitle = "Currency conversion, primary currency, language and so on",
-                ) {}
-                ExtendSettingsItem(title = "Title") {
-
-                }
-                SettingsItem(
-                    title = "Enable Biometric",
-                    suffix = {
-                        Switch(checked = false, onCheckedChange = {})
-                    }
-                )
-            }
+  EasyWalletTheme {
+    Surface {
+      Column {
+        SettingsItem(
+          title = "General",
+          subtitle = "Currency conversion, primary currency, language and so on"
+        ) {}
+        ExtendSettingsItem(title = "Title") {
         }
+        SettingsItem(
+          title = "Enable Biometric",
+          suffix = {
+            Switch(checked = false, onCheckedChange = {})
+          }
+        )
+      }
     }
+  }
 }

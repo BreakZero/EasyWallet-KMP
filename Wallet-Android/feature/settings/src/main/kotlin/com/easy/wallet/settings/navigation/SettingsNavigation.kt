@@ -15,23 +15,23 @@ internal data object SettingsEntryPointRoute
 internal data object SettingsRoute
 
 fun NavController.toSettings(navOptions: NavOptions? = null) {
-    this.navigate(SettingsEntryPointRoute, navOptions)
+  this.navigate(SettingsEntryPointRoute, navOptions)
 }
 
 fun NavGraphBuilder.attachSettingsModule(
-    navigateToSupportedChains: () -> Unit,
-    navigateTokenManager: () -> Unit,
-    popBack: () -> Unit,
-    nestedGraphs: NavGraphBuilder.() -> Unit
+  navigateToSupportedChains: () -> Unit,
+  navigateTokenManager: () -> Unit,
+  popBack: () -> Unit,
+  nestedGraphs: NavGraphBuilder.() -> Unit
 ) {
-    navigation<SettingsEntryPointRoute>(startDestination = SettingsRoute) {
-        composable<SettingsRoute> {
-            SettingsRoute(
-                navigateToSupportedChains = navigateToSupportedChains,
-                navigateTokenManager = navigateTokenManager,
-                popBack = popBack
-            )
-        }
-        nestedGraphs()
+  navigation<SettingsEntryPointRoute>(startDestination = SettingsRoute) {
+    composable<SettingsRoute> {
+      SettingsRoute(
+        navigateToSupportedChains = navigateToSupportedChains,
+        navigateTokenManager = navigateTokenManager,
+        popBack = popBack
+      )
     }
+    nestedGraphs()
+  }
 }

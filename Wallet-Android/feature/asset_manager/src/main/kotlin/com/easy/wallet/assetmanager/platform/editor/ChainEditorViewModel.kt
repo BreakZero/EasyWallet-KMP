@@ -11,29 +11,30 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 
 internal class ChainEditorViewModel(
-    platformRepository: PlatformRepository,
-    savedStateHandle: SavedStateHandle
+  platformRepository: PlatformRepository,
+  savedStateHandle: SavedStateHandle
 ) : BaseViewModel<ChainEditorUiEvent>() {
+  private val platformId: String = checkNotNull(savedStateHandle["platformId"])
 
-    private val platformId: String = checkNotNull(savedStateHandle["platformId"])
-
-    val chainEditorUiState = platformRepository.findPlatformByIdStream(platformId).map {
-        ChainEditorUiState()
+  val chainEditorUiState = platformRepository
+    .findPlatformByIdStream(platformId)
+    .map {
+      ChainEditorUiState()
     }.catch {
-        emit(ChainEditorUiState())
+      emit(ChainEditorUiState())
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(3_000), ChainEditorUiState())
 
-    override fun handleEvent(event: ChainEditorUiEvent) {
-        when (event) {
-            ChainEditorUiEvent.OnSavedClick -> {
-                with(chainEditorUiState.value) {
-                    // add validate information
-                    dispatchEvent(ChainEditorUiEvent.NavigateUp)
-                }
-            }
-            else -> dispatchEvent(ChainEditorUiEvent.NavigateUp)
+  override fun handleEvent(event: ChainEditorUiEvent) {
+    when (event) {
+      ChainEditorUiEvent.OnSavedClick -> {
+        with(chainEditorUiState.value) {
+          // add validate information
+          dispatchEvent(ChainEditorUiEvent.NavigateUp)
         }
+      }
+      else -> dispatchEvent(ChainEditorUiEvent.NavigateUp)
     }
+  }
 
-    private fun TextFieldState.asString() = this.text.toString()
+  private fun TextFieldState.asString() = this.text.toString()
 }

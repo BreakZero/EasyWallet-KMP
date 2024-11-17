@@ -31,67 +31,67 @@ import com.easy.wallet.design.ui.EasyWalletTheme
 import com.easy.wallet.home.R
 
 internal enum class ActionSheetMenu(
-    val title: UiText,
-    val desc: UiText,
-    val trailingIcon: ImageVector
+  val title: UiText,
+  val desc: UiText,
+  val trailingIcon: ImageVector
 ) {
-    CREATE_BY_SEED(
-        title = UiText.StringResource(resId = R.string.wallet_android_feature_wallet_onboard_seed_phrase_title),
-        desc = UiText.StringResource(resId = R.string.wallet_android_feature_wallet_onboard_seed_phrase_create_desc),
-        trailingIcon = Icons.Default.Wallet,
-    ),
-    RESTORE_BY_SEED(
-        title = UiText.StringResource(resId = R.string.wallet_android_feature_wallet_onboard_seed_phrase_title),
-        desc = UiText.StringResource(resId = R.string.wallet_android_feature_wallet_onboard_seed_phrase_import_desc),
-        trailingIcon = Icons.Default.Wallet,
-    )
+  CREATE_BY_SEED(
+    title = UiText.StringResource(resId = R.string.wallet_android_feature_wallet_onboard_seed_phrase_title),
+    desc = UiText.StringResource(resId = R.string.wallet_android_feature_wallet_onboard_seed_phrase_create_desc),
+    trailingIcon = Icons.Default.Wallet
+  ),
+  RESTORE_BY_SEED(
+    title = UiText.StringResource(resId = R.string.wallet_android_feature_wallet_onboard_seed_phrase_title),
+    desc = UiText.StringResource(resId = R.string.wallet_android_feature_wallet_onboard_seed_phrase_import_desc),
+    trailingIcon = Icons.Default.Wallet
+  )
 }
 
 @Composable
 internal fun ActionSheetItem(
-    modifier: Modifier = Modifier,
-    menu: ActionSheetMenu,
-    onClick: () -> Unit
+  modifier: Modifier = Modifier,
+  menu: ActionSheetMenu,
+  onClick: () -> Unit
 ) {
-    Card(
-        shape = CardDefaults.shape,
-        modifier = modifier
-            .padding(horizontal = 16.dp)
-            .clip(CardDefaults.shape)
-            .clickable {
-                onClick()
-            },
+  Card(
+    shape = CardDefaults.shape,
+    modifier = modifier
+      .padding(horizontal = 16.dp)
+      .clip(CardDefaults.shape)
+      .clickable {
+        onClick()
+      }
+  ) {
+    Row(
+      modifier = Modifier
+        .fillMaxWidth()
+        .height(IntrinsicSize.Min)
+        .padding(horizontal = 12.dp, vertical = 16.dp),
+      verticalAlignment = Alignment.CenterVertically
     ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(IntrinsicSize.Min)
-                .padding(horizontal = 12.dp, vertical = 16.dp),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Column(
-                modifier = Modifier.weight(1.0f),
-            ) {
-                Text(text = menu.title.asString(), style = MaterialTheme.typography.headlineMedium)
-                Text(text = menu.desc.asString(), style = MaterialTheme.typography.titleMedium)
-            }
-            Spacer(modifier = Modifier.width(12.dp))
-            Image(
-                modifier = Modifier.size(48.dp),
-                imageVector = menu.trailingIcon,
-                contentDescription = menu.title.asString(),
-                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurfaceVariant),
-            )
-        }
+      Column(
+        modifier = Modifier.weight(1.0f)
+      ) {
+        Text(text = menu.title.asString(), style = MaterialTheme.typography.headlineMedium)
+        Text(text = menu.desc.asString(), style = MaterialTheme.typography.titleMedium)
+      }
+      Spacer(modifier = Modifier.width(12.dp))
+      Image(
+        modifier = Modifier.size(48.dp),
+        imageVector = menu.trailingIcon,
+        contentDescription = menu.title.asString(),
+        colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurfaceVariant)
+      )
     }
+  }
 }
 
 @ThemePreviews
 @Composable
 private fun ActionItem_Preview() {
-    EasyWalletTheme {
-        Surface {
-            ActionSheetItem(menu = ActionSheetMenu.CREATE_BY_SEED) {}
-        }
+  EasyWalletTheme {
+    Surface {
+      ActionSheetItem(menu = ActionSheetMenu.CREATE_BY_SEED) {}
     }
+  }
 }

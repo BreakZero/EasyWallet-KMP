@@ -5,5 +5,5 @@ import org.koin.androidx.viewmodel.dsl.viewModelOf
 import org.koin.dsl.module
 
 val marketModule = module {
-    viewModelOf(::MarketplaceViewModel)
+  viewModelOf(::MarketplaceViewModel)
 }

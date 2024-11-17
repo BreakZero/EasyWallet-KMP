@@ -48,154 +48,156 @@ import com.easy.wallet.shared.model.fees.FeeLevel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun EvmChainOverviewScreen(
-    assetBalance: AssetBalance,
-    overviewUiState: OverviewUiState,
-    onEvent: (SendUiEvent) -> Unit
+  assetBalance: AssetBalance,
+  overviewUiState: OverviewUiState,
+  onEvent: (SendUiEvent) -> Unit
 ) {
-    Scaffold(
-        containerColor = Color.Transparent,
-        contentColor = MaterialTheme.colorScheme.onBackground,
-        topBar = {
-            TopAppBar(
-                title = { Text(text = "Overview") },
-                navigationIcon = {
-                    IconButton(onClick = { onEvent(SendUiEvent.NavigateBack) }) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = ""
-                        )
-                    }
-                },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent),
+  Scaffold(
+    containerColor = Color.Transparent,
+    contentColor = MaterialTheme.colorScheme.onBackground,
+    topBar = {
+      TopAppBar(
+        title = { Text(text = "Overview") },
+        navigationIcon = {
+          IconButton(onClick = { onEvent(SendUiEvent.NavigateBack) }) {
+            Icon(
+              imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+              contentDescription = ""
             )
+          }
         },
-        bottomBar = {
-            Button(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 8.dp),
-                onClick = { onEvent(SendUiEvent.OnSigningTransaction(null)) }
-            ) {
-                Text(text = "Next")
-            }
-        }
-    ) {
-
-        var showFeeTiers by remember {
-            mutableStateOf(false)
-        }
-        val labelColor = LocalContentColor.current.copy(alpha = 0.5f)
-        Column(
-            modifier = Modifier.padding(it),
-            verticalArrangement = Arrangement.spacedBy(4.dp)
-        ) {
-            val basicModifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp)
-            Text(
-                modifier = basicModifier,
-                text = "Send",
-                style = MaterialTheme.typography.labelMedium,
-                color = labelColor
-            )
-            Row(
-                modifier = basicModifier,
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(12.dp)
-            ) {
-                DynamicAsyncImage(
-                    modifier = Modifier.size(48.dp),
-                    imageUrl = assetBalance.logoURI, contentDescription = null
-                )
-                Column {
-                    Text(
-                        text = "${overviewUiState.amount} ${assetBalance.symbol}",
-                        style = MaterialTheme.typography.headlineMedium
-                    )
-                    // waiting rate api
-                    Text(text = "= $--")
-                }
-            }
-
-            HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
-            Text(
-                modifier = basicModifier,
-                text = "Sender",
-                style = MaterialTheme.typography.labelMedium,
-                color = labelColor
-            )
-            Row(modifier = basicModifier) {
-                Text(
-                    modifier = Modifier.fillMaxWidth(0.6f),
-                    text = assetBalance.address,
-                    style = MaterialTheme.typography.bodyLarge
-                )
-                Spacer(modifier = Modifier.weight(1.0f))
-                Icon(
-                    imageVector = Icons.Default.ContentCopy,
-                    contentDescription = null,
-                    tint = labelColor
-                )
-            }
-
-            HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
-            Text(
-                modifier = basicModifier,
-                text = "Recipient",
-                style = MaterialTheme.typography.labelMedium,
-                color = labelColor
-            )
-            Row(modifier = basicModifier) {
-                Text(
-                    modifier = Modifier.fillMaxWidth(0.6f),
-                    text = overviewUiState.destination
-                )
-                Spacer(modifier = Modifier.weight(1.0f))
-                Icon(
-                    imageVector = Icons.Default.ContentCopy,
-                    contentDescription = null,
-                    tint = labelColor
-                )
-            }
-
-            HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
-            overviewUiState.selectedFee?.let {
-                FeeTierItem(
-                    modifier = basicModifier
-                        .clip(RoundedCornerShape(12.dp))
-                        .clickable { showFeeTiers = true },
-                    data = it,
-                    onClick = { showFeeTiers = true }
-                )
-            }
-        }
-        if (overviewUiState.fees.isNotEmpty() && showFeeTiers) {
-            FeeTierBottomSheet(
-                fees = overviewUiState.fees,
-                onItemClick = {
-                    onEvent(SendUiEvent.OnFeeChanged(it))
-                },
-                dismiss = { showFeeTiers = false }
-            )
-        }
+        colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent)
+      )
+    },
+    bottomBar = {
+      Button(
+        modifier = Modifier
+          .fillMaxWidth()
+          .padding(horizontal = 16.dp, vertical = 8.dp),
+        onClick = { onEvent(SendUiEvent.OnSigningTransaction(null)) }
+      ) {
+        Text(text = "Next")
+      }
     }
+  ) {
+    var showFeeTiers by remember {
+      mutableStateOf(false)
+    }
+    val labelColor = LocalContentColor.current.copy(alpha = 0.5f)
+    Column(
+      modifier = Modifier.padding(it),
+      verticalArrangement = Arrangement.spacedBy(4.dp)
+    ) {
+      val basicModifier = Modifier
+        .fillMaxWidth()
+        .padding(horizontal = 16.dp)
+      Text(
+        modifier = basicModifier,
+        text = "Send",
+        style = MaterialTheme.typography.labelMedium,
+        color = labelColor
+      )
+      Row(
+        modifier = basicModifier,
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(12.dp)
+      ) {
+        DynamicAsyncImage(
+          modifier = Modifier.size(48.dp),
+          imageUrl = assetBalance.logoURI,
+          contentDescription = null
+        )
+        Column {
+          Text(
+            text = "${overviewUiState.amount} ${assetBalance.symbol}",
+            style = MaterialTheme.typography.headlineMedium
+          )
+          // waiting rate api
+          Text(text = "= $--")
+        }
+      }
+
+      HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
+      Text(
+        modifier = basicModifier,
+        text = "Sender",
+        style = MaterialTheme.typography.labelMedium,
+        color = labelColor
+      )
+      Row(modifier = basicModifier) {
+        Text(
+          modifier = Modifier.fillMaxWidth(0.6f),
+          text = assetBalance.address,
+          style = MaterialTheme.typography.bodyLarge
+        )
+        Spacer(modifier = Modifier.weight(1.0f))
+        Icon(
+          imageVector = Icons.Default.ContentCopy,
+          contentDescription = null,
+          tint = labelColor
+        )
+      }
+
+      HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
+      Text(
+        modifier = basicModifier,
+        text = "Recipient",
+        style = MaterialTheme.typography.labelMedium,
+        color = labelColor
+      )
+      Row(modifier = basicModifier) {
+        Text(
+          modifier = Modifier.fillMaxWidth(0.6f),
+          text = overviewUiState.destination
+        )
+        Spacer(modifier = Modifier.weight(1.0f))
+        Icon(
+          imageVector = Icons.Default.ContentCopy,
+          contentDescription = null,
+          tint = labelColor
+        )
+      }
+
+      HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
+      overviewUiState.selectedFee?.let {
+        FeeTierItem(
+          modifier = basicModifier
+            .clip(RoundedCornerShape(12.dp))
+            .clickable { showFeeTiers = true },
+          data = it,
+          onClick = { showFeeTiers = true }
+        )
+      }
+    }
+    if (overviewUiState.fees.isNotEmpty() && showFeeTiers) {
+      FeeTierBottomSheet(
+        fees = overviewUiState.fees,
+        onItemClick = {
+          onEvent(SendUiEvent.OnFeeChanged(it))
+        },
+        dismiss = { showFeeTiers = false }
+      )
+    }
+  }
 }
 
 @ThemePreviews
 @Composable
 private fun Overview_Preview() {
-    EasyWalletTheme {
-        EasyGradientBackground {
-            EvmChainOverviewScreen(
-                assetBalance = AssetBalance.mockForPreview,
-                overviewUiState = OverviewUiState(
-                    "", "", fees = listOf(
-                        EthereumFee(FeeLevel.Low, "", "", ""),
-                        EthereumFee(FeeLevel.Fast, "", "", "")
-                    )
-                ),
-                onEvent = {}
-            )
-        }
+  EasyWalletTheme {
+    EasyGradientBackground {
+      EvmChainOverviewScreen(
+        assetBalance = AssetBalance.mockForPreview,
+        overviewUiState = OverviewUiState(
+          "",
+          "",
+          fees = listOf(
+            EthereumFee(FeeLevel.Low, "", "", ""),
+            EthereumFee(FeeLevel.Fast, "", "", "")
+          )
+        ),
+        onEvent = {}
+      )
     }
+  }
 }

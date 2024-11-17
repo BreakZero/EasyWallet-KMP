@@ -5,5 +5,5 @@ import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
 internal actual fun factoryModule() = module {
-    singleOf(::DatabaseDriverFactory)
+  singleOf(::DatabaseDriverFactory)
 }

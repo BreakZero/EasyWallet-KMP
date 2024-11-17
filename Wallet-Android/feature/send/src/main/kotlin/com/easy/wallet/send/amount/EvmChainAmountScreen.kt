@@ -38,126 +38,126 @@ import com.easy.wallet.send.SendUiEvent
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun EvmChainSendAmountScreen(
-    assetBalance: AssetBalance,
-    amountUiState: AmountUiState,
-    onEvent: (SendUiEvent) -> Unit
+  assetBalance: AssetBalance,
+  amountUiState: AmountUiState,
+  onEvent: (SendUiEvent) -> Unit
 ) {
-    Scaffold(
-        containerColor = Color.Transparent,
-        contentColor = MaterialTheme.colorScheme.onBackground,
-        topBar = {
-            TopAppBar(
-                title = { Text(text = "Send") },
-                navigationIcon = {
-                    IconButton(onClick = { onEvent(SendUiEvent.NavigateBack) }) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = ""
-                        )
-                    }
-                },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent),
+  Scaffold(
+    containerColor = Color.Transparent,
+    contentColor = MaterialTheme.colorScheme.onBackground,
+    topBar = {
+      TopAppBar(
+        title = { Text(text = "Send") },
+        navigationIcon = {
+          IconButton(onClick = { onEvent(SendUiEvent.NavigateBack) }) {
+            Icon(
+              imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+              contentDescription = ""
             )
+          }
         },
-        bottomBar = {
-            Button(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 8.dp),
-                enabled = !amountUiState.insufficientBalance,
-                onClick = { onEvent(SendUiEvent.BuildTransactionPlan) }
-            ) {
-                Text(text = "Next")
-            }
-        }
-    ) { paddingValues ->
-        val color = if (amountUiState.insufficientBalance) MaterialTheme.colorScheme.error else Color.Unspecified
-        Column(
-            modifier = Modifier.padding(paddingValues)
-        ) {
-            Box(
-                modifier = Modifier
-                    .weight(1.0f)
-                    .fillMaxWidth(),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(
-                    text = "${amountUiState.enterAmount} ${assetBalance.symbol}",
-                    color = color,
-                    style = MaterialTheme.typography.displaySmall
-                )
-            }
-            Card(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 8.dp)
-            ) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp, vertical = 8.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(12.dp)
-                ) {
-                    Icon(imageVector = Icons.Default.Wallet, contentDescription = null)
-                    Column(modifier = Modifier.weight(1.0f)) {
-                        Text(text = "Balance")
-                        Text(text = "${assetBalance.balance} ${assetBalance.symbol}")
-                    }
-                    Button(onClick = { onEvent(SendUiEvent.MaxAmount) }) {
-                        Text(text = "Max")
-                    }
-                }
-            }
-            LazyVerticalGrid(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 8.dp),
-                columns = GridCells.Fixed(3),
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                items((1..9).toList(), key = { it }) {
-                    Button(onClick = {
-                        onEvent(SendUiEvent.EnterDigital(it.toString()))
-                    }) {
-                        Text(text = "$it")
-                    }
-                }
-                item(key = ".") {
-                    Button(onClick = { onEvent(SendUiEvent.EnterDigital(".")) }) {
-                        Text(text = ".")
-                    }
-                }
-                item(key = "0") {
-                    Button(onClick = { onEvent(SendUiEvent.EnterDigital("0")) }) {
-                        Text(text = "0")
-                    }
-                }
-                item(key = "backspace") {
-                    Button(onClick = {
-                        onEvent(SendUiEvent.Backspace)
-                    }) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Outlined.Backspace,
-                            contentDescription = null
-                        )
-                    }
-                }
-            }
-        }
+        colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent)
+      )
+    },
+    bottomBar = {
+      Button(
+        modifier = Modifier
+          .fillMaxWidth()
+          .padding(horizontal = 16.dp, vertical = 8.dp),
+        enabled = !amountUiState.insufficientBalance,
+        onClick = { onEvent(SendUiEvent.BuildTransactionPlan) }
+      ) {
+        Text(text = "Next")
+      }
     }
+  ) { paddingValues ->
+    val color = if (amountUiState.insufficientBalance) MaterialTheme.colorScheme.error else Color.Unspecified
+    Column(
+      modifier = Modifier.padding(paddingValues)
+    ) {
+      Box(
+        modifier = Modifier
+          .weight(1.0f)
+          .fillMaxWidth(),
+        contentAlignment = Alignment.Center
+      ) {
+        Text(
+          text = "${amountUiState.enterAmount} ${assetBalance.symbol}",
+          color = color,
+          style = MaterialTheme.typography.displaySmall
+        )
+      }
+      Card(
+        modifier = Modifier
+          .fillMaxWidth()
+          .padding(horizontal = 16.dp, vertical = 8.dp)
+      ) {
+        Row(
+          modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 8.dp),
+          verticalAlignment = Alignment.CenterVertically,
+          horizontalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+          Icon(imageVector = Icons.Default.Wallet, contentDescription = null)
+          Column(modifier = Modifier.weight(1.0f)) {
+            Text(text = "Balance")
+            Text(text = "${assetBalance.balance} ${assetBalance.symbol}")
+          }
+          Button(onClick = { onEvent(SendUiEvent.MaxAmount) }) {
+            Text(text = "Max")
+          }
+        }
+      }
+      LazyVerticalGrid(
+        modifier = Modifier
+          .fillMaxWidth()
+          .padding(horizontal = 16.dp, vertical = 8.dp),
+        columns = GridCells.Fixed(3),
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
+      ) {
+        items((1..9).toList(), key = { it }) {
+          Button(onClick = {
+            onEvent(SendUiEvent.EnterDigital(it.toString()))
+          }) {
+            Text(text = "$it")
+          }
+        }
+        item(key = ".") {
+          Button(onClick = { onEvent(SendUiEvent.EnterDigital(".")) }) {
+            Text(text = ".")
+          }
+        }
+        item(key = "0") {
+          Button(onClick = { onEvent(SendUiEvent.EnterDigital("0")) }) {
+            Text(text = "0")
+          }
+        }
+        item(key = "backspace") {
+          Button(onClick = {
+            onEvent(SendUiEvent.Backspace)
+          }) {
+            Icon(
+              imageVector = Icons.AutoMirrored.Outlined.Backspace,
+              contentDescription = null
+            )
+          }
+        }
+      }
+    }
+  }
 }
 
 @ThemePreviews
 @Composable
 private fun EvmChainSendAmount_Preview() {
-    EasyWalletTheme {
-        EasyGradientBackground {
-            EvmChainSendAmountScreen(
-                assetBalance = AssetBalance.mockForPreview,
-                amountUiState = AmountUiState(""),
-                {}
-            )
-        }
+  EasyWalletTheme {
+    EasyGradientBackground {
+      EvmChainSendAmountScreen(
+        assetBalance = AssetBalance.mockForPreview,
+        amountUiState = AmountUiState(""),
+        {}
+      )
     }
+  }
 }

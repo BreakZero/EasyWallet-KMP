@@ -28,66 +28,68 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun CollapsingToolbarWithLazyList(
-    modifier: Modifier = Modifier,
-    listState: LazyListState,
-    toolbarHeightRange: IntRange = with(LocalDensity.current) {
-        0.dp.roundToPx()..248.dp.roundToPx()
-    },
-    toolbarState: CollapsingToolbarState = rememberCollapsingToolbarState(toolbarHeightRange = toolbarHeightRange),
-    header: @Composable BoxScope.(Modifier) -> Unit,
-    listContent: @Composable BoxScope.(Modifier) -> Unit
+  modifier: Modifier = Modifier,
+  listState: LazyListState,
+  toolbarHeightRange: IntRange = with(LocalDensity.current) {
+    0.dp.roundToPx()..248.dp.roundToPx()
+  },
+  toolbarState: CollapsingToolbarState = rememberCollapsingToolbarState(toolbarHeightRange = toolbarHeightRange),
+  header: @Composable BoxScope.(Modifier) -> Unit,
+  listContent: @Composable BoxScope.(Modifier) -> Unit
 ) {
-    val scope = rememberCoroutineScope()
+  val scope = rememberCoroutineScope()
 
-    val nestedScrollConnection = remember {
-        object : NestedScrollConnection {
-            override fun onPreScroll(available: Offset, source: NestedScrollSource): Offset {
-                toolbarState.scrollTopLimitReached =
-                    listState.firstVisibleItemIndex == 0 && listState.firstVisibleItemScrollOffset == 0
-                toolbarState.scrollOffset -= available.y
+  val nestedScrollConnection = remember {
+    object : NestedScrollConnection {
+      override fun onPreScroll(available: Offset, source: NestedScrollSource): Offset {
+        toolbarState.scrollTopLimitReached =
+          listState.firstVisibleItemIndex == 0 &&
+          listState.firstVisibleItemScrollOffset == 0
+        toolbarState.scrollOffset -= available.y
 
-                return Offset(0f, toolbarState.consumed)
+        return Offset(0f, toolbarState.consumed)
+      }
+
+      override suspend fun onPostFling(consumed: Velocity, available: Velocity): Velocity {
+        if (available.y > 0) {
+          scope.launch {
+            animateDecay(
+              initialValue = toolbarState.height + toolbarState.offset,
+              initialVelocity = available.y,
+              animationSpec = FloatExponentialDecaySpec()
+            ) { value, _ ->
+              toolbarState.scrollTopLimitReached =
+                listState.firstVisibleItemIndex == 0 &&
+                listState.firstVisibleItemScrollOffset == 0
+              toolbarState.scrollOffset -= (value - (toolbarState.height + toolbarState.offset))
+              if (toolbarState.scrollOffset == 0f) scope.coroutineContext.cancelChildren()
             }
-
-            override suspend fun onPostFling(consumed: Velocity, available: Velocity): Velocity {
-                if (available.y > 0) {
-                    scope.launch {
-                        animateDecay(
-                            initialValue = toolbarState.height + toolbarState.offset,
-                            initialVelocity = available.y,
-                            animationSpec = FloatExponentialDecaySpec()
-                        ) { value, _ ->
-                            toolbarState.scrollTopLimitReached =
-                                listState.firstVisibleItemIndex == 0 && listState.firstVisibleItemScrollOffset == 0
-                            toolbarState.scrollOffset -= (value - (toolbarState.height + toolbarState.offset))
-                            if (toolbarState.scrollOffset == 0f) scope.coroutineContext.cancelChildren()
-                        }
-                    }
-                }
-                return super.onPostFling(consumed, available)
-            }
+          }
         }
+        return super.onPostFling(consumed, available)
+      }
     }
+  }
 
-    Box(modifier = modifier.nestedScroll(nestedScrollConnection)) {
-        listContent(
-            Modifier
-                .fillMaxSize()
-                .graphicsLayer { translationY = toolbarState.height + toolbarState.offset }
-                .pointerInput(Unit) {
-                    detectTapGestures(
-                        onPress = { scope.coroutineContext.cancelChildren() }
-                    )
-                }
-        )
-        header(
-            Modifier
-                .fillMaxWidth()
-                .height(with(LocalDensity.current) { toolbarState.height.toDp() })
-                .scale(toolbarState.progress.coerceAtLeast(0.8f))
-                .graphicsLayer {
-                    translationY = -(toolbarState.scrollOffset / 1.5f)
-                }
-        )
-    }
+  Box(modifier = modifier.nestedScroll(nestedScrollConnection)) {
+    listContent(
+      Modifier
+        .fillMaxSize()
+        .graphicsLayer { translationY = toolbarState.height + toolbarState.offset }
+        .pointerInput(Unit) {
+          detectTapGestures(
+            onPress = { scope.coroutineContext.cancelChildren() }
+          )
+        }
+    )
+    header(
+      Modifier
+        .fillMaxWidth()
+        .height(with(LocalDensity.current) { toolbarState.height.toDp() })
+        .scale(toolbarState.progress.coerceAtLeast(0.8f))
+        .graphicsLayer {
+          translationY = -(toolbarState.scrollOffset / 1.5f)
+        }
+    )
+  }
 }

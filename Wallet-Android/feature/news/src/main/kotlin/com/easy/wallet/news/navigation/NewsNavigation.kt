@@ -21,23 +21,28 @@ data object NewsEntryRoute
 
 fun NavController.selectedNewsTab(navOptions: NavOptions? = null) = navigate(NewsTabRoute, navOptions)
 
-fun NavGraphBuilder.attachNewsTabGraph(
-    nestedGraphs: NavGraphBuilder.() -> Unit
-) {
-    navigation<NewsTabRoute>(startDestination = NewsEntryRoute) {
-        composable<NewsEntryRoute> {
-            NewsRoute()
-        }
-        nestedGraphs()
+fun NavGraphBuilder.attachNewsTabGraph(nestedGraphs: NavGraphBuilder.() -> Unit) {
+  navigation<NewsTabRoute>(startDestination = NewsEntryRoute) {
+    composable<NewsEntryRoute> {
+      NewsRoute()
     }
+    nestedGraphs()
+  }
 }
 
-internal fun launchCustomChromeTab(context: Context, uri: Uri, @ColorInt toolbarColor: Int) {
-    val customTabBarColor = CustomTabColorSchemeParams.Builder()
-        .setToolbarColor(toolbarColor).build()
-    val customTabsIntent = CustomTabsIntent.Builder()
-        .setDefaultColorSchemeParams(customTabBarColor)
-        .build()
+internal fun launchCustomChromeTab(
+  context: Context,
+  uri: Uri,
+  @ColorInt toolbarColor: Int
+) {
+  val customTabBarColor = CustomTabColorSchemeParams
+    .Builder()
+    .setToolbarColor(toolbarColor)
+    .build()
+  val customTabsIntent = CustomTabsIntent
+    .Builder()
+    .setDefaultColorSchemeParams(customTabBarColor)
+    .build()
 
-    customTabsIntent.launchUrl(context, uri)
+  customTabsIntent.launchUrl(context, uri)
 }

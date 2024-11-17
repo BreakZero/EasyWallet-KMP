@@ -31,82 +31,82 @@ import com.easy.wallet.home.utils.rememberQrBitmapPainter
 import com.easy.wallet.model.asset.AssetBalance
 
 private fun String.ellipsize(len: Int): String {
-    if (this.length > 2 * len) {
-        return "${this.take(len)}...${this.takeLast(len)}"
-    }
-    return this
+  if (this.length > 2 * len) {
+    return "${this.take(len)}...${this.takeLast(len)}"
+  }
+  return this
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun ReceiveContentSheet(
-    modifier: Modifier = Modifier,
-    asset: AssetBalance,
-    painter: BitmapPainter = rememberQrBitmapPainter(content = asset.address, padding = 1.dp),
-    onCopy: (String) -> Unit,
-    onDismissRequest: () -> Unit
+  modifier: Modifier = Modifier,
+  asset: AssetBalance,
+  painter: BitmapPainter = rememberQrBitmapPainter(content = asset.address, padding = 1.dp),
+  onCopy: (String) -> Unit,
+  onDismissRequest: () -> Unit
 ) {
-    val clipboardManager = LocalClipboardManager.current
-    val context = LocalContext.current
+  val clipboardManager = LocalClipboardManager.current
+  val context = LocalContext.current
 
-    val bottomSheetState = rememberModalBottomSheetState(
-        skipPartiallyExpanded = true
-    )
+  val bottomSheetState = rememberModalBottomSheetState(
+    skipPartiallyExpanded = true
+  )
 
-    ModalBottomSheet(
-        modifier = modifier,
-        sheetState = bottomSheetState,
-        onDismissRequest = onDismissRequest
+  ModalBottomSheet(
+    modifier = modifier,
+    sheetState = bottomSheetState,
+    onDismissRequest = onDismissRequest
+  ) {
+    Column(
+      modifier = Modifier
+        .fillMaxWidth()
+        .padding(horizontal = 16.dp)
+        .padding(bottom = 24.dp),
+      horizontalAlignment = Alignment.CenterHorizontally,
+      verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp)
-                .padding(bottom = 24.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            Text(
-                modifier = Modifier,
-                style = MaterialTheme.typography.headlineMedium,
-                text = "Received ${asset.symbol}"
-            )
+      Text(
+        modifier = Modifier,
+        style = MaterialTheme.typography.headlineMedium,
+        text = "Received ${asset.symbol}"
+      )
 
-            Image(
-                modifier = Modifier
-                    .fillMaxWidth(0.8f)
-                    .aspectRatio(1.0f)
-                    .padding(12.dp),
-                painter = painter,
-                contentDescription = null
-            )
+      Image(
+        modifier = Modifier
+          .fillMaxWidth(0.8f)
+          .aspectRatio(1.0f)
+          .padding(12.dp),
+        painter = painter,
+        contentDescription = null
+      )
 
-            Text(text = "Scan address to Receive payment")
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(12.dp)
-            ) {
-                ElevatedButton(modifier = Modifier.weight(1.0f), onClick = {
-                    clipboardManager.setText(AnnotatedString(asset.address))
-                    onCopy("copied")
-                }) {
-                    Icon(imageVector = Icons.Default.ContentCopy, contentDescription = null)
-                    Text(text = asset.address.ellipsize(4))
-                }
-                ElevatedButton(modifier = Modifier.weight(1.0f), onClick = {
-                    val sendIntent: Intent = Intent().apply {
-                        action = Intent.ACTION_SEND
-                        putExtra(Intent.EXTRA_TEXT, asset.address)
-                        type = "text/plain"
-                    }
-
-                    val shareIntent = Intent.createChooser(sendIntent, null)
-                    ContextCompat.startActivity(context, shareIntent, null)
-                }) {
-                    Icon(imageVector = Icons.Default.Share, contentDescription = null)
-                    Text(text = "Share")
-                }
-            }
+      Text(text = "Scan address to Receive payment")
+      Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(12.dp)
+      ) {
+        ElevatedButton(modifier = Modifier.weight(1.0f), onClick = {
+          clipboardManager.setText(AnnotatedString(asset.address))
+          onCopy("copied")
+        }) {
+          Icon(imageVector = Icons.Default.ContentCopy, contentDescription = null)
+          Text(text = asset.address.ellipsize(4))
         }
+        ElevatedButton(modifier = Modifier.weight(1.0f), onClick = {
+          val sendIntent: Intent = Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_TEXT, asset.address)
+            type = "text/plain"
+          }
+
+          val shareIntent = Intent.createChooser(sendIntent, null)
+          ContextCompat.startActivity(context, shareIntent, null)
+        }) {
+          Icon(imageVector = Icons.Default.Share, contentDescription = null)
+          Text(text = "Share")
+        }
+      }
     }
+  }
 }

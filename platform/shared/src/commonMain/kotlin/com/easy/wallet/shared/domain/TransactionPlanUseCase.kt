@@ -7,23 +7,23 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 class TransactionPlanUseCase internal constructor(
-    private val getAssetCoinInfoUseCase: GetAssetCoinInfoUseCase,
-    private val getChainRepositoryUseCase: GetChainRepositoryUseCase
+  private val getAssetCoinInfoUseCase: GetAssetCoinInfoUseCase,
+  private val getChainRepositoryUseCase: GetChainRepositoryUseCase
 ) {
-    @NativeCoroutines
-    operator fun invoke(
-        coinId: String,
-        toAddress: String,
-        amount: String,
-    ): Flow<List<FeeModel>> {
-        return getAssetCoinInfoUseCase(coinId).map { assetCoin ->
-            getChainRepositoryUseCase(assetCoin.platform).prepFees(
-                coin = assetCoin,
-                toAddress = toAddress,
-                amount = amount.toBigDecimal().moveDecimalPoint(assetCoin.decimalPlace)
-                    .toBigInteger()
-                    .toString(16)
-            )
-        }
-    }
+  @NativeCoroutines
+  operator fun invoke(
+    coinId: String,
+    toAddress: String,
+    amount: String,
+  ): Flow<List<FeeModel>> = getAssetCoinInfoUseCase(coinId).map { assetCoin ->
+    getChainRepositoryUseCase(assetCoin.platform).prepFees(
+      coin = assetCoin,
+      toAddress = toAddress,
+      amount = amount
+        .toBigDecimal()
+        .moveDecimalPoint(assetCoin.decimalPlace)
+        .toBigInteger()
+        .toString(16)
+    )
+  }
 }

@@ -5,10 +5,10 @@ import io.ktor.client.HttpClientConfig
 import io.ktor.client.engine.darwin.Darwin
 
 internal actual fun httpClient(config: HttpClientConfig<*>.() -> Unit) = HttpClient(Darwin) {
-    config(this)
-    engine {
-        configureRequest {
-            setAllowsCellularAccess(true)
-        }
+  config(this)
+  engine {
+    configureRequest {
+      setAllowsCellularAccess(true)
     }
+  }
 }

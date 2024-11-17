@@ -28,73 +28,71 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 internal fun MarketplaceRoute() {
-    val viewModel: MarketplaceViewModel = koinViewModel()
-    val trendingCoins by viewModel.trendingCoins.collectAsStateWithLifecycle()
-    val topCoinsPaging = viewModel.topCoins.collectAsLazyPagingItems()
-    MarketplaceScreen(trendingCoins, topCoinsPaging)
+  val viewModel: MarketplaceViewModel = koinViewModel()
+  val trendingCoins by viewModel.trendingCoins.collectAsStateWithLifecycle()
+  val topCoinsPaging = viewModel.topCoins.collectAsLazyPagingItems()
+  MarketplaceScreen(trendingCoins, topCoinsPaging)
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun MarketplaceScreen(
-    trendingCoins: List<CoinInformation>,
-    topCoinsPaging: LazyPagingItems<CoinMarketInformation>
-) {
-    Scaffold(
-        modifier = Modifier.fillMaxSize(),
-        containerColor = Color.Transparent,
-        contentColor = MaterialTheme.colorScheme.onBackground,
-        topBar = {
-            TopAppBar(
-                title = {
-                    Text(
-                        text = "Powered by CoinGecko",
-                        style = MaterialTheme.typography.labelSmall
-                    )
-                },
-                colors = TopAppBarDefaults.topAppBarColors()
-                    .copy(containerColor = MaterialTheme.colorScheme.inverseOnSurface)
-            )
-        }
-    ) { paddingValues ->
-        DefaultPagingLazyColumn(
-            modifier = Modifier
-                .padding(paddingValues),
-            verticalArrangement = Arrangement.spacedBy(12.dp),
-            pagingItems = topCoinsPaging,
-            headerContainer = {
-                if (trendingCoins.isNotEmpty()) {
-                    item {
-                        Text(
-                            modifier = Modifier.padding(horizontal = 16.dp),
-                            text = "Trending Coins"
-                        )
-                    }
-                    item {
-                        LazyRow(
-                            modifier = Modifier.padding(horizontal = 16.dp),
-                            horizontalArrangement = Arrangement.spacedBy(8.dp),
-                        ) {
-                            items(items = trendingCoins, key = { it.coinId }) {
-                                TrendingItem(trending = it)
-                            }
-                        }
-                    }
-                }
-                item {
-                    Text(
-                        modifier = Modifier.padding(horizontal = 16.dp),
-                        text = "Top Coins"
-                    )
-                }
-            },
-            itemKey = { index -> topCoinsPaging[index]!!.id },
-            itemContainer = {
-                MarketCoinItem(
-                    modifier = Modifier.padding(horizontal = 16.dp),
-                    marketInfo = it
-                )
-            }
-        )
+internal fun MarketplaceScreen(trendingCoins: List<CoinInformation>, topCoinsPaging: LazyPagingItems<CoinMarketInformation>) {
+  Scaffold(
+    modifier = Modifier.fillMaxSize(),
+    containerColor = Color.Transparent,
+    contentColor = MaterialTheme.colorScheme.onBackground,
+    topBar = {
+      TopAppBar(
+        title = {
+          Text(
+            text = "Powered by CoinGecko",
+            style = MaterialTheme.typography.labelSmall
+          )
+        },
+        colors = TopAppBarDefaults
+          .topAppBarColors()
+          .copy(containerColor = MaterialTheme.colorScheme.inverseOnSurface)
+      )
     }
+  ) { paddingValues ->
+    DefaultPagingLazyColumn(
+      modifier = Modifier
+        .padding(paddingValues),
+      verticalArrangement = Arrangement.spacedBy(12.dp),
+      pagingItems = topCoinsPaging,
+      headerContainer = {
+        if (trendingCoins.isNotEmpty()) {
+          item {
+            Text(
+              modifier = Modifier.padding(horizontal = 16.dp),
+              text = "Trending Coins"
+            )
+          }
+          item {
+            LazyRow(
+              modifier = Modifier.padding(horizontal = 16.dp),
+              horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+              items(items = trendingCoins, key = { it.coinId }) {
+                TrendingItem(trending = it)
+              }
+            }
+          }
+        }
+        item {
+          Text(
+            modifier = Modifier.padding(horizontal = 16.dp),
+            text = "Top Coins"
+          )
+        }
+      },
+      itemKey = { index -> topCoinsPaging[index]!!.id },
+      itemContainer = {
+        MarketCoinItem(
+          modifier = Modifier.padding(horizontal = 16.dp),
+          marketInfo = it
+        )
+      }
+    )
+  }
 }

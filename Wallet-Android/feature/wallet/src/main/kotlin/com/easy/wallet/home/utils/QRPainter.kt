@@ -22,64 +22,69 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun rememberQrBitmapPainter(
-    content: String,
-    size: Dp = 150.dp,
-    padding: Dp = 0.dp
+  content: String,
+  size: Dp = 150.dp,
+  padding: Dp = 0.dp
 ): BitmapPainter {
-    val density = LocalDensity.current
-    val sizePx = with(density) { size.roundToPx() }
-    val paddingPx = with(density) { padding.roundToPx() }
+  val density = LocalDensity.current
+  val sizePx = with(density) { size.roundToPx() }
+  val paddingPx = with(density) { padding.roundToPx() }
 
-    var bitmap by remember(content) {
-        mutableStateOf<Bitmap?>(null)
-    }
+  var bitmap by remember(content) {
+    mutableStateOf<Bitmap?>(null)
+  }
 
-    LaunchedEffect(bitmap) {
-        if (bitmap != null) return@LaunchedEffect
-        launch(Dispatchers.IO) {
-            val qrCodeWriter = QRCodeWriter()
-            val encodeHints = mutableMapOf<EncodeHintType, Any?>()
-                .apply {
-                    this[EncodeHintType.MARGIN] = paddingPx
-                }
-
-            val bitmapMatrix = try {
-                qrCodeWriter.encode(
-                    content, BarcodeFormat.QR_CODE,
-                    sizePx, sizePx, encodeHints
-                )
-            } catch (ex: WriterException) {
-                println("==== ${ex.message}")
-                null
-            }
-            val matrixWidth = bitmapMatrix?.width ?: sizePx
-            val matrixHeight = bitmapMatrix?.height ?: sizePx
-
-            val newBitmap = Bitmap.createBitmap(
-                bitmapMatrix?.width ?: sizePx,
-                bitmapMatrix?.height ?: sizePx,
-                Bitmap.Config.ARGB_8888,
-            )
-
-            for (x in 0 until matrixWidth) {
-                for (y in 0 until matrixHeight) {
-                    val shouldColorPixel = bitmapMatrix?.get(x, y) ?: false
-                    val pixelColor = if (shouldColorPixel) Color.BLACK else Color.WHITE
-
-                    newBitmap.setPixel(x, y, pixelColor)
-                }
-            }
-
-            bitmap = newBitmap
+  LaunchedEffect(bitmap) {
+    if (bitmap != null) return@LaunchedEffect
+    launch(Dispatchers.IO) {
+      val qrCodeWriter = QRCodeWriter()
+      val encodeHints = mutableMapOf<EncodeHintType, Any?>()
+        .apply {
+          this[EncodeHintType.MARGIN] = paddingPx
         }
-    }
 
-    return remember(bitmap) {
-        val currentBitmap = bitmap ?: Bitmap.createBitmap(
-            sizePx, sizePx,
-            Bitmap.Config.ARGB_8888,
-        ).apply { eraseColor(Color.TRANSPARENT) }
+      val bitmapMatrix = try {
+        qrCodeWriter.encode(
+          content,
+          BarcodeFormat.QR_CODE,
+          sizePx,
+          sizePx,
+          encodeHints
+        )
+      } catch (ex: WriterException) {
+        println("==== ${ex.message}")
+        null
+      }
+      val matrixWidth = bitmapMatrix?.width ?: sizePx
+      val matrixHeight = bitmapMatrix?.height ?: sizePx
 
-        BitmapPainter(currentBitmap.asImageBitmap())
+      val newBitmap = Bitmap.createBitmap(
+        bitmapMatrix?.width ?: sizePx,
+        bitmapMatrix?.height ?: sizePx,
+        Bitmap.Config.ARGB_8888
+      )
+
+      for (x in 0 until matrixWidth) {
+        for (y in 0 until matrixHeight) {
+          val shouldColorPixel = bitmapMatrix?.get(x, y) ?: false
+          val pixelColor = if (shouldColorPixel) Color.BLACK else Color.WHITE
+
+          newBitmap.setPixel(x, y, pixelColor)
+        }
+      }
+
+      bitmap = newBitmap
     }
+  }
+
+  return remember(bitmap) {
+    val currentBitmap = bitmap ?: Bitmap
+      .createBitmap(
+        sizePx,
+        sizePx,
+        Bitmap.Config.ARGB_8888
+      ).apply { eraseColor(Color.TRANSPARENT) }
+
+    BitmapPainter(currentBitmap.asImageBitmap())
+  }
 }

@@ -8,22 +8,19 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 class CoinBalanceUseCase internal constructor(
-    private val assetCoinInfoUseCase: GetAssetCoinInfoUseCase,
-    private val getChainRepositoryUseCase: GetChainRepositoryUseCase
+  private val assetCoinInfoUseCase: GetAssetCoinInfoUseCase,
+  private val getChainRepositoryUseCase: GetChainRepositoryUseCase
 ) {
-    @NativeCoroutines
-    operator fun invoke(coinId: String): Flow<AssetBalance> {
-        return assetCoinInfoUseCase(coinId).map { assetCoin ->
-            val exactChainRepository = getChainRepositoryUseCase(assetCoin.platform)
-            val balance = exactChainRepository.loadBalance(assetCoin.platform, assetCoin.address, assetCoin.contract)
-            // format to display Model
-            val balanceString = balance.toBigDecimal(
-                exponentModifier = (-assetCoin.decimalPlace).toLong()
-            ).roundToDigitPositionAfterDecimalPoint(8, RoundingMode.ROUND_HALF_CEILING)
-                .toPlainString()
-            AssetBalance.copyFromAssetCoin(assetCoin, balanceString)
-        }
-    }
+  @NativeCoroutines
+  operator fun invoke(coinId: String): Flow<AssetBalance> = assetCoinInfoUseCase(coinId).map { assetCoin ->
+    val exactChainRepository = getChainRepositoryUseCase(assetCoin.platform)
+    val balance = exactChainRepository.loadBalance(assetCoin.platform, assetCoin.address, assetCoin.contract)
+    // format to display Model
+    val balanceString = balance
+      .toBigDecimal(
+        exponentModifier = (-assetCoin.decimalPlace).toLong()
+      ).roundToDigitPositionAfterDecimalPoint(8, RoundingMode.ROUND_HALF_CEILING)
+      .toPlainString()
+    AssetBalance.copyFromAssetCoin(assetCoin, balanceString)
+  }
 }
-
-

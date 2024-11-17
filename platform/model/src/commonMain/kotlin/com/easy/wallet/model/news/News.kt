@@ -18,12 +18,12 @@ import kotlin.native.ObjCName
  */
 @ObjCName("News")
 data class News(
-    val title: String,
-    val source: String,
-    val language: String,
-    val link: String,
-    val time: String,
-    val hash: String,
-    val description: String,
-    val tags: String
+  val title: String,
+  val source: String,
+  val language: String,
+  val link: String,
+  val time: String,
+  val hash: String,
+  val description: String,
+  val tags: String
 )

@@ -11,54 +11,44 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
 class MarketsRepository internal constructor(
-    private val coinGeckoApi: CoinGeckoApi
+  private val coinGeckoApi: CoinGeckoApi
 ) {
-    fun topCoinsByPaging(
-        currency: String = "usd"
-    ): Pager<Int, CoinMarketInformation> {
-        return Pager(
-            config = PagingConfig(pageSize = Int.MAX_VALUE, prefetchDistance = 2),
-            pagingSourceFactory = {
-                MarketDataPagingSource(currency, coinGeckoApi)
-            }
-        )
+  fun topCoinsByPaging(currency: String = "usd"): Pager<Int, CoinMarketInformation> = Pager(
+    config = PagingConfig(pageSize = Int.MAX_VALUE, prefetchDistance = 2),
+    pagingSourceFactory = {
+      MarketDataPagingSource(currency, coinGeckoApi)
     }
+  )
 
-    fun searchTrends(): Flow<List<CoinInformation>> {
-        return flow {
-            val trends = coinGeckoApi.getSearchTrending()
-            emit(trends)
-        }
-    }
+  fun searchTrends(): Flow<List<CoinInformation>> = flow {
+    val trends = coinGeckoApi.getSearchTrending()
+    emit(trends)
+  }
 }
 
 internal class MarketDataPagingSource(
-    private val currency: String,
-    private val coinGeckoApi: CoinGeckoApi
+  private val currency: String,
+  private val coinGeckoApi: CoinGeckoApi
 ) : PagingSource<Int, CoinMarketInformation>() {
-    override fun getRefreshKey(state: PagingState<Int, CoinMarketInformation>): Int? {
-        return state.anchorPosition ?: 1
-    }
+  override fun getRefreshKey(state: PagingState<Int, CoinMarketInformation>): Int? = state.anchorPosition ?: 1
 
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, CoinMarketInformation> {
-        return try {
-            val currentPage = params.key ?: 1
-            val topCoins = coinGeckoApi.getCoinsMarkets(
-                currency = currency,
-                page = currentPage,
-                numCoinsPerPage = 100,
-                order = "market_cap_desc",
-                includeSparkline7dData = true,
-                priceChangePercentageIntervals = "",
-                coinIds = null
-            )
-            LoadResult.Page(
-                data = topCoins,
-                prevKey = if (currentPage == 1) null else currentPage - 1,
-                nextKey = if (topCoins.isEmpty()) null else currentPage + 1
-            )
-        } catch (e: Exception) {
-            LoadResult.Error(e)
-        }
-    }
+  override suspend fun load(params: LoadParams<Int>): LoadResult<Int, CoinMarketInformation> = try {
+    val currentPage = params.key ?: 1
+    val topCoins = coinGeckoApi.getCoinsMarkets(
+      currency = currency,
+      page = currentPage,
+      numCoinsPerPage = 100,
+      order = "market_cap_desc",
+      includeSparkline7dData = true,
+      priceChangePercentageIntervals = "",
+      coinIds = null
+    )
+    LoadResult.Page(
+      data = topCoins,
+      prevKey = if (currentPage == 1) null else currentPage - 1,
+      nextKey = if (topCoins.isEmpty()) null else currentPage + 1
+    )
+  } catch (e: Exception) {
+    LoadResult.Error(e)
+  }
 }

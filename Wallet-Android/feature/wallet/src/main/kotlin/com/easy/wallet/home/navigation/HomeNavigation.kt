@@ -20,47 +20,45 @@ data object WalletTabRoute
 @Serializable
 data object WalletEntryRoute
 
-
 @Serializable
 internal data class TransactionListRoute(
-    val coinId: String
+  val coinId: String
 )
 
-fun NavController.onSelectedWalletTab(navOptions: NavOptions? = null) =
-    navigate(WalletTabRoute, navOptions)
+fun NavController.onSelectedWalletTab(navOptions: NavOptions? = null) = navigate(WalletTabRoute, navOptions)
 
 fun NavController.toTransactionList(coinId: String, navOptions: NavOptions? = null) =
-    navigate(TransactionListRoute(coinId = coinId), navOptions)
+  navigate(TransactionListRoute(coinId = coinId), navOptions)
 
 fun NavGraphBuilder.attachWalletTabGraph(
-    onCreateWallet: () -> Unit,
-    onRestoreWallet: () -> Unit,
-    navigateToSettings: () -> Unit,
-    onCoinClicked: (CoinModel) -> Unit,
-    onStartSend: (String) -> Unit,
-    popBack: () -> Unit,
-    showSnackbar: (String) -> Unit,
-    nestedGraphs: NavGraphBuilder.() -> Unit
+  onCreateWallet: () -> Unit,
+  onRestoreWallet: () -> Unit,
+  navigateToSettings: () -> Unit,
+  onCoinClicked: (CoinModel) -> Unit,
+  onStartSend: (String) -> Unit,
+  popBack: () -> Unit,
+  showSnackbar: (String) -> Unit,
+  nestedGraphs: NavGraphBuilder.() -> Unit
 ) {
-    navigation<WalletTabRoute>(startDestination = WalletEntryRoute) {
-        composable<WalletEntryRoute> {
-            WalletRoute(
-                onCreateWallet = onCreateWallet,
-                onRestoreWallet = onRestoreWallet,
-                onCoinItemClick = onCoinClicked,
-                navigateToSettings = navigateToSettings,
-            )
-        }
-        composable<TransactionListRoute> {
-            val args = it.toRoute<TransactionListRoute>()
-            val viewModel: TransactionsViewModel = koinViewModel { parametersOf(args.coinId) }
-            TransactionsRoute(
-                viewModel = viewModel,
-                startToSend = onStartSend,
-                showSnackbar = showSnackbar,
-                navigateUp = popBack
-            )
-        }
-        nestedGraphs()
+  navigation<WalletTabRoute>(startDestination = WalletEntryRoute) {
+    composable<WalletEntryRoute> {
+      WalletRoute(
+        onCreateWallet = onCreateWallet,
+        onRestoreWallet = onRestoreWallet,
+        onCoinItemClick = onCoinClicked,
+        navigateToSettings = navigateToSettings
+      )
     }
+    composable<TransactionListRoute> {
+      val args = it.toRoute<TransactionListRoute>()
+      val viewModel: TransactionsViewModel = koinViewModel { parametersOf(args.coinId) }
+      TransactionsRoute(
+        viewModel = viewModel,
+        startToSend = onStartSend,
+        showSnackbar = showSnackbar,
+        navigateUp = popBack
+      )
+    }
+    nestedGraphs()
+  }
 }

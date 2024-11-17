@@ -10,15 +10,15 @@ import com.easy.wallet.ui.WalletApp
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : ComponentActivity() {
-    private val mainViewModel: MainViewModel by viewModel()
+  private val mainViewModel: MainViewModel by viewModel()
 
-    @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContent {
-            EasyWalletTheme(dynamicColor = false) {
-                WalletApp(windowSizeClass = calculateWindowSizeClass(activity = this))
-            }
-        }
+  @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    setContent {
+      EasyWalletTheme(dynamicColor = false) {
+        WalletApp(windowSizeClass = calculateWindowSizeClass(activity = this))
+      }
     }
+  }
 }

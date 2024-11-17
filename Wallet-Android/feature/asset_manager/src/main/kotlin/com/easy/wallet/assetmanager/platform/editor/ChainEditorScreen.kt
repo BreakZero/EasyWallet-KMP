@@ -36,128 +36,127 @@ import com.easy.wallet.design.ui.EasyWalletTheme
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-internal fun ChainEditorRoute(
-    navigateUp: () -> Unit
-) {
-    val viewModel: ChainEditorViewModel = koinViewModel()
+internal fun ChainEditorRoute(navigateUp: () -> Unit) {
+  val viewModel: ChainEditorViewModel = koinViewModel()
 
-    ObserveAsEvents(flow = viewModel.navigationEvents) {
-        if (it == ChainEditorUiEvent.NavigateUp) {
-            navigateUp()
-        }
+  ObserveAsEvents(flow = viewModel.navigationEvents) {
+    if (it == ChainEditorUiEvent.NavigateUp) {
+      navigateUp()
     }
+  }
 
-    val chainEditorUiState by viewModel.chainEditorUiState.collectAsStateWithLifecycle()
-    ChainEditorScreen(
-        chainEditorUiState = chainEditorUiState,
-        onEvent = viewModel::handleEvent
-    )
+  val chainEditorUiState by viewModel.chainEditorUiState.collectAsStateWithLifecycle()
+  ChainEditorScreen(
+    chainEditorUiState = chainEditorUiState,
+    onEvent = viewModel::handleEvent
+  )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun ChainEditorScreen(
-    chainEditorUiState: ChainEditorUiState,
-    onEvent: (ChainEditorUiEvent) -> Unit
-) {
-    Scaffold(
-        modifier = Modifier.fillMaxSize(),
-        containerColor = Color.Transparent,
-        contentColor = MaterialTheme.colorScheme.onBackground,
-        topBar = {
-            TopAppBar(title = { }, navigationIcon = {
-                IconButton(onClick = { onEvent(ChainEditorUiEvent.NavigateUp) }) {
-                    Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBackIos, contentDescription = null)
-                }
-            }, colors = TopAppBarDefaults.topAppBarColors()
-                .copy(containerColor = MaterialTheme.colorScheme.inverseOnSurface)
-            )
+private fun ChainEditorScreen(chainEditorUiState: ChainEditorUiState, onEvent: (ChainEditorUiEvent) -> Unit) {
+  Scaffold(
+    modifier = Modifier.fillMaxSize(),
+    containerColor = Color.Transparent,
+    contentColor = MaterialTheme.colorScheme.onBackground,
+    topBar = {
+      TopAppBar(
+        title = { },
+        navigationIcon = {
+          IconButton(onClick = { onEvent(ChainEditorUiEvent.NavigateUp) }) {
+            Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBackIos, contentDescription = null)
+          }
         },
-        bottomBar = {
-            Button(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp)
-                    .padding(bottom = 12.dp),
-                onClick = { onEvent(ChainEditorUiEvent.OnSavedClick) }
-            ) {
-                Text(text = "Save")
-            }
-        }
-    ) { paddingValues ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
-                .padding(horizontal = 16.dp),
-            verticalArrangement = Arrangement.spacedBy(4.dp)
-        ) {
-            val modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 4.dp)
-
-            EditorWithLabel(
-                modifier = modifier,
-                textFieldState = chainEditorUiState.name,
-                label = "Name"
-            )
-            EditorWithLabel(
-                modifier = modifier,
-                textFieldState = chainEditorUiState.rpcUrl,
-                label = "RPC Url"
-            )
-            EditorWithLabel(
-                modifier = modifier,
-                textFieldState = chainEditorUiState.chainId,
-                label = "Chain ID"
-            )
-            EditorWithLabel(
-                modifier = modifier,
-                textFieldState = chainEditorUiState.website,
-                label = "Website"
-            )
-            EditorWithLabel(
-                modifier = modifier,
-                textFieldState = chainEditorUiState.explorer,
-                label = "Explorer"
-            )
-        }
+        colors = TopAppBarDefaults
+          .topAppBarColors()
+          .copy(containerColor = MaterialTheme.colorScheme.inverseOnSurface)
+      )
+    },
+    bottomBar = {
+      Button(
+        modifier = Modifier
+          .fillMaxWidth()
+          .padding(horizontal = 16.dp)
+          .padding(bottom = 12.dp),
+        onClick = { onEvent(ChainEditorUiEvent.OnSavedClick) }
+      ) {
+        Text(text = "Save")
+      }
     }
+  ) { paddingValues ->
+    Column(
+      modifier = Modifier
+        .fillMaxSize()
+        .padding(paddingValues)
+        .padding(horizontal = 16.dp),
+      verticalArrangement = Arrangement.spacedBy(4.dp)
+    ) {
+      val modifier = Modifier
+        .fillMaxWidth()
+        .padding(horizontal = 16.dp, vertical = 4.dp)
+
+      EditorWithLabel(
+        modifier = modifier,
+        textFieldState = chainEditorUiState.name,
+        label = "Name"
+      )
+      EditorWithLabel(
+        modifier = modifier,
+        textFieldState = chainEditorUiState.rpcUrl,
+        label = "RPC Url"
+      )
+      EditorWithLabel(
+        modifier = modifier,
+        textFieldState = chainEditorUiState.chainId,
+        label = "Chain ID"
+      )
+      EditorWithLabel(
+        modifier = modifier,
+        textFieldState = chainEditorUiState.website,
+        label = "Website"
+      )
+      EditorWithLabel(
+        modifier = modifier,
+        textFieldState = chainEditorUiState.explorer,
+        label = "Explorer"
+      )
+    }
+  }
 }
 
 @Composable
 internal fun EditorWithLabel(
-    modifier: Modifier = Modifier,
-    inputTransformation: InputTransformation? = null,
-    textFieldState: TextFieldState,
-    label: String
+  modifier: Modifier = Modifier,
+  inputTransformation: InputTransformation? = null,
+  textFieldState: TextFieldState,
+  label: String
 ) {
-    Row(
-        modifier = modifier.padding(vertical = 8.dp),
-        horizontalArrangement = Arrangement.spacedBy(24.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Text(style = MaterialTheme.typography.labelMedium, text = label)
-        BasicTextField(
-            modifier = Modifier
-                .weight(1.0f)
-                .padding(horizontal = 8.dp),
-            textStyle = MaterialTheme.typography.bodyLarge.copy(textAlign = TextAlign.End),
-            inputTransformation = inputTransformation,
-            lineLimits = TextFieldLineLimits.SingleLine,
-            state = textFieldState
-        )
-    }
+  Row(
+    modifier = modifier.padding(vertical = 8.dp),
+    horizontalArrangement = Arrangement.spacedBy(24.dp),
+    verticalAlignment = Alignment.CenterVertically
+  ) {
+    Text(style = MaterialTheme.typography.labelMedium, text = label)
+    BasicTextField(
+      modifier = Modifier
+        .weight(1.0f)
+        .padding(horizontal = 8.dp),
+      textStyle = MaterialTheme.typography.bodyLarge.copy(textAlign = TextAlign.End),
+      inputTransformation = inputTransformation,
+      lineLimits = TextFieldLineLimits.SingleLine,
+      state = textFieldState
+    )
+  }
 }
 
 @ThemePreviews
 @Composable
 private fun Editor_Preview() {
-    EasyWalletTheme {
-        Surface(
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            ChainEditorScreen(ChainEditorUiState(), onEvent = {})
-        }
+  EasyWalletTheme {
+    Surface(
+      modifier = Modifier.fillMaxWidth()
+    ) {
+      ChainEditorScreen(ChainEditorUiState(), onEvent = {})
     }
+  }
 }

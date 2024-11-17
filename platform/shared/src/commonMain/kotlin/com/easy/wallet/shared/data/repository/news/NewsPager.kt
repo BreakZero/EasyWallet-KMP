@@ -8,15 +8,13 @@ import com.rickclephas.kmp.nativecoroutines.NativeCoroutines
 import kotlinx.coroutines.flow.Flow
 
 class NewsPager internal constructor(
-    private val newsRepository: NewsRepository
+  private val newsRepository: NewsRepository
 ) {
-    @NativeCoroutines
-    operator fun invoke(): Flow<PagingData<News>> {
-        return Pager(
-            config = PagingConfig(pageSize = NEWS_PAGER_LIMIT, prefetchDistance = 2),
-            pagingSourceFactory = {
-                NewsPagingSource(newsRepository)
-            }
-        ).flow
+  @NativeCoroutines
+  operator fun invoke(): Flow<PagingData<News>> = Pager(
+    config = PagingConfig(pageSize = NEWS_PAGER_LIMIT, prefetchDistance = 2),
+    pagingSourceFactory = {
+      NewsPagingSource(newsRepository)
     }
+  ).flow
 }

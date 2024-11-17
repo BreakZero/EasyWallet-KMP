@@ -38,137 +38,137 @@ import com.easy.wallet.design.ui.EasyWalletTheme
 import com.easy.wallet.send.DestinationUiState
 import com.easy.wallet.send.SendUiEvent
 import com.easy.wallet.send.SendingBasicUiState
-import com.easy.wallet.send.navigation.sendAmountRoute
+import com.easy.wallet.send.navigation.SEND_AMOUNT_ROUTE
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun EvmChainDestinationScreen(
-    uiState: SendingBasicUiState,
-    destinationUiState: DestinationUiState,
-    textFieldState: TextFieldState,
-    onEvent: (SendUiEvent) -> Unit
+  uiState: SendingBasicUiState,
+  destinationUiState: DestinationUiState,
+  textFieldState: TextFieldState,
+  onEvent: (SendUiEvent) -> Unit
 ) {
-    val clipboardManager = LocalClipboardManager.current
-    Scaffold(
-        containerColor = Color.Transparent,
-        contentColor = MaterialTheme.colorScheme.onBackground,
-        topBar = {
-            TopAppBar(
-                title = { Text(text = "Send To") },
-                navigationIcon = {
-                    IconButton(onClick = { onEvent(SendUiEvent.NavigateBack) }) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = ""
-                        )
-                    }
-                },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent),
+  val clipboardManager = LocalClipboardManager.current
+  Scaffold(
+    containerColor = Color.Transparent,
+    contentColor = MaterialTheme.colorScheme.onBackground,
+    topBar = {
+      TopAppBar(
+        title = { Text(text = "Send To") },
+        navigationIcon = {
+          IconButton(onClick = { onEvent(SendUiEvent.NavigateBack) }) {
+            Icon(
+              imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+              contentDescription = ""
             )
+          }
         },
-        bottomBar = {
-            Button(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 8.dp),
-                enabled = destinationUiState == DestinationUiState.Success,
-                onClick = { onEvent(SendUiEvent.NavigateTo(sendAmountRoute)) }
-            ) {
-                Text(text = "Next")
-            }
-        }
-    ) { paddingValues ->
-        val modifier = Modifier
-            .fillMaxSize()
-            .padding(paddingValues)
-        when (uiState) {
-            SendingBasicUiState.Error -> {
-                Box(modifier = modifier.clickable { onEvent(SendUiEvent.NavigateBack) }) {
-                    Text(text = "Tap to back...")
-                }
-            }
-
-            SendingBasicUiState.Loading -> {
-                Box(modifier = modifier, contentAlignment = Alignment.Center) {
-                    LoadingWheel(contentDesc = "Loading")
-                }
-            }
-
-            is SendingBasicUiState.PrepBasicInfo -> {
-                Column(
-                    modifier = modifier,
-                    verticalArrangement = Arrangement.spacedBy(12.dp)
-                ) {
-                    BasicTextField(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(16.dp),
-                        state = textFieldState,
-                        textStyle = MaterialTheme.typography.displaySmall,
-                        decorator = { innerTextField ->
-                            if (textFieldState.text.isBlank()) {
-                                Text(
-                                    text = "enter address",
-                                    style = MaterialTheme.typography.displaySmall,
-                                    color = LocalContentColor.current.copy(alpha = 0.6f)
-                                )
-                            }
-                            innerTextField()
-                        }
-                    )
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 16.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(12.dp, Alignment.End)
-                    ) {
-                        ElevatedButton(onClick = {  }) {
-                            Row(
-                                horizontalArrangement = Arrangement.spacedBy(4.dp),
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Default.QrCodeScanner,
-                                    contentDescription = null
-                                )
-                                Text(text = "Scan")
-                            }
-                        }
-                        ElevatedButton(onClick = {
-                            clipboardManager.getText()?.let {
-                                onEvent(SendUiEvent.DestinationChanged(it.text))
-                            }
-                        }) {
-                            Row(
-                                horizontalArrangement = Arrangement.spacedBy(4.dp),
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Default.ContentCopy,
-                                    contentDescription = null
-                                )
-                                Text(text = "Paste")
-                            }
-                        }
-                    }
-                }
-            }
-        }
+        colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent)
+      )
+    },
+    bottomBar = {
+      Button(
+        modifier = Modifier
+          .fillMaxWidth()
+          .padding(horizontal = 16.dp, vertical = 8.dp),
+        enabled = destinationUiState == DestinationUiState.Success,
+        onClick = { onEvent(SendUiEvent.NavigateTo(SEND_AMOUNT_ROUTE)) }
+      ) {
+        Text(text = "Next")
+      }
     }
+  ) { paddingValues ->
+    val modifier = Modifier
+      .fillMaxSize()
+      .padding(paddingValues)
+    when (uiState) {
+      SendingBasicUiState.Error -> {
+        Box(modifier = modifier.clickable { onEvent(SendUiEvent.NavigateBack) }) {
+          Text(text = "Tap to back...")
+        }
+      }
+
+      SendingBasicUiState.Loading -> {
+        Box(modifier = modifier, contentAlignment = Alignment.Center) {
+          LoadingWheel(contentDesc = "Loading")
+        }
+      }
+
+      is SendingBasicUiState.PrepBasicInfo -> {
+        Column(
+          modifier = modifier,
+          verticalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+          BasicTextField(
+            modifier = Modifier
+              .fillMaxWidth()
+              .padding(16.dp),
+            state = textFieldState,
+            textStyle = MaterialTheme.typography.displaySmall,
+            decorator = { innerTextField ->
+              if (textFieldState.text.isBlank()) {
+                Text(
+                  text = "enter address",
+                  style = MaterialTheme.typography.displaySmall,
+                  color = LocalContentColor.current.copy(alpha = 0.6f)
+                )
+              }
+              innerTextField()
+            }
+          )
+          Row(
+            modifier = Modifier
+              .fillMaxWidth()
+              .padding(horizontal = 16.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(12.dp, Alignment.End)
+          ) {
+            ElevatedButton(onClick = { }) {
+              Row(
+                horizontalArrangement = Arrangement.spacedBy(4.dp),
+                verticalAlignment = Alignment.CenterVertically
+              ) {
+                Icon(
+                  imageVector = Icons.Default.QrCodeScanner,
+                  contentDescription = null
+                )
+                Text(text = "Scan")
+              }
+            }
+            ElevatedButton(onClick = {
+              clipboardManager.getText()?.let {
+                onEvent(SendUiEvent.DestinationChanged(it.text))
+              }
+            }) {
+              Row(
+                horizontalArrangement = Arrangement.spacedBy(4.dp),
+                verticalAlignment = Alignment.CenterVertically
+              ) {
+                Icon(
+                  imageVector = Icons.Default.ContentCopy,
+                  contentDescription = null
+                )
+                Text(text = "Paste")
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 }
 
 @ThemePreviews
 @Composable
 private fun EvmChainDestination_Preview() {
-    EasyWalletTheme {
-        EasyGradientBackground {
-            EvmChainDestinationScreen(
-                SendingBasicUiState.Loading,
-                DestinationUiState.Success,
-                TextFieldState(""),
-                {}
-            )
-        }
+  EasyWalletTheme {
+    EasyGradientBackground {
+      EvmChainDestinationScreen(
+        SendingBasicUiState.Loading,
+        DestinationUiState.Success,
+        TextFieldState(""),
+        {}
+      )
     }
+  }
 }

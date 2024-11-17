@@ -11,13 +11,13 @@ import kotlinx.serialization.Serializable
 internal data object ImportWalletRoute
 
 fun NavController.toImportWallet(navOptions: NavOptions? = null) {
-    this.navigate(ImportWalletRoute, navOptions)
+  this.navigate(ImportWalletRoute, navOptions)
 }
 
 fun NavGraphBuilder.attachRestoreWalletScreens(navController: NavController) {
-    composable<ImportWalletRoute> {
-        RestoreWalletRoute(
-            onImportSuccess = navController::popBackStack,
-        )
-    }
+  composable<ImportWalletRoute> {
+    RestoreWalletRoute(
+      onImportSuccess = navController::popBackStack
+    )
+  }
 }

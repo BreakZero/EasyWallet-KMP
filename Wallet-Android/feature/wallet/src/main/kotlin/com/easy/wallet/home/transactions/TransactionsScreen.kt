@@ -43,158 +43,159 @@ import com.easy.wallet.home.receive.ReceiveContentSheet
 import com.easy.wallet.home.transactions.component.AmountHeaderView
 import com.easy.wallet.home.transactions.component.TransactionSummaryView
 import com.easy.wallet.shared.model.transaction.TransactionUiModel
-import org.koin.androidx.compose.koinViewModel
 
 @Composable
 internal fun TransactionsRoute(
-    viewModel: TransactionsViewModel,
-    startToSend: (String) -> Unit,
-    showSnackbar: (String) -> Unit,
-    navigateUp: () -> Unit
+  viewModel: TransactionsViewModel,
+  startToSend: (String) -> Unit,
+  showSnackbar: (String) -> Unit,
+  navigateUp: () -> Unit
 ) {
-    val transactionUiState = viewModel.transactionPager.collectAsLazyPagingItems()
-    val dashboardUiState by viewModel.dashboardUiState.collectAsStateWithLifecycle()
+  val transactionUiState = viewModel.transactionPager.collectAsLazyPagingItems()
+  val dashboardUiState by viewModel.dashboardUiState.collectAsStateWithLifecycle()
 
-    ObserveAsEvents(flow = viewModel.navigationEvents) {
-        when (it) {
-            TransactionEvent.PopBack -> navigateUp()
-            is TransactionEvent.ClickSend -> startToSend(it.tokenId)
-            is TransactionEvent.ShowSnackbar -> showSnackbar(it.message)
-            else -> Unit
-        }
+  ObserveAsEvents(flow = viewModel.navigationEvents) {
+    when (it) {
+      TransactionEvent.PopBack -> navigateUp()
+      is TransactionEvent.ClickSend -> startToSend(it.tokenId)
+      is TransactionEvent.ShowSnackbar -> showSnackbar(it.message)
+      else -> Unit
     }
+  }
 
-    TransactionsScreen(
-        dashboardUiState = dashboardUiState,
-        transactionPaging = transactionUiState,
-        onEvent = viewModel::handleEvent
-    )
+  TransactionsScreen(
+    dashboardUiState = dashboardUiState,
+    transactionPaging = transactionUiState,
+    onEvent = viewModel::handleEvent
+  )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun TransactionsScreen(
-    dashboardUiState: TransactionDashboardUiState,
-    transactionPaging: LazyPagingItems<TransactionUiModel>,
-    onEvent: (TransactionEvent) -> Unit
+  dashboardUiState: TransactionDashboardUiState,
+  transactionPaging: LazyPagingItems<TransactionUiModel>,
+  onEvent: (TransactionEvent) -> Unit
 ) {
-    var showReceiveSheet by remember {
-        mutableStateOf(false)
-    }
-    Scaffold(
-        containerColor = Color.Transparent,
-        contentColor = MaterialTheme.colorScheme.onBackground,
-        topBar = {
-            TopAppBar(
-                title = { Text(text = "Transactions") },
-                navigationIcon = {
-                    IconButton(onClick = { onEvent(TransactionEvent.PopBack) }) {
-                        Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
-                    }
-                },
-                colors = TopAppBarDefaults.topAppBarColors()
-                    .copy(containerColor = MaterialTheme.colorScheme.inverseOnSurface)
-            )
+  var showReceiveSheet by remember {
+    mutableStateOf(false)
+  }
+  Scaffold(
+    containerColor = Color.Transparent,
+    contentColor = MaterialTheme.colorScheme.onBackground,
+    topBar = {
+      TopAppBar(
+        title = { Text(text = "Transactions") },
+        navigationIcon = {
+          IconButton(onClick = { onEvent(TransactionEvent.PopBack) }) {
+            Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
+          }
         },
-        bottomBar = {
-            if (dashboardUiState is TransactionDashboardUiState.Success) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp),
-                    horizontalArrangement = Arrangement.spacedBy(12.dp)
-                ) {
-                    ElevatedButton(
-                        modifier = Modifier.weight(1.0f),
-                        onClick = { onEvent(TransactionEvent.ClickSend("")) }
-                    ) {
-                        Text(text = "SEND")
-                    }
-                    ElevatedButton(
-                        modifier = Modifier.weight(1.0f),
-                        colors = ButtonDefaults.elevatedButtonColors()
-                            .copy(containerColor = MaterialTheme.colorScheme.tertiaryContainer),
-                        onClick = { showReceiveSheet = true }
-                    ) {
-                        Text(text = "RECEIVE", color = MaterialTheme.colorScheme.onTertiaryContainer)
-                    }
-                }
-            }
-        },
-        modifier = Modifier.fillMaxSize()
-    ) {
-        val lazyListState = rememberLazyListState()
-        CollapsingToolbarWithLazyList(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(it),
-            header = { headerModifier ->
-                when (dashboardUiState) {
-                    TransactionDashboardUiState.Loading -> {
-                        Box(
-                            modifier = headerModifier.height(260.dp),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            LoadingWheel(contentDesc = "")
-                        }
-                    }
-
-                    TransactionDashboardUiState.Error -> {
-                        Box(
-                            modifier = headerModifier.height(260.dp),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Button(onClick = {
-                                // retry action
-                            }) {
-                                Text(text = "Oops... something went wrong! tap to retry")
-                            }
-                        }
-                    }
-
-                    is TransactionDashboardUiState.Success -> {
-                        AmountHeaderView(
-                            modifier = headerModifier.height(260.dp),
-                            dashboardUiState.assetBalance,
-                            trends = dashboardUiState.trends
-                        )
-                    }
-                }
-            },
-            listState = lazyListState,
-            listContent = { contentModifier ->
-                PullToRefreshPagingColumn(
-                    modifier = contentModifier.clip(
-                        RoundedCornerShape(
-                            topEnd = 20.dp,
-                            topStart = 20.dp
-                        )
-                    ),
-                    lazyListState = lazyListState,
-                    pagingItems = transactionPaging,
-                    verticalArrangement = Arrangement.spacedBy(12.dp),
-                    itemKey = { index -> transactionPaging[index]!!.hash },
-                    itemContainer = { transaction ->
-                        TransactionSummaryView(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(horizontal = 16.dp),
-                            transaction = transaction,
-                            itemClicked = {
-                                println(it.hash)
-                            }
-                        )
-                    }
-                )
-            }
-        )
-
-        if (dashboardUiState is TransactionDashboardUiState.Success && showReceiveSheet) {
-            ReceiveContentSheet(
-                asset = dashboardUiState.assetBalance,
-                onCopy = { onEvent(TransactionEvent.ShowSnackbar(it)) },
-                onDismissRequest = { showReceiveSheet = false }
-            )
+        colors = TopAppBarDefaults
+          .topAppBarColors()
+          .copy(containerColor = MaterialTheme.colorScheme.inverseOnSurface)
+      )
+    },
+    bottomBar = {
+      if (dashboardUiState is TransactionDashboardUiState.Success) {
+        Row(
+          modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp),
+          horizontalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+          ElevatedButton(
+            modifier = Modifier.weight(1.0f),
+            onClick = { onEvent(TransactionEvent.ClickSend("")) }
+          ) {
+            Text(text = "SEND")
+          }
+          ElevatedButton(
+            modifier = Modifier.weight(1.0f),
+            colors = ButtonDefaults
+              .elevatedButtonColors()
+              .copy(containerColor = MaterialTheme.colorScheme.tertiaryContainer),
+            onClick = { showReceiveSheet = true }
+          ) {
+            Text(text = "RECEIVE", color = MaterialTheme.colorScheme.onTertiaryContainer)
+          }
         }
+      }
+    },
+    modifier = Modifier.fillMaxSize()
+  ) {
+    val lazyListState = rememberLazyListState()
+    CollapsingToolbarWithLazyList(
+      modifier = Modifier
+        .fillMaxSize()
+        .padding(it),
+      header = { headerModifier ->
+        when (dashboardUiState) {
+          TransactionDashboardUiState.Loading -> {
+            Box(
+              modifier = headerModifier.height(260.dp),
+              contentAlignment = Alignment.Center
+            ) {
+              LoadingWheel(contentDesc = "")
+            }
+          }
+
+          TransactionDashboardUiState.Error -> {
+            Box(
+              modifier = headerModifier.height(260.dp),
+              contentAlignment = Alignment.Center
+            ) {
+              Button(onClick = {
+                // retry action
+              }) {
+                Text(text = "Oops... something went wrong! tap to retry")
+              }
+            }
+          }
+
+          is TransactionDashboardUiState.Success -> {
+            AmountHeaderView(
+              modifier = headerModifier.height(260.dp),
+              dashboardUiState.assetBalance,
+              trends = dashboardUiState.trends
+            )
+          }
+        }
+      },
+      listState = lazyListState,
+      listContent = { contentModifier ->
+        PullToRefreshPagingColumn(
+          modifier = contentModifier.clip(
+            RoundedCornerShape(
+              topEnd = 20.dp,
+              topStart = 20.dp
+            )
+          ),
+          lazyListState = lazyListState,
+          pagingItems = transactionPaging,
+          verticalArrangement = Arrangement.spacedBy(12.dp),
+          itemKey = { index -> transactionPaging[index]!!.hash },
+          itemContainer = { transaction ->
+            TransactionSummaryView(
+              modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
+              transaction = transaction,
+              itemClicked = {
+                println(it.hash)
+              }
+            )
+          }
+        )
+      }
+    )
+
+    if (dashboardUiState is TransactionDashboardUiState.Success && showReceiveSheet) {
+      ReceiveContentSheet(
+        asset = dashboardUiState.assetBalance,
+        onCopy = { onEvent(TransactionEvent.ShowSnackbar(it)) },
+        onDismissRequest = { showReceiveSheet = false }
+      )
     }
+  }
 }

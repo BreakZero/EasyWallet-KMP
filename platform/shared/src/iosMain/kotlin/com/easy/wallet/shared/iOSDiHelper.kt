@@ -13,19 +13,19 @@ import org.koin.core.KoinApplication
 fun KoinApplication.Companion.start(): KoinApplication = initKoin {}
 
 val Koin.allAssetDashboard: AllAssetDashboardUseCase
-    get() = get()
+  get() = get()
 
 val Koin.coinTrendUseCase: CoinTrendUseCase
-    get() = get()
+  get() = get()
 
 val Koin.coinBalanceUseCase: CoinBalanceUseCase
-    get() = get()
+  get() = get()
 
 val Koin.transactionPagerUseCase: TransactionPagerUseCase
-    get() = get()
+  get() = get()
 
 val Koin.multiWalletRepository: MultiWalletRepository
-    get() = get()
+  get() = get()
 
 val Koin.newsPager: NewsPager
-    get() = get()
+  get() = get()

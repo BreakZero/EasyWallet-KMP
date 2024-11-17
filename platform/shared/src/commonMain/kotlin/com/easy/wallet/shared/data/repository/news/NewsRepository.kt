@@ -6,15 +6,11 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
 internal class NewsRepository(
-    private val blockchairApi: BlockchairApi
+  private val blockchairApi: BlockchairApi
 ) {
-    fun loadNewsStream(limit: Int, offset: Int): Flow<List<News>> {
-        return flow {
-            emit(loadNews(limit, offset))
-        }
-    }
+  fun loadNewsStream(limit: Int, offset: Int): Flow<List<News>> = flow {
+    emit(loadNews(limit, offset))
+  }
 
-    suspend fun loadNews(limit: Int, offset: Int): List<News> {
-        return blockchairApi.getNewsList(limit, offset)
-    }
+  suspend fun loadNews(limit: Int, offset: Int): List<News> = blockchairApi.getNewsList(limit, offset)
 }

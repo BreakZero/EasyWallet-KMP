@@ -20,71 +20,72 @@ import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.launch
 
 class CreateWalletViewModel(
-    private val userStorage: UserPasswordStorage,
-    private val multiWalletRepository: MultiWalletRepository,
-    private val createWalletUseCase: CreateWalletUseCase
+  private val userStorage: UserPasswordStorage,
+  private val multiWalletRepository: MultiWalletRepository,
+  private val createWalletUseCase: CreateWalletUseCase
 ) : BaseViewModel<CreateWalletEvent>() {
-    val passwordTextFieldState = TextFieldState()
-    val confirmPasswordTextFieldState = TextFieldState()
+  val passwordTextFieldState = TextFieldState()
+  val confirmPasswordTextFieldState = TextFieldState()
 
-    internal var validateResult by mutableStateOf(PasswordValidateResult.PasswordNotMatch)
+  internal var validateResult by mutableStateOf(PasswordValidateResult.PasswordNotMatch)
 
-    internal var mnemonicPhrases = mutableListOf<String>()
+  internal var mnemonicPhrases = mutableListOf<String>()
 
-    suspend fun validatePassword() {
-        combine(
-            snapshotFlow { passwordTextFieldState.text }.debounce(300),
-            snapshotFlow { confirmPasswordTextFieldState.text }.debounce(300)
-        ) { password, confirmPassword ->
-            PasswordValidation.validate(password.toString(), confirmPassword.toString())
-        }.collectLatest {
-            validateResult = it
-        }
+  suspend fun validatePassword() {
+    combine(
+      snapshotFlow { passwordTextFieldState.text }.debounce(300),
+      snapshotFlow { confirmPasswordTextFieldState.text }.debounce(300)
+    ) { password, confirmPassword ->
+      PasswordValidation.validate(password.toString(), confirmPassword.toString())
+    }.collectLatest {
+      validateResult = it
     }
+  }
 
-    override fun handleEvent(event: CreateWalletEvent) {
-        when (event) {
-            CreateWalletEvent.OnCreatePassword -> {
-                PasswordValidation.validate(
-                    password = passwordTextFieldState.text.toString(),
-                    confirmPassword = confirmPasswordTextFieldState.text.toString()
-                ).let {
-                    when (it) {
-                        PasswordValidateResult.PasswordNotMatch -> TODO()
-                        PasswordValidateResult.ConfirmPasswordNotMatch -> TODO()
-                        PasswordValidateResult.Pass -> dispatchEvent(CreateWalletEvent.NavigateToSecure)
-                    }
-                }
+  override fun handleEvent(event: CreateWalletEvent) {
+    when (event) {
+      CreateWalletEvent.OnCreatePassword -> {
+        PasswordValidation
+          .validate(
+            password = passwordTextFieldState.text.toString(),
+            confirmPassword = confirmPasswordTextFieldState.text.toString()
+          ).let {
+            when (it) {
+              PasswordValidateResult.PasswordNotMatch -> TODO()
+              PasswordValidateResult.ConfirmPasswordNotMatch -> TODO()
+              PasswordValidateResult.Pass -> dispatchEvent(CreateWalletEvent.NavigateToSecure)
             }
+          }
+      }
 
-            is CreateWalletEvent.OnStartInSecure -> {
-                val mnemonicPhrases = createWalletUseCase().split(" ").toMutableStateList()
-                this.mnemonicPhrases = mnemonicPhrases
-                dispatchEvent(CreateWalletEvent.NavigateToMnemonic)
+      is CreateWalletEvent.OnStartInSecure -> {
+        val mnemonicPhrases = createWalletUseCase().split(" ").toMutableStateList()
+        this.mnemonicPhrases = mnemonicPhrases
+        dispatchEvent(CreateWalletEvent.NavigateToMnemonic)
+      }
+
+      is CreateWalletEvent.OnCreateWallet -> {
+        viewModelScope.launch {
+          if (mnemonicPhrases.isNotEmpty()) {
+            multiWalletRepository.insertOne(
+              mnemonicPhrases.joinToString(separator = " "),
+              ""
+            ) {
+              viewModelScope.launch {
+                userStorage.putPassword(
+                  dispatcher = Dispatchers.IO,
+                  passwordTextFieldState.text.toString()
+                )
+              }
+              dispatchEvent(CreateWalletEvent.NavigateToWalletTab)
             }
-
-            is CreateWalletEvent.OnCreateWallet -> {
-                viewModelScope.launch {
-                    if (mnemonicPhrases.isNotEmpty()) {
-                        multiWalletRepository.insertOne(
-                            mnemonicPhrases.joinToString(separator = " "),
-                            ""
-                        ) {
-                            viewModelScope.launch {
-                                userStorage.putPassword(
-                                    dispatcher = Dispatchers.IO,
-                                    passwordTextFieldState.text.toString()
-                                )
-                            }
-                            dispatchEvent(CreateWalletEvent.NavigateToWalletTab)
-                        }
-                    }
-                }
-            }
-
-            CreateWalletEvent.PopBack -> dispatchEvent(event)
-
-            else -> Unit
+          }
         }
+      }
+
+      CreateWalletEvent.PopBack -> dispatchEvent(event)
+
+      else -> Unit
     }
+  }
 }

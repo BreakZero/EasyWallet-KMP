@@ -10,16 +10,16 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 internal fun DiscoverRoute() {
-    val viewModel: DiscoverViewModel = koinViewModel()
-    DiscoverScreen()
+  val viewModel: DiscoverViewModel = koinViewModel()
+  DiscoverScreen()
 }
 
 @Composable
 fun DiscoverScreen() {
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center,
-    ) {
-        Text(text = "Discover(Coming soon...)")
-    }
+  Box(
+    modifier = Modifier.fillMaxSize(),
+    contentAlignment = Alignment.Center
+  ) {
+    Text(text = "Discover(Coming soon...)")
+  }
 }

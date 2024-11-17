@@ -25,70 +25,66 @@ import kotlinx.coroutines.CoroutineScope
 
 @Composable
 fun rememberAppState(
-    windowSizeClass: WindowSizeClass,
-    coroutineScope: CoroutineScope = rememberCoroutineScope(),
-    navController: NavHostController = rememberNavController()
-): WalletAppState {
-    return remember(
-        navController,
-        coroutineScope,
-        windowSizeClass,
-    ) {
-        WalletAppState(
-            navController,
-            coroutineScope,
-            windowSizeClass,
-        )
-    }
+  windowSizeClass: WindowSizeClass,
+  coroutineScope: CoroutineScope = rememberCoroutineScope(),
+  navController: NavHostController = rememberNavController()
+): WalletAppState = remember(
+  navController,
+  coroutineScope,
+  windowSizeClass
+) {
+  WalletAppState(
+    navController,
+    coroutineScope,
+    windowSizeClass
+  )
 }
 
-internal fun String?.mapToTopLevelDestination(): TopLevelDestination? {
-    return when(this) {
-        WalletEntryRoute.javaClass.canonicalName -> TopLevelDestination.WALLET
-        NewsEntryRoute.javaClass.canonicalName -> TopLevelDestination.NEWS
-        MarketplaceEntryRoute.javaClass.canonicalName -> TopLevelDestination.MARKETPLACE
-        DiscoverEntryRoute.javaClass.canonicalName -> TopLevelDestination.DISCOVER
-        else -> null
-    }
+internal fun String?.mapToTopLevelDestination(): TopLevelDestination? = when (this) {
+  WalletEntryRoute.javaClass.canonicalName -> TopLevelDestination.WALLET
+  NewsEntryRoute.javaClass.canonicalName -> TopLevelDestination.NEWS
+  MarketplaceEntryRoute.javaClass.canonicalName -> TopLevelDestination.MARKETPLACE
+  DiscoverEntryRoute.javaClass.canonicalName -> TopLevelDestination.DISCOVER
+  else -> null
 }
 
 @Stable
 class WalletAppState(
-    val navController: NavHostController,
-    val coroutineScope: CoroutineScope,
-    private val windowSizeClass: WindowSizeClass
+  val navController: NavHostController,
+  val coroutineScope: CoroutineScope,
+  private val windowSizeClass: WindowSizeClass
 ) {
-    val shouldShowNavRail: Boolean
-        get() = windowSizeClass.widthSizeClass != WindowWidthSizeClass.Compact
+  val shouldShowNavRail: Boolean
+    get() = windowSizeClass.widthSizeClass != WindowWidthSizeClass.Compact
 
-    val shouldShowBottomBar: Boolean
-        @Composable get() = !shouldShowNavRail && currentTopLevelDestination in topLevelDestinations
+  val shouldShowBottomBar: Boolean
+    @Composable get() = !shouldShowNavRail && currentTopLevelDestination in topLevelDestinations
 
-    val topLevelDestinations: List<TopLevelDestination> = TopLevelDestination.entries
+  val topLevelDestinations: List<TopLevelDestination> = TopLevelDestination.entries
 
-    val currentDestination: NavDestination?
-        @Composable get() = navController.currentBackStackEntryAsState().value?.destination
+  val currentDestination: NavDestination?
+    @Composable get() = navController.currentBackStackEntryAsState().value?.destination
 
-    val currentTopLevelDestination: TopLevelDestination?
-        @Composable get() = currentDestination?.route.mapToTopLevelDestination()
+  val currentTopLevelDestination: TopLevelDestination?
+    @Composable get() = currentDestination?.route.mapToTopLevelDestination()
 
-    fun navigateToTopLevelDestination(topLevelDestination: TopLevelDestination) {
-        val topLevelNavOptions = navOptions {
-            popUpTo(navController.graph.findStartDestination().id) {
-                saveState = true
-            }
-            launchSingleTop = true
-            restoreState = true
-        }
-
-        when (topLevelDestination) {
-            TopLevelDestination.WALLET -> navController.onSelectedWalletTab(topLevelNavOptions)
-            TopLevelDestination.NEWS -> navController.selectedNewsTab(topLevelNavOptions)
-            TopLevelDestination.MARKETPLACE -> navController.selectedMarketplaceTab(
-                topLevelNavOptions
-            )
-
-            TopLevelDestination.DISCOVER -> navController.selectedDiscoverTab(topLevelNavOptions)
-        }
+  fun navigateToTopLevelDestination(topLevelDestination: TopLevelDestination) {
+    val topLevelNavOptions = navOptions {
+      popUpTo(navController.graph.findStartDestination().id) {
+        saveState = true
+      }
+      launchSingleTop = true
+      restoreState = true
     }
+
+    when (topLevelDestination) {
+      TopLevelDestination.WALLET -> navController.onSelectedWalletTab(topLevelNavOptions)
+      TopLevelDestination.NEWS -> navController.selectedNewsTab(topLevelNavOptions)
+      TopLevelDestination.MARKETPLACE -> navController.selectedMarketplaceTab(
+        topLevelNavOptions
+      )
+
+      TopLevelDestination.DISCOVER -> navController.selectedDiscoverTab(topLevelNavOptions)
+    }
+  }
 }

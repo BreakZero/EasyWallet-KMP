@@ -15,33 +15,34 @@ import kotlinx.coroutines.flow.map
 import com.easy.wallet.database.AssetPlatform as Entity
 
 internal class AssetPlatformDaoImpl(
-    private val queries: AssetPlatformEntityQueries,
-    private val dispatcher: CoroutineDispatcher = Dispatchers.IO
+  private val queries: AssetPlatformEntityQueries,
+  private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : AssetPlatformDao {
-    override fun findAllStream(): Flow<List<AssetPlatform>> {
-        return queries.findAll().asFlow().mapToList(dispatcher).map { it.map(Entity::toPublish) }
+  override fun findAllStream(): Flow<List<AssetPlatform>> = queries
+    .findAll()
+    .asFlow()
+    .mapToList(dispatcher)
+    .map { it.map(Entity::toPublish) }
+
+  override fun findByIdStream(platformId: String): Flow<AssetPlatform?> =
+    queries.findById(platformId).asFlow().mapToOneOrNull(dispatcher).map {
+      it?.toPublish()
     }
 
-    override fun findByIdStream(platformId: String): Flow<AssetPlatform?> {
-        return queries.findById(platformId).asFlow().mapToOneOrNull(dispatcher).map {
-            it?.toPublish()
-        }
+  override suspend fun insert(vararg assetPlatforms: Entity) {
+    queries.transaction {
+      assetPlatforms.onEach(queries::insertFullObject)
     }
-
-    override suspend fun insert(vararg assetPlatforms: Entity) {
-        queries.transaction {
-            assetPlatforms.onEach(queries::insertFullObject)
-        }
-    }
+  }
 }
 
 private fun Entity.toPublish(): AssetPlatform {
-    val networkInfo = EvmNetworkInformation.decodeFromString(this.evm_network_info)?.asPublish()
+  val networkInfo = EvmNetworkInformation.decodeFromString(this.evm_network_info)?.asPublish()
 
-    return AssetPlatform(
-        id = id,
-        shortName = short_name,
-        chainIdentifier = chain_identifier,
-        network = networkInfo
-    )
+  return AssetPlatform(
+    id = id,
+    shortName = short_name,
+    chainIdentifier = chain_identifier,
+    network = networkInfo
+  )
 }

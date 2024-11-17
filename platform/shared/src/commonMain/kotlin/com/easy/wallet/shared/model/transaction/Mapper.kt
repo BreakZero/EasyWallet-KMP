@@ -7,27 +7,29 @@ import com.ionspin.kotlin.bignum.decimal.RoundingMode
 import com.ionspin.kotlin.bignum.decimal.toBigDecimal
 
 internal fun EthereumTransactionBasic.asTransactionUiModel(
-    coin: AssetCoin,
-    decimalPlace: Int,
-    account: String
+  coin: AssetCoin,
+  decimalPlace: Int,
+  account: String
 ): EthereumTransactionUiModel {
-    val direction = if (sender.equals(account, true)) Direction.SEND else Direction.RECEIVE
-    return EthereumTransactionUiModel(
-        hash = hash,
-        amount = amount.toBigDecimal().moveDecimalPoint(decimalPlace)
-            .roundToDigitPositionAfterDecimalPoint(8, RoundingMode.ROUND_HALF_CEILING)
-            .toPlainString(),
-        recipient = recipient,
-        sender = sender,
-        direction = direction,
-        gasPrice = gasPrice,
-        gas = gas,
-        gasUsed = gasUsed,
-        symbol = coin.symbol,
-        functionName = functionName,
-        datetime = datetime.toLongOrNull()
-            ?.let { DateTimeDecoder.decodeToDateTime(it.times(1000)).toString() } ?: "- -",
-        status = TransactionStatus.Confirmed
-    )
+  val direction = if (sender.equals(account, true)) Direction.SEND else Direction.RECEIVE
+  return EthereumTransactionUiModel(
+    hash = hash,
+    amount = amount
+      .toBigDecimal()
+      .moveDecimalPoint(decimalPlace)
+      .roundToDigitPositionAfterDecimalPoint(8, RoundingMode.ROUND_HALF_CEILING)
+      .toPlainString(),
+    recipient = recipient,
+    sender = sender,
+    direction = direction,
+    gasPrice = gasPrice,
+    gas = gas,
+    gasUsed = gasUsed,
+    symbol = coin.symbol,
+    functionName = functionName,
+    datetime = datetime
+      .toLongOrNull()
+      ?.let { DateTimeDecoder.decodeToDateTime(it.times(1000)).toString() } ?: "- -",
+    status = TransactionStatus.Confirmed
+  )
 }
-

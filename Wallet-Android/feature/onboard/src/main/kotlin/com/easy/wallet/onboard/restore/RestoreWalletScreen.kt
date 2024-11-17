@@ -35,110 +35,115 @@ import com.easy.wallet.onboard.components.PasswordTextField
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-internal fun RestoreWalletRoute(
-    onImportSuccess: () -> Unit
-) {
-    val viewModel = koinViewModel<RestoreWalletViewModel>()
-    ObserveAsEvents(flow = viewModel.navigationEvents) {
-        onImportSuccess()
-    }
+internal fun RestoreWalletRoute(onImportSuccess: () -> Unit) {
+  val viewModel = koinViewModel<RestoreWalletViewModel>()
+  ObserveAsEvents(flow = viewModel.navigationEvents) {
+    onImportSuccess()
+  }
 
-    LaunchedEffect(key1 = viewModel) {
-        viewModel.mnemonicValidate()
-    }
+  LaunchedEffect(key1 = viewModel) {
+    viewModel.mnemonicValidate()
+  }
 
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+  val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    RestoreWalletScreen(
-        seedPhraseFieldState = viewModel.seedPhraseFieldState,
-        passwordFieldState = viewModel.passwordFieldState,
-        confirmPasswordFieldState = viewModel.confirmPasswordFieldState,
-        uiState = uiState,
-        onEvent = viewModel::handleEvent
-    )
+  RestoreWalletScreen(
+    seedPhraseFieldState = viewModel.seedPhraseFieldState,
+    passwordFieldState = viewModel.passwordFieldState,
+    confirmPasswordFieldState = viewModel.confirmPasswordFieldState,
+    uiState = uiState,
+    onEvent = viewModel::handleEvent
+  )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun RestoreWalletScreen(
-    seedPhraseFieldState: TextFieldState,
-    passwordFieldState: TextFieldState,
-    confirmPasswordFieldState: TextFieldState,
-    uiState: RestoreWalletUiState,
-    onEvent: (RestoreWalletEvent) -> Unit
+  seedPhraseFieldState: TextFieldState,
+  passwordFieldState: TextFieldState,
+  confirmPasswordFieldState: TextFieldState,
+  uiState: RestoreWalletUiState,
+  onEvent: (RestoreWalletEvent) -> Unit
 ) {
-    Scaffold(
-        modifier = Modifier
-            .fillMaxSize()
-            .imePadding(),
-        topBar = {
-            TopAppBar(
-                title = {
-                    Text(
-                        text = stringResource(R.string.wallet_android_feature_onboard_restore_wallet_import_from_seed)
-                    )
-                },
-                navigationIcon = {
-                    IconButton(onClick = { /*TODO*/ }) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Default.ArrowBackIos,
-                            contentDescription = null
-                        )
-                    }
-                })
+  Scaffold(
+    modifier = Modifier
+      .fillMaxSize()
+      .imePadding(),
+    topBar = {
+      TopAppBar(
+        title = {
+          Text(
+            text = stringResource(R.string.wallet_android_feature_onboard_restore_wallet_import_from_seed)
+          )
         },
-        bottomBar = {
-            Button(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp),
-                onClick = {
-                    onEvent(RestoreWalletEvent.OnImport)
-                },
-                enabled = uiState.mnemonicError.isNullOrBlank()
-            ) {
-                Text(text = stringResource(R.string.wallet_android_feature_onboard_restore_wallet_import))
-            }
-        }
-    ) {
-        var textObfuscationMode by remember {
-            mutableStateOf(TextObfuscationMode.RevealLastTyped)
-        }
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(it)
-                .padding(horizontal = 16.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp),
-        ) {
-            MnemonicInputView(
-                modifier = Modifier.fillMaxWidth(),
-                textFieldState = seedPhraseFieldState,
-                isError = !uiState.mnemonicError.isNullOrBlank(),
-                placeholder = { Text(text = "Enter your seed phrase") }
+        navigationIcon = {
+          IconButton(onClick = { /*TODO*/ }) {
+            Icon(
+              imageVector = Icons.AutoMirrored.Default.ArrowBackIos,
+              contentDescription = null
             )
-            PasswordTextField(
-                modifier = Modifier.fillMaxWidth(),
-                textField = passwordFieldState,
-                textObfuscationMode = textObfuscationMode,
-                placeholder = { Text(text = stringResource(R.string.wallet_android_feature_onboard_restore_wallet_new_password)) },
-                isError = uiState.passwordError,
-                trailingIcon = {
-                    IconButton(onClick = {
-                        textObfuscationMode =
-                            if (textObfuscationMode == TextObfuscationMode.Visible) TextObfuscationMode.RevealLastTyped else TextObfuscationMode.Visible
-                    }) {
-                        Icon(imageVector = Icons.Default.RemoveRedEye, contentDescription = null)
-                    }
-                }
-            )
-            PasswordTextField(
-                modifier = Modifier.fillMaxWidth(),
-                textField = confirmPasswordFieldState,
-                isError = uiState.confirmPasswordError,
-                textObfuscationMode = textObfuscationMode,
-                placeholder = { Text(text = stringResource(R.string.wallet_android_feature_onboard_restore_wallet_confirm_password)) }
-            )
+          }
         }
+      )
+    },
+    bottomBar = {
+      Button(
+        modifier = Modifier
+          .fillMaxWidth()
+          .padding(horizontal = 16.dp),
+        onClick = {
+          onEvent(RestoreWalletEvent.OnImport)
+        },
+        enabled = uiState.mnemonicError.isNullOrBlank()
+      ) {
+        Text(text = stringResource(R.string.wallet_android_feature_onboard_restore_wallet_import))
+      }
     }
+  ) {
+    var textObfuscationMode by remember {
+      mutableStateOf(TextObfuscationMode.RevealLastTyped)
+    }
+    Column(
+      modifier = Modifier
+        .fillMaxWidth()
+        .padding(it)
+        .padding(horizontal = 16.dp),
+      verticalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
+      MnemonicInputView(
+        modifier = Modifier.fillMaxWidth(),
+        textFieldState = seedPhraseFieldState,
+        isError = !uiState.mnemonicError.isNullOrBlank(),
+        placeholder = { Text(text = "Enter your seed phrase") }
+      )
+      PasswordTextField(
+        modifier = Modifier.fillMaxWidth(),
+        textField = passwordFieldState,
+        textObfuscationMode = textObfuscationMode,
+        placeholder = { Text(text = stringResource(R.string.wallet_android_feature_onboard_restore_wallet_new_password)) },
+        isError = uiState.passwordError,
+        trailingIcon = {
+          IconButton(onClick = {
+            textObfuscationMode =
+              if (textObfuscationMode ==
+                TextObfuscationMode.Visible
+              ) {
+                TextObfuscationMode.RevealLastTyped
+              } else {
+                TextObfuscationMode.Visible
+              }
+          }) {
+            Icon(imageVector = Icons.Default.RemoveRedEye, contentDescription = null)
+          }
+        }
+      )
+      PasswordTextField(
+        modifier = Modifier.fillMaxWidth(),
+        textField = confirmPasswordFieldState,
+        isError = uiState.confirmPasswordError,
+        textObfuscationMode = textObfuscationMode,
+        placeholder = { Text(text = stringResource(R.string.wallet_android_feature_onboard_restore_wallet_confirm_password)) }
+      )
+    }
+  }
 }
