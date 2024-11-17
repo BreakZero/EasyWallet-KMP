@@ -1,10 +1,3 @@
-# built application files
-*.apk
-*.ap_
-
-# files for the dex VM
-*.dex
-
 # Java class files
 *.class
 
@@ -41,19 +34,5 @@ local.properties
 # Sandbox stuff
 _sandbox
 
-.kotlin
-
 # Android Studio captures folder
 captures/
-
-locals/*
-Wallet-iOS/Pods/*
-Wallet-iOS/Wallet-iOS.xcworkspace/*
-
-# keystore files
-/keystore/*
-!/keystore/keystore.jks
-!/keystore/keystore.properties
-github_token.properties
-
-!.idea/codeStyles/**

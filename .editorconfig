@@ -1,18 +1,23 @@
-# https://editorconfig.org
 root = true
 
 [*]
-end_of_line = lf
 charset = utf-8
+insert_final_newline = false
 trim_trailing_whitespace = true
-insert_final_newline = true
 
 [*.{kt,kts}]
-ktlint_standard = disabled
-ktlint_code_style = ktlint_official
-indent_style = space
-indent_size = 4
-ij_kotlin_allow_trailing_comma = false
-ktlint_standard_final-newline = disabled
-ktlint_standard_no-wildcard-imports = disabled
+ij_kotlin_code_style_defaults = KOTLIN_OFFICIAL
+indent_size = 2
+ktlint_function_signature_body_expression_wrapping = default
+ktlint_function_signature_rule_force_multiline_when_parameter_count_greater_or_equal_than = 3
+ktlint_argument_list_wrapping_ignore_when_parameter_count_greater_or_equal_than = 8
+ktlint_function_naming_ignore_when_annotated_with = Composable
+ktlint_standard_trailing-comma-on-declaration-site = disabled
+# ktlint_standard_argument-list-wrapping = disabled
+ktlint_standard_multiline-expression-wrapping = disabled
+
+ktlint_standard_annotation = disabled
 ktlint_standard_filename = disabled
+ij_kotlin_packages_to_use_import_on_demand = org.junit.**
+ij_kotlin_allow_trailing_comma_on_call_site = false
+ij_kotlin_allow_trailing_comma = false

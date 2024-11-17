@@ -14,8 +14,24 @@ plugins {
     alias(libs.plugins.skie) apply false
     alias(libs.plugins.nativecoroutines) apply false
     alias(libs.plugins.compose) apply false
+    alias(libs.plugins.ktlint) apply false
 }
 
 subprojects {
-    apply(from = "${rootProject.rootDir}/ktlint.gradle.kts")
+    apply(plugin = "org.jlleitschuh.gradle.ktlint")
+
+    configure<org.jlleitschuh.gradle.ktlint.KtlintExtension> {
+        version.set("1.4.0")
+        android.set(true)
+
+        filter {
+            include("**/kotlin/**")
+//      exclude("**/generated/**")
+            exclude { element ->
+                val path = element.file.path
+                path.contains("\\generated\\") || path.contains("/generated/")
+            }
+            exclude("**.kts")
+        }
+    }
 }

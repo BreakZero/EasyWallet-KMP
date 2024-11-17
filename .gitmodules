@@ -1,4 +1,0 @@
-[submodule "build-logic"]
-	path = build-logic
-	url = git@github.com:BreakZero/build-logic.git
-	branch = main

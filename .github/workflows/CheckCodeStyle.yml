@@ -1,0 +1,45 @@
+name: Check Code Style
+on:
+  push:
+    branches:
+      - develop
+      - feature/*
+      - bugfix/*
+      - hotfix/*
+
+jobs:
+  check_code_style:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: 'true'
+          fetch-depth: 0
+
+      - name: Validate Gradle Wrapper
+        uses: gradle/wrapper-validation-action@v2
+
+      - name: Echo
+        run: |
+          echo Mock Success
+
+#      - name: Copy apikey.properties from secrets
+#        run: |
+#          cd . > keystore/apikey.properties
+#          echo ${{ secrets.APIKEY_PROPERTIES }} | base64 --decode > keystore/apikey.properties
+#
+#      - name: Copy CI gradle.properties
+#        run: mkdir -p ~/.gradle ; cp .github/ci-gradle.properties ~/.gradle/gradle.properties
+#
+#      - name: Set up JDK
+#        uses: actions/setup-java@v4
+#        with:
+#          distribution: 'zulu'
+#          java-version: 17
+#          cache: 'gradle'
+#
+#      - name: Check Code Style
+#        run: ./gradlew --no-build-cache ktlintCheck
