@@ -26,51 +26,50 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 internal fun NewsRoute() {
-    val viewModel: NewsViewModel = koinViewModel()
-    val newsPagingItems = viewModel.newsUiState.collectAsLazyPagingItems()
-    NewsScreen(newsPagingItems = newsPagingItems)
+  val viewModel: NewsViewModel = koinViewModel()
+  val newsPagingItems = viewModel.newsUiState.collectAsLazyPagingItems()
+  NewsScreen(newsPagingItems = newsPagingItems)
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun NewsScreen(
-    newsPagingItems: LazyPagingItems<News>
-) {
-    val context = LocalContext.current
-    val backgroundColor = MaterialTheme.colorScheme.surface.toArgb()
-    Scaffold(
-        modifier = Modifier.fillMaxSize(),
-        containerColor = Color.Transparent,
-        contentColor = MaterialTheme.colorScheme.onBackground,
-        topBar = {
-            TopAppBar(
-                title = {
-                    Text(
-                        text = "Powered by BlockChair",
-                        style = MaterialTheme.typography.labelSmall
-                    )
-                },
-                colors = TopAppBarDefaults.topAppBarColors()
-                    .copy(containerColor = MaterialTheme.colorScheme.inverseOnSurface)
-            )
-        }
-    ) { paddingValues ->
-        PullToRefreshPagingColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues),
-            pagingItems = newsPagingItems,
-            verticalArrangement = Arrangement.spacedBy(12.dp),
-            itemKey = { index -> newsPagingItems[index]!!.hash },
-            itemContainer = { news ->
-                NewsItemView(
-                    modifier = Modifier.padding(horizontal = 16.dp),
-                    news = news,
-                    itemClick = {
-                        launchCustomChromeTab(context, Uri.parse(it.link), backgroundColor)
-                    }
-                )
-            }
-        )
+internal fun NewsScreen(newsPagingItems: LazyPagingItems<News>) {
+  val context = LocalContext.current
+  val backgroundColor = MaterialTheme.colorScheme.surface.toArgb()
+  Scaffold(
+    modifier = Modifier.fillMaxSize(),
+    containerColor = Color.Transparent,
+    contentColor = MaterialTheme.colorScheme.onBackground,
+    topBar = {
+      TopAppBar(
+        title = {
+          Text(
+            text = "Powered by BlockChair",
+            style = MaterialTheme.typography.labelSmall
+          )
+        },
+        colors = TopAppBarDefaults
+          .topAppBarColors()
+          .copy(containerColor = MaterialTheme.colorScheme.inverseOnSurface)
+      )
     }
+  ) { paddingValues ->
+    PullToRefreshPagingColumn(
+      modifier = Modifier
+        .fillMaxSize()
+        .padding(paddingValues),
+      pagingItems = newsPagingItems,
+      verticalArrangement = Arrangement.spacedBy(12.dp),
+      itemKey = { index -> newsPagingItems[index]!!.hash },
+      itemContainer = { news ->
+        NewsItemView(
+          modifier = Modifier.padding(horizontal = 16.dp),
+          news = news,
+          itemClick = {
+            launchCustomChromeTab(context, Uri.parse(it.link), backgroundColor)
+          }
+        )
+      }
+    )
+  }
 }

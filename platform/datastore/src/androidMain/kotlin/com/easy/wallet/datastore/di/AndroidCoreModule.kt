@@ -5,5 +5,5 @@ import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
 actual fun userDefaultModule() = module {
-    singleOf(::SharedUserDefaults)
+  singleOf(::SharedUserDefaults)
 }

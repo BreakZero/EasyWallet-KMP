@@ -8,26 +8,28 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 
 internal class TokenManagerViewModel(
-    localAssetRepository: CoinRepository
+  localAssetRepository: CoinRepository
 ) : BaseViewModel<TokenManagerEvent>() {
-    val tokenManagerUiState = localAssetRepository.findAllCoinStream().map {
-        TokenManagerUiState.Success(groupOfCoin = it.groupBy { it.platform })
+  val tokenManagerUiState = localAssetRepository
+    .findAllCoinStream()
+    .map {
+      TokenManagerUiState.Success(groupOfCoin = it.groupBy { it.platform })
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(3_000), TokenManagerUiState.Loading)
 
-    override fun handleEvent(event: TokenManagerEvent) {
-        when (event) {
-            is TokenManagerEvent.ClickDelete -> {
-                onDeleted(event.ids)
-            }
+  override fun handleEvent(event: TokenManagerEvent) {
+    when (event) {
+      is TokenManagerEvent.ClickDelete -> {
+        onDeleted(event.ids)
+      }
 
-            is TokenManagerEvent.ClickInEditModel -> {}
-            TokenManagerEvent.ClickAdd, is TokenManagerEvent.ClickEdit, TokenManagerEvent.ClickPopBack -> {
-                dispatchEvent(event)
-            }
+      is TokenManagerEvent.ClickInEditModel -> {}
+      TokenManagerEvent.ClickAdd, is TokenManagerEvent.ClickEdit, TokenManagerEvent.ClickPopBack -> {
+        dispatchEvent(event)
+      }
 
-            is TokenManagerEvent.OnActivatedChanged -> Unit
-        }
+      is TokenManagerEvent.OnActivatedChanged -> Unit
     }
+  }
 
-    private fun onDeleted(ids: List<String>) {}
+  private fun onDeleted(ids: List<String>) {}
 }

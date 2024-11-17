@@ -6,11 +6,11 @@ import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 enum class EasyDispatchers {
-    Default,
-    IO
+  Default,
+  IO
 }
 
 val dispatcherModule = module {
-    single(named(EasyDispatchers.IO.name)) { Dispatchers.IO }
-    single(named(EasyDispatchers.Default.name)) { Dispatchers.Default }
+  single(named(EasyDispatchers.IO.name)) { Dispatchers.IO }
+  single(named(EasyDispatchers.Default.name)) { Dispatchers.Default }
 }

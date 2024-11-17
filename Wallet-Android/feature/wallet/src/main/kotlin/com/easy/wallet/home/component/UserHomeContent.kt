@@ -24,77 +24,77 @@ import com.easy.wallet.shared.model.AllAssetDashboardInformation
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun UserHomeContent(
-    modifier: Modifier = Modifier,
-    isRefreshing: Boolean,
-    walletUiState: WalletUiState.WalletUiState,
-    onEvent: (WalletEvent) -> Unit
+  modifier: Modifier = Modifier,
+  isRefreshing: Boolean,
+  walletUiState: WalletUiState.WalletUiState,
+  onEvent: (WalletEvent) -> Unit
 ) {
-    val toolbarHeightRange = with(LocalDensity.current) {
-        0.dp.roundToPx()..248.dp.roundToPx()
+  val toolbarHeightRange = with(LocalDensity.current) {
+    0.dp.roundToPx()..248.dp.roundToPx()
+  }
+  val lazyListState = rememberLazyListState()
+  PullToRefreshBox(
+    modifier = modifier,
+    isRefreshing = isRefreshing,
+    onRefresh = {
+      onEvent(WalletEvent.OnRefreshing)
     }
-    val lazyListState = rememberLazyListState()
-    PullToRefreshBox(
-        modifier = modifier,
-        isRefreshing = isRefreshing,
-        onRefresh = {
-            onEvent(WalletEvent.OnRefreshing)
-        }
-    ) {
-        CollapsingToolbarWithLazyList(
-            modifier = Modifier.fillMaxSize(),
-            listState = lazyListState,
-            toolbarHeightRange = toolbarHeightRange,
-            header = { headerModifier ->
-                DashboardView(
-                    modifier = headerModifier
-                        .height(200.dp),
-                    fiatBalance = walletUiState.dashboard.fiatBalance,
-                    fiatSymbol = walletUiState.dashboard.fiatSymbol
-                )
-            },
-            listContent = { contentModifier ->
-                LazyColumn(
-                    modifier = contentModifier,
-                    verticalArrangement = Arrangement.spacedBy(2.dp),
-                    state = lazyListState
-                ) {
-                    items(
-                        walletUiState.dashboard.assetBalances,
-                        key = { "${it.id}-${it.platform.id}" }
-                    ) {
-                        CoinItemView(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(horizontal = 16.dp),
-                            assetBalance = it,
-                            onEvent = onEvent
-                        )
-                    }
-                }
-            }
+  ) {
+    CollapsingToolbarWithLazyList(
+      modifier = Modifier.fillMaxSize(),
+      listState = lazyListState,
+      toolbarHeightRange = toolbarHeightRange,
+      header = { headerModifier ->
+        DashboardView(
+          modifier = headerModifier
+            .height(200.dp),
+          fiatBalance = walletUiState.dashboard.fiatBalance,
+          fiatSymbol = walletUiState.dashboard.fiatSymbol
         )
-    }
+      },
+      listContent = { contentModifier ->
+        LazyColumn(
+          modifier = contentModifier,
+          verticalArrangement = Arrangement.spacedBy(2.dp),
+          state = lazyListState
+        ) {
+          items(
+            walletUiState.dashboard.assetBalances,
+            key = { "${it.id}-${it.platform.id}" }
+          ) {
+            CoinItemView(
+              modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
+              assetBalance = it,
+              onEvent = onEvent
+            )
+          }
+        }
+      }
+    )
+  }
 }
 
 @ThemePreviews
 @Composable
 private fun UserHome_Preview() {
-    EasyWalletTheme {
-        EasyGradientBackground(
-            modifier = Modifier
-                .fillMaxSize(),
-        ) {
-            UserHomeContent(
-                isRefreshing = false,
-                walletUiState = WalletUiState.WalletUiState(
-                    AllAssetDashboardInformation(
-                        fiatSymbol = "USD",
-                        fiatBalance = "888.88",
-                        assetBalances = emptyList()
-                    )
-                ),
-                onEvent = {}
-            )
-        }
+  EasyWalletTheme {
+    EasyGradientBackground(
+      modifier = Modifier
+        .fillMaxSize()
+    ) {
+      UserHomeContent(
+        isRefreshing = false,
+        walletUiState = WalletUiState.WalletUiState(
+          AllAssetDashboardInformation(
+            fiatSymbol = "USD",
+            fiatBalance = "888.88",
+            assetBalances = emptyList()
+          )
+        ),
+        onEvent = {}
+      )
     }
+  }
 }

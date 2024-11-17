@@ -15,16 +15,14 @@ internal data object DiscoverTabRoute
 data object DiscoverEntryRoute
 
 fun NavController.selectedDiscoverTab(navOptions: NavOptions? = null) {
-    navigate(DiscoverTabRoute, navOptions)
+  navigate(DiscoverTabRoute, navOptions)
 }
 
-fun NavGraphBuilder.attachDiscoverTabGraph(
-    nestedGraphs: NavGraphBuilder.() -> Unit
-) {
-    navigation<DiscoverTabRoute>(startDestination = DiscoverEntryRoute) {
-        composable<DiscoverEntryRoute> {
-            DiscoverRoute()
-        }
-        nestedGraphs()
+fun NavGraphBuilder.attachDiscoverTabGraph(nestedGraphs: NavGraphBuilder.() -> Unit) {
+  navigation<DiscoverTabRoute>(startDestination = DiscoverEntryRoute) {
+    composable<DiscoverEntryRoute> {
+      DiscoverRoute()
     }
+    nestedGraphs()
+  }
 }

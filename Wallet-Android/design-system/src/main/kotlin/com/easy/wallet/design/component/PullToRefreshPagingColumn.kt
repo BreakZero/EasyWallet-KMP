@@ -26,78 +26,78 @@ import androidx.paging.compose.LazyPagingItems
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun <T : Any> PullToRefreshPagingColumn(
-    modifier: Modifier = Modifier,
-    lazyListState: LazyListState = rememberLazyListState(),
-    pagingItems: LazyPagingItems<T>,
-    headerContainer: LazyListScope.() -> Unit = {},
-    footerContainer: LazyListScope.() -> Unit = {},
-    itemKey: ((index: Int) -> Any)? = {
-        pagingItems[it].hashCode()
-    },
-    verticalArrangement: Arrangement.Vertical = Arrangement.spacedBy(0.dp),
-    itemContainer: @Composable LazyItemScope.(T) -> Unit
+  modifier: Modifier = Modifier,
+  lazyListState: LazyListState = rememberLazyListState(),
+  pagingItems: LazyPagingItems<T>,
+  headerContainer: LazyListScope.() -> Unit = {},
+  footerContainer: LazyListScope.() -> Unit = {},
+  itemKey: ((index: Int) -> Any)? = {
+    pagingItems[it].hashCode()
+  },
+  verticalArrangement: Arrangement.Vertical = Arrangement.spacedBy(0.dp),
+  itemContainer: @Composable LazyItemScope.(T) -> Unit
 ) {
-    val pullToRefreshState = rememberPullToRefreshState()
-    val isRefreshing by remember {
-        derivedStateOf { pagingItems.loadState.refresh is LoadState.Loading }
-    }
+  val pullToRefreshState = rememberPullToRefreshState()
+  val isRefreshing by remember {
+    derivedStateOf { pagingItems.loadState.refresh is LoadState.Loading }
+  }
 
-    PullToRefreshBox(
-        modifier = modifier,
-        onRefresh = { pagingItems.refresh() },
-        state = pullToRefreshState,
-        isRefreshing = isRefreshing
+  PullToRefreshBox(
+    modifier = modifier,
+    onRefresh = { pagingItems.refresh() },
+    state = pullToRefreshState,
+    isRefreshing = isRefreshing
+  ) {
+    LazyColumn(
+      modifier = Modifier.fillMaxSize(),
+      state = lazyListState,
+      verticalArrangement = verticalArrangement
     ) {
-        LazyColumn(
-            modifier = Modifier.fillMaxSize(),
-            state = lazyListState,
-            verticalArrangement = verticalArrangement
-        ) {
-            headerContainer()
-            items(count = pagingItems.itemCount, key = itemKey) {
-                itemContainer(pagingItems[it]!!)
-            }
-            with(pagingItems) {
-                when {
-                    loadState.refresh is LoadState.Error -> {
-                        item {
-                            Box(
-                                modifier = Modifier.fillParentMaxSize(),
-                                contentAlignment = Alignment.Center,
-                            ) {
-                                Button(onClick = { refresh() }) {
-                                    Text(text = "tap to refresh...")
-                                }
-                            }
-                        }
-                    }
-
-                    loadState.append is LoadState.Loading -> {
-                        item {
-                            Box(
-                                modifier = Modifier.fillParentMaxWidth(),
-                                contentAlignment = Alignment.Center,
-                            ) {
-                                LoadingWheel(contentDesc = "")
-                            }
-                        }
-                    }
-
-                    loadState.append is LoadState.Error -> {
-                        item {
-                            Box(
-                                modifier = Modifier.fillParentMaxWidth(),
-                                contentAlignment = Alignment.Center,
-                            ) {
-                                Button(onClick = ::retry) {
-                                    Text(text = "load more failed...")
-                                }
-                            }
-                        }
-                    }
+      headerContainer()
+      items(count = pagingItems.itemCount, key = itemKey) {
+        itemContainer(pagingItems[it]!!)
+      }
+      with(pagingItems) {
+        when {
+          loadState.refresh is LoadState.Error -> {
+            item {
+              Box(
+                modifier = Modifier.fillParentMaxSize(),
+                contentAlignment = Alignment.Center
+              ) {
+                Button(onClick = { refresh() }) {
+                  Text(text = "tap to refresh...")
                 }
+              }
             }
-            footerContainer()
+          }
+
+          loadState.append is LoadState.Loading -> {
+            item {
+              Box(
+                modifier = Modifier.fillParentMaxWidth(),
+                contentAlignment = Alignment.Center
+              ) {
+                LoadingWheel(contentDesc = "")
+              }
+            }
+          }
+
+          loadState.append is LoadState.Error -> {
+            item {
+              Box(
+                modifier = Modifier.fillParentMaxWidth(),
+                contentAlignment = Alignment.Center
+              ) {
+                Button(onClick = ::retry) {
+                  Text(text = "load more failed...")
+                }
+              }
+            }
+          }
         }
+      }
+      footerContainer()
     }
+  }
 }

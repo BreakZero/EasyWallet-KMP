@@ -16,46 +16,49 @@ import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.update
 
 internal class WalletViewModel(
-    private val multiWalletRepository: MultiWalletRepository,
-    private val assetDashboardUseCase: AllAssetDashboardUseCase
+  private val multiWalletRepository: MultiWalletRepository,
+  private val assetDashboardUseCase: AllAssetDashboardUseCase
 ) : BaseViewModel<WalletEvent>() {
-    private val _isRefreshing = MutableStateFlow(true)
+  private val _isRefreshing = MutableStateFlow(true)
 
-    private val _walletUiState = MutableStateFlow<WalletUiState>(WalletUiState.Initial)
+  private val walletUiState = MutableStateFlow<WalletUiState>(WalletUiState.Initial)
 
-    val isRefreshing = _isRefreshing.asStateFlow()
-    val homeUiState = _walletUiState.asStateFlow()
+  val isRefreshing = _isRefreshing.asStateFlow()
+  val homeUiState = walletUiState.asStateFlow()
 
-    init {
-        fetch()
-    }
+  init {
+    fetch()
+  }
 
-    private fun fetch() {
-        multiWalletRepository.forActiveOneStream().flatMapConcat { wallet ->
-            if (wallet != null) {
-                assetDashboardUseCase(wallet).onStart {
-                    _isRefreshing.update { true }
-                }.onCompletion {
-                    _isRefreshing.update { false }
-                }.map { WalletUiState.WalletUiState(it) as WalletUiState }
-            } else {
-                flow {
-                    _isRefreshing.update { false }
-                    emit(WalletUiState.GuestUserUiState)
-                }
-            }
-        }.onEach { latestState ->
-            _walletUiState.update { latestState }
-        }.launchIn(viewModelScope)
-    }
-
-    override fun handleEvent(event: WalletEvent) {
-        when (event) {
-            is WalletEvent.OnRefreshing -> {
-                fetch()
-            }
-
-            else -> dispatchEvent(event)
+  private fun fetch() {
+    multiWalletRepository
+      .forActiveOneStream()
+      .flatMapConcat { wallet ->
+        if (wallet != null) {
+          assetDashboardUseCase(wallet)
+            .onStart {
+              _isRefreshing.update { true }
+            }.onCompletion {
+              _isRefreshing.update { false }
+            }.map { WalletUiState.WalletUiState(it) as WalletUiState }
+        } else {
+          flow {
+            _isRefreshing.update { false }
+            emit(WalletUiState.GuestUserUiState)
+          }
         }
+      }.onEach { latestState ->
+        walletUiState.update { latestState }
+      }.launchIn(viewModelScope)
+  }
+
+  override fun handleEvent(event: WalletEvent) {
+    when (event) {
+      is WalletEvent.OnRefreshing -> {
+        fetch()
+      }
+
+      else -> dispatchEvent(event)
     }
+  }
 }

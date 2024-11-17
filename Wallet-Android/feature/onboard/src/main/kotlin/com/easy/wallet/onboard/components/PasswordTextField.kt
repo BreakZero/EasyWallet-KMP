@@ -18,43 +18,43 @@ import com.easy.wallet.design.ui.EasyWalletTheme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun PasswordTextField(
-    modifier: Modifier = Modifier,
-    textField: TextFieldState,
-    isError: Boolean = false,
-    textObfuscationMode: TextObfuscationMode = TextObfuscationMode.RevealLastTyped,
-    placeholder: @Composable (() -> Unit)? = null,
-    leadingIcon: @Composable (() -> Unit)? = null,
-    trailingIcon: @Composable (() -> Unit)? = null,
+  modifier: Modifier = Modifier,
+  textField: TextFieldState,
+  isError: Boolean = false,
+  textObfuscationMode: TextObfuscationMode = TextObfuscationMode.RevealLastTyped,
+  placeholder: @Composable (() -> Unit)? = null,
+  leadingIcon: @Composable (() -> Unit)? = null,
+  trailingIcon: @Composable (() -> Unit)? = null,
 ) {
-    BasicSecureTextField(
-        modifier = modifier,
-        state = textField,
-        textObfuscationMode = textObfuscationMode,
-        decorator = @Composable {
-            val interactionSource = remember { MutableInteractionSource() }
-            TextFieldDefaults.DecorationBox(
-                value = textField.text.toString(),
-                innerTextField = it,
-                enabled = true,
-                singleLine = true,
-                isError = isError,
-                placeholder = placeholder,
-                leadingIcon = leadingIcon,
-                trailingIcon = trailingIcon,
-                visualTransformation = VisualTransformation.None,
-                interactionSource = interactionSource
-            )
-        }
-    )
+  BasicSecureTextField(
+    modifier = modifier,
+    state = textField,
+    textObfuscationMode = textObfuscationMode,
+    decorator = @Composable {
+      val interactionSource = remember { MutableInteractionSource() }
+      TextFieldDefaults.DecorationBox(
+        value = textField.text.toString(),
+        innerTextField = it,
+        enabled = true,
+        singleLine = true,
+        isError = isError,
+        placeholder = placeholder,
+        leadingIcon = leadingIcon,
+        trailingIcon = trailingIcon,
+        visualTransformation = VisualTransformation.None,
+        interactionSource = interactionSource
+      )
+    }
+  )
 }
 
 @ThemePreviews
 @Composable
 private fun PasswordTextField_Preview() {
-    EasyWalletTheme {
-        PasswordTextField(
-            modifier = Modifier.fillMaxWidth(),
-            textField = rememberTextFieldState("123")
-        )
-    }
+  EasyWalletTheme {
+    PasswordTextField(
+      modifier = Modifier.fillMaxWidth(),
+      textField = rememberTextFieldState("123")
+    )
+  }
 }

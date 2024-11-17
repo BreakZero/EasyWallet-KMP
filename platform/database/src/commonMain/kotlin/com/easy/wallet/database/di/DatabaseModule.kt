@@ -17,27 +17,27 @@ import org.koin.dsl.module
 internal expect fun factoryModule(): Module
 
 val databaseModule = module {
-    includes(factoryModule())
-    singleOf(::SharedDatabase)
+  includes(factoryModule())
+  singleOf(::SharedDatabase)
 
-    single {
-        AssetPlatformDaoImpl(
-            get<SharedDatabase>().database.assetPlatformEntityQueries,
-            dispatcher = Dispatchers.IO
-        )
-    } bind AssetPlatformDao::class
+  single {
+    AssetPlatformDaoImpl(
+      get<SharedDatabase>().database.assetPlatformEntityQueries,
+      dispatcher = Dispatchers.IO
+    )
+  } bind AssetPlatformDao::class
 
-    single {
-        CoinDaoImpl(
-            get<SharedDatabase>().database.coinEntityQueries,
-            dispatcher = Dispatchers.IO
-        )
-    } bind CoinDao::class
+  single {
+    CoinDaoImpl(
+      get<SharedDatabase>().database.coinEntityQueries,
+      dispatcher = Dispatchers.IO
+    )
+  } bind CoinDao::class
 
-    single {
-        WalletDaoImpl(
-            get<SharedDatabase>().database.walletQueries,
-            dispatcher = Dispatchers.IO
-        )
-    } bind WalletDao::class
+  single {
+    WalletDaoImpl(
+      get<SharedDatabase>().database.walletQueries,
+      dispatcher = Dispatchers.IO
+    )
+  } bind WalletDao::class
 }

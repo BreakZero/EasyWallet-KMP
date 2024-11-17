@@ -5,20 +5,20 @@ import io.ktor.client.plugins.websocket.DefaultClientWebSocketSession
 import io.ktor.client.plugins.websocket.wss
 
 class OKXWebSocketManager internal constructor(
-    private val httpClient: HttpClient
+  private val httpClient: HttpClient
 ) {
-    private lateinit var wsSession: DefaultClientWebSocketSession
+  private lateinit var wsSession: DefaultClientWebSocketSession
 
-    suspend fun connect(path: String, callback: suspend () -> Unit) {
-        httpClient.wss(
-            host = "ws.okx.com",
-            port = 8443,
-            path = path
-        ) {
-            wsSession = this
-            callback()
-        }
+  suspend fun connect(path: String, callback: suspend () -> Unit) {
+    httpClient.wss(
+      host = "ws.okx.com",
+      port = 8443,
+      path = path
+    ) {
+      wsSession = this
+      callback()
     }
+  }
 
 //    suspend fun subscribe(
 //        args: List<OptionArg>,

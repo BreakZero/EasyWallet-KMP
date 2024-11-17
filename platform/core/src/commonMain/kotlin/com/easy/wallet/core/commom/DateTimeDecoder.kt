@@ -8,19 +8,17 @@ import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
 
 object DateTimeDecoder {
-    val defaultTimeZone = TimeZone.currentSystemDefault()
+  val defaultTimeZone = TimeZone.currentSystemDefault()
 
-    fun decodeToDateTime(timestamp: Long): LocalDateTime {
-        val instant = Instant.fromEpochMilliseconds(timestamp)
-        return instant.toLocalDateTime(defaultTimeZone)
-    }
+  fun decodeToDateTime(timestamp: Long): LocalDateTime {
+    val instant = Instant.fromEpochMilliseconds(timestamp)
+    return instant.toLocalDateTime(defaultTimeZone)
+  }
 
-    fun encodeToLong(dateTime: LocalDateTime): Long {
-        return dateTime.toInstant(defaultTimeZone).toEpochMilliseconds()
-    }
+  fun encodeToLong(dateTime: LocalDateTime): Long = dateTime.toInstant(defaultTimeZone).toEpochMilliseconds()
 }
 
 fun systemCurrentMilliseconds(): Long {
-    val currentMoment: Instant = Clock.System.now()
-    return currentMoment.toEpochMilliseconds()
+  val currentMoment: Instant = Clock.System.now()
+  return currentMoment.toEpochMilliseconds()
 }

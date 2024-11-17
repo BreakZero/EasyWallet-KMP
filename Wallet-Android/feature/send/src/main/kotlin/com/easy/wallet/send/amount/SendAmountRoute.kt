@@ -10,23 +10,23 @@ import com.easy.wallet.send.SendingBasicUiState
 
 @Composable
 internal fun SendAmountRoute(
-    viewModel: SendSharedViewModel,
-    navigateTo: (String) -> Unit,
-    popBack: () -> Unit
+  viewModel: SendSharedViewModel,
+  navigateTo: (String) -> Unit,
+  popBack: () -> Unit
 ) {
-    ObserveAsEvents(flow = viewModel.navigationEvents) {
-        when (it) {
-            is SendUiEvent.NavigateTo -> navigateTo(it.destination)
-            SendUiEvent.NavigateBack -> popBack()
-            else -> Unit
-        }
+  ObserveAsEvents(flow = viewModel.navigationEvents) {
+    when (it) {
+      is SendUiEvent.NavigateTo -> navigateTo(it.destination)
+      SendUiEvent.NavigateBack -> popBack()
+      else -> Unit
     }
-    val uiState by viewModel.basicInfoUiState.collectAsStateWithLifecycle()
-    val amountUiState by viewModel.amountUiState.collectAsStateWithLifecycle()
+  }
+  val uiState by viewModel.basicInfoUiState.collectAsStateWithLifecycle()
+  val amountUiState by viewModel.amountUiState.collectAsStateWithLifecycle()
 
-    EvmChainSendAmountScreen(
-        assetBalance = (uiState as SendingBasicUiState.PrepBasicInfo).assetBalance,
-        amountUiState = amountUiState,
-        onEvent = viewModel::handleEvent
-    )
+  EvmChainSendAmountScreen(
+    assetBalance = (uiState as SendingBasicUiState.PrepBasicInfo).assetBalance,
+    amountUiState = amountUiState,
+    onEvent = viewModel::handleEvent
+  )
 }

@@ -5,9 +5,9 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 internal data class CoinGeckoMarketChartDto(
-    val prices: List<List<Double>>,
-    @SerialName("market_caps")
-    val marketCaps: List<List<Double>>,
-    @SerialName("total_volumes")
-    val totalVolumes: List<List<Double>>
+  val prices: List<List<Double>>,
+  @SerialName("market_caps")
+  val marketCaps: List<List<Double>>,
+  @SerialName("total_volumes")
+  val totalVolumes: List<List<Double>>
 )

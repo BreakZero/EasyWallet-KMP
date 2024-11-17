@@ -4,7 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
@@ -23,63 +22,62 @@ import com.easy.wallet.model.news.News
 
 @Composable
 internal fun NewsItemView(
-    modifier: Modifier = Modifier,
-    news: News,
-    itemClick: (News) -> Unit
+  modifier: Modifier = Modifier,
+  news: News,
+  itemClick: (News) -> Unit
 ) {
-    val tags = remember {
-        news.tags.split(",").take(3)
+  val tags = remember {
+    news.tags.split(",").take(3)
+  }
+  Card(
+    modifier = modifier,
+    onClick = {
+      itemClick(news)
     }
-    Card(
-        modifier = modifier,
-        onClick = {
-            itemClick(news)
-        },
+  ) {
+    Column(
+      modifier = Modifier
+        .fillMaxWidth()
+        .padding(horizontal = 12.dp, vertical = 16.dp)
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 12.dp, vertical = 16.dp),
+      Text(
+        modifier = Modifier.fillMaxWidth(),
+        text = news.title,
+        style = MaterialTheme.typography.titleMedium
+      )
+      Text(
+        modifier = Modifier.fillMaxWidth(),
+        text = news.description,
+        maxLines = 2,
+        overflow = TextOverflow.Ellipsis,
+        style = MaterialTheme.typography.bodyLarge
+      )
+      Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(12.dp)
+      ) {
+        Text(
+          text = news.source,
+          style = MaterialTheme.typography.bodySmall
+        )
+        LazyRow(
+          modifier = Modifier.weight(1F),
+          horizontalArrangement = Arrangement.spacedBy(4.dp, alignment = Alignment.End)
         ) {
+          items(tags) {
             Text(
-                modifier = Modifier.fillMaxWidth(),
-                text = news.title,
-                style = MaterialTheme.typography.titleMedium,
+              text = it,
+              color = MaterialTheme.colorScheme.tertiaryContainer,
+              modifier = Modifier
+                .background(
+                  MaterialTheme.colorScheme.onTertiaryContainer,
+                  shape = RoundedCornerShape(4.dp)
+                ).padding(horizontal = 4.dp, vertical = 2.dp),
+              style = MaterialTheme.typography.bodySmall
             )
-            Text(
-                modifier = Modifier.fillMaxWidth(),
-                text = news.description,
-                maxLines = 2,
-                overflow = TextOverflow.Ellipsis,
-                style = MaterialTheme.typography.bodyLarge,
-            )
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(12.dp)
-            ) {
-                Text(
-                    text = news.source,
-                    style = MaterialTheme.typography.bodySmall,
-                )
-                LazyRow(
-                    modifier = Modifier.weight(1F),
-                    horizontalArrangement = Arrangement.spacedBy(4.dp, alignment = Alignment.End),
-                ) {
-                    items(tags) {
-                        Text(
-                            text = it,
-                            color = MaterialTheme.colorScheme.tertiaryContainer,
-                            modifier = Modifier
-                                .background(
-                                    MaterialTheme.colorScheme.onTertiaryContainer,
-                                    shape = RoundedCornerShape(4.dp)
-                                )
-                                .padding(horizontal = 4.dp, vertical = 2.dp),
-                            style = MaterialTheme.typography.bodySmall
-                        )
-                    }
-                }
-            }
+          }
         }
+      }
     }
+  }
 }

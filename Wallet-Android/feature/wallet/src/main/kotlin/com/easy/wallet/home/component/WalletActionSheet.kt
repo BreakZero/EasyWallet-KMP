@@ -18,41 +18,41 @@ import com.easy.wallet.home.WalletEvent
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun WalletActionSheet(
-    modifier: Modifier = Modifier,
-    menus: List<ActionSheetMenu>,
-    onDismiss: () -> Unit,
-    onEvent: (WalletEvent) -> Unit
+  modifier: Modifier = Modifier,
+  menus: List<ActionSheetMenu>,
+  onDismiss: () -> Unit,
+  onEvent: (WalletEvent) -> Unit
 ) {
-    val bottomSheetState = rememberModalBottomSheetState(
-        skipPartiallyExpanded = true,
-    )
-    ModalBottomSheet(
-        modifier = modifier,
-        sheetState = bottomSheetState,
-        onDismissRequest = onDismiss
-    ) {
-        LazyColumn(modifier = Modifier.fillMaxWidth()) {
-            items(menus, key = { it.title.toString() }) { menu ->
-                ActionSheetItem(menu = menu) {
-                    when (menu) {
-                        ActionSheetMenu.CREATE_BY_SEED -> onEvent(WalletEvent.CreateWallet)
-                        ActionSheetMenu.RESTORE_BY_SEED -> onEvent(WalletEvent.RestoreWallet)
-                    }
-                    onDismiss()
-                }
-            }
-            // TODO remove when support more actions
-            item {
-                Spacer(modifier = Modifier.height(16.dp))
-            }
-            item {
-                Text(
-                    modifier = Modifier.fillMaxWidth(),
-                    textAlign = TextAlign.Center,
-                    text = "-- more is coming soon --",
-                )
-            }
+  val bottomSheetState = rememberModalBottomSheetState(
+    skipPartiallyExpanded = true
+  )
+  ModalBottomSheet(
+    modifier = modifier,
+    sheetState = bottomSheetState,
+    onDismissRequest = onDismiss
+  ) {
+    LazyColumn(modifier = Modifier.fillMaxWidth()) {
+      items(menus, key = { it.title.toString() }) { menu ->
+        ActionSheetItem(menu = menu) {
+          when (menu) {
+            ActionSheetMenu.CREATE_BY_SEED -> onEvent(WalletEvent.CreateWallet)
+            ActionSheetMenu.RESTORE_BY_SEED -> onEvent(WalletEvent.RestoreWallet)
+          }
+          onDismiss()
         }
+      }
+      // TODO remove when support more actions
+      item {
         Spacer(modifier = Modifier.height(16.dp))
+      }
+      item {
+        Text(
+          modifier = Modifier.fillMaxWidth(),
+          textAlign = TextAlign.Center,
+          text = "-- more is coming soon --"
+        )
+      }
     }
+    Spacer(modifier = Modifier.height(16.dp))
+  }
 }

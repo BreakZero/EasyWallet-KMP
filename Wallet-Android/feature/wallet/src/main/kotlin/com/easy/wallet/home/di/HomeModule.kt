@@ -7,8 +7,8 @@ import org.koin.androidx.viewmodel.dsl.viewModelOf
 import org.koin.dsl.module
 
 val homeModule = module {
-    viewModelOf(::WalletViewModel)
-    viewModel { parameter ->
-        TransactionsViewModel(coinId = parameter.get(), get(), get(), get())
-    }
+  viewModelOf(::WalletViewModel)
+  viewModel { parameter ->
+    TransactionsViewModel(coinId = parameter.get(), get(), get(), get())
+  }
 }

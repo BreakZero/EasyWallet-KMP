@@ -32,101 +32,100 @@ import com.easy.wallet.design.component.LoadingWheel
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-internal fun ChainManagerRoute(
-    navigateToDetail: (String?) -> Unit,
-    navigateUp: () -> Unit
-) {
-    val viewModel: ChainManagerViewModel = koinViewModel()
-    ObserveAsEvents(flow = viewModel.navigationEvents) {
-        when (it) {
-            is ChainManagerEvent.ClickEdit -> {
-                navigateToDetail(it.id)
-            }
+internal fun ChainManagerRoute(navigateToDetail: (String?) -> Unit, navigateUp: () -> Unit) {
+  val viewModel: ChainManagerViewModel = koinViewModel()
+  ObserveAsEvents(flow = viewModel.navigationEvents) {
+    when (it) {
+      is ChainManagerEvent.ClickEdit -> {
+        navigateToDetail(it.id)
+      }
 
-            is ChainManagerEvent.ClickAdd -> {
-                navigateToDetail(null)
-            }
+      is ChainManagerEvent.ClickAdd -> {
+        navigateToDetail(null)
+      }
 
-            else -> Unit
-        }
+      else -> Unit
     }
-    val uiState by viewModel.chainManagerUiState.collectAsStateWithLifecycle()
-    ChainManagerScreen(uiState = uiState, navigateUp = navigateUp, onEvent = viewModel::handleEvent)
+  }
+  val uiState by viewModel.chainManagerUiState.collectAsStateWithLifecycle()
+  ChainManagerScreen(uiState = uiState, navigateUp = navigateUp, onEvent = viewModel::handleEvent)
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun ChainManagerScreen(
-    uiState: ChainUiState,
-    navigateUp: () -> Unit,
-    onEvent: (ChainManagerEvent) -> Unit
+  uiState: ChainUiState,
+  navigateUp: () -> Unit,
+  onEvent: (ChainManagerEvent) -> Unit
 ) {
-    Scaffold(
-        modifier = Modifier.fillMaxSize(),
-        containerColor = Color.Transparent,
-        contentColor = MaterialTheme.colorScheme.onBackground,
-        topBar = {
-            TopAppBar(
-                title = { },
-                navigationIcon = {
-                    IconButton(onClick = navigateUp) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = null
-                        )
-                    }
-                },
-                colors = TopAppBarDefaults.topAppBarColors()
-                    .copy(containerColor = MaterialTheme.colorScheme.inverseOnSurface)
+  Scaffold(
+    modifier = Modifier.fillMaxSize(),
+    containerColor = Color.Transparent,
+    contentColor = MaterialTheme.colorScheme.onBackground,
+    topBar = {
+      TopAppBar(
+        title = { },
+        navigationIcon = {
+          IconButton(onClick = navigateUp) {
+            Icon(
+              imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+              contentDescription = null
             )
-        }
-    ) { paddingValues ->
-        val modifier = Modifier
-            .fillMaxSize()
-            .padding(paddingValues)
-        when (uiState) {
-            is ChainUiState.Loading -> {
-                Box(modifier = modifier, contentAlignment = Alignment.Center) {
-                    LoadingWheel(contentDesc = "")
-                }
-            }
-
-            is ChainUiState.Success -> {
-                if (uiState.platforms.isEmpty()) {
-                    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                        Button(onClick = { onEvent(ChainManagerEvent.InitialDefaultData) }) {
-                            Text(text = "Initial Default Supported Chains")
-                        }
-                    }
-                } else {
-                    LazyColumn(
-                        modifier = modifier,
-                        verticalArrangement = Arrangement.spacedBy(8.dp)
-                    ) {
-                        items(uiState.platforms, key = { it.id }) {
-                            Card(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(horizontal = 16.dp),
-                                onClick = { onEvent(ChainManagerEvent.ClickEdit(it.id)) }) {
-                                Column(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(vertical = 8.dp, horizontal = 12.dp)
-                                ) {
-                                    Text(
-                                        text = it.shortName,
-                                        style = MaterialTheme.typography.titleLarge
-                                    )
-                                    it.network?.explorerUrl?.let { explorerUrl ->
-                                        Text(text = explorerUrl)
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
+          }
+        },
+        colors = TopAppBarDefaults
+          .topAppBarColors()
+          .copy(containerColor = MaterialTheme.colorScheme.inverseOnSurface)
+      )
     }
+  ) { paddingValues ->
+    val modifier = Modifier
+      .fillMaxSize()
+      .padding(paddingValues)
+    when (uiState) {
+      is ChainUiState.Loading -> {
+        Box(modifier = modifier, contentAlignment = Alignment.Center) {
+          LoadingWheel(contentDesc = "")
+        }
+      }
+
+      is ChainUiState.Success -> {
+        if (uiState.platforms.isEmpty()) {
+          Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+            Button(onClick = { onEvent(ChainManagerEvent.InitialDefaultData) }) {
+              Text(text = "Initial Default Supported Chains")
+            }
+          }
+        } else {
+          LazyColumn(
+            modifier = modifier,
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+          ) {
+            items(uiState.platforms, key = { it.id }) {
+              Card(
+                modifier = Modifier
+                  .fillMaxWidth()
+                  .padding(horizontal = 16.dp),
+                onClick = { onEvent(ChainManagerEvent.ClickEdit(it.id)) }
+              ) {
+                Column(
+                  modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 8.dp, horizontal = 12.dp)
+                ) {
+                  Text(
+                    text = it.shortName,
+                    style = MaterialTheme.typography.titleLarge
+                  )
+                  it.network?.explorerUrl?.let { explorerUrl ->
+                    Text(text = explorerUrl)
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 }

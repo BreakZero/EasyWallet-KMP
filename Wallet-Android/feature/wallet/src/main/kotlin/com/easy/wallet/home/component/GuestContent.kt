@@ -3,7 +3,6 @@ package com.easy.wallet.home.component
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -26,96 +25,95 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.easy.wallet.design.theme.ThemePreviews
 import com.easy.wallet.design.ui.EasyWalletTheme
-import com.easy.wallet.home.WalletEvent
 import com.easy.wallet.home.R
+import com.easy.wallet.home.WalletEvent
 
 @Composable
-internal fun GuestContent(
-    modifier: Modifier = Modifier,
-    onEvent: (WalletEvent) -> Unit
-) {
-    var actionDestination by remember {
-        mutableStateOf(ActionDestination.None)
-    }
+internal fun GuestContent(modifier: Modifier = Modifier, onEvent: (WalletEvent) -> Unit) {
+  var actionDestination by remember {
+    mutableStateOf(ActionDestination.None)
+  }
+  Column(
+    modifier = modifier
+  ) {
     Column(
-        modifier = modifier,
+      modifier = Modifier
+        .fillMaxWidth()
+        .weight(1f)
+        .padding(top = 100.dp),
+      horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .weight(1f)
-                .padding(top = 100.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            Image(
-                modifier = Modifier.wrapContentSize(),
-                painter = painterResource(id = R.drawable.wallet_android_feature_wallet_ic_setup_wallet),
-                contentDescription = null,
-            )
-            Spacer(modifier = Modifier.height(48.dp))
-            Text(
-                modifier = Modifier.fillMaxWidth(),
-                style = MaterialTheme.typography.headlineMedium,
-                text = "Wallet Setup",
-            )
-            Text(
-                modifier = Modifier.fillMaxWidth(),
-                style = MaterialTheme.typography.bodyLarge,
-                text = "Import an existing wallet \n or create a new one",
-            )
-        }
+      Image(
+        modifier = Modifier.wrapContentSize(),
+        painter = painterResource(id = R.drawable.wallet_android_feature_wallet_ic_setup_wallet),
+        contentDescription = null
+      )
+      Spacer(modifier = Modifier.height(48.dp))
+      Text(
+        modifier = Modifier.fillMaxWidth(),
+        style = MaterialTheme.typography.headlineMedium,
+        text = "Wallet Setup"
+      )
+      Text(
+        modifier = Modifier.fillMaxWidth(),
+        style = MaterialTheme.typography.bodyLarge,
+        text = "Import an existing wallet \n or create a new one"
+      )
+    }
 
-        Button(
-            modifier = Modifier.fillMaxWidth(),
-            onClick = {
-                actionDestination = ActionDestination.Create
-            },
-        ) {
-            Text(text = stringResource(id = R.string.wallet_android_feature_wallet_onboard_create_wallet))
-        }
-        OutlinedButton(
-            modifier = Modifier.fillMaxWidth(),
-            onClick = {
-                actionDestination = ActionDestination.Restore
-            },
-        ) {
-            Text(text = stringResource(id = R.string.wallet_android_feature_wallet_onboard_import_wallet))
-        }
+    Button(
+      modifier = Modifier.fillMaxWidth(),
+      onClick = {
+        actionDestination = ActionDestination.Create
+      }
+    ) {
+      Text(text = stringResource(id = R.string.wallet_android_feature_wallet_onboard_create_wallet))
     }
-    when(actionDestination) {
-        ActionDestination.Create -> {
-            WalletActionSheet(
-                menus = listOf(ActionSheetMenu.CREATE_BY_SEED),
-                onDismiss = { actionDestination = ActionDestination.None },
-                onEvent = onEvent,
-            )
-        }
-        ActionDestination.Restore -> {
-            WalletActionSheet(
-                menus = listOf(ActionSheetMenu.RESTORE_BY_SEED),
-                onDismiss = { actionDestination = ActionDestination.None },
-                onEvent = onEvent,
-            )
-        }
-        ActionDestination.None -> Unit
+    OutlinedButton(
+      modifier = Modifier.fillMaxWidth(),
+      onClick = {
+        actionDestination = ActionDestination.Restore
+      }
+    ) {
+      Text(text = stringResource(id = R.string.wallet_android_feature_wallet_onboard_import_wallet))
     }
+  }
+  when (actionDestination) {
+    ActionDestination.Create -> {
+      WalletActionSheet(
+        menus = listOf(ActionSheetMenu.CREATE_BY_SEED),
+        onDismiss = { actionDestination = ActionDestination.None },
+        onEvent = onEvent
+      )
+    }
+    ActionDestination.Restore -> {
+      WalletActionSheet(
+        menus = listOf(ActionSheetMenu.RESTORE_BY_SEED),
+        onDismiss = { actionDestination = ActionDestination.None },
+        onEvent = onEvent
+      )
+    }
+    ActionDestination.None -> Unit
+  }
 }
 
 private enum class ActionDestination {
-    Create, Restore, None
+  Create,
+  Restore,
+  None
 }
 
 @ThemePreviews
 @Composable
 private fun GuestContent_Preview() {
-    EasyWalletTheme {
-        Surface(modifier = Modifier.fillMaxSize()) {
-            GuestContent(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(horizontal = 16.dp),
-                onEvent = {},
-            )
-        }
+  EasyWalletTheme {
+    Surface(modifier = Modifier.fillMaxSize()) {
+      GuestContent(
+        modifier = Modifier
+          .fillMaxSize()
+          .padding(horizontal = 16.dp),
+        onEvent = {}
+      )
     }
+  }
 }

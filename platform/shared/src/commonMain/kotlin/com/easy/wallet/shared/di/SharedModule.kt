@@ -6,11 +6,11 @@ import com.easy.wallet.shared.data.repository.MarketsRepository
 import com.easy.wallet.shared.data.repository.asset.CoinRepository
 import com.easy.wallet.shared.data.repository.asset.LocalAssetRepository
 import com.easy.wallet.shared.data.repository.asset.PlatformRepository
+import com.easy.wallet.shared.data.repository.news.NewsPager
+import com.easy.wallet.shared.data.repository.news.NewsRepository
 import com.easy.wallet.shared.data.repository.platform.EvmChainRepository
 import com.easy.wallet.shared.data.repository.platform.NoSupportedChainRepository
 import com.easy.wallet.shared.data.repository.platform.OnChainRepository
-import com.easy.wallet.shared.data.repository.news.NewsPager
-import com.easy.wallet.shared.data.repository.news.NewsRepository
 import com.easy.wallet.shared.domain.AllAssetDashboardUseCase
 import com.easy.wallet.shared.domain.CoinBalanceUseCase
 import com.easy.wallet.shared.domain.CoinTrendUseCase
@@ -25,43 +25,43 @@ import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 val sharedModule = module {
-    single {
-        MultiWalletRepository(get())
-    }
-    singleOf(::NewsRepository)
+  single {
+    MultiWalletRepository(get())
+  }
+  singleOf(::NewsRepository)
 
-    single<OnChainRepository>(named("EvmChain")) { EvmChainRepository(get(), get()) }
-    single<OnChainRepository>(named("NoSupportedChain")) { NoSupportedChainRepository() }
+  single<OnChainRepository>(named("EvmChain")) { EvmChainRepository(get(), get()) }
+  single<OnChainRepository>(named("NoSupportedChain")) { NoSupportedChainRepository() }
 
-    single<CoinRepository>() { LocalAssetRepository(get(), get()) }
-    single<PlatformRepository>() { LocalAssetRepository(get(), get()) }
+  single<CoinRepository> { LocalAssetRepository(get(), get()) }
+  single<PlatformRepository> { LocalAssetRepository(get(), get()) }
 
-    singleOf(::MarketsRepository)
+  singleOf(::MarketsRepository)
 
-    single { OKXDataRepository(get()) }
+  single { OKXDataRepository(get()) }
 
-    single {
-        GetChainRepositoryUseCase(
-            evmChainRepository = get(named("EvmChain")),
-            noSupportedChainRepository = get(named("NoSupportedChain"))
-        )
-    }
+  single {
+    GetChainRepositoryUseCase(
+      evmChainRepository = get(named("EvmChain")),
+      noSupportedChainRepository = get(named("NoSupportedChain"))
+    )
+  }
 
-    singleOf(::AllAssetDashboardUseCase)
+  singleOf(::AllAssetDashboardUseCase)
 
-    singleOf(::CoinTrendUseCase)
+  singleOf(::CoinTrendUseCase)
 
-    singleOf(::CoinBalanceUseCase)
+  singleOf(::CoinBalanceUseCase)
 
-    singleOf(::GetAssetCoinInfoUseCase)
+  singleOf(::GetAssetCoinInfoUseCase)
 
-    singleOf(::TransactionPlanUseCase)
+  singleOf(::TransactionPlanUseCase)
 
-    singleOf(::TransactionSigningUseCase)
+  singleOf(::TransactionSigningUseCase)
 
-    single { NewsPager(get()) }
+  single { NewsPager(get()) }
 
-    singleOf(::TransactionPagerUseCase)
+  singleOf(::TransactionPagerUseCase)
 
-    singleOf(::CreateWalletUseCase)
+  singleOf(::CreateWalletUseCase)
 }

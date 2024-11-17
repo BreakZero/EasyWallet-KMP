@@ -15,51 +15,49 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 
 internal class WalletDaoImpl(
-    private val queries: WalletQueries,
-    private val dispatcher: CoroutineDispatcher = Dispatchers.IO
+  private val queries: WalletQueries,
+  private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : WalletDao {
-    override suspend fun insertWithCallback(
-        mnemonic: String,
-        passphrase: String,
-        onCompletion: () -> Unit
-    ) {
-        queries.transaction {
-            afterCommit(onCompletion)
+  override suspend fun insertWithCallback(
+    mnemonic: String,
+    passphrase: String,
+    onCompletion: () -> Unit
+  ) {
+    queries.transaction {
+      afterCommit(onCompletion)
 
-            queries.findActiveWallet().executeAsOneOrNull()?.let {
-                queries.inActivateById(it.id)
-            }
+      queries.findActiveWallet().executeAsOneOrNull()?.let {
+        queries.inActivateById(it.id)
+      }
 
-            queries.insertWallet(
-                mnemonic = mnemonic,
-                passphrase = passphrase,
-                isActivated = true,
-                createAt = Clock.System.now().toLocalDateTime(TimeZone.UTC)
-            )
-        }
+      queries.insertWallet(
+        mnemonic = mnemonic,
+        passphrase = passphrase,
+        isActivated = true,
+        createAt = Clock.System.now().toLocalDateTime(TimeZone.UTC)
+      )
     }
+  }
 
-    override suspend fun findActiveOne(): Wallet? = withContext(dispatcher) {
-        queries.findActiveWallet().executeAsOneOrNull()?.let {
-            Wallet(
-                mnemonic = it.mnemonic,
-                passphrase = it.passphrase,
-                isActivated = it.isActivated ?: false,
-                createAt = it.createAt,
-            )
-        }
+  override suspend fun findActiveOne(): Wallet? = withContext(dispatcher) {
+    queries.findActiveWallet().executeAsOneOrNull()?.let {
+      Wallet(
+        mnemonic = it.mnemonic,
+        passphrase = it.passphrase,
+        isActivated = it.isActivated ?: false,
+        createAt = it.createAt
+      )
     }
+  }
 
-    override fun findActiveOneStream(): Flow<Wallet?> {
-        return queries.findActiveWallet().asFlow().mapToOneOrNull(dispatcher).map {
-            it?.let {
-                Wallet(
-                    mnemonic = it.mnemonic,
-                    passphrase = it.passphrase,
-                    isActivated = it.isActivated ?: false,
-                    createAt = it.createAt,
-                )
-            }
-        }
+  override fun findActiveOneStream(): Flow<Wallet?> = queries.findActiveWallet().asFlow().mapToOneOrNull(dispatcher).map {
+    it?.let {
+      Wallet(
+        mnemonic = it.mnemonic,
+        passphrase = it.passphrase,
+        isActivated = it.isActivated ?: false,
+        createAt = it.createAt
+      )
     }
+  }
 }

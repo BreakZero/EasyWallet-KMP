@@ -22,49 +22,44 @@ import com.easy.wallet.send.SendSharedViewModel
 import com.easy.wallet.send.SendUiEvent
 
 @Composable
-internal fun PendingRoute(
-    viewModel: SendSharedViewModel,
-    onDone: () -> Unit
-) {
-    ObserveAsEvents(flow = viewModel.navigationEvents) {
-        when (it) {
-            SendUiEvent.NavigateBack -> onDone()
-            else -> Unit
-        }
+internal fun PendingRoute(viewModel: SendSharedViewModel, onDone: () -> Unit) {
+  ObserveAsEvents(flow = viewModel.navigationEvents) {
+    when (it) {
+      SendUiEvent.NavigateBack -> onDone()
+      else -> Unit
     }
-    PendingScreen(onEvent = viewModel::handleEvent)
+  }
+  PendingScreen(onEvent = viewModel::handleEvent)
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun PendingScreen(
-    onEvent: (SendUiEvent) -> Unit
-) {
-    Scaffold(
-        containerColor = Color.Transparent,
-        contentColor = MaterialTheme.colorScheme.onBackground,
-        topBar = {
-            TopAppBar(
-                title = { Text(text = "Pending Transaction") },
-                navigationIcon = {
-                    IconButton(onClick = { onEvent(SendUiEvent.NavigateBack) }) {
-                        Icon(
-                            imageVector = Icons.Default.Close,
-                            contentDescription = ""
-                        )
-                    }
-                },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent),
+private fun PendingScreen(onEvent: (SendUiEvent) -> Unit) {
+  Scaffold(
+    containerColor = Color.Transparent,
+    contentColor = MaterialTheme.colorScheme.onBackground,
+    topBar = {
+      TopAppBar(
+        title = { Text(text = "Pending Transaction") },
+        navigationIcon = {
+          IconButton(onClick = { onEvent(SendUiEvent.NavigateBack) }) {
+            Icon(
+              imageVector = Icons.Default.Close,
+              contentDescription = ""
             )
-        }
-    ) {
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(it),
-            contentAlignment = Alignment.Center
-        ) {
-            Text(text = "Transaction is pending")
-        }
+          }
+        },
+        colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent)
+      )
     }
+  ) {
+    Box(
+      modifier = Modifier
+        .fillMaxSize()
+        .padding(it),
+      contentAlignment = Alignment.Center
+    ) {
+      Text(text = "Transaction is pending")
+    }
+  }
 }

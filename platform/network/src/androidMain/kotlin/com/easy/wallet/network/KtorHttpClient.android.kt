@@ -7,12 +7,12 @@ import io.ktor.client.plugins.HttpRequestRetry
 import io.ktor.client.plugins.UserAgent
 
 internal actual fun httpClient(config: HttpClientConfig<*>.() -> Unit) = HttpClient(OkHttp) {
-    config(this)
-    install(UserAgent) {
-        agent = "Android"
-    }
-    install(HttpRequestRetry) {
-        retryOnServerErrors(maxRetries = 3)
-        exponentialDelay()
-    }
+  config(this)
+  install(UserAgent) {
+    agent = "Android"
+  }
+  install(HttpRequestRetry) {
+    retryOnServerErrors(maxRetries = 3)
+    exponentialDelay()
+  }
 }

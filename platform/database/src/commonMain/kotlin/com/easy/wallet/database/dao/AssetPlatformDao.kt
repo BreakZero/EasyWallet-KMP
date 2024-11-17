@@ -5,9 +5,9 @@ import kotlinx.coroutines.flow.Flow
 import com.easy.wallet.database.AssetPlatform as Entity
 
 interface AssetPlatformDao {
-    fun findAllStream(): Flow<List<AssetPlatform>>
+  fun findAllStream(): Flow<List<AssetPlatform>>
 
-    fun findByIdStream(platformId: String): Flow<AssetPlatform?>
+  fun findByIdStream(platformId: String): Flow<AssetPlatform?>
 
-    suspend fun insert(vararg assetPlatforms: Entity)
+  suspend fun insert(vararg assetPlatforms: Entity)
 }

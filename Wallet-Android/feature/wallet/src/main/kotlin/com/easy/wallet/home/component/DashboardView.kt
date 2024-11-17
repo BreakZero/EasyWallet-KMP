@@ -31,99 +31,99 @@ import com.easy.wallet.design.ui.EasyWalletTheme
 
 @Composable
 internal fun DashboardView(
-    modifier: Modifier = Modifier,
-    fiatBalance: String,
-    fiatSymbol: String
+  modifier: Modifier = Modifier,
+  fiatBalance: String,
+  fiatSymbol: String
 ) {
-    Box(modifier = modifier.padding(vertical = 16.dp)) {
+  Box(modifier = modifier.padding(vertical = 16.dp)) {
+    Column(
+      modifier = Modifier
+        .fillMaxWidth()
+        .fillMaxHeight()
+        .padding(start = 16.dp)
+        .align(Alignment.CenterStart),
+      horizontalAlignment = Alignment.Start,
+      verticalArrangement = Arrangement.spacedBy(24.dp)
+    ) {
+      Text(text = "$fiatBalance $fiatSymbol", style = MaterialTheme.typography.headlineLarge)
+      Row(
+        modifier = Modifier
+          .fillMaxWidth()
+          .wrapContentHeight(),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceAround
+      ) {
         Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .fillMaxHeight()
-                .padding(start = 16.dp)
-                .align(Alignment.CenterStart),
-            horizontalAlignment = Alignment.Start,
-            verticalArrangement = Arrangement.spacedBy(24.dp)
+          modifier = Modifier.wrapContentHeight(),
+          verticalArrangement = Arrangement.spacedBy(12.dp),
+          horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(text = "$fiatBalance $fiatSymbol", style = MaterialTheme.typography.headlineLarge)
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .wrapContentHeight(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceAround
-            ) {
-                Column(
-                    modifier = Modifier.wrapContentHeight(),
-                    verticalArrangement = Arrangement.spacedBy(12.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    IconButton(onClick = { /*TODO*/ }) {
-                        Icon(
-                            modifier = Modifier
-                                .size(42.dp)
-                                .clip(CircleShape)
-                                .background(MaterialTheme.colorScheme.surfaceVariant)
-                                .padding(8.dp),
-                            imageVector = Icons.Default.ArrowUpward,
-                            contentDescription = null
-                        )
-                    }
-                    Text(text = "Send")
-                }
-                Column(
-                    modifier = Modifier.wrapContentHeight(),
-                    verticalArrangement = Arrangement.spacedBy(12.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    IconButton(onClick = { /*TODO*/ }) {
-                        Icon(
-                            modifier = Modifier
-                                .size(42.dp)
-                                .clip(CircleShape)
-                                .background(MaterialTheme.colorScheme.surfaceVariant)
-                                .padding(8.dp),
-                            imageVector = Icons.Default.ArrowDownward,
-                            contentDescription = null
-                        )
-                    }
-                    Text(text = "Receive")
-                }
-                Column(
-                    modifier = Modifier.wrapContentHeight(),
-                    verticalArrangement = Arrangement.spacedBy(12.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    IconButton(onClick = { /*TODO*/ }) {
-                        Icon(
-                            modifier = Modifier
-                                .size(42.dp)
-                                .clip(CircleShape)
-                                .background(MaterialTheme.colorScheme.surfaceVariant)
-                                .padding(8.dp),
-                            imageVector = Icons.Default.QrCodeScanner,
-                            contentDescription = null
-                        )
-                    }
-                    Text(text = "Scan")
-                }
-            }
+          IconButton(onClick = { /*TODO*/ }) {
+            Icon(
+              modifier = Modifier
+                .size(42.dp)
+                .clip(CircleShape)
+                .background(MaterialTheme.colorScheme.surfaceVariant)
+                .padding(8.dp),
+              imageVector = Icons.Default.ArrowUpward,
+              contentDescription = null
+            )
+          }
+          Text(text = "Send")
         }
+        Column(
+          modifier = Modifier.wrapContentHeight(),
+          verticalArrangement = Arrangement.spacedBy(12.dp),
+          horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+          IconButton(onClick = { /*TODO*/ }) {
+            Icon(
+              modifier = Modifier
+                .size(42.dp)
+                .clip(CircleShape)
+                .background(MaterialTheme.colorScheme.surfaceVariant)
+                .padding(8.dp),
+              imageVector = Icons.Default.ArrowDownward,
+              contentDescription = null
+            )
+          }
+          Text(text = "Receive")
+        }
+        Column(
+          modifier = Modifier.wrapContentHeight(),
+          verticalArrangement = Arrangement.spacedBy(12.dp),
+          horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+          IconButton(onClick = { /*TODO*/ }) {
+            Icon(
+              modifier = Modifier
+                .size(42.dp)
+                .clip(CircleShape)
+                .background(MaterialTheme.colorScheme.surfaceVariant)
+                .padding(8.dp),
+              imageVector = Icons.Default.QrCodeScanner,
+              contentDescription = null
+            )
+          }
+          Text(text = "Scan")
+        }
+      }
     }
+  }
 }
 
 @ThemePreviews
 @Composable
 private fun DashboardView_Preview() {
-    EasyWalletTheme {
-        Surface {
-            DashboardView(
-                modifier = Modifier
-                    .height(200.dp)
-                    .fillMaxWidth(),
-                fiatBalance = "999",
-                fiatSymbol = "USD"
-            )
-        }
+  EasyWalletTheme {
+    Surface {
+      DashboardView(
+        modifier = Modifier
+          .height(200.dp)
+          .fillMaxWidth(),
+        fiatBalance = "999",
+        fiatSymbol = "USD"
+      )
     }
+  }
 }

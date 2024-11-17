@@ -28,89 +28,90 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 internal fun WalletRoute(
-    viewModel: WalletViewModel = koinViewModel(),
-    onCreateWallet: () -> Unit,
-    onRestoreWallet: () -> Unit,
-    onCoinItemClick: (CoinModel) -> Unit,
-    navigateToSettings: () -> Unit
+  viewModel: WalletViewModel = koinViewModel(),
+  onCreateWallet: () -> Unit,
+  onRestoreWallet: () -> Unit,
+  onCoinItemClick: (CoinModel) -> Unit,
+  navigateToSettings: () -> Unit
 ) {
-    val uiState by viewModel.homeUiState.collectAsStateWithLifecycle()
-    val isRefreshing by viewModel.isRefreshing.collectAsStateWithLifecycle()
+  val uiState by viewModel.homeUiState.collectAsStateWithLifecycle()
+  val isRefreshing by viewModel.isRefreshing.collectAsStateWithLifecycle()
 
-    ObserveAsEvents(flow = viewModel.navigationEvents) { event ->
-        when (event) {
-            WalletEvent.CreateWallet -> onCreateWallet()
-            WalletEvent.RestoreWallet -> onRestoreWallet()
-            WalletEvent.SettingsClicked -> navigateToSettings()
-            is WalletEvent.OnCoinClicked -> onCoinItemClick(event.coin)
-            else -> Unit
-        }
+  ObserveAsEvents(flow = viewModel.navigationEvents) { event ->
+    when (event) {
+      WalletEvent.CreateWallet -> onCreateWallet()
+      WalletEvent.RestoreWallet -> onRestoreWallet()
+      WalletEvent.SettingsClicked -> navigateToSettings()
+      is WalletEvent.OnCoinClicked -> onCoinItemClick(event.coin)
+      else -> Unit
     }
+  }
 
-    WalletScreen(
-        walletUiState = uiState,
-        isRefreshing = isRefreshing,
-        onEvent = viewModel::handleEvent,
-    )
+  WalletScreen(
+    walletUiState = uiState,
+    isRefreshing = isRefreshing,
+    onEvent = viewModel::handleEvent
+  )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun WalletScreen(
-    isRefreshing: Boolean,
-    walletUiState: WalletUiState,
-    onEvent: (WalletEvent) -> Unit
+  isRefreshing: Boolean,
+  walletUiState: WalletUiState,
+  onEvent: (WalletEvent) -> Unit
 ) {
-    Scaffold(
-        modifier = Modifier.fillMaxSize(),
-        containerColor = Color.Transparent,
-        contentColor = MaterialTheme.colorScheme.onBackground,
-        topBar = {
-            TopAppBar(
-                title = { /*TODO*/ },
-                navigationIcon = {
-                    if (walletUiState is WalletUiState.WalletUiState) {
-                        IconButton(onClick = { onEvent(WalletEvent.SettingsClicked) }) {
-                            Icon(imageVector = Icons.Default.Settings, contentDescription = null)
-                        }
-                    }
-                },
-                colors = TopAppBarDefaults.topAppBarColors()
-                    .copy(containerColor = MaterialTheme.colorScheme.inverseOnSurface)
-            )
-        }
-    ) { paddingValues ->
-        when (walletUiState) {
-            is WalletUiState.Initial -> {
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(paddingValues),
-                    contentAlignment = Alignment.Center
-                ) {
-                    LoadingWheel(contentDesc = "")
-                }
+  Scaffold(
+    modifier = Modifier.fillMaxSize(),
+    containerColor = Color.Transparent,
+    contentColor = MaterialTheme.colorScheme.onBackground,
+    topBar = {
+      TopAppBar(
+        title = { /*TODO*/ },
+        navigationIcon = {
+          if (walletUiState is WalletUiState.WalletUiState) {
+            IconButton(onClick = { onEvent(WalletEvent.SettingsClicked) }) {
+              Icon(imageVector = Icons.Default.Settings, contentDescription = null)
             }
-            is WalletUiState.WalletUiState -> {
-                UserHomeContent(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(paddingValues),
-                    isRefreshing = isRefreshing,
-                    walletUiState = walletUiState,
-                    onEvent = onEvent,
-                )
-            }
-            is WalletUiState.GuestUserUiState -> {
-                GuestContent(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(paddingValues)
-                        .padding(horizontal = 16.dp)
-                        .padding(bottom = 16.dp),
-                    onEvent = onEvent
-                )
-            }
-        }
+          }
+        },
+        colors = TopAppBarDefaults
+          .topAppBarColors()
+          .copy(containerColor = MaterialTheme.colorScheme.inverseOnSurface)
+      )
     }
+  ) { paddingValues ->
+    when (walletUiState) {
+      is WalletUiState.Initial -> {
+        Box(
+          modifier = Modifier
+            .fillMaxSize()
+            .padding(paddingValues),
+          contentAlignment = Alignment.Center
+        ) {
+          LoadingWheel(contentDesc = "")
+        }
+      }
+      is WalletUiState.WalletUiState -> {
+        UserHomeContent(
+          modifier = Modifier
+            .fillMaxSize()
+            .padding(paddingValues),
+          isRefreshing = isRefreshing,
+          walletUiState = walletUiState,
+          onEvent = onEvent
+        )
+      }
+      is WalletUiState.GuestUserUiState -> {
+        GuestContent(
+          modifier = Modifier
+            .fillMaxSize()
+            .padding(paddingValues)
+            .padding(horizontal = 16.dp)
+            .padding(bottom = 16.dp),
+          onEvent = onEvent
+        )
+      }
+    }
+  }
 }

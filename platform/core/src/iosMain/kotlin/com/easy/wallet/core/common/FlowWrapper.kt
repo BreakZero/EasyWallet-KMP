@@ -13,22 +13,20 @@ import kotlin.experimental.ExperimentalObjCName
 @OptIn(ExperimentalObjCName::class)
 @ObjCName(swiftName = "FlowWrapper")
 class FlowWrapper<out T> internal constructor(
-    private val scope: CoroutineScope,
-    private val flow: Flow<T>
+  private val scope: CoroutineScope,
+  private val flow: Flow<T>
 ) {
-    fun subscribe(
-        onEach: (T) -> Unit,
-        onCompletion: (Throwable?) -> Unit,
-        onThrow: (error: Throwable) -> Unit
-    ): Job = flow
-        .onEach(onEach)
-        .catch {
-            onThrow(it)
-        }
-        .onCompletion { throwable: Throwable? ->
-            onCompletion(throwable)
-        }
-        .launchIn(scope)
+  fun subscribe(
+    onEach: (T) -> Unit,
+    onCompletion: (Throwable?) -> Unit,
+    onThrow: (error: Throwable) -> Unit
+  ): Job = flow
+    .onEach(onEach)
+    .catch {
+      onThrow(it)
+    }.onCompletion { throwable: Throwable? ->
+      onCompletion(throwable)
+    }.launchIn(scope)
 }
 
 fun <T> Flow<T>.wrap(scope: CoroutineScope = MainScope()) = FlowWrapper(scope, this)

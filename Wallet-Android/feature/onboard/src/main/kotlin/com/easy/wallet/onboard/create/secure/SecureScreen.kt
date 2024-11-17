@@ -29,87 +29,83 @@ import com.easy.wallet.onboard.create.CreateWalletEvent
 import com.easy.wallet.onboard.create.CreateWalletViewModel
 
 @Composable
-internal fun SecureRoute(
-    viewModel: CreateWalletViewModel
-) {
-    SecureScreen(onEvent = viewModel::handleEvent)
+internal fun SecureRoute(viewModel: CreateWalletViewModel) {
+  SecureScreen(onEvent = viewModel::handleEvent)
 }
 
 @Composable
-internal fun SecureScreen(
-    onEvent: (CreateWalletEvent) -> Unit
-) {
-    Scaffold(
-        topBar = {
-            ProgressTopBar(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(end = 16.dp),
-                step = 2,
-                totalSteps = 3,
-                navigationIcon = {
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Filled.ArrowBackIos,
-                        contentDescription = ""
-                    )
-                },
-                action = {
-                    onEvent(CreateWalletEvent.PopBack)
-                }
-            )
+internal fun SecureScreen(onEvent: (CreateWalletEvent) -> Unit) {
+  Scaffold(
+    topBar = {
+      ProgressTopBar(
+        modifier = Modifier
+          .fillMaxWidth()
+          .padding(end = 16.dp),
+        step = 2,
+        totalSteps = 3,
+        navigationIcon = {
+          Icon(
+            imageVector = Icons.AutoMirrored.Filled.ArrowBackIos,
+            contentDescription = ""
+          )
         },
-        bottomBar = {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp)
-                    .padding(bottom = 16.dp),
-                verticalArrangement = Arrangement.spacedBy(16.dp)
-            ) {
-                OutlinedButton(
-                    modifier = Modifier.fillMaxWidth(),
-                    onClick = { /*TODO*/ },
-                ) {
-                    Text(text = "Remind Me Later")
-                }
-                Button(
-                    modifier = Modifier.fillMaxWidth(),
-                    onClick = { onEvent(CreateWalletEvent.OnStartInSecure) },
-                ) {
-                    Text(text = "Start")
-                }
-            }
+        action = {
+          onEvent(CreateWalletEvent.PopBack)
         }
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(it)
-                .padding(horizontal = 16.dp),
-            verticalArrangement = Arrangement.SpaceAround
+      )
+    },
+    bottomBar = {
+      Column(
+        modifier = Modifier
+          .fillMaxWidth()
+          .padding(horizontal = 16.dp)
+          .padding(bottom = 16.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
+      ) {
+        OutlinedButton(
+          modifier = Modifier.fillMaxWidth(),
+          onClick = { /*TODO*/ }
         ) {
-            Text(
-                text = stringResource(id = R.string.wallet_android_feature_onboard_create_wallet_secure_your_wallet),
-                style = MaterialTheme.typography.headlineLarge,
-            )
-            Image(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .aspectRatio(ratio = 265.0F / 191.0F),
-                painter = painterResource(id = R.drawable.wallet_android_feature_onboard_ic_secure),
-                contentDescription = null,
-            )
-            Text(text = stringResource(id = R.string.wallet_android_feature_onboard_create_wallet_secure_desc))
+          Text(text = "Remind Me Later")
         }
+        Button(
+          modifier = Modifier.fillMaxWidth(),
+          onClick = { onEvent(CreateWalletEvent.OnStartInSecure) }
+        ) {
+          Text(text = "Start")
+        }
+      }
     }
+  ) {
+    Column(
+      modifier = Modifier
+        .fillMaxSize()
+        .padding(it)
+        .padding(horizontal = 16.dp),
+      verticalArrangement = Arrangement.SpaceAround
+    ) {
+      Text(
+        text = stringResource(id = R.string.wallet_android_feature_onboard_create_wallet_secure_your_wallet),
+        style = MaterialTheme.typography.headlineLarge
+      )
+      Image(
+        modifier = Modifier
+          .fillMaxWidth()
+          .aspectRatio(ratio = 265.0F / 191.0F),
+        painter = painterResource(id = R.drawable.wallet_android_feature_onboard_ic_secure),
+        contentDescription = null
+      )
+      Text(text = stringResource(id = R.string.wallet_android_feature_onboard_create_wallet_secure_desc))
+    }
+  }
 }
 
 @Composable
 @ThemePreviews
 private fun SecurePreview() {
-    EasyWalletTheme {
-        Surface(modifier = Modifier.fillMaxSize()) {
-            SecureScreen {}
-        }
+  EasyWalletTheme {
+    Surface(modifier = Modifier.fillMaxSize()) {
+      SecureScreen {}
     }
+  }
 }

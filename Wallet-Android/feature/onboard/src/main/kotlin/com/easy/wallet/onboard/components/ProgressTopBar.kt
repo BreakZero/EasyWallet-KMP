@@ -2,8 +2,6 @@ package com.easy.wallet.onboard.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.width
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Text
@@ -14,24 +12,24 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun ProgressTopBar(
-    modifier: Modifier = Modifier,
-    step: Int,
-    totalSteps: Int,
-    navigationIcon: @Composable () -> Unit = {},
-    action: () -> Unit
+  modifier: Modifier = Modifier,
+  step: Int,
+  totalSteps: Int,
+  navigationIcon: @Composable () -> Unit = {},
+  action: () -> Unit
 ) {
-    Row(
-        modifier = modifier,
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(12.dp)
-    ) {
-        IconButton(onClick = action) {
-            navigationIcon()
-        }
-        LinearProgressIndicator(
-            progress = { step.toFloat().div(totalSteps) },
-            modifier = Modifier.weight(1F)
-        )
-        Text(text = "$step/$totalSteps")
+  Row(
+    modifier = modifier,
+    verticalAlignment = Alignment.CenterVertically,
+    horizontalArrangement = Arrangement.spacedBy(12.dp)
+  ) {
+    IconButton(onClick = action) {
+      navigationIcon()
     }
+    LinearProgressIndicator(
+      progress = { step.toFloat().div(totalSteps) },
+      modifier = Modifier.weight(1F)
+    )
+    Text(text = "$step/$totalSteps")
+  }
 }

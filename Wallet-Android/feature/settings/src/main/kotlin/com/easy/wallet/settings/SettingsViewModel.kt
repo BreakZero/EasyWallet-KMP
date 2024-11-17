@@ -9,24 +9,24 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 
 internal class SettingsViewModel : BaseViewModel<SettingsEvent>() {
+  private val biometricEnabled = MutableStateFlow(false)
 
-    private val _biometricEnabled = MutableStateFlow(false)
-
-    val settingsUiState = _biometricEnabled.map {
-        SettingsUiState(biometricEnabled = it)
+  val settingsUiState = biometricEnabled
+    .map {
+      SettingsUiState(biometricEnabled = it)
     }.stateIn(
-        viewModelScope,
-        SharingStarted.WhileSubscribed(3_000),
-        SettingsUiState(biometricEnabled = false)
+      viewModelScope,
+      SharingStarted.WhileSubscribed(3_000),
+      SettingsUiState(biometricEnabled = false)
     )
 
-    override fun handleEvent(event: SettingsEvent) {
-        when (event) {
-            is SettingsEvent.BiometricCheckedChanged -> {
-                _biometricEnabled.update { event.enabled }
-            }
+  override fun handleEvent(event: SettingsEvent) {
+    when (event) {
+      is SettingsEvent.BiometricCheckedChanged -> {
+        biometricEnabled.update { event.enabled }
+      }
 
-            else -> dispatchEvent(event)
-        }
+      else -> dispatchEvent(event)
     }
+  }
 }

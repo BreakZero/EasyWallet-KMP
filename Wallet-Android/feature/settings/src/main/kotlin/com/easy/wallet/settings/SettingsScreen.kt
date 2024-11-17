@@ -33,101 +33,98 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 internal fun SettingsRoute(
-    navigateToSupportedChains: () -> Unit,
-    navigateTokenManager: () -> Unit,
-    popBack: () -> Unit
+  navigateToSupportedChains: () -> Unit,
+  navigateTokenManager: () -> Unit,
+  popBack: () -> Unit
 ) {
-    val viewModel: SettingsViewModel = koinViewModel()
-    ObserveAsEvents(flow = viewModel.navigationEvents) {
-        when (it) {
-            SettingsEvent.PopBack -> popBack()
-            SettingsEvent.ClickViewSupportedChains -> navigateToSupportedChains()
-            SettingsEvent.ClickTokenManager -> navigateTokenManager()
-            else -> Unit
-        }
+  val viewModel: SettingsViewModel = koinViewModel()
+  ObserveAsEvents(flow = viewModel.navigationEvents) {
+    when (it) {
+      SettingsEvent.PopBack -> popBack()
+      SettingsEvent.ClickViewSupportedChains -> navigateToSupportedChains()
+      SettingsEvent.ClickTokenManager -> navigateTokenManager()
+      else -> Unit
     }
-    val uiState by viewModel.settingsUiState.collectAsStateWithLifecycle()
-    SettingsScreen(onEvent = viewModel::handleEvent, settingsUiState = uiState)
+  }
+  val uiState by viewModel.settingsUiState.collectAsStateWithLifecycle()
+  SettingsScreen(onEvent = viewModel::handleEvent, settingsUiState = uiState)
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun SettingsScreen(
-    settingsUiState: SettingsUiState,
-    onEvent: (SettingsEvent) -> Unit
-) {
-    Scaffold(
-        containerColor = Color.Transparent,
-        contentColor = MaterialTheme.colorScheme.onBackground,
-        modifier = Modifier.fillMaxSize(),
-        topBar = {
-            TopAppBar(
-                title = { Text(text = "Settings") },
-                navigationIcon = {
-                    IconButton(onClick = { onEvent(SettingsEvent.PopBack) }) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = ""
-                        )
-                    }
-                },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent),
+internal fun SettingsScreen(settingsUiState: SettingsUiState, onEvent: (SettingsEvent) -> Unit) {
+  Scaffold(
+    containerColor = Color.Transparent,
+    contentColor = MaterialTheme.colorScheme.onBackground,
+    modifier = Modifier.fillMaxSize(),
+    topBar = {
+      TopAppBar(
+        title = { Text(text = "Settings") },
+        navigationIcon = {
+          IconButton(onClick = { onEvent(SettingsEvent.PopBack) }) {
+            Icon(
+              imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+              contentDescription = ""
             )
+          }
         },
-    ) {
-        Column(
-            modifier = Modifier
-                .padding(it)
-                .padding(horizontal = 12.dp)
-                .padding(top = 12.dp),
-            verticalArrangement = Arrangement.spacedBy(4.dp),
-        ) {
-            val modifier = Modifier.fillMaxWidth()
-            ExtendSettingsItem(
-                modifier = modifier,
-                title = "General",
-                subtitle = "Currency conversion, primary currency, language and so on",
-                onClick = {}
-            )
-            HorizontalDivider()
-            ExtendSettingsItem(
-                modifier = modifier,
-                title = "View Supported Chains",
-                subtitle = "Only EVM editable",
-                onClick = {
-                    onEvent(SettingsEvent.ClickViewSupportedChains)
-                }
-            )
-            ExtendSettingsItem(
-                modifier = modifier,
-                title = "Token Manager",
-                onClick = {
-                    onEvent(SettingsEvent.ClickTokenManager)
-                }
-            )
-            HorizontalDivider()
-            SettingsItem(
-                modifier = modifier,
-                title = "Enable Biometric",
-                suffix = {
-                    Switch(
-                        checked = settingsUiState.biometricEnabled,
-                        onCheckedChange = {
-                            onEvent(SettingsEvent.BiometricCheckedChanged(it))
-                        }
-                    )
-                }
-            )
-        }
+        colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent)
+      )
     }
+  ) {
+    Column(
+      modifier = Modifier
+        .padding(it)
+        .padding(horizontal = 12.dp)
+        .padding(top = 12.dp),
+      verticalArrangement = Arrangement.spacedBy(4.dp)
+    ) {
+      val modifier = Modifier.fillMaxWidth()
+      ExtendSettingsItem(
+        modifier = modifier,
+        title = "General",
+        subtitle = "Currency conversion, primary currency, language and so on",
+        onClick = {}
+      )
+      HorizontalDivider()
+      ExtendSettingsItem(
+        modifier = modifier,
+        title = "View Supported Chains",
+        subtitle = "Only EVM editable",
+        onClick = {
+          onEvent(SettingsEvent.ClickViewSupportedChains)
+        }
+      )
+      ExtendSettingsItem(
+        modifier = modifier,
+        title = "Token Manager",
+        onClick = {
+          onEvent(SettingsEvent.ClickTokenManager)
+        }
+      )
+      HorizontalDivider()
+      SettingsItem(
+        modifier = modifier,
+        title = "Enable Biometric",
+        suffix = {
+          Switch(
+            checked = settingsUiState.biometricEnabled,
+            onCheckedChange = {
+              onEvent(SettingsEvent.BiometricCheckedChanged(it))
+            }
+          )
+        }
+      )
+    }
+  }
 }
 
 @ThemePreviews
 @Composable
 private fun Settings_Preview() {
-    EasyWalletTheme {
-        Surface(modifier = Modifier.fillMaxSize()) {
-            SettingsScreen(settingsUiState = SettingsUiState(biometricEnabled = false)) {}
-        }
+  EasyWalletTheme {
+    Surface(modifier = Modifier.fillMaxSize()) {
+      SettingsScreen(settingsUiState = SettingsUiState(biometricEnabled = false)) {}
     }
+  }
 }
